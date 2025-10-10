@@ -1,0 +1,88 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap'); */
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "../styled-system/styles.css";
+@import "tailwindcss";
+
+body {
+	font-family:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.serif {
+	font-family: -apple-system, BlinkMacSystemFont, "Source Serif 4", serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family:
+		source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+@theme {
+	--font-source-serif-4: "Source Serif 4", serif;
+	--font-roboto: "Roboto", sans-serif;
+	--font-urbanist: "Urbanist", sans-serif;
+	--breakpoint-navbar-links: 1110px;
+	--breakpoint-navbar-search: 874px;
+	--color-primary-50: #ebf5fe;
+	--color-primary-100: #e1effd;
+	--color-primary-200: #c3defb;
+	--color-primary-300: #a4cbfc;
+	--color-primary-400: #76abf7;
+	--color-primary-500: #3e87f4;
+	--color-primary-600: #196aed;
+	--color-primary-700: #175bd7;
+	--color-primary-800: #1d469c;
+	--color-primary-900: #233a74;
+
+	--color-cool1-500: #013148;
+	--color-cool2-500: #1923e0;
+	--color-cool3-500: #1962e0;
+	--color-cool4-500: #19e0e0;
+	--color-cool5-500: #4f19e0;
+
+	--color-element-primary: #c0212b;
+	--color-element-primary-tint: #7c151c;
+	--color-element-text-primary: #303133;
+	--color-element-text-regular: #606266;
+	--color-element-cool1: #013148;
+	--color-element-selected: #eb2835;
+	--color-element-hover-bg: #fe6d77;
+
+	--color-echart-text-primary: #081642;
+
+	/* --color-element-primary: #436a27;
+    --color-element-primary-tint: #568832;
+    --color-element-text-primary: #303133;
+    --color-element-text-regular: #606266;
+    --color-element-cool1: #013148;
+    --color-element-selected: #fd0013;
+    --color-element-hover-bg: #ecf0e9; */
+}
+
+@layer components {
+	.button-primary {
+		@apply flex-shrink
+        rounded-full
+        bg-[#f72c5b]
+        hover:bg-[#AB1F3F]
+        px-8
+        py-3
+        text-white
+        shadow-sm
+        cursor-pointer
+        focus-visible:outline-2
+        focus-visible:outline-offset-2
+        focus-visible:outline-red-500
+        disabled:opacity-50;
+		font-size: 1rem;
+		font-weight: 500;
+	}
+}

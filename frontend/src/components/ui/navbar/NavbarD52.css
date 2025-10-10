@@ -1,0 +1,43 @@
+.navbar2-link {
+	position: relative;
+	height: 100%;
+	padding: 0 1.25rem;
+	display: flex;
+	align-items: center;
+	color: var(--color-echart-text-primary);
+	font-size: 1rem;
+	font-weight: 400;
+	transition:
+		border-color 0.3s ease 0s,
+		background-color 0.3s ease 0s,
+		color 0.3s ease 0s;
+	letter-spacing: 0.05em;
+}
+
+.navbar2-link:hover {
+	background-color: oklch(96.9% 0.015 12.422);
+}
+
+.navbar2-link::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background-color: #f52b5c;
+	opacity: 0;
+	transition: opacity 0.3s ease-out;
+}
+
+.navbar2-link--selected {
+	color: #f72c5b;
+}
+
+.navbar2-link--selected:hover {
+	color: #ff6d8f;
+}
+
+.navbar2-link--selected::after {
+	opacity: 1;
+}
