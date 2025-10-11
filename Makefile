@@ -5,4 +5,7 @@ storybook:
 	cd frontend && pnpm i && pnpm run storybook
 
 html:
-	uv run scripts/html_task.py
+	make -C backend/docs html
+
+preview:
+	make -C backend/docs preview
