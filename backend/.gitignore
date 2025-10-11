@@ -1,9 +1,35 @@
-__pycache__
-app.egg-info
-*.pyc
-.mypy_cache
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.pyo
+*.pyd
+
+# Sphinx build artifacts
+_build/
+build/
+dist/
+*.log
+*.doctree
+*.pot
+*.mo
+
+# Coverage and testing
 .coverage
-htmlcov
-.cache
-.venv
-.idea
+htmlcov/
+.cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# IDE/editor configs
+.idea/
+.vscode/
+
+# Misc
+.DS_Store
+Thumbs.db
+
