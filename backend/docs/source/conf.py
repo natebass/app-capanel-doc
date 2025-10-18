@@ -7,12 +7,13 @@
 # Add the parent directory (backend) to the Python path for autodoc
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+
+sys.path.insert(0, os.path.abspath('../../app'))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'California Accountability Panel web documentation.'
+project = 'California Accountability Panel'
 copyright = '2025, Open Sacramento'
 author = 'Open Sacramento'
 
