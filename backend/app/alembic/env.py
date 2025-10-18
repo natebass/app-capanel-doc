@@ -1,6 +1,6 @@
-from logging.config import fileConfig
-
+import os
 from alembic import context
+from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 
 # this is the Alembic Config object, which provides
@@ -24,7 +24,6 @@ from app.core.config import settings  # noqa
 from app.models import User, Item, CensusData, School  # noqa
 
 target_metadata = SQLModel.metadata
-
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
