@@ -53,3 +53,11 @@ html_theme_options = {
     'includehidden': True,
     'titles_only': False
 }
+
+html_context = {
+    'display_github': True,
+    "github_user": "opensacorg",
+    "github_repo": "app-capanel-doc",
+    "github_version": "main",
+    "conf_py_path": "/backend/docs/source/",
+}
