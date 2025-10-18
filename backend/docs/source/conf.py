@@ -7,12 +7,23 @@
 # Add the parent directory (backend) to the Python path for autodoc
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+
+# Provide minimal environment variables so app imports don't fail during autodoc
+os.environ.setdefault('POSTGRES_SERVER', 'localhost')
+os.environ.setdefault('POSTGRES_USER', 'postgres')
+os.environ.setdefault('POSTGRES_PASSWORD', 'postgres')
+os.environ.setdefault('POSTGRES_DB', 'app')
+os.environ.setdefault('FIRST_SUPERUSER', 'admin@example.com')
+os.environ.setdefault('FIRST_SUPERUSER_PASSWORD', 'changeme')
+
+# Insert the backend root so `import app.*` works. We need the parent of the
+# `app` package on sys.path, not the package directory itself.
+sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'California Accountability Panel web documentation.'
+project = 'California Accountability Panel'
 copyright = '2025, Open Sacramento'
 author = 'Open Sacramento'
 
@@ -32,6 +43,7 @@ exclude_patterns = []
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+html_favicon = '_static/image/favicon.ico'
 
 # Theme options for sphinx_rtd_theme
 html_theme_options = {

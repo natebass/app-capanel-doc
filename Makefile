@@ -9,3 +9,6 @@ html:
 
 preview:
 	make -C backend/docs preview
+
+reload:
+	make -C backend/docs reload
