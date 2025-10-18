@@ -4,8 +4,16 @@
 # Project paths
 PROJECT_ROOT := $(abspath ..)
 VENVDIR      := $(PROJECT_ROOT)/.venv
-PYTHON       := $(VENVDIR)/bin/python
 UV           ?= uv
+
+# Detect platform
+ifeq ($(OS),Windows_NT)
+	PYTHON := $(VENVDIR)/Scripts/python.exe
+	SET_PYTHONPATH := set PYTHONPATH=$(PROJECT_ROOT) &&
+else
+	PYTHON := $(VENVDIR)/bin/python
+	SET_PYTHONPATH := PYTHONPATH=$(PROJECT_ROOT)
+endif
 
 # Sphinx configuration
 SPHINXOPTS   ?=
@@ -17,7 +25,7 @@ SPHINXBUILD  := PYTHONPATH=$(PROJECT_ROOT) $(PYTHON) -m sphinx
 
 # Put it first so that "make" without argument is like "make help".
 help: docs-deps
-	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(SET_PYTHONPATH) $(PYTHON) -m sphinx -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 .PHONY: help docs-deps clean preview Makefile
 
@@ -35,14 +43,20 @@ clean:
 
 # HTML build target
 html: docs-deps
-	$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS)
+	$(SET_PYTHONPATH) $(PYTHON) -m sphinx -b html "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS)
 
 # Preview documentation in default browser
 preview: html
 	@echo "Opening documentation in browser..."
+ifeq ($(OS),Windows_NT)
+	cmd /c start "" "$(abspath $(BUILDDIR)/html/index.html)"
+else ifeq ($(shell uname),Darwin)
+	open "$(BUILDDIR)/html/index.html"
+else
 	xdg-open "$(BUILDDIR)/html/index.html"
+endif
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: docs-deps
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(SET_PYTHONPATH) $(PYTHON) -m sphinx -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
