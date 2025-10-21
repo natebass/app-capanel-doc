@@ -28,7 +28,7 @@ with engine.connect() as conn:
     ).fetchall()
 
     print(f"Does 'censusdata' table exist: {len(result) > 0}")
-    print(f"Tables found: {result}")
+    print(f'Tables found: {result}')
 
     # List all tables
     all_tables = conn.execute(
@@ -36,10 +36,10 @@ with engine.connect() as conn:
             "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"
         )
     ).fetchall()
-    print("All tables in the database:")
+    print('All tables in the database:')
     if not all_tables:
-        print("  - No tables found.")
+        print('  - No tables found.')
     else:
-        print("  - Tables found:")
+        print('  - Tables found:')
     for (table_name,) in all_tables:
-        print(f"  - {table_name}")
+        print(f'  - {table_name}')

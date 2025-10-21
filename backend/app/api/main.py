@@ -9,7 +9,7 @@ api_router.include_router(users.router)
 api_router.include_router(utils.router)
 api_router.include_router(items.router)
 api_router.include_router(censusdata.router)
-api_router.include_router(schools.router, prefix="/schools", tags=["schools"])
+api_router.include_router(schools.router, prefix='/schools', tags=['schools'])
 
-if settings.ENVIRONMENT == "local":
+if settings.ENVIRONMENT == 'local':
     api_router.include_router(private.router)

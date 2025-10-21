@@ -43,7 +43,7 @@ class UpdatePassword(SQLModel):
 class User(UserBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     hashed_password: str
-    items: list["Item"] = Relationship(back_populates="owner", cascade_delete=True)
+    items: list['Item'] = Relationship(back_populates='owner', cascade_delete=True)
 
 
 # Properties to return via API, id is always required
@@ -76,9 +76,9 @@ class ItemUpdate(ItemBase):
 class Item(ItemBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     owner_id: uuid.UUID = Field(
-        foreign_key="user.id", nullable=False, ondelete="CASCADE"
+        foreign_key='user.id', nullable=False, ondelete='CASCADE'
     )
-    owner: User | None = Relationship(back_populates="items")
+    owner: User | None = Relationship(back_populates='items')
 
 
 # Properties to return via API, id is always required
@@ -100,7 +100,7 @@ class Message(SQLModel):
 # JSON payload containing access token
 class Token(SQLModel):
     access_token: str
-    token_type: str = "bearer"
+    token_type: str = 'bearer'
 
 
 # Contents of JWT token
@@ -150,7 +150,7 @@ class CensusData(CensusDataBase, table=True):
 
     @classmethod
     def get_total_students_in_school(
-            cls, session, school_code: str, reporting_category: str
+        cls, session, school_code: str, reporting_category: str
     ) -> dict:
         """
         Return a dictionary with key 'total-students' that is either row.total_enr or None.
@@ -166,13 +166,13 @@ class CensusData(CensusDataBase, table=True):
             .first()
         )
         if row:
-            return {"total-students": row.total_enr}
+            return {'total-students': row.total_enr}
         else:
-            return {"total-students": None}
+            return {'total-students': None}
 
     @classmethod
     def get_total_students_in_school_by_grade(
-            cls, session, school_code: str, reporting_category: str
+        cls, session, school_code: str, reporting_category: str
     ) -> dict:
         """
         Return a dictionary with key 'total_students_by_grade' and value as a list of student counts for grades TK through 12 for this row.
@@ -187,10 +187,10 @@ class CensusData(CensusDataBase, table=True):
             .first()
         )
         if not found_row:
-            return {"total_students_by_grade": []}
+            return {'total_students_by_grade': []}
 
         return {
-            "total_students_by_grade": [
+            'total_students_by_grade': [
                 found_row.gr_tk,
                 found_row.gr_kn,
                 found_row.gr_1,
@@ -210,7 +210,7 @@ class CensusData(CensusDataBase, table=True):
 
     @classmethod
     def get_total_students_in_district(
-            cls, session, district_code: str, reporting_category: str
+        cls, session, district_code: str, reporting_category: str
     ) -> dict:
         """
         Return a dictionary with key 'total-students' that is either row.total_enr or None.
@@ -226,13 +226,13 @@ class CensusData(CensusDataBase, table=True):
             .first()
         )
         if row:
-            return {"total-students": row.total_enr}
+            return {'total-students': row.total_enr}
         else:
-            return {"total-students": None}
+            return {'total-students': None}
 
     @classmethod
     def get_total_students_in_district_by_grade(
-            cls, session, district_code: str, reporting_category: str
+        cls, session, district_code: str, reporting_category: str
     ) -> dict:
         """
         Return a dictionary with key 'total_students_by_grade' and value as a list of student counts for grades TK through 12 for this district.
@@ -247,10 +247,10 @@ class CensusData(CensusDataBase, table=True):
             .first()
         )
         if not found_row:
-            return {"total_students_by_grade": []}
+            return {'total_students_by_grade': []}
 
         return {
-            "total_students_by_grade": [
+            'total_students_by_grade': [
                 found_row.gr_tk,
                 found_row.gr_kn,
                 found_row.gr_1,
@@ -270,7 +270,7 @@ class CensusData(CensusDataBase, table=True):
 
     @classmethod
     def get_total_students_in_county(
-            cls, session, county_code: str, reporting_category: str
+        cls, session, county_code: str, reporting_category: str
     ) -> dict:
         """
         Return a dictionary with key 'total-students' that is either row.total_enr or None.
@@ -286,13 +286,13 @@ class CensusData(CensusDataBase, table=True):
             .first()
         )
         if row:
-            return {"total-students": row.total_enr}
+            return {'total-students': row.total_enr}
         else:
-            return {"total-students": None}
+            return {'total-students': None}
 
     @classmethod
     def get_total_students_in_county_by_grade(
-            cls, session, county_code: str, reporting_category: str
+        cls, session, county_code: str, reporting_category: str
     ) -> dict:
         """
         Return a dictionary with key 'total_students_by_grade' and value as a list of student counts for grades TK through 12 for this county.
@@ -307,10 +307,10 @@ class CensusData(CensusDataBase, table=True):
             .first()
         )
         if not found_row:
-            return {"total_students_by_grade": []}
+            return {'total_students_by_grade': []}
 
         return {
-            "total_students_by_grade": [
+            'total_students_by_grade': [
                 found_row.gr_tk,
                 found_row.gr_kn,
                 found_row.gr_1,

@@ -9,12 +9,12 @@ from app.models import School, SchoolsPublic, SchoolsSummary
 router = APIRouter()
 
 
-@router.get("/", response_model=SchoolsPublic)
+@router.get('/', response_model=SchoolsPublic)
 def read_schools(
-        session: SessionDep,
-        q: str | None = None,
-        skip: int = 0,
-        limit: int = 10,
+    session: SessionDep,
+    q: str | None = None,
+    skip: int = 0,
+    limit: int = 10,
 ) -> Any:
     """
     Retrieve schools.
@@ -23,7 +23,7 @@ def read_schools(
         statement = (
             select(School)
             .where(func.lower(School.school).contains(q.lower()))
-            .where(School.status_type == "Active")
+            .where(School.status_type == 'Active')
             .offset(skip)
             .limit(limit)
         )
@@ -36,12 +36,12 @@ def read_schools(
     return SchoolsPublic(data=schools, count=count)
 
 
-@router.get("/summary", response_model=SchoolsSummary)
+@router.get('/summary', response_model=SchoolsSummary)
 def read_schools_summary(
-        session: SessionDep,
-        q: str | None = None,
-        skip: int = 0,
-        limit: int = 10,
+    session: SessionDep,
+    q: str | None = None,
+    skip: int = 0,
+    limit: int = 10,
 ) -> Any:
     """
     Retrieve schools with a summarized view.
@@ -50,7 +50,7 @@ def read_schools_summary(
         statement = (
             select(School)
             .where(func.lower(School.school).contains(q.lower()))
-            .where(School.status_type == "Active")
+            .where(School.status_type == 'Active')
             .offset(skip)
             .limit(limit)
         )

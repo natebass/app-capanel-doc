@@ -51,12 +51,13 @@ html_theme_options = {
     'navigation_depth': 4,
     'includehidden': True,
     'titles_only': False,
-    "use_edit_page_button": True,
+    'use_edit_page_button': True,
+    'navbar_align': 'right',
 }
 
 html_context = {
-    "github_user": "opensacorg",
-    "github_repo": "app-capanel-doc",
-    "github_version": "main",
-    "doc_path": "backend/docs/source",
+    'github_user': 'opensacorg',
+    'github_repo': 'app-capanel-doc',
+    'github_version': 'main',
+    'doc_path': 'backend/docs/source',
 }
