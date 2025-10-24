@@ -4,7 +4,7 @@ from fastapi import APIRouter
 from sqlmodel import func, select
 
 from app.api.deps import SessionDep
-from app.models import School, SchoolsPublic, SchoolsSummary
+from app.utility.models import School, SchoolsPublic, SchoolsSummary
 
 router = APIRouter()
 

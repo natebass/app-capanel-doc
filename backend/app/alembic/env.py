@@ -1,35 +1,16 @@
-import os
-from alembic import context
 from logging.config import fileConfig
+
+from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-# this is the Alembic Config object, which provides
-# access to the values within the .ini file in use.
 config = context.config
-
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
 fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-# target_metadata = None
-
-from app.models import SQLModel  # noqa
+from app.utility.models import SQLModel  # noqa
 from app.core.config import settings  # noqa
-
-# Import all table models to ensure they are registered with SQLModel.metadata
-from app.models import User, Item, CensusData, School  # noqa
+from app.utility.models import User, Item, CensusData, School  # noqa
 
 target_metadata = SQLModel.metadata
-
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
-
 
 def get_url():
     return str(settings.SQLALCHEMY_DATABASE_URI)

@@ -1,5 +1,7 @@
 import secrets
 import warnings
+from typing import Annotated, Any, Literal
+
 from pydantic import (
     AnyUrl,
     BeforeValidator,
@@ -10,7 +12,6 @@ from pydantic import (
     model_validator,
 )
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import Annotated, Any, Literal
 from typing_extensions import Self
 
 

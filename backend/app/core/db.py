@@ -1,10 +1,11 @@
 import csv
 from pathlib import Path
+
 from sqlmodel import Session, create_engine, select
 
-from app import crud
 from app.core.config import settings
-from app.models import School, User, UserCreate
+from app.utility import crud
+from app.utility.models import School, User, UserCreate
 
 engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URI))
 

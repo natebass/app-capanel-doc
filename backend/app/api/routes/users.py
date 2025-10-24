@@ -1,9 +1,9 @@
 import uuid
-from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import col, delete, func, select
 from typing import Any
 
-from app import crud
+from fastapi import APIRouter, Depends, HTTPException
+from sqlmodel import col, delete, func, select
+
 from app.api.deps import (
     CurrentUser,
     SessionDep,
@@ -11,7 +11,8 @@ from app.api.deps import (
 )
 from app.core.config import settings
 from app.core.security import get_password_hash, verify_password
-from app.models import (
+from app.utility import crud
+from app.utility.models import (
     Item,
     Message,
     UpdatePassword,
@@ -23,7 +24,7 @@ from app.models import (
     UserUpdate,
     UserUpdateMe,
 )
-from app.utils import generate_new_account_email, send_email
+from app.utility.utils import generate_new_account_email, send_email
 
 router = APIRouter(prefix='/users', tags=['users'])
 
