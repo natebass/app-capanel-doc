@@ -4,7 +4,7 @@ version = '0.1.0'
 description = 'FastAPI application for the California Accountability Panel website.'
 requires-python = '>=3.10,<4.0'
 dependencies = [
-    'fastapi[standard]',
+    "fastapi[standard]",
     'python-multipart',
     'email-validator',
     'passlib[bcrypt]',
@@ -21,10 +21,10 @@ dependencies = [
     'pydantic-settings',
     'sentry-sdk[fastapi]',
     'pyjwt',
-    'sphinx',
-    'sphinx-autodoc-typehints',
-    'sphinx-autobuild',
-    'pydata-sphinx-theme',
+    "pre-commit",
+    "pytest",
+    "docutils-stubs==0.0.22",
+    "types-docutils==0.22.2.20251006",
 ]
 
 [dependency-groups]
@@ -35,6 +35,13 @@ dev = [
     'pre-commit',
     'types-passlib',
     'coverage',
+]
+
+doc = [
+    'sphinx',
+    'sphinx-autodoc-typehints',
+    'sphinx-autobuild',
+    'pydata-sphinx-theme',
 ]
 
 [build-system]
@@ -59,7 +66,6 @@ select = [
     'C4', # flake8-comprehensions
     'UP', # pyupgrade
     'ARG001', # unused arguments in functions
-    'T201', # print statements are not allowed
 ]
 ignore = [
     'E501', # line too long, handled by black

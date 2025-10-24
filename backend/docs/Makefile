@@ -1,66 +1,39 @@
-# Makefile for Sphinx documentation using uv-managed environment
-#
-
-# Project paths
-PROJECT_ROOT := $(abspath ..)
-VENV_DIR      := $(PROJECT_ROOT)/.venv
-UV           ?= uv
-
-# Detect platform
+Project_root := $(abspath ..)
+Venv_directory := $(Project_root)/.venv
+Uv ?= uv
+Sphinx_options ?=
+Source_directory = source
+Build_directory = build
 ifeq ($(OS),Windows_NT)
-	PYTHON := $(VENV_DIR)/Scripts/python.exe
-	SET_PYTHONPATH := set PYTHONPATH=$(PROJECT_ROOT) &&
+	Python := $(Venv_directory)/Scripts/python.exe
+	Set_python_path := set Python_path=$(Project_root) &&
 else
-	PYTHON := $(VENV_DIR)/bin/python
-	SET_PYTHONPATH := PYTHONPATH=$(PROJECT_ROOT)
+	Python := $(Venv_directory)/bin/python
+	Set_python_path := Python_path=$(Project_root)
 endif
+SPHINX_BUILD := Python_path=$(Project_root) $(Python) -m sphinx
 
-# Sphinx configuration
-SPHINX_OPTIONS   ?=
-SOURCE_DIRECTORY    = source
-BUILD_DIR     = build
-
-# Ensure PYTHONPATH includes the backend directory for autodoc
-SPHINX_BUILD  := PYTHONPATH=$(PROJECT_ROOT) $(PYTHON) -m sphinx
-
-# Put it first so that "make" without argument is like "make help".
 help: docs-deps
-	@$(SET_PYTHONPATH) $(PYTHON) -m sphinx -M help "$(SOURCE_DIRECTORY)" "$(BUILD_DIR)" $(SPHINX_OPTIONS) $(O)
-
+	@$(Set_python_path) $(Python) -m sphinx -M help "$(Source_directory)" "$(Build_directory)" $(Sphinx_options) $(O)
 .PHONY: help docs-deps clean preview Makefile
-
-# Ensure the uv virtual environment exists
-$(VENV_DIR):
-	cd $(PROJECT_ROOT) && $(UV) venv .venv
-
-# Install/sync dependencies using uv (includes Sphinx and extensions)
-docs-deps: $(VENV_DIR)
-	cd $(PROJECT_ROOT) && $(UV) sync
-
-# Clean build artifacts
+$(Venv_directory):
+	cd $(Project_root) && $(Uv) venv .venv
+docs-deps: $(Venv_directory)
+	cd $(Project_root) && $(Uv) sync --all-groups
 clean:
-	rm -rf $(BUILD_DIR)/*
-
-# HTML build target
+	rm -rf $(Build_directory)/*
 html: docs-deps
-	$(SET_PYTHONPATH) $(PYTHON) -m sphinx -b html "$(SOURCE_DIRECTORY)" "$(BUILD_DIR)/html" $(SPHINX_OPTIONS)
-
-# Preview documentation in default browser
+	$(Set_python_path) $(Python) -m sphinx -b html "$(Source_directory)" "$(Build_directory)/html" $(Sphinx_options)
 preview: html
 	@echo "Opening documentation in browser..."
 ifeq ($(OS),Windows_NT)
-	cmd /c start "" "$(abspath $(BUILD_DIR)/html/index.html)"
+	cmd /c start "" "$(abspath $(Build_directory)/html/index.html)"
 else ifeq ($(shell uname),Darwin)
-	open "$(BUILD_DIR)/html/index.html"
+	open "$(Build_directory)/html/index.html"
 else
-	xdg-open "$(BUILD_DIR)/html/index.html"
+	xdg-open "$(Build_directory)/html/index.html"
 endif
-
-# Live reload backend
 reload: docs-deps
-	$(SET_PYTHONPATH) sphinx-autobuild "$(SOURCE_DIRECTORY)" "$(BUILD_DIR)/html" $(SPHINX_OPTIONS)
-
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINX_OPTIONS).
+	$(Set_python_path) sphinx-autobuild "$(Source_directory)" "$(Build_directory)/html" $(Sphinx_options)
 %: docs-deps
-	@$(SET_PYTHONPATH) $(PYTHON) -m sphinx -M $@ "$(SOURCE_DIRECTORY)" "$(BUILD_DIR)" $(SPHINX_OPTIONS) $(O)
+	@$(Set_python_path) $(Python) -m sphinx -M $@ "$(Source_directory)" "$(Build_directory)" $(Sphinx_options) $(O)
