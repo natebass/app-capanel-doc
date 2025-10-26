@@ -1,6 +1,6 @@
 # California Accountability Panel documentation
 
-Documentation for the California Accountability Panel. The main repository is https://github.com/openfresno/app-capanel-web.
+Documentation for the California Accountability Panel. The main repository is https://github.com/opensacorg/app-capanel-web.
 
 ## Prerequisites
 
