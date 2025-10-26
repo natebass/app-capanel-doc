@@ -20,17 +20,14 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*.ts",
     "tests/**/*.ts",
     "playwright.config.ts",
-    "panda.config.ts"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
+    "panda.config.ts",
+    "vite.config.ts"
   ]
 }
