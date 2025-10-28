@@ -4,7 +4,7 @@ version = '0.1.0'
 description = 'FastAPI application for the California Accountability Panel website.'
 requires-python = '>=3.10,<4.0'
 dependencies = [
-    "fastapi[standard]",
+    'fastapi[standard]',
     'python-multipart',
     'email-validator',
     'passlib[bcrypt]',
@@ -16,15 +16,12 @@ dependencies = [
     'httpx',
     'psycopg[binary]',
     'sqlmodel',
-    # Pin bcrypt until passlib supports the latest
     'bcrypt',
     'pydantic-settings',
     'sentry-sdk[fastapi]',
     'pyjwt',
-    "pre-commit",
-    "pytest",
-    "docutils-stubs==0.0.22",
-    "types-docutils==0.22.2.20251006",
+    'pre-commit',
+    'pytest',
 ]
 
 [dependency-groups]
@@ -42,6 +39,8 @@ doc = [
     'sphinx-autodoc-typehints',
     'sphinx-autobuild',
     'pydata-sphinx-theme',
+    'docutils-stubs',
+    'types-docutils',
 ]
 
 [build-system]
