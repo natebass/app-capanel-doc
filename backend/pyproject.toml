@@ -22,19 +22,10 @@ dependencies = [
     'pyjwt',
     'pre-commit',
     'pytest',
-]
-
-[dependency-groups]
-dev = [
-    'pytest',
     'mypy',
     'ruff',
-    'pre-commit',
     'types-passlib',
     'coverage',
-]
-
-doc = [
     'sphinx',
     'sphinx-autodoc-typehints',
     'sphinx-autobuild',
