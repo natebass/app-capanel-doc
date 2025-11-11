@@ -123,14 +123,26 @@ This command:
 - You may see some warnings (missing toctree references) - these are non-critical
 
 **Step 5: Start a local web server**
+
+**Option A: Auto-Reload Server (Recommended for Development)**
+```powershell
+uv run sphinx-autobuild source build/html --open-browser
+```
+This will:
+- ✨ Automatically rebuild when you save changes to source files
+- 🔄 Auto-refresh your browser when rebuilds complete
+- 🌐 Open http://127.0.0.1:8000 automatically
+
+**Option B: Simple HTTP Server (View Only)**
 ```powershell
 cd build/html
 python -m http.server 8000
 ```
+This serves static files but does **NOT** auto-reload on changes.
 
 **Step 6: Open your browser**
 
-Navigate to: http://localhost:8000
+Navigate to: http://localhost:8000 (or http://127.0.0.1:8000 for auto-reload)
 
 You should now see the documentation website! 🎉
 

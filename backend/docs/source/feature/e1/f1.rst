@@ -1,14 +1,40 @@
-Performance Cards
+The Performance Indicators
 ---------------------------
 
 Cards that display the performance of local educational agencies (LEAs) on a set of state and local measures
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Components
 
-..
-  .. image:: /_static/image/Dashboard.png
+   components/StatusLevelIndicator
+   components/ChangeLevelIndicator
+   components/MetricCard
+   components/StudentGroupBreakdown
+   components/TrendChart
+   components/DataSuppressionNotice
+
+Overview
+--------
+
+The Performance Cards feature is built using six core UI components that work together to display California Dashboard accountability data in an accessible, user-friendly format.
+
+.. image:: /_static/image/Dashboard.png
 
 .. image:: https://github.com/opensacorg/app-capanel-doc/blob/main/backend/docs/source/_static/image/Dashboard.png
    :alt: Dashboard displaying LEA performance metrics
    :width: 600
    :align: center
+
+Components
+----------
+
+This feature uses the following components:
+
+1. **StatusLevelIndicator**: Color-coded performance level (Blue, Green, Yellow, Orange, Red)
+2. **ChangeLevelIndicator**: Year-over-year performance change indicator
+3. **MetricCard**: Container component that holds all metric information
+4. **StudentGroupBreakdown**: Disaggregated data table by student demographics
+5. **TrendChart**: Multi-year performance visualization
+6. **DataSuppressionNotice**: Privacy protection message when data cannot be displayed
 

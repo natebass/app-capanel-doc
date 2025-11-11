@@ -117,35 +117,19 @@ A: The Performance Cards include the following measures:
 
 **Q: How often are the Performance Cards updated?**
 
-A: The Performance Cards are updated annually, typically in the fall, to reflect the most recent data available from the CDE.
+A: The publicly displayed Performance Cards are updated annually, typically in the fall, to reflect the most recent data available from the CDE.
+However, If you are using a local or private instance of the Performance Cards application,
+you can update the data as frequently as needed by re-ingesting the latest data from your sources.
+Feel free to look into the documentation for guidance on how to update the data in your specific setup.
 
 **Q: Where can I find more information about the Performance Cards?**
 
-A: For more detailed information about the Performance Cards, including technical documentation and data sources, please visit the
+
+A:  For detailed information about the Performance Cards, including technical documentation and data sources, please visit the
 California Department of Education's Performance Cards webpage: `CDE Performance Cards <https://www.cde.ca.gov/ta/ac/cm/performancecards.asp>`_.
 For questions or assistance regarding the Performance Cards, you can contact the CDE directly at
-`CDE Contact Page <https://www.cde.ca.gov/re/di/or/contactus.asp>`_.
-
-
-**Q: What are Performance Cards?**
-
-A: Performance Cards are tools used to display the performance of local educational agencies (LEAs) on a set of state and local measures.
-
-**Q: Who decides what measures are included on the Performance Cards?**
-A: In 2016, the California Department of Education (CDE) convened a Technical Advisory Committee (TAC) to recommend measures for inclusion on the Performance Cards.
-
-**Q: How often are the Performance Cards updated?**
-A: The Performance Cards are updated annually, typically in the fall, to reflect the most recent data available from the CDE.
-
-**Q: Where can I find more information about the Performance Cards?**
-A: For more detailed information about the Performance Cards, including technical documentation and data sources, please
-visit the California Department of Education's Performance Cards webpage: `CDE Performance Cards <https://www.cde.ca.gov/ta/ac/cm/performancecards.asp>`_.
-For questions or assistance regarding the Performance Cards, you can contact the CDE directly at
-`CDE Contact Page <https://www.cde.ca.gov/re/di/or/contactus.asp>`_.
-
-**Q: What measures are included on the Performance Cards?**
-A: The Performance Cards include measures such as English, Math, Science, Progress of English as
-a Second Language Learners, Suspension Rates, Chronic Absenteeism, Graduation Rate, and College/Career Readiness.
+`CDE Contact Page <https://www.cde.ca.gov/re/di/or/contactus.asp>`_. Additionally, you can refer to the
+components documentation within this project for more insights on how to we calculate and display the measures.
 
 
 
@@ -163,3 +147,5 @@ Citation
 
 - **[4]California School Dashboard.** *California School Dashboard.* State of California — California Department of Education.  
   `https://www.caschooldashboard.org/ <https://www.caschooldashboard.org/>`_
+
+
