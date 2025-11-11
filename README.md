@@ -23,7 +23,7 @@ The general application and Python documentation uses Sphinx. This is where most
 To run the actual California Accountability Panel application:
 
 ```powershell
-cd C:\Users\Shawn\Desktop\GCC_AI\app-capanel-web
+cd app-capanel-web
 docker compose up
 ```
 
@@ -35,14 +35,14 @@ To run both simultaneously, use **two separate terminals**:
 
 **Terminal 1 - Documentation (this repo):**
 ```powershell
-cd C:\Users\Shawn\Desktop\GCC_AI\app-capanel-doc\backend\docs\build\html
+cd \app-capanel-doc\backend\docs\build\html
 python -m http.server 8000
 ```
 Then open: http://localhost:8000
 
 **Terminal 2 - Web Application:**
 ```powershell
-cd C:\Users\Shawn\Desktop\GCC_AI\app-capanel-web
+cd \app-capanel-web
 docker compose up
 ```
 
