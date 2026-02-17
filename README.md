@@ -1,4 +1,4 @@
-# California Accountability Panel documentation
+# California Accountability Panel Documentation
 
 Documentation for the California Accountability Panel website. https://github.com/opensacorg/app-capanel-web
 
