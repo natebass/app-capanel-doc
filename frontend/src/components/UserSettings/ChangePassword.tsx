@@ -1,86 +1,157 @@
-import { Box, Button, Container, Heading, VStack } from '@chakra-ui/react'
+import { useForm } from '@tanstack/react-form'
 import { useMutation } from '@tanstack/react-query'
-import { type SubmitHandler, useForm } from 'react-hook-form'
-import { FiLock } from 'react-icons/fi'
+import { z } from 'zod'
 
-import { type ApiError, type UpdatePassword, UsersService } from '../../client'
-import useCustomToast from '../../hooks/useCustomToast'
-import { confirmPasswordRules, handleError, passwordRules } from '../../utils'
-import { PasswordInput } from '../ui/password-input'
+import { Button } from '@/components/ui/button'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { PasswordInput } from '@/components/ui/password-input'
+import { Spinner } from '@/components/ui/spinner'
+import { type UpdatePassword, UsersService } from '@/lib/client'
+import { handleError } from '@/lib/client-utils'
+import useCustomToast from '@/lib/hooks/useCustomToast'
 
-interface UpdatePasswordForm extends UpdatePassword {
-	confirm_password: string
-}
+const formSchema = z
+	.object({
+		current_password: z
+			.string()
+			.min(1, { message: 'Password is required' })
+			.min(8, { message: 'Password must be at least 8 characters' }),
+		new_password: z
+			.string()
+			.min(1, { message: 'Password is required' })
+			.min(8, { message: 'Password must be at least 8 characters' }),
+		confirm_password: z.string().min(1, { message: 'Password confirmation is required' }),
+	})
+	.refine((data) => data.new_password === data.confirm_password, {
+		message: "The passwords don't match",
+		path: ['confirm_password'],
+	})
+
+type FormData = z.infer<typeof formSchema>
 
 const ChangePassword = () => {
-	const { showSuccessToast } = useCustomToast()
-	const {
-		register,
-		handleSubmit,
-		reset,
-		getValues,
-		formState: { errors, isValid, isSubmitting },
-	} = useForm<UpdatePasswordForm>({
-		mode: 'onBlur',
-		criteriaMode: 'all',
+	const { showSuccessToast, showErrorToast } = useCustomToast()
+
+	const form = useForm({
+		defaultValues: {
+			current_password: '',
+			new_password: '',
+			confirm_password: '',
+		} as FormData,
+		validators: {
+			onChange: formSchema,
+		},
+		onSubmit: async ({ value }) => {
+			const { confirm_password: _, ...submitData } = value
+			mutation.mutate(submitData as UpdatePassword)
+		},
 	})
 
 	const mutation = useMutation({
-		mutationFn: (data: UpdatePassword) =>
-			UsersService.updatePasswordMe({ requestBody: data }),
+		mutationFn: (data: UpdatePassword) => UsersService.usersUpdatePasswordMe({ body: data }),
 		onSuccess: () => {
-			showSuccessToast('Password updated successfully.')
-			reset()
+			showSuccessToast('Password updated successfully')
+			form.reset()
 		},
-		onError: (err: ApiError) => {
-			handleError(err)
-		},
+		onError: handleError.bind(showErrorToast),
 	})
 
-	const onSubmit: SubmitHandler<UpdatePasswordForm> = async (data) => {
-		mutation.mutate(data)
-	}
-
 	return (
-		<Container maxW='full'>
-			<Heading size='sm' py={4}>
-				Change Password
-			</Heading>
-			<Box as='form' onSubmit={handleSubmit(onSubmit)}>
-				<VStack gap={4} w={{ base: '100%', md: 'sm' }}>
-					<PasswordInput
-						type='current_password'
-						startElement={<FiLock />}
-						{...register('current_password', passwordRules())}
-						placeholder='Current Password'
-						errors={errors}
-					/>
-					<PasswordInput
-						type='new_password'
-						startElement={<FiLock />}
-						{...register('new_password', passwordRules())}
-						placeholder='New Password'
-						errors={errors}
-					/>
-					<PasswordInput
-						type='confirm_password'
-						startElement={<FiLock />}
-						{...register('confirm_password', confirmPasswordRules(getValues))}
-						placeholder='Confirm Password'
-						errors={errors}
-					/>
-				</VStack>
-				<Button
-					variant='solid'
-					mt={4}
-					type='submit'
-					loading={isSubmitting}
-					disabled={!isValid}
-				>
-					Save
-				</Button>
-			</Box>
-		</Container>
+		<div className='max-w-md'>
+			<h3 className='text-lg font-semibold py-4'>Change Password</h3>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault()
+					e.stopPropagation()
+					form.handleSubmit()
+				}}
+				className='flex flex-col gap-4'
+			>
+				<form.Field
+					name='current_password'
+					children={(field) => (
+						<Field>
+							<FieldLabel htmlFor={field.name}>Current Password</FieldLabel>
+							<PasswordInput
+								id={field.name}
+								name={field.name}
+								data-testid='current-password-input'
+								placeholder='Current Password'
+								value={field.state.value}
+								onBlur={field.handleBlur}
+								onChange={(e) => field.handleChange(e.target.value)}
+							/>
+							{field.state.meta.isTouched && !field.state.meta.isValid && (
+								<FieldError>
+									{field.state.meta.errors.map((err) => err?.message ?? '').join(', ')}
+								</FieldError>
+							)}
+						</Field>
+					)}
+				/>
+
+				<form.Field
+					name='new_password'
+					children={(field) => (
+						<Field>
+							<FieldLabel htmlFor={field.name}>New Password</FieldLabel>
+							<PasswordInput
+								id={field.name}
+								name={field.name}
+								data-testid='new-password-input'
+								placeholder='New Password'
+								value={field.state.value}
+								onBlur={field.handleBlur}
+								onChange={(e) => field.handleChange(e.target.value)}
+							/>
+							{field.state.meta.isTouched && !field.state.meta.isValid && (
+								<FieldError>
+									{field.state.meta.errors.map((err) => err?.message ?? '').join(', ')}
+								</FieldError>
+							)}
+						</Field>
+					)}
+				/>
+
+				<form.Field
+					name='confirm_password'
+					children={(field) => (
+						<Field>
+							<FieldLabel htmlFor={field.name}>Confirm Password</FieldLabel>
+							<PasswordInput
+								id={field.name}
+								name={field.name}
+								data-testid='confirm-password-input'
+								placeholder='Confirm Password'
+								value={field.state.value}
+								onBlur={field.handleBlur}
+								onChange={(e) => field.handleChange(e.target.value)}
+							/>
+							{field.state.meta.isTouched && !field.state.meta.isValid && (
+								<FieldError>
+									{field.state.meta.errors.map((err) => err?.message ?? '').join(', ')}
+								</FieldError>
+							)}
+						</Field>
+					)}
+				/>
+
+				<form.Subscribe
+					selector={(state) => [state.canSubmit, state.isSubmitting]}
+					children={([canSubmit, isSubmitting]) => (
+						<Button
+							type='submit'
+							className='self-start'
+							disabled={!canSubmit || mutation.isPending}
+						>
+							{(isSubmitting || mutation.isPending) && <Spinner className='mr-2' />}
+							Update Password
+						</Button>
+					)}
+				/>
+			</form>
+		</div>
 	)
 }
+
 export default ChangePassword

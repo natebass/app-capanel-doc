@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+
 import { findLastEmail } from './utils/mailcatcher'
 import { randomEmail, randomPassword } from './utils/random'
 import { logInUser, signUpNewUser } from './utils/user'
@@ -8,9 +9,7 @@ test.use({ storageState: { cookies: [], origins: [] } })
 test('Password Recovery title is visible', async ({ page }) => {
 	await page.goto('/recover-password')
 
-	await expect(
-		page.getByRole('heading', { name: 'Password Recovery' }),
-	).toBeVisible()
+	await expect(page.getByRole('heading', { name: 'Password Recovery' })).toBeVisible()
 })
 
 test('Input is visible, empty and editable', async ({ page }) => {
@@ -27,10 +26,7 @@ test('Continue button is visible', async ({ page }) => {
 	await expect(page.getByRole('button', { name: 'Continue' })).toBeVisible()
 })
 
-test('User can reset password successfully using the link', async ({
-	page,
-	request,
-}) => {
+test('User can reset password successfully using the link', async ({ page, request }) => {
 	const fullName = 'Test User'
 	const email = randomEmail()
 	const password = randomPassword()
@@ -50,9 +46,7 @@ test('User can reset password successfully using the link', async ({
 		timeout: 5000,
 	})
 
-	await page.goto(
-		`${process.env.MAILCATCHER_HOST}/messages/${emailData.id}.html`,
-	)
+	await page.goto(`${process.env.MAILCATCHER_HOST}/messages/${emailData.id}.html`)
 
 	const selector = 'a[href*="/reset-password?token="]'
 
@@ -105,9 +99,7 @@ test('Weak new password validation', async ({ page, request }) => {
 		timeout: 5000,
 	})
 
-	await page.goto(
-		`${process.env.MAILCATCHER_HOST}/messages/${emailData.id}.html`,
-	)
+	await page.goto(`${process.env.MAILCATCHER_HOST}/messages/${emailData.id}.html`)
 
 	const selector = 'a[href*="/reset-password?token="]'
 	let url = await page.getAttribute(selector, 'href')
@@ -119,7 +111,5 @@ test('Weak new password validation', async ({ page, request }) => {
 	await page.getByPlaceholder('Confirm Password').fill(weakPassword)
 	await page.getByRole('button', { name: 'Reset Password' }).click()
 
-	await expect(
-		page.getByText('Password must be at least 8 characters'),
-	).toBeVisible()
+	await expect(page.getByText('Password must be at least 8 characters')).toBeVisible()
 })

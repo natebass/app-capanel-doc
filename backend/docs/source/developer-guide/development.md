@@ -2,13 +2,13 @@
 
 ## Docker Compose
 
-* Start the local stack with Docker Compose:
+- Start the local stack with Docker Compose:
 
 ```bash
 docker compose watch
 ```
 
-* Now you can open your browser and interact with these URLs:
+- Now you can open your browser and interact with these URLs:
 
 Frontend, built with Docker, with routes handled based on the path: <http://localhost:5173>
 
@@ -40,9 +40,9 @@ Mailcatcher is a simple SMTP server that catches all emails sent by the backend 
 
 This is useful for:
 
-* Testing email functionality during development
-* Verifying email content and formatting
-* Debugging email-related functionality without sending real emails
+- Testing email functionality during development
+- Verifying email content and formatting
+- Debugging email-related functionality without sending real emails
 
 The backend is automatically configured to use Mailcatcher when running with Docker Compose locally (SMTP on port 1025). All captured emails can be viewed at <http://localhost:1080>.
 
@@ -89,7 +89,7 @@ In the guide about [deployment](deployment.md) you can read about Traefik, the c
 
 If you want to test that it's all working locally, you can edit the local `.env` file, and change:
 
-```dotenv
+```env
 DOMAIN=localhost.tiangolo.com
 ```
 

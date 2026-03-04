@@ -2,11 +2,7 @@ import * as echarts from 'echarts'
 import { useEffect, useRef } from 'react'
 
 // Define the component and accept optional props for customization
-const EchartsGaugeChart = ({
-	value = 0.7,
-	name = 'Grade Rating',
-	title = 'Grade Rating',
-}) => {
+const EchartsGaugeChart = ({ value = 0.7, name = 'Grade Rating', title = 'Grade Rating' }) => {
 	const chartRef = useRef(null)
 
 	useEffect(() => {

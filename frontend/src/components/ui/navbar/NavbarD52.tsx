@@ -1,68 +1,72 @@
-import { Link } from '@tanstack/react-router';
-import './NavbarD52.css';
-import { FaMagnifyingGlass } from 'react-icons/fa6';
-import useAuth from '../../../hooks/useAuth.ts';
-import MobileButton from './MobileButton';
-import SearchBar from './SearchBar';
-import SettingsButton from './SettingsButton';
-import UserAvatar from './UserAvatar';
+import { Link } from '@tanstack/react-router'
+import { FaMagnifyingGlass } from 'react-icons/fa6'
+
+import useAuth from '@/lib/hooks/useAuth.ts'
+
+import MobileButton from './MobileButton'
+import SearchBar from './SearchBar'
+import SettingsButton from './SettingsButton'
+import UserAvatar from './UserAvatar'
+
+import styles from './NavbarD52.module.css'
 
 export default function NavbarD52({ shadow = false }: { shadow?: boolean }) {
-	const { user: currentUser } = useAuth();
+	const { user: currentUser } = useAuth()
 
 	return (
 		<div
-			className={`bg-white h-[4.25rem] text-element-text-primary w-full sticky top-0 z-50 ${shadow ? 'shadow-xl' : 'border-b-[#dcdfe6] border-b-1'}`}
+			className={`${styles.container} ${shadow ? styles.containerShadow : styles.containerBorder}`}
 		>
-			<nav className='h-full flex items-center max-w-[96rem] mx-auto px-6 gap-2'>
-				<div className='flex items-center h-full py-2 text-nowrap'>
-					<Link
-						className='pr-4 h-full rounded gap-[13px] text-[#0A2D3C] text-3xl flex items-center leading-none font-urbanist'
-						to='/'
-					>
-						<img src='/assets/logo/logo.svg' alt='Logo' className='h-14'/>
-						<span className='hidden navbar-search:block'>
+			<nav className={styles.nav}>
+				<div className={styles.logoWrapper}>
+					<Link className={styles.logoLink} to='/'>
+						<img src='/assets/logo/logo.svg' alt='Logo' className='h-10' />
+						<span className='hidden md:block'>
 							<span className='font-bold'>California Accountability</span> Panel
 						</span>
 					</Link>
-					{/* <DistrictSelector /> */}
 				</div>
-				<div className='grow h-full flex items-center justify-end'>
-					<SearchBar className='me-8 hidden sm:block'/>
-					<FaMagnifyingGlass className='h-6 w-6 me-6 sm:hidden'/>
-					<div className='hidden navbar-links:flex h-full items-center'>
+				<div className={styles.right}>
+					<SearchBar />
+					<FaMagnifyingGlass className={styles.searchIcon} />
+					<div className={styles.linksContainer}>
 						<Link
 							to='/'
-							className='navbar2-link'
+							className={styles.link}
 							activeProps={{
-								className: 'navbar2-link--selected',
+								className: styles.linkSelected,
 							}}
 						>
 							Home
 						</Link>
 						<Link
 							to='/dashboard'
-							className='navbar2-link'
+							className={styles.link}
 							activeProps={{
-								className: 'navbar2-link--selected',
+								className: styles.linkSelected,
 							}}
 						>
 							Dashboard
 						</Link>
-						<div className='px-3'>
-							<SettingsButton/>
-						</div>
+						<Link
+							to='/report'
+							className={styles.link}
+							activeProps={{
+								className: styles.linkSelected,
+							}}
+						>
+							Report
+						</Link>
+						<SettingsButton />
 						{currentUser && (
 							<Link to='/user'>
-								<UserAvatar/>
+								<UserAvatar />
 							</Link>
 						)}
 					</div>
 				</div>
-				<div className='navbar-links:hidden'>
-					<MobileButton/>
-				</div>
+				<MobileButton />
 			</nav>
 		</div>
-	);
+	)
 }

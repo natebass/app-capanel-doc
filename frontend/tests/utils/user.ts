@@ -1,11 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 
-export async function signUpNewUser(
-	page: Page,
-	name: string,
-	email: string,
-	password: string,
-) {
+export async function signUpNewUser(page: Page, name: string, email: string, password: string) {
 	await page.goto('/signup')
 
 	await page.getByPlaceholder('Full Name').fill(name)
@@ -23,9 +18,7 @@ export async function logInUser(page: Page, email: string, password: string) {
 	await page.getByPlaceholder('Password', { exact: true }).fill(password)
 	await page.getByRole('button', { name: 'Log In' }).click()
 	await page.waitForURL('/')
-	await expect(
-		page.getByText('Welcome back, nice to see you again!'),
-	).toBeVisible()
+	await expect(page.getByText('Welcome back, nice to see you again!')).toBeVisible()
 }
 
 export async function logOutUser(page: Page) {

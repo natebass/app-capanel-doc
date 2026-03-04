@@ -1,4 +1,4 @@
-import { Card, CardBody } from '../../ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 
 const data = {
 	indicators: [
@@ -16,10 +16,8 @@ export default function DashboardCardDf61() {
 	return (
 		<div>
 			{data.indicators.map((_indicator, index) => (
-				<Card key={index} variant='elevated'>
-					<CardBody>
-						{/* You can render indicator-specific content here */}
-					</CardBody>
+				<Card key={index}>
+					<CardContent>{/* You can render indicator-specific content here */}</CardContent>
 				</Card>
 			))}
 		</div>

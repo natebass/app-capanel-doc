@@ -1,58 +1,48 @@
-import { Button, Menu, Portal } from '@chakra-ui/react';
-import { useNavigate } from '@tanstack/react-router';
-import { FaGear } from 'react-icons/fa6';
-import useAuth from '../../../hooks/useAuth.ts';
+import { Link } from '@tanstack/react-router'
+import { FaGear } from 'react-icons/fa6'
 
-export default function SettingsButton({ className }: { className?: string }) {
-	const { user: currentUser } = useAuth();
-	const navigate = useNavigate();
+import { buttonVariants } from '@/components/ui/button'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import useAuth from '@/lib/hooks/useAuth'
+import { cn } from '@/lib/utils'
+
+export default function SettingsButton() {
+	const { user: currentUser } = useAuth()
 
 	return (
-		<div className={`${className} `}>
-			<Menu.Root
-				navigate={({ value, node }) => {
-					console.log('a');
-					navigate({ to: `/${value}` });
-				}}
-			>
-				<Menu.Trigger asChild>
-					<Button variant='outline' size='sm'>
-						<FaGear className='h-5 w-5'/>
-					</Button>
-				</Menu.Trigger>
-				<Portal>
-					<Menu.Positioner>
-						<Menu.Content>
-							{currentUser ? (
-								<Menu.Item
-									value='sign-out'
-									onSelect={() => navigate({ to: '/sign-out' })}
-									className='text-[1rem] p-3 tracking-wide'
-								>
-									Sign Out
-								</Menu.Item>
-							) : (
-								<>
-									<Menu.Item
-										value='login'
-										onSelect={() => navigate({ to: '/login' })}
-										className='text-[1rem] p-3 tracking-wide'
-									>
-										Sign In
-									</Menu.Item>
-									<Menu.Item
-										value='sign-up'
-										onSelect={() => navigate({ to: '/sign-up' })}
-										className='text-[1rem] p-3 tracking-wide'
-									>
-										Sign Up
-									</Menu.Item>
-								</>
-							)}
-						</Menu.Content>
-					</Menu.Positioner>
-				</Portal>
-			</Menu.Root>
+		<div className='ml-1'>
+			<DropdownMenu>
+				<DropdownMenuTrigger className={cn(buttonVariants({ variant: 'outline' }))}>
+					<FaGear />
+				</DropdownMenuTrigger>
+				<DropdownMenuContent>
+					{currentUser ? (
+						<DropdownMenuItem className='text-base p-3 tracking-wide' render={<Link to='/login' />}>
+							Sign Out
+						</DropdownMenuItem>
+					) : (
+						<>
+							<DropdownMenuItem
+								className='text-base p-3 tracking-wide'
+								render={<Link to='/login' />}
+							>
+								Sign In
+							</DropdownMenuItem>
+							<DropdownMenuItem
+								className='text-base p-3 tracking-wide'
+								render={<Link to='/sign-up' />}
+							>
+								Sign Up
+							</DropdownMenuItem>
+						</>
+					)}
+				</DropdownMenuContent>
+			</DropdownMenu>
 		</div>
-	);
+	)
 }

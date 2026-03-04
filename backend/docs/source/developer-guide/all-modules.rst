@@ -19,11 +19,6 @@ Routes
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: app.api.routes.items_clean
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 .. automodule:: app.api.routes.login
    :members:
    :undoc-members:
@@ -54,6 +49,11 @@ Routes
    :undoc-members:
    :show-inheritance:
 
+.. automodule:: app.api.routes.academic_indicators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Core
 ----
 
@@ -62,7 +62,7 @@ Core
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: app.core.db
+.. automodule:: app.core.database
    :members:
    :undoc-members:
    :show-inheritance:
@@ -75,12 +75,12 @@ Core
 Data models and CRUD
 --------------------
 
-.. automodule:: app.utility.models
+.. automodule:: app.model.models
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: app.utility.crud
+.. automodule:: app.service.crud
    :members:
    :undoc-members:
    :show-inheritance:
@@ -88,7 +88,7 @@ Data models and CRUD
 Utilities
 ---------
 
-.. automodule:: app.utility.utils
+.. automodule:: app.core.utils
    :members:
    :undoc-members:
    :show-inheritance:

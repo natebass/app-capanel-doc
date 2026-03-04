@@ -28,10 +28,6 @@ A dashboard that displays key school performance metrics.
   content: "We welcome contributions! The project is open-source.\n- [GitHub](https://github.com/opensacorg/app-capanel-web)\n- [GitHub docs](https://github.com/opensacorg/app-capanel-doc)"
 ```
 
-```{warning}
-Documentation is under development. It is based on [PyData Theme](https://pydata-sphinx-theme.readthedocs.io/).
-```
-
 ## User guide
 
 Information about using the California Accountability Panel website.

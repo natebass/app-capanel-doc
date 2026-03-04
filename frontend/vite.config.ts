@@ -1,42 +1,77 @@
-/// <reference types="vitest/config" />
+import { fileURLToPath, URL } from 'node:url'
 
-import path, { resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
 import tailwindcss from '@tailwindcss/vite'
+import { devtools } from '@tanstack/devtools-vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
-import viteReact from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import viteTsConfigPaths from 'vite-tsconfig-paths'
 
-const dirname =
-	typeof __dirname !== 'undefined'
-		? __dirname
-		: path.dirname(fileURLToPath(import.meta.url))
+const apiTarget = process.env.VITE_API_URL || 'http://localhost:9000'
 
-// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
-export default defineConfig({
+/**
+ * base: './' is required for relative paths in single-container deployment
+ * Add a delay to allow the Nitro server to boot in the container. This prevents the "fetch failed" immediately upon starting
+ * Keep relative assets for production container builds, but use root base
+ * in dev so Vite's React refresh runtime is loaded correctly on routed URLs.
+ * The plugin will run tests for the stories defined in your Storybook config
+ * See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
+ */
+const config = defineConfig(({ command }) => ({
 	plugins: [
-		tanstackRouter({
-			target: 'react',
-			autoCodeSplitting: true,
+		devtools(),
+		viteTsConfigPaths({
+			projects: ['./tsconfig.json'],
 		}),
-		viteReact(),
 		tailwindcss(),
+		tanstackRouter({ target: 'react', autoCodeSplitting: true }),
+		react({
+			babel: {
+				plugins: ['babel-plugin-react-compiler'],
+			},
+		}),
 	],
 	resolve: {
 		alias: {
-			'@': resolve(__dirname, './src'),
+			'@': fileURLToPath(new URL('./src', import.meta.url)),
 		},
+	},
+	server: {
+		proxy: {
+			'/api': {
+				target: apiTarget,
+				changeOrigin: true,
+			},
+			'/docs': {
+				target: apiTarget,
+				changeOrigin: true,
+			},
+			'/docs/oauth2-redirect': {
+				target: apiTarget,
+				changeOrigin: true,
+			},
+			'/redoc': {
+				target: apiTarget,
+				changeOrigin: true,
+			},
+			'/openapi.json': {
+				target: apiTarget,
+				changeOrigin: true,
+			},
+		},
+	},
+	base: command === 'serve' ? '/' : './',
+	build: {
+		outDir: 'dist',
 	},
 	test: {
 		projects: [
 			{
 				extends: true,
 				plugins: [
-					// The plugin will run tests for the stories defined in your Storybook config
-					// See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
 					storybookTest({
-						configDir: path.join(dirname, '.storybook'),
+						configDir: fileURLToPath(new URL('./.storybook', import.meta.url)),
 					}),
 				],
 				test: {
@@ -56,4 +91,6 @@ export default defineConfig({
 			},
 		],
 	},
-})
+}))
+
+export default config

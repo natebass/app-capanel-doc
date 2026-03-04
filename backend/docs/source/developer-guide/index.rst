@@ -16,6 +16,13 @@ Learn how to build and run the application locally.
 
    run-application
    python-beginner-guide
+   development
+
+.. toctree::
+   :caption: Deploy on Google Cloud
+   :maxdepth: 2
+
+   deployment
 
 .. toctree::
    :caption: Documentation
@@ -23,3 +30,5 @@ Learn how to build and run the application locally.
 
    sphinx
    storybook
+   components
+   AGENTS

@@ -1,30 +1,27 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react'
 // import { useAuth } from "../components/hooks/use-auth";
 
 export default function DistrictSelector() {
-	const [open, setOpen] = useState(false);
-	const dropdownRef = useRef<HTMLDivElement>(null);
+	const [open, setOpen] = useState(false)
+	const dropdownRef = useRef<HTMLDivElement>(null)
 	// const auth = useAuth();
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
-			if (
-				dropdownRef.current &&
-				!dropdownRef.current.contains(event.target as Node)
-			) {
-				setOpen(false);
+			if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+				setOpen(false)
 			}
 		}
 
 		if (open) {
-			document.addEventListener('mousedown', handleClickOutside);
+			document.addEventListener('mousedown', handleClickOutside)
 		} else {
-			document.removeEventListener('mousedown', handleClickOutside);
+			document.removeEventListener('mousedown', handleClickOutside)
 		}
 		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [open]);
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	}, [open])
 
 	// if (!auth.currentOrg) {
 	// 	return null;
@@ -88,5 +85,5 @@ export default function DistrictSelector() {
 				</select>
 			)}
 		</div>
-	);
+	)
 }

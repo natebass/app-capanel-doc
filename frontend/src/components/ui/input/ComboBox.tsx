@@ -1,80 +1,73 @@
-import type React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import type React from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 function FieldInfo({
-					   field,
-				   }: {
+	field,
+}: {
 	field: {
-		state: { meta: { touchedErrors: string[]; isValidating: boolean } };
-	};
+		state: { meta: { touchedErrors: string[]; isValidating: boolean } }
+	}
 }) {
 	return (
 		<>
 			{field.state.meta.touchedErrors ? (
 				<em className='text-red-600'>{field.state.meta.touchedErrors}</em>
 			) : null}
-			{field.state.meta.isValidating ? (
-				<em className='text-gray-500'>Validating...</em>
-			) : null}
+			{field.state.meta.isValidating ? <em className='text-gray-500'>Validating...</em> : null}
 		</>
-	);
+	)
 }
 
 export function ComboBox({
-							 field,
-							 options,
-							 placeholder,
-							 label,
-							 onInputChange,
-						 }: {
-	field: any;
-	options: string[];
-	placeholder: string;
-	label: string;
-	onInputChange?: (value: string) => void;
+	field,
+	options,
+	placeholder,
+	label,
+	onInputChange,
+}: {
+	field: any
+	options: string[]
+	placeholder: string
+	label: string
+	onInputChange?: (value: string) => void
 }) {
-	const [isOpen, setIsOpen] = useState(false);
-	const [filteredOptions, setFilteredOptions] = useState(options);
-	const selectRef = useRef<HTMLDivElement>(null);
-	const SEARCH_MIN_LENGTH = 1;
+	const [isOpen, setIsOpen] = useState(false)
+	const [filteredOptions, setFilteredOptions] = useState(options)
+	const selectRef = useRef<HTMLDivElement>(null)
+	const SEARCH_MIN_LENGTH = 1
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				selectRef.current &&
-				!selectRef.current.contains(event.target as Node)
-			) {
-				setIsOpen(false);
+			if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+				setIsOpen(false)
 			}
-		};
-		document.addEventListener('mousedown', handleClickOutside);
+		}
+		document.addEventListener('mousedown', handleClickOutside)
 		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, []);
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	}, [])
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value;
-		field.handleChange(value);
+		const value = e.target.value
+		field.handleChange(value)
 		if (onInputChange) {
-			onInputChange(value);
+			onInputChange(value)
 		}
 		if (value.length > SEARCH_MIN_LENGTH) {
-			setIsOpen(true);
+			setIsOpen(true)
 			setFilteredOptions(
-				options.filter((option) =>
-					option.toLowerCase().includes(value.toLowerCase()),
-				),
-			);
+				options.filter((option) => option.toLowerCase().includes(value.toLowerCase())),
+			)
 		} else {
-			setFilteredOptions(options);
+			setFilteredOptions(options)
 		}
-	};
+	}
 
 	const handleSelect = (value: string) => {
-		field.handleChange(value);
-		setIsOpen(false);
-	};
+		field.handleChange(value)
+		setIsOpen(false)
+	}
 
 	return (
 		<div className='flex-1' ref={selectRef}>
@@ -96,14 +89,12 @@ export function ComboBox({
 						if (field.state.value > SEARCH_MIN_LENGTH) {
 							setFilteredOptions(
 								options.filter((option) =>
-									option
-										.toLowerCase()
-										.includes(field.state.value.toLowerCase()),
+									option.toLowerCase().includes(field.state.value.toLowerCase()),
 								),
-							);
-							setIsOpen(true);
+							)
+							setIsOpen(true)
 						} else {
-							setFilteredOptions(options);
+							setFilteredOptions(options)
 						}
 					}}
 					onBlur={field.handleBlur}
@@ -134,8 +125,8 @@ export function ComboBox({
 				)}
 			</div>
 			<div className='mt-1 h-5 text-xs'>
-				<FieldInfo field={field}/>
+				<FieldInfo field={field} />
 			</div>
 		</div>
-	);
+	)
 }

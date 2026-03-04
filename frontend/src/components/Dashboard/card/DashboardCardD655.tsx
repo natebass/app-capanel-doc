@@ -1,31 +1,25 @@
-import { Box, HStack, Icon, Text } from '@chakra-ui/react'
 import { FiArrowUp, FiDollarSign } from 'react-icons/fi'
-import { Card, CardBody } from '../../ui/card'
+
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function DashboardCardD655() {
 	return (
-		<Card variant='elevated'>
-			<CardBody>
-				<HStack justify='space-between'>
-					<Box>
-						<Text fontSize='sm' color='fg.muted' fontWeight='medium'>
-							2024-2025 Cohort Total
-						</Text>
-						<Text fontSize='2xl' fontWeight='bold'>
-							$45,231
-						</Text>
-						<HStack>
-							<Icon as={FiArrowUp} color='green.500' boxSize={3} />
-							<Text fontSize='sm' color='green.500'>
-								+8.2%
-							</Text>
-						</HStack>
-					</Box>
-					<Box p={3} bg='green.50' borderRadius='lg'>
-						<Icon as={FiDollarSign} boxSize={6} color='green.500' />
-					</Box>
-				</HStack>
-			</CardBody>
+		<Card>
+			<CardContent className='pt-6'>
+				<div className='flex justify-between items-center'>
+					<div>
+						<p className='text-sm text-muted-foreground font-medium'>2024-2025 Cohort Total</p>
+						<p className='text-2xl font-bold'>$45,231</p>
+						<div className='flex items-center gap-1'>
+							<FiArrowUp className='h-3 w-3 text-green-500' />
+							<span className='text-sm text-green-500'>+8.2%</span>
+						</div>
+					</div>
+					<div className='p-3 bg-green-50 rounded-lg'>
+						<FiDollarSign className='h-6 w-6 text-green-500' />
+					</div>
+				</div>
+			</CardContent>
 		</Card>
 	)
 }

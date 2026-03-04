@@ -1,71 +1,51 @@
-import { Button, Menu, Portal } from '@chakra-ui/react';
-import { useNavigate } from '@tanstack/react-router';
-import { FaBars } from 'react-icons/fa';
-import useAuth from '../../../hooks/useAuth.ts';
+import { Link } from '@tanstack/react-router'
+import { FaBars } from 'react-icons/fa'
 
-export default function MobileButton(className: { className?: string }) {
-	const { user: currentUser } = useAuth();
-	const navigate = useNavigate();
+import { buttonVariants } from '@/components/ui/button'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import useAuth from '@/lib/hooks/useAuth'
+import { cn } from '@/lib/utils'
+
+export default function MobileButton() {
+	const { user: currentUser } = useAuth()
 
 	return (
-		<div className={`${className} `}>
-			<Menu.Root
-				navigate={({ value }) => {
-					navigate({ to: `/${value}` });
-				}}
+		<DropdownMenu>
+			<DropdownMenuTrigger
+				className={cn('min-[1180px]:hidden', buttonVariants({ variant: 'outline' }))}
 			>
-				<Menu.Trigger asChild>
-					<Button variant='outline' size='sm'>
-						<FaBars className='h-5 w-5'/>
-					</Button>
-				</Menu.Trigger>
-				<Portal>
-					<Menu.Positioner>
-						<Menu.Content>
-							<Menu.Item
-								value='home'
-								onSelect={() => navigate({ to: '/' })}
-								className='text-[1rem] p-3 tracking-wide'
-							>
-								Home
-							</Menu.Item>
-							<Menu.Item
-								value='dashboard'
-								onSelect={() => navigate({ to: '/dashboard' })}
-								className='text-[1rem] p-3 tracking-wide'
-							>
-								Dashboard
-							</Menu.Item>
-							{currentUser ? (
-								<Menu.Item
-									value='sign-out'
-									onSelect={() => navigate({ to: '/sign-out' })}
-									className='text-[1rem] p-3 tracking-wide'
-								>
-									Sign Out
-								</Menu.Item>
-							) : (
-								<>
-									<Menu.Item
-										value='login'
-										onSelect={() => navigate({ to: '/login' })}
-										className='text-[1rem] p-3 tracking-wide'
-									>
-										Sign In
-									</Menu.Item>
-									<Menu.Item
-										value='sign-up'
-										onSelect={() => navigate({ to: '/sign-up' })}
-										className='text-[1rem] p-3 tracking-wide'
-									>
-										Sign Up
-									</Menu.Item>
-								</>
-							)}
-						</Menu.Content>
-					</Menu.Positioner>
-				</Portal>
-			</Menu.Root>
-		</div>
-	);
+				<FaBars />
+			</DropdownMenuTrigger>
+			<DropdownMenuContent>
+				<DropdownMenuItem className='text-base p-3 tracking-wide' render={<Link to='/' />}>
+					Home
+				</DropdownMenuItem>
+				<DropdownMenuItem className='text-base p-3 tracking-wide' render={<Link to='/dashboard' />}>
+					Dashboard
+				</DropdownMenuItem>
+				{currentUser ? (
+					<DropdownMenuItem className='text-base p-3 tracking-wide' render={<Link to='/login' />}>
+						Sign Out
+					</DropdownMenuItem>
+				) : (
+					<>
+						<DropdownMenuItem className='text-base p-3 tracking-wide' render={<Link to='/login' />}>
+							Sign In
+						</DropdownMenuItem>
+						<DropdownMenuItem
+							className='text-base p-3 tracking-wide'
+							render={<Link to='/sign-up' />}
+						>
+							Sign Up
+						</DropdownMenuItem>
+					</>
+				)}
+			</DropdownMenuContent>
+		</DropdownMenu>
+	)
 }

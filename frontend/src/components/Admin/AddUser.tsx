@@ -1,50 +1,54 @@
-import {
-	Button,
-	DialogActionTrigger,
-	DialogTitle,
-	Flex,
-	Input,
-	Text,
-	VStack,
-} from '@chakra-ui/react'
+import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Plus } from 'lucide-react'
 import { useState } from 'react'
-import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
-import { FaPlus } from 'react-icons/fa'
-import { type UserCreate, UsersService } from '../../client'
-import type { ApiError } from '../../client/core/ApiError'
-import useCustomToast from '../../hooks/useCustomToast'
-import { emailPattern, handleError } from '../../utils'
-import { Checkbox } from '../ui/checkbox'
+import { z } from 'zod'
+
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
-	DialogBody,
-	DialogCloseTrigger,
+	Dialog,
+	DialogClose,
 	DialogContent,
+	DialogDescription,
 	DialogFooter,
 	DialogHeader,
-	DialogRoot,
+	DialogTitle,
 	DialogTrigger,
-} from '../ui/dialog'
-import { Field } from '../ui/field'
+} from '@/components/ui/dialog'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { PasswordInput } from '@/components/ui/password-input'
+import { Spinner } from '@/components/ui/spinner'
+import { type UserCreate, UsersService } from '@/lib/client'
+import { handleError } from '@/lib/client-utils'
+import useCustomToast from '@/lib/hooks/useCustomToast'
 
-interface UserCreateForm extends UserCreate {
-	confirm_password: string
-}
+const formSchema = z
+	.object({
+		email: z.string().email({ message: 'Invalid email address' }),
+		full_name: z.string().optional(),
+		password: z
+			.string()
+			.min(1, { message: 'Password is required' })
+			.min(8, { message: 'Password must be at least 8 characters' }),
+		confirm_password: z.string().min(1, { message: 'Please confirm your password' }),
+		is_superuser: z.boolean(),
+		is_active: z.boolean(),
+	})
+	.refine((data) => data.password === data.confirm_password, {
+		message: "The passwords don't match",
+		path: ['confirm_password'],
+	})
+
+type FormData = z.infer<typeof formSchema>
 
 const AddUser = () => {
 	const [isOpen, setIsOpen] = useState(false)
 	const queryClient = useQueryClient()
-	const { showSuccessToast } = useCustomToast()
-	const {
-		control,
-		register,
-		handleSubmit,
-		reset,
-		getValues,
-		formState: { errors, isValid, isSubmitting },
-	} = useForm<UserCreateForm>({
-		mode: 'onBlur',
-		criteriaMode: 'all',
+	const { showSuccessToast, showErrorToast } = useCustomToast()
+
+	const form = useForm({
 		defaultValues: {
 			email: '',
 			full_name: '',
@@ -52,177 +56,196 @@ const AddUser = () => {
 			confirm_password: '',
 			is_superuser: false,
 			is_active: false,
+		} as FormData,
+		validators: {
+			onChange: formSchema,
+		},
+		onSubmit: async ({ value }) => {
+			const { confirm_password: _, ...submitData } = value
+			mutation.mutate(submitData as UserCreate)
 		},
 	})
 
 	const mutation = useMutation({
-		mutationFn: (data: UserCreate) =>
-			UsersService.createUser({ requestBody: data }),
+		mutationFn: (data: UserCreate) => UsersService.usersCreateUser({ body: data }),
 		onSuccess: () => {
-			showSuccessToast('User created successfully.')
-			reset()
+			showSuccessToast('User created successfully')
+			form.reset()
 			setIsOpen(false)
 		},
-		onError: (err: ApiError) => {
-			handleError(err)
-		},
+		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: ['users'] })
 		},
 	})
 
-	const onSubmit: SubmitHandler<UserCreateForm> = (data) => {
-		mutation.mutate(data)
-	}
-
 	return (
-		<DialogRoot
-			size={{ base: 'xs', md: 'md' }}
-			placement='center'
-			open={isOpen}
-			onOpenChange={({ open }) => setIsOpen(open)}
-		>
-			<DialogTrigger asChild>
-				<Button value='add-user' my={4}>
-					<FaPlus fontSize='16px' />
-					Add User
-				</Button>
+		<Dialog open={isOpen} onOpenChange={setIsOpen}>
+			<DialogTrigger render={<Button className='my-4' />}>
+				<Plus className='mr-2' />
+				Add User
 			</DialogTrigger>
-			<DialogContent>
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<DialogHeader>
-						<DialogTitle>Add User</DialogTitle>
-					</DialogHeader>
-					<DialogBody>
-						<Text mb={4}>
-							Fill in the form below to add a new user to the system.
-						</Text>
-						<VStack gap={4}>
-							<Field
-								required
-								invalid={!!errors.email}
-								errorText={errors.email?.message}
-								label='Email'
-							>
-								<Input
-									id='email'
-									{...register('email', {
-										required: 'Email is required',
-										pattern: emailPattern,
-									})}
-									placeholder='Email'
-									type='email'
-								/>
-							</Field>
+			<DialogContent className='sm:max-w-md'>
+				<DialogHeader>
+					<DialogTitle>Add User</DialogTitle>
+					<DialogDescription>
+						Fill in the form below to add a new user to the system.
+					</DialogDescription>
+				</DialogHeader>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
+					}}
+				>
+					<div className='grid gap-4 py-4'>
+						<form.Field
+							name='email'
+							children={(field) => (
+								<Field>
+									<FieldLabel htmlFor={field.name}>
+										Email <span className='text-destructive'>*</span>
+									</FieldLabel>
+									<Input
+										id={field.name}
+										name={field.name}
+										placeholder='Email'
+										type='email'
+										value={field.state.value}
+										onBlur={field.handleBlur}
+										onChange={(e) => field.handleChange(e.target.value)}
+									/>
+									{field.state.meta.isTouched && !field.state.meta.isValid && (
+										<FieldError>
+											{field.state.meta.errors.map((err) => err?.message ?? '').join(', ')}
+										</FieldError>
+									)}
+								</Field>
+							)}
+						/>
 
-							<Field
-								invalid={!!errors.full_name}
-								errorText={errors.full_name?.message}
-								label='Full Name'
-							>
-								<Input
-									id='name'
-									{...register('full_name')}
-									placeholder='Full name'
-									type='text'
-								/>
-							</Field>
+						<form.Field
+							name='full_name'
+							children={(field) => (
+								<Field>
+									<FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
+									<Input
+										id={field.name}
+										name={field.name}
+										placeholder='Full name'
+										type='text'
+										value={field.state.value ?? ''}
+										onBlur={field.handleBlur}
+										onChange={(e) => field.handleChange(e.target.value)}
+									/>
+									{field.state.meta.isTouched && !field.state.meta.isValid && (
+										<FieldError>
+											{field.state.meta.errors.map((err) => err?.message ?? '').join(', ')}
+										</FieldError>
+									)}
+								</Field>
+							)}
+						/>
 
-							<Field
-								required
-								invalid={!!errors.password}
-								errorText={errors.password?.message}
-								label='Set Password'
-							>
-								<Input
-									id='password'
-									{...register('password', {
-										required: 'Password is required',
-										minLength: {
-											value: 8,
-											message: 'Password must be at least 8 characters',
-										},
-									})}
-									placeholder='Password'
-									type='password'
-								/>
-							</Field>
+						<form.Field
+							name='password'
+							children={(field) => (
+								<Field>
+									<FieldLabel htmlFor={field.name}>
+										Set Password <span className='text-destructive'>*</span>
+									</FieldLabel>
+									<PasswordInput
+										id={field.name}
+										name={field.name}
+										placeholder='Password'
+										value={field.state.value}
+										onBlur={field.handleBlur}
+										onChange={(e) => field.handleChange(e.target.value)}
+									/>
+									{field.state.meta.isTouched && !field.state.meta.isValid && (
+										<FieldError>
+											{field.state.meta.errors.map((err) => err?.message ?? '').join(', ')}
+										</FieldError>
+									)}
+								</Field>
+							)}
+						/>
 
-							<Field
-								required
-								invalid={!!errors.confirm_password}
-								errorText={errors.confirm_password?.message}
-								label='Confirm Password'
-							>
-								<Input
-									id='confirm_password'
-									{...register('confirm_password', {
-										required: 'Please confirm your password',
-										validate: (value) =>
-											value === getValues().password ||
-											'The passwords do not match',
-									})}
-									placeholder='Password'
-									type='password'
-								/>
-							</Field>
-						</VStack>
+						<form.Field
+							name='confirm_password'
+							children={(field) => (
+								<Field>
+									<FieldLabel htmlFor={field.name}>
+										Confirm Password <span className='text-destructive'>*</span>
+									</FieldLabel>
+									<PasswordInput
+										id={field.name}
+										name={field.name}
+										placeholder='Password'
+										value={field.state.value}
+										onBlur={field.handleBlur}
+										onChange={(e) => field.handleChange(e.target.value)}
+									/>
+									{field.state.meta.isTouched && !field.state.meta.isValid && (
+										<FieldError>
+											{field.state.meta.errors.map((err) => err?.message ?? '').join(', ')}
+										</FieldError>
+									)}
+								</Field>
+							)}
+						/>
 
-						<Flex mt={4} direction='column' gap={4}>
-							<Controller
-								control={control}
-								name='is_superuser'
-								render={({ field }) => (
-									<Field disabled={field.disabled} colorPalette='teal'>
-										<Checkbox
-											checked={field.value}
-											onCheckedChange={({ checked }) => field.onChange(checked)}
-										>
-											Is superuser?
-										</Checkbox>
-									</Field>
-								)}
-							/>
-							<Controller
-								control={control}
-								name='is_active'
-								render={({ field }) => (
-									<Field disabled={field.disabled} colorPalette='teal'>
-										<Checkbox
-											checked={field.value}
-											onCheckedChange={({ checked }) => field.onChange(checked)}
-										>
-											Is active?
-										</Checkbox>
-									</Field>
-								)}
-							/>
-						</Flex>
-					</DialogBody>
+						<form.Field
+							name='is_superuser'
+							children={(field) => (
+								<Field className='flex items-center gap-3'>
+									<Checkbox
+										id={field.name}
+										checked={field.state.value}
+										onCheckedChange={(checked) => field.handleChange(checked === true)}
+									/>
+									<FieldLabel htmlFor={field.name} className='font-normal'>
+										Is superuser?
+									</FieldLabel>
+								</Field>
+							)}
+						/>
 
-					<DialogFooter gap={2}>
-						<DialogActionTrigger asChild>
-							<Button
-								variant='subtle'
-								colorPalette='gray'
-								disabled={isSubmitting}
-							>
-								Cancel
-							</Button>
-						</DialogActionTrigger>
-						<Button
-							variant='solid'
-							type='submit'
-							disabled={!isValid}
-							loading={isSubmitting}
-						>
-							Save
-						</Button>
+						<form.Field
+							name='is_active'
+							children={(field) => (
+								<Field className='flex items-center gap-3'>
+									<Checkbox
+										id={field.name}
+										checked={field.state.value}
+										onCheckedChange={(checked) => field.handleChange(checked === true)}
+									/>
+									<FieldLabel htmlFor={field.name} className='font-normal'>
+										Is active?
+									</FieldLabel>
+								</Field>
+							)}
+						/>
+					</div>
+
+					<DialogFooter>
+						<DialogClose render={<Button variant='outline' disabled={mutation.isPending} />}>
+							Cancel
+						</DialogClose>
+						<form.Subscribe
+							selector={(state) => [state.canSubmit, state.isSubmitting]}
+							children={([canSubmit, isSubmitting]) => (
+								<Button type='submit' disabled={!canSubmit || mutation.isPending}>
+									{(isSubmitting || mutation.isPending) && <Spinner className='mr-2' />}
+									Save
+								</Button>
+							)}
+						/>
 					</DialogFooter>
 				</form>
-				<DialogCloseTrigger />
 			</DialogContent>
-		</DialogRoot>
+		</Dialog>
 	)
 }
 

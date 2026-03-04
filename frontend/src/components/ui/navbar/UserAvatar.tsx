@@ -1,12 +1,12 @@
-import { Avatar, AvatarGroup } from '@chakra-ui/react';
+import { Avatar, AvatarFallback, AvatarGroup, AvatarImage } from '@/components/ui/avatar'
 
 export default function UserAvatar() {
 	return (
 		<AvatarGroup>
-			<Avatar.Root>
-				<Avatar.Fallback/>
-				<Avatar.Image/>
-			</Avatar.Root>
+			<Avatar>
+				<AvatarFallback />
+				<AvatarImage />
+			</Avatar>
 		</AvatarGroup>
-	);
+	)
 }

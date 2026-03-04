@@ -226,11 +226,6 @@ Feature List
    :caption: Epics & Features
 
    e1/index
-   e2/index
-   e3/index
-   e4/index
-   e5/index
-   e6/index
 
 Related Documentation
 ---------------------

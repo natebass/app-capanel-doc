@@ -1,207 +1,109 @@
-'use client';
+import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from 'lucide-react'
+import type * as React from 'react'
 
-import type { ButtonProps, TextProps } from '@chakra-ui/react';
-import {
-	Button,
-	createContext,
-	IconButton,
-	Pagination as ChakraPagination,
-	Text,
-	usePaginationContext,
-} from '@chakra-ui/react';
-import * as React from 'react';
-import { HiChevronLeft, HiChevronRight, HiMiniEllipsisHorizontal, } from 'react-icons/hi2';
-import { LinkButton } from './link-button';
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
-interface ButtonVariantMap {
-	current: ButtonProps['variant'];
-	default: ButtonProps['variant'];
-	ellipsis: ButtonProps['variant'];
+function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
+	return (
+		<nav
+			aria-label='pagination'
+			data-slot='pagination'
+			className={cn('mx-auto flex w-full justify-center', className)}
+			{...props}
+		/>
+	)
 }
 
-type PaginationVariant = 'outline' | 'solid' | 'subtle';
-
-interface ButtonVariantContext {
-	size: ButtonProps['size'];
-	variantMap: ButtonVariantMap;
-	getHref?: (page: number) => string;
+function PaginationContent({ className, ...props }: React.ComponentProps<'ul'>) {
+	return (
+		<ul
+			data-slot='pagination-content'
+			className={cn('gap-1 flex items-center', className)}
+			{...props}
+		/>
+	)
 }
 
-const [RootPropsProvider, useRootProps] = createContext<ButtonVariantContext>({
-	name: 'RootPropsProvider',
-});
-
-export interface PaginationRootProps
-	extends Omit<ChakraPagination.RootProps, 'type'> {
-	size?: ButtonProps['size'];
-	variant?: PaginationVariant;
-	getHref?: (page: number) => string;
+function PaginationItem({ ...props }: React.ComponentProps<'li'>) {
+	return <li data-slot='pagination-item' {...props} />
 }
 
-const variantMap: Record<PaginationVariant, ButtonVariantMap> = {
-	outline: { default: 'ghost', ellipsis: 'plain', current: 'outline' },
-	solid: { default: 'outline', ellipsis: 'outline', current: 'solid' },
-	subtle: { default: 'ghost', ellipsis: 'plain', current: 'subtle' },
-};
+type PaginationLinkProps = {
+	isActive?: boolean
+} & Pick<React.ComponentProps<typeof Button>, 'size'> &
+	React.ComponentProps<'a'>
 
-export const PaginationRoot = React.forwardRef<
-	HTMLDivElement,
-	PaginationRootProps
->(function PaginationRoot(props, ref) {
-	const { size = 'sm', variant = 'outline', getHref, ...rest } = props;
+function PaginationLink({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) {
 	return (
-		<RootPropsProvider
-			value={{ size, variantMap: variantMap[variant], getHref }}
-		>
-			<ChakraPagination.Root
-				ref={ref}
-				type={getHref ? 'link' : 'button'}
-				{...rest}
-			/>
-		</RootPropsProvider>
-	);
-});
-
-export const PaginationEllipsis = React.forwardRef<
-	HTMLDivElement,
-	ChakraPagination.EllipsisProps
->(function PaginationEllipsis(props, ref) {
-	const { size, variantMap } = useRootProps();
-	return (
-		<ChakraPagination.Ellipsis ref={ref} {...props} asChild>
-			<Button as='span' variant={variantMap.ellipsis} size={size}>
-				<HiMiniEllipsisHorizontal/>
-			</Button>
-		</ChakraPagination.Ellipsis>
-	);
-});
-
-export const PaginationItem = React.forwardRef<
-	HTMLButtonElement,
-	ChakraPagination.ItemProps
->(function PaginationItem(props, ref) {
-	const { page } = usePaginationContext();
-	const { size, variantMap, getHref } = useRootProps();
-
-	const current = page === props.value;
-	const variant = current ? variantMap.current : variantMap.default;
-
-	if (getHref) {
-		return (
-			<LinkButton href={getHref(props.value)} variant={variant} size={size}>
-				{props.value}
-			</LinkButton>
-		);
-	}
-
-	return (
-		<ChakraPagination.Item ref={ref} {...props} asChild>
-			<Button variant={variant} size={size}>
-				{props.value}
-			</Button>
-		</ChakraPagination.Item>
-	);
-});
-
-export const PaginationPrevTrigger = React.forwardRef<
-	HTMLButtonElement,
-	ChakraPagination.PrevTriggerProps
->(function PaginationPrevTrigger(props, ref) {
-	const { size, variantMap, getHref } = useRootProps();
-	const { previousPage } = usePaginationContext();
-
-	if (getHref) {
-		return (
-			<LinkButton
-				href={previousPage != null ? getHref(previousPage) : undefined}
-				variant={variantMap.default}
-				size={size}
-			>
-				<HiChevronLeft/>
-			</LinkButton>
-		);
-	}
-
-	return (
-		<ChakraPagination.PrevTrigger ref={ref} asChild {...props}>
-			<IconButton variant={variantMap.default} size={size}>
-				<HiChevronLeft/>
-			</IconButton>
-		</ChakraPagination.PrevTrigger>
-	);
-});
-
-export const PaginationNextTrigger = React.forwardRef<
-	HTMLButtonElement,
-	ChakraPagination.NextTriggerProps
->(function PaginationNextTrigger(props, ref) {
-	const { size, variantMap, getHref } = useRootProps();
-	const { nextPage } = usePaginationContext();
-
-	if (getHref) {
-		return (
-			<LinkButton
-				href={nextPage != null ? getHref(nextPage) : undefined}
-				variant={variantMap.default}
-				size={size}
-			>
-				<HiChevronRight/>
-			</LinkButton>
-		);
-	}
-
-	return (
-		<ChakraPagination.NextTrigger ref={ref} asChild {...props}>
-			<IconButton variant={variantMap.default} size={size}>
-				<HiChevronRight/>
-			</IconButton>
-		</ChakraPagination.NextTrigger>
-	);
-});
-
-export const PaginationItems = (props: React.HTMLAttributes<HTMLElement>) => {
-	return (
-		<ChakraPagination.Context>
-			{({ pages }) =>
-				pages.map((page, index) => {
-					return page.type === 'ellipsis' ? (
-						<PaginationEllipsis key={index} index={index} {...props} />
-					) : (
-						<PaginationItem
-							key={index}
-							type='page'
-							value={page.value}
-							{...props}
-						/>
-					);
-				})
+		<Button
+			variant={isActive ? 'outline' : 'ghost'}
+			size={size}
+			className={cn(className)}
+			nativeButton={false}
+			render={
+				<a
+					aria-current={isActive ? 'page' : undefined}
+					data-slot='pagination-link'
+					data-active={isActive}
+					{...props}
+				/>
 			}
-		</ChakraPagination.Context>
-	);
-};
-
-interface PageTextProps extends TextProps {
-	format?: 'short' | 'compact' | 'long';
+		/>
+	)
 }
 
-export const PaginationPageText = React.forwardRef<
-	HTMLParagraphElement,
-	PageTextProps
->(function PaginationPageText(props, ref) {
-	const { format = 'compact', ...rest } = props;
-	const { page, totalPages, pageRange, count } = usePaginationContext();
-	const content = React.useMemo(() => {
-		if (format === 'short') return `${page} / ${totalPages}`;
-		if (format === 'compact') return `${page} of ${totalPages}`;
-		return `${pageRange.start + 1} - ${Math.min(
-			pageRange.end,
-			count,
-		)} of ${count}`;
-	}, [format, page, totalPages, pageRange, count]);
-
+function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
 	return (
-		<Text fontWeight='medium' ref={ref} {...rest}>
-			{content}
-		</Text>
-	);
-});
+		<PaginationLink
+			aria-label='Go to previous page'
+			size='default'
+			className={cn('pl-2!', className)}
+			{...props}
+		>
+			<ChevronLeftIcon data-icon='inline-start' />
+			<span className='hidden sm:block'>Previous</span>
+		</PaginationLink>
+	)
+}
+
+function PaginationNext({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+	return (
+		<PaginationLink
+			aria-label='Go to next page'
+			size='default'
+			className={cn('pr-2!', className)}
+			{...props}
+		>
+			<span className='hidden sm:block'>Next</span>
+			<ChevronRightIcon data-icon='inline-end' />
+		</PaginationLink>
+	)
+}
+
+function PaginationEllipsis({ className, ...props }: React.ComponentProps<'span'>) {
+	return (
+		<span
+			aria-hidden
+			data-slot='pagination-ellipsis'
+			className={cn(
+				"size-9 items-center justify-center [&_svg:not([class*='size-'])]:size-4 flex items-center justify-center",
+				className,
+			)}
+			{...props}
+		>
+			<MoreHorizontalIcon />
+			<span className='sr-only'>More pages</span>
+		</span>
+	)
+}
+
+export {
+	Pagination,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+}

@@ -1,25 +1,28 @@
-import { Checkbox as ChakraCheckbox } from '@chakra-ui/react';
-import * as React from 'react';
+'use client'
 
-export interface CheckboxProps extends ChakraCheckbox.RootProps {
-	icon?: React.ReactNode;
-	inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-	rootRef?: React.Ref<HTMLLabelElement>;
+import { Checkbox as CheckboxPrimitive } from '@base-ui/react/checkbox'
+import { CheckIcon } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
+
+function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
+	return (
+		<CheckboxPrimitive.Root
+			data-slot='checkbox'
+			className={cn(
+				'border-input dark:bg-input/30 data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary data-checked:border-primary aria-invalid:aria-checked:border-primary aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 flex size-4 items-center justify-center rounded-[4px] border shadow-xs transition-shadow group-has-disabled/field:opacity-50 focus-visible:ring-[3px] aria-invalid:ring-[3px] peer relative shrink-0 outline-none after:absolute after:-inset-x-3 after:-inset-y-2 disabled:cursor-not-allowed disabled:opacity-50',
+				className,
+			)}
+			{...props}
+		>
+			<CheckboxPrimitive.Indicator
+				data-slot='checkbox-indicator'
+				className='[&>svg]:size-3.5 grid place-content-center text-current transition-none'
+			>
+				<CheckIcon />
+			</CheckboxPrimitive.Indicator>
+		</CheckboxPrimitive.Root>
+	)
 }
 
-export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
-	function Checkbox(props, ref) {
-		const { icon, children, inputProps, rootRef, ...rest } = props;
-		return (
-			<ChakraCheckbox.Root ref={rootRef} {...rest}>
-				<ChakraCheckbox.HiddenInput ref={ref} {...inputProps} />
-				<ChakraCheckbox.Control>
-					{icon || <ChakraCheckbox.Indicator/>}
-				</ChakraCheckbox.Control>
-				{children != null && (
-					<ChakraCheckbox.Label>{children}</ChakraCheckbox.Label>
-				)}
-			</ChakraCheckbox.Root>
-		);
-	},
-);
+export { Checkbox }

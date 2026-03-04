@@ -25,7 +25,7 @@ class ComponentListDirective(SphinxDirective):
     GitHub file.
     """
 
-    name = 'component-list'
+    name = "component-list"
     has_content = True
     required_arguments = 0
     optional_arguments = 0
@@ -38,30 +38,30 @@ class ComponentListDirective(SphinxDirective):
         root = Path(__file__).parents[2]
         component_dir = (
             root
-            / 'src'
-            / 'pydata_sphinx_theme'
-            / 'theme'
-            / 'pydata_sphinx_theme'
-            / 'components'
+            / "src"
+            / "pydata_sphinx_theme"
+            / "theme"
+            / "pydata_sphinx_theme"
+            / "components"
         )
         if not component_dir.is_dir():
             raise FileNotFoundError(
-                f'Could not find component folder at {component_dir}.'
+                f"Could not find component folder at {component_dir}."
             )
-        components = sorted(component_dir.glob('*.html'))
+        components = sorted(component_dir.glob("*.html"))
 
         # create the list of all the components description using bs4
         # at the moment we use dummy information
         docs = []
-        pattern = re.compile(r'(?<={#).*?(?=#})', flags=re.DOTALL)
+        pattern = re.compile(r"(?<={#).*?(?=#})", flags=re.DOTALL)
         for c in components:
             comment = pattern.findall(c.read_text())
-            docs.append(comment[0].strip() if comment else 'No description available.')
+            docs.append(comment[0].strip() if comment else "No description available.")
 
         # get the urls from the github repo latest branch
-        github_url = 'https://github.com/pydata/pydata-sphinx-theme/blob/main'
+        github_url = "https://github.com/pydata/pydata-sphinx-theme/blob/main"
         urls = [
-            f'{github_url}/{component.relative_to(root)}' for component in components
+            f"{github_url}/{component.relative_to(root)}" for component in components
         ]
 
         # build the list of all the components
@@ -69,17 +69,17 @@ class ComponentListDirective(SphinxDirective):
         for component, url, doc in zip(components, urls, docs):
             items.append(
                 nodes.list_item(
-                    '',
+                    "",
                     nodes.paragraph(
-                        '',
-                        '',
-                        nodes.reference('', component.stem, internal=False, refuri=url),
-                        nodes.Text(f': {doc}'),
+                        "",
+                        "",
+                        nodes.reference("", component.stem, internal=False, refuri=url),
+                        nodes.Text(f": {doc}"),
                     ),
                 )
             )
 
-        return [nodes.bullet_list('', *items)]
+        return [nodes.bullet_list("", *items)]
 
 
 def setup(app: Sphinx) -> Dict[str, Any]:
@@ -91,9 +91,9 @@ def setup(app: Sphinx) -> Dict[str, Any]:
     Returns:
         the 2 parallel parameters set to ``True``.
     """
-    app.add_directive('component-list', ComponentListDirective)
+    app.add_directive("component-list", ComponentListDirective)
 
     return {
-        'parallel_read_safe': True,
-        'parallel_write_safe': True,
+        "parallel_read_safe": True,
+        "parallel_write_safe": True,
     }

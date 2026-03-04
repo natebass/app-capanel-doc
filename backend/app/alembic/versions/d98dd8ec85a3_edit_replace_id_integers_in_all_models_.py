@@ -5,9 +5,11 @@ Revises: 9c0a54914c78
 Create Date: 2024-07-19 04:08:04.000976
 
 """
-import sqlalchemy as sa
 from alembic import op
+import sqlalchemy as sa
+import sqlmodel.sql.sqltypes
 from sqlalchemy.dialects import postgresql
+
 
 # revision identifiers, used by Alembic.
 revision = 'd98dd8ec85a3'
@@ -52,7 +54,6 @@ def upgrade():
     # Recreate foreign key constraint
     op.create_foreign_key('item_owner_id_fkey', 'item', 'user', ['owner_id'], ['id'])
 
-
 def downgrade():
     # Reverse the upgrade process
     op.add_column('user', sa.Column('old_id', sa.Integer, autoincrement=True))
@@ -68,8 +69,7 @@ def downgrade():
     op.execute('SELECT setval(\'item_id_seq\', COALESCE((SELECT MAX(old_id) + 1 FROM item), 1), false)')
 
     op.execute('UPDATE "user" SET old_id = nextval(\'user_id_seq\')')
-    op.execute(
-        'UPDATE item SET old_id = nextval(\'item_id_seq\'), old_owner_id = (SELECT old_id FROM "user" WHERE "user".id = item.owner_id)')
+    op.execute('UPDATE item SET old_id = nextval(\'item_id_seq\'), old_owner_id = (SELECT old_id FROM "user" WHERE "user".id = item.owner_id)')
 
     # Drop new columns and rename old columns back
     op.drop_constraint('item_owner_id_fkey', 'item', type_='foreignkey')
