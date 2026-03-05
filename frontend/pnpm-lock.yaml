@@ -666,8 +666,8 @@ packages:
   '@fontsource-variable/urbanist@5.2.7':
     resolution: {integrity: sha512-OYeUoBQhwm3pbXG5yUxq1omO9H64Dx1eKxldKYOztrf+8GFG1vu3FP/zZpmFOwtgsPj2h6JYHX9VVWopSxvOyQ==}
 
-  '@google/genai@1.43.0':
-    resolution: {integrity: sha512-hklCsJNdMlDM1IwcCVcGQFBg2izY0+t5BIGbRsxi2UnKi6AGKL7pqJqmBDNRbw0bYCs4y3NA7TB+fkKfP/Nrdw==}
+  '@google/genai@1.44.0':
+    resolution: {integrity: sha512-kRt9ZtuXmz+tLlcNntN/VV4LRdpl6ZOu5B1KbfNgfR65db15O6sUQcwnwLka8sT/V6qysD93fWrgJHF2L7dA9A==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       '@modelcontextprotocol/sdk': ^1.25.2
@@ -5483,7 +5483,7 @@ snapshots:
 
   '@fontsource-variable/urbanist@5.2.7': {}
 
-  '@google/genai@1.43.0(@modelcontextprotocol/sdk@1.27.1(zod@4.3.6))':
+  '@google/genai@1.44.0(@modelcontextprotocol/sdk@1.27.1(zod@4.3.6))':
     dependencies:
       google-auth-library: 10.6.1
       p-retry: 4.6.2
@@ -6412,7 +6412,7 @@ snapshots:
 
   '@tanstack/ai-gemini@0.7.0(@modelcontextprotocol/sdk@1.27.1(zod@4.3.6))(@tanstack/ai@0.6.1)':
     dependencies:
-      '@google/genai': 1.43.0(@modelcontextprotocol/sdk@1.27.1(zod@4.3.6))
+      '@google/genai': 1.44.0(@modelcontextprotocol/sdk@1.27.1(zod@4.3.6))
       '@tanstack/ai': 0.6.1
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
