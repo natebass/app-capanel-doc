@@ -25,6 +25,12 @@ Learn how to build and run the application locally.
    deployment
 
 .. toctree::
+   :caption: Security and Maintenance
+   :maxdepth: 2
+
+   security
+
+.. toctree::
    :caption: Documentation
    :maxdepth: 2
 
