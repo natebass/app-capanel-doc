@@ -8,8 +8,6 @@ The general application and Python documentation uses Sphinx. This is where most
 
 **Important:** This is the **documentation repository only**. The actual web application is in a **separate repository**.
 
-
-
 ### Key Differences
 
 - 📚 **app-capanel-doc** = Documentation website (Sphinx-generated HTML pages)

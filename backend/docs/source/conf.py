@@ -1,6 +1,6 @@
 import os
 import sys
-from typing import Any, Dict
+from typing import Any
 
 from sphinx.application import Sphinx
 
@@ -100,7 +100,7 @@ def setup_to_main(
     context["to_main"] = to_main
 
 
-def setup(sphinxApp: Sphinx) -> Dict[str, Any]:
+def setup(sphinxApp: Sphinx) -> dict[str, Any]:
     """Add custom configuration to the Sphinx app.
 
     Args:

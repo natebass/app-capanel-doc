@@ -1,6 +1,7 @@
 import os
 import secrets
 import warnings
+from pathlib import Path
 from typing import Annotated, Any, Literal
 from urllib.parse import quote_plus
 
@@ -31,7 +32,7 @@ class Settings(BaseSettings):
     """
 
     model_config = SettingsConfigDict(
-        env_file="../.env",
+        env_file=str(Path(__file__).resolve().parents[3] / ".env"),
         env_ignore_empty=True,
         extra="ignore",
     )
@@ -113,10 +114,6 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def _enforce_non_default_secrets(self) -> Self:
         self._check_default_secret("SECRET_KEY", self.SECRET_KEY)
-        self._check_default_secret(
-            "FIRST_SUPERUSER_PASSWORD", self.FIRST_SUPERUSER_PASSWORD
-        )
-
         return self
 
     @model_validator(mode="after")

@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 
-from app.scripts.script_utils import ScriptError, env_required, yaml_escape
+from app.scripts.gcp.gcp_utils import ScriptError, env_required, yaml_escape
 
 
 @dataclass(frozen=True)
@@ -115,16 +115,6 @@ ${network_annotations}    spec:
             secretKeyRef:
               key: latest
               name: capanel-secret-key
-        - name: FIRST_SUPERUSER
-          valueFrom:
-            secretKeyRef:
-              key: latest
-              name: capanel-superuser-email
-        - name: FIRST_SUPERUSER_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: latest
-              name: capanel-superuser-password
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:

@@ -224,6 +224,13 @@ def test_update_user_me(
 def test_update_password_me(
     client: TestClient, superuser_token_headers: dict[str, str], db: Session
 ) -> None:
+    user_query = select(User).where(User.email == settings.FIRST_SUPERUSER)
+    user_db = db.exec(user_query).first()
+    assert user_db
+    user_db.force_password_reset = True
+    db.add(user_db)
+    db.commit()
+
     new_password = random_lower_string()
     data = {
         "current_password": settings.FIRST_SUPERUSER_PASSWORD,
@@ -238,12 +245,12 @@ def test_update_password_me(
     updated_user = r.json()
     assert updated_user["message"] == "Password updated successfully"
 
-    user_query = select(User).where(User.email == settings.FIRST_SUPERUSER)
     user_db = db.exec(user_query).first()
     assert user_db
     assert user_db.email == settings.FIRST_SUPERUSER
     verified, _ = verify_password(new_password, user_db.hashed_password)
     assert verified
+    assert user_db.force_password_reset is False
 
     # Revert to the old password to keep consistency in test
     old_data = {

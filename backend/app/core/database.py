@@ -1,3 +1,5 @@
+import os
+
 from sqlmodel import Session, create_engine, select
 
 from app.core.config import settings
@@ -11,6 +13,12 @@ def init_db(session: Session) -> None:
     """
     Creates one superuser.
     """
+    if settings.ENVIRONMENT == "production" and (
+        "FIRST_SUPERUSER" not in os.environ
+        or "FIRST_SUPERUSER_PASSWORD" not in os.environ
+    ):
+        return
+
     user = session.exec(
         select(User).where(User.email == settings.FIRST_SUPERUSER)
     ).first()

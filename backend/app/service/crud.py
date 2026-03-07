@@ -21,11 +21,13 @@ def create_user(*, session: Session, user_create: UserCreate) -> User:
 
 def update_user(*, session: Session, db_user: User, user_in: UserUpdate) -> Any:
     user_data = user_in.model_dump(exclude_unset=True)
-    extra_data = {}
+    extra_data: dict[str, Any] = {}
     if "password" in user_data:
         password = user_data["password"]
         hashed_password = get_password_hash(password)
         extra_data["hashed_password"] = hashed_password
+        # A successful password update clears forced-reset state.
+        extra_data["force_password_reset"] = False
     db_user.sqlmodel_update(user_data, update=extra_data)
     session.add(db_user)
     session.commit()

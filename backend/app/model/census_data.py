@@ -1,6 +1,6 @@
 import uuid
 
-from sqlmodel import Field, SQLModel, Session, col
+from sqlmodel import Field, Session, SQLModel, col
 
 
 class CensusDataBase(SQLModel):

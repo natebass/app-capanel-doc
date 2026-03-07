@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import argparse
 import os
 import sys
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
-from app.scripts.script_utils import (
+from app.scripts.gcp.gcp_utils import (
     GcpDefaults,
     ScriptError,
     compute_paths,
@@ -48,6 +49,8 @@ class DeployConfig:
     backend_init_job: str
     init_trigger_function_name: str
     backend_init_job_task_timeout: str
+    backend_init_job_parallelism: str
+    backend_init_job_max_retries: str
     backend_init_job_cpu: str
     backend_init_job_memory: str
     init_trigger_function_timeout: str
@@ -118,12 +121,14 @@ def build_config(defaults: GcpDefaults) -> DeployConfig:
         "INIT_TRIGGER_FUNCTION_NAME", f"{full_service}-init-trigger"
     )
     backend_init_job_task_timeout = env_or("BACKEND_INIT_JOB_TASK_TIMEOUT", "7200s")
+    backend_init_job_parallelism = env_or("BACKEND_INIT_JOB_PARALLELISM", "1")
+    backend_init_job_max_retries = env_or("BACKEND_INIT_JOB_MAX_RETRIES", "0")
     backend_init_job_cpu = env_or("BACKEND_INIT_JOB_CPU", "4")
     backend_init_job_memory = env_or("BACKEND_INIT_JOB_MEMORY", "8Gi")
     init_trigger_function_timeout = env_or("INIT_TRIGGER_FUNCTION_TIMEOUT", "3600s")
     job_step_timeout_seconds = env_or("JOB_STEP_TIMEOUT_SECONDS", "7200")
     job_poll_interval_seconds = env_or("JOB_POLL_INTERVAL_SECONDS", "10")
-    source_dir = paths.backend_dir / "app/scripts/functions/manual_backend_init"
+    source_dir = paths.backend_dir / "app/scripts/gcp/functions/manual_backend_init"
     environment = "production"
     frontend_host = env_or(
         "FRONTEND_HOST_PRODUCTION", defaults.frontend_host_production
@@ -165,6 +170,8 @@ def build_config(defaults: GcpDefaults) -> DeployConfig:
         backend_init_job=backend_init_job,
         init_trigger_function_name=init_trigger_function_name,
         backend_init_job_task_timeout=backend_init_job_task_timeout,
+        backend_init_job_parallelism=backend_init_job_parallelism,
+        backend_init_job_max_retries=backend_init_job_max_retries,
         backend_init_job_cpu=backend_init_job_cpu,
         backend_init_job_memory=backend_init_job_memory,
         init_trigger_function_timeout=init_trigger_function_timeout,
@@ -297,6 +304,10 @@ def deploy_init_job(cfg: DeployConfig) -> None:
                 cfg.run_service_account_email,
                 "--task-timeout",
                 cfg.backend_init_job_task_timeout,
+                "--parallelism",
+                cfg.backend_init_job_parallelism,
+                "--max-retries",
+                cfg.backend_init_job_max_retries,
                 "--cpu",
                 cfg.backend_init_job_cpu,
                 "--memory",
@@ -312,14 +323,12 @@ def deploy_init_job(cfg: DeployConfig) -> None:
                 "--command",
                 "python",
                 "--args",
-                "app/scripts/initial_data.py",
+                "app/scripts/cde/run_import_pipeline.py",
                 "--env-vars-file",
                 str(env_file),
                 "--set-secrets",
                 "POSTGRES_PASSWORD=capanel-postgres-password:latest,"
-                "SECRET_KEY=capanel-secret-key:latest,"
-                "FIRST_SUPERUSER=capanel-superuser-email:latest,"
-                "FIRST_SUPERUSER_PASSWORD=capanel-superuser-password:latest",
+                "SECRET_KEY=capanel-secret-key:latest",
             ]
         )
     finally:
@@ -342,7 +351,7 @@ def deploy_init_job(cfg: DeployConfig) -> None:
     )
 
 
-def deploy_trigger_function(cfg: DeployConfig) -> None:
+def deploy_trigger_function(cfg: DeployConfig) -> str:
     if not cfg.init_trigger_function_source_dir.is_dir():
         msg = f"Function source directory not found: {cfg.init_trigger_function_source_dir}"
         raise ScriptError(msg)
@@ -355,7 +364,7 @@ def deploy_trigger_function(cfg: DeployConfig) -> None:
             cfg.init_trigger_function_name,
             "--gen2",
             "--runtime",
-            "python312",
+            "python314",
             "--region",
             cfg.region,
             "--timeout",
@@ -377,6 +386,52 @@ def deploy_trigger_function(cfg: DeployConfig) -> None:
             f"JOB_POLL_INTERVAL_SECONDS={cfg.job_poll_interval_seconds}",
         ]
     )
+
+    return run_command(
+        [
+            "gcloud",
+            "functions",
+            "describe",
+            cfg.init_trigger_function_name,
+            "--region",
+            cfg.region,
+            "--gen2",
+            "--format=value(serviceConfig.uri)",
+        ],
+        capture_output=True,
+    ).stdout.strip()
+
+
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Build and deploy CAPanel Cloud Run resources. "
+            "Default deploys all resources."
+        )
+    )
+    parser.add_argument(
+        "env_file",
+        nargs="?",
+        help="Optional path to environment file (defaults to script resolution).",
+    )
+    mode_group = parser.add_mutually_exclusive_group()
+    mode_group.add_argument(
+        "--init-trigger-only",
+        action="store_true",
+        help=(
+            "Deploy only backend init resources "
+            "(backend image + init job + init trigger function)."
+        ),
+    )
+    mode_group.add_argument(
+        "--full-only",
+        action="store_true",
+        help=(
+            "Deploy only full service resources "
+            "(backend image + frontend image + combined Cloud Run service)."
+        ),
+    )
+    return parser.parse_args(argv)
 
 
 def build_frontend_image(cfg: DeployConfig) -> None:
@@ -424,6 +479,7 @@ def build_frontend_image(cfg: DeployConfig) -> None:
 def deploy_combined_service(cfg: DeployConfig) -> tuple[str, str]:
     with tempfile.NamedTemporaryFile("w", delete=False) as tmp:
         rendered_path = Path(tmp.name)
+    render_script = Path(__file__).resolve().parent / "render_cloud_run_service.py"
 
     try:
         env = os.environ.copy()
@@ -452,10 +508,20 @@ def deploy_combined_service(cfg: DeployConfig) -> tuple[str, str]:
         )
 
         rendered = run_command(
-            ["python", "app/scripts/render_cloud_run_service.py"],
+            ["python", str(render_script)],
             env=env,
             capture_output=True,
+            check=False,
         )
+        if rendered.returncode != 0:
+            details = (rendered.stderr or rendered.stdout or "").strip()
+            msg = (
+                "Failed to render Cloud Run service YAML via "
+                f"{render_script} (exit {rendered.returncode})."
+            )
+            if details:
+                msg = f"{msg}\n{details}"
+            raise ScriptError(msg)
         rendered_path.write_text(rendered.stdout)
 
         run_command(
@@ -518,7 +584,8 @@ def deploy_combined_service(cfg: DeployConfig) -> tuple[str, str]:
 
 
 def main() -> int:
-    env_path = resolve_env_file(__file__, sys.argv[1] if len(sys.argv) > 1 else None)
+    args = parse_args(sys.argv[1:])
+    env_path = resolve_env_file(__file__, args.env_file)
     print(f"Loading environment from {env_path}")
     load_env_file(env_path)
     defaults = load_gcp_defaults(__file__)
@@ -576,6 +643,35 @@ def main() -> int:
             ]
         )
 
+    deploy_init_only = args.init_trigger_only
+    deploy_full_only = args.full_only
+
+    if deploy_init_only:
+        print("Deploy mode: init-trigger-only")
+        build_backend_image(cfg)
+        deploy_init_job(cfg)
+        function_url = deploy_trigger_function(cfg)
+        print(f"Manual init trigger URL: {function_url}")
+        print("Invoke with:")
+        print(
+            'curl -X POST -H "Authorization: Bearer '
+            '$(gcloud auth print-identity-token)" '
+            f'"{function_url}"'
+        )
+        print("Done.")
+        return 0
+
+    if deploy_full_only:
+        print("Deploy mode: full-only")
+        build_backend_image(cfg)
+        build_frontend_image(cfg)
+        full_service_url, function_url = deploy_combined_service(cfg)
+        print(f"Full service URL: {full_service_url}")
+        print(f"Manual init trigger URL (existing): {function_url}")
+        print("Done.")
+        return 0
+
+    print("Deploy mode: all")
     build_backend_image(cfg)
     deploy_init_job(cfg)
     deploy_trigger_function(cfg)

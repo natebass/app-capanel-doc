@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from pathlib import Path
-
-from app.scripts.script_utils import ScriptError, compute_paths, run_command
+from app.scripts.gcp.gcp_utils import ScriptError, compute_paths, run_command
 
 
 def main() -> int:

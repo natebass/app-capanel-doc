@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import sys
+from pathlib import Path
 
-from app.scripts.script_utils import (
+from app.scripts.gcp.gcp_utils import (
     ScriptError,
     env_required,
     load_env_file,
@@ -10,6 +11,11 @@ from app.scripts.script_utils import (
     resolve_env_file,
     run_command,
 )
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+BACKEND_DIR = SCRIPT_DIR.parents[1]
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(BACKEND_DIR))
 
 
 def main() -> int:
@@ -21,16 +27,12 @@ def main() -> int:
     run_service_account = env_required("RUN_SERVICE_ACCOUNT")
     cloud_sql_password = env_required("CLOUD_SQL_PASSWORD")
     secret_key = env_required("SECRET_KEY")
-    first_superuser = env_required("FIRST_SUPERUSER")
-    first_superuser_password = env_required("FIRST_SUPERUSER_PASSWORD")
 
     run_sa_email = f"{run_service_account}@{project_id}.iam.gserviceaccount.com"
 
     secrets = {
         "capanel-postgres-password": cloud_sql_password,
         "capanel-secret-key": secret_key,
-        "capanel-superuser-email": first_superuser,
-        "capanel-superuser-password": first_superuser_password,
     }
 
     log("create-secrets", "Enabling Secret Manager API")

@@ -3,14 +3,14 @@ import os
 import time
 from typing import Any, TypedDict, cast
 
-import google.auth  # type: ignore[import-not-found]
-from google.auth.transport.requests import (  # type: ignore[import-not-found]
+import google.auth
+from google.auth.transport.requests import (
     AuthorizedSession,
 )
 
-
 MODES = {
     "full",
+    "migrate_only",
     "initial_data",
     "import_ela_data",
     "import_indicators",
@@ -50,29 +50,43 @@ def _discover_indicator_paths(
     base_path = base_path.rstrip("/") or base_path
     discovered: list[str] = []
 
+    def _get_year_folders(base: str, src: str) -> list[str]:
+        found: list[str] = []
+        if os.path.isdir(base):
+            try:
+                for entry in sorted(os.listdir(base)):
+                    child = os.path.join(base, entry)
+                    if not os.path.isdir(child):
+                        continue
+                    if any(_is_year_folder(entry, year, src) for year in years):
+                        found.append(child)
+            except OSError:
+                pass
+        return found
+
     # If a specific year folder is already provided, keep it.
     base_name = os.path.basename(base_path)
     if any(_is_year_folder(base_name, year, source) for year in years):
-        return [base_path]
+        discovered = [base_path]
+    elif os.path.isdir(base_path):
+        # Discover for primary source
+        discovered.extend(_get_year_folders(base_path, source))
 
-    # Scan immediate children when the base path exists.
-    if os.path.isdir(base_path):
-        try:
-            for entry in sorted(os.listdir(base_path)):
-                child = os.path.join(base_path, entry)
-                if not os.path.isdir(child):
-                    continue
-                if any(_is_year_folder(entry, year, source) for year in years):
-                    discovered.append(child)
-        except OSError:
-            pass
+        # If source is 'state', also discover 'cde' folders
+        if source == "state":
+            discovered.extend(_get_year_folders(base_path, "cde"))
 
     # If nothing was found, fallback to expected year-folder names under resources_path.
     if not discovered:
         root = resources_path.rstrip("/") or resources_path
-        prefix = "cde" if source == "cde" else "california-state"
-        for year in years:
-            discovered.append(f"{root}/{prefix}-{year}")
+        sources = [source]
+        if source == "state":
+            sources.append("cde")
+
+        for s in sources:
+            prefix = "cde" if s == "cde" else "california-state"
+            for year in years:
+                discovered.append(f"{root}/{prefix}-{year}")
 
     # Deduplicate while preserving order.
     deduped: list[str] = []
@@ -93,6 +107,29 @@ def _env_int(name: str, default: int) -> int:
         return int(raw)
     except ValueError:
         return default
+
+
+def _parse_bool(name: str, raw: Any, *, default: bool) -> bool:
+    if raw is None:
+        return default
+    if isinstance(raw, bool):
+        return raw
+    if isinstance(raw, str):
+        normalized = raw.strip().lower()
+        if normalized in {"1", "true", "t", "yes", "y", "on"}:
+            return True
+        if normalized in {"0", "false", "f", "no", "n", "off"}:
+            return False
+    if isinstance(raw, (int, float)):
+        return bool(raw)
+    raise ValueError(f"{name} must be a boolean.")
+
+
+def _parse_positive_int(name: str, raw: Any, *, default: int) -> int:
+    value = default if raw is None else int(raw)
+    if value <= 0:
+        raise ValueError(f"{name} must be > 0.")
+    return value
 
 
 DEFAULT_STEP_TIMEOUT_SECONDS = _env_int("JOB_STEP_TIMEOUT_SECONDS", 7200)
@@ -179,12 +216,48 @@ def _start_job(
     return str(operation_name)
 
 
+# Modes that run alembic migrations (and possibly seed initial data) require
+# explicit confirmation to prevent accidental schema changes in production.
+_DESTRUCTIVE_MODES = {"full", "initial_data", "migrate_only"}
+
+
 def _build_pipeline_args(
     request_json: dict[str, Any],
 ) -> tuple[list[str], dict[str, Any]]:
     mode = str(request_json.get("mode", "both_imports")).strip()
     if mode not in MODES:
-        raise ValueError(f"Invalid mode: {mode}")
+        raise ValueError(f"Invalid mode: {mode}. Allowed: {sorted(MODES)}")
+
+    # Destructive modes (alembic + seed) require an explicit opt-in flag.
+    if mode in _DESTRUCTIVE_MODES:
+        confirm = _parse_bool(
+            "confirm_destructive",
+            request_json.get("confirm_destructive"),
+            default=False,
+        )
+        if not confirm:
+            raise ValueError(
+                f"mode='{mode}' runs database migrations. "
+                'Set "confirm_destructive": true to proceed.'
+            )
+
+    # overwrite=true permanently replaces existing DB rows — require explicit opt-in.
+    overwrite_raw = request_json.get("overwrite")
+    if overwrite_raw is not None:
+        overwrite = _parse_bool("overwrite", overwrite_raw, default=False)
+        if overwrite:
+            confirm_overwrite = _parse_bool(
+                "confirm_overwrite",
+                request_json.get("confirm_overwrite"),
+                default=False,
+            )
+            if not confirm_overwrite:
+                raise ValueError(
+                    "overwrite=true will permanently replace existing DB rows. "
+                    'Set "confirm_overwrite": true to proceed.'
+                )
+    else:
+        overwrite = False
 
     gcs_uri = str(
         request_json.get("gcs_uri", "gs://ca-panel-001-resources/resources")
@@ -198,6 +271,8 @@ def _build_pipeline_args(
         years = [str(y).strip() for y in years_raw if str(y).strip()]
     else:
         years = [y.strip() for y in str(years_raw).split(",") if y.strip()]
+    if not years:
+        years = ["2024", "2025"]
 
     default_ela_year = years[-1] if years else "2025"
     default_ela_file = (
@@ -215,7 +290,7 @@ def _build_pipeline_args(
         ela_files = []
 
     indicators_source = _normalize_indicators_source(
-        str(request_json.get("indicators_source", "cde"))
+        str(request_json.get("indicators_source", "state"))
     )
     indicators_path = str(request_json.get("indicators_path", resources_path)).strip()
     indicators_paths = _discover_indicator_paths(
@@ -224,11 +299,15 @@ def _build_pipeline_args(
         source=indicators_source,
         indicators_path=indicators_path,
     )
-    batch_size = int(request_json.get("batch_size", 1000))
+    batch_size = _parse_positive_int(
+        "batch_size", request_json.get("batch_size"), default=5000
+    )
     indicator = str(request_json.get("indicator", "")).strip()
+    # overwrite already parsed and validated above.
+    skip_sync = _parse_bool("skip_sync", request_json.get("skip_sync"), default=False)
 
     args: list[str] = [
-        "app/scripts/run_import_pipeline.py",
+        "app/scripts/cde/run_import_pipeline.py",
         "--mode",
         mode,
         "--gcs-uri",
@@ -248,6 +327,10 @@ def _build_pipeline_args(
         "--batch-size",
         str(batch_size),
     ]
+    if overwrite:
+        args.append("--overwrite")
+    if skip_sync:
+        args.append("--skip-sync")
     if ela_files:
         args.extend(["--ela-files", ",".join(ela_files)])
     if indicator:
@@ -264,6 +347,11 @@ def _build_pipeline_args(
         "indicators_path": indicators_path,
         "indicators_paths": indicators_paths,
         "batch_size": batch_size,
+        "overwrite": overwrite,
+        "skip_sync": skip_sync,
+        # Echo confirmation flags so callers can audit what was acknowledged.
+        "confirm_destructive": mode in _DESTRUCTIVE_MODES,
+        "confirm_overwrite": overwrite,
     }
     if indicator:
         request_summary["indicator"] = indicator
@@ -298,26 +386,29 @@ def trigger_backend_init(request: Any) -> tuple[str, int, dict[str, str]]:
     except Exception as exc:
         return _response(400, {"error": f"Invalid request: {exc}"})
 
-    wait_for_completion = bool(request_json.get("wait_for_completion", False))
     try:
-        step_timeout_seconds = int(
-            request_json.get("step_timeout_seconds", DEFAULT_STEP_TIMEOUT_SECONDS)
+        wait_for_completion = _parse_bool(
+            "wait_for_completion",
+            request_json.get("wait_for_completion"),
+            default=False,
         )
-        poll_interval_seconds = int(
-            request_json.get("poll_interval_seconds", DEFAULT_POLL_INTERVAL_SECONDS)
+        step_timeout_seconds = _parse_positive_int(
+            "step_timeout_seconds",
+            request_json.get("step_timeout_seconds"),
+            default=DEFAULT_STEP_TIMEOUT_SECONDS,
         )
-    except (TypeError, ValueError):
-        return _response(
-            400,
-            {
-                "error": "step_timeout_seconds and poll_interval_seconds must be integers.",
-            },
+        poll_interval_seconds = _parse_positive_int(
+            "poll_interval_seconds",
+            request_json.get("poll_interval_seconds"),
+            default=DEFAULT_POLL_INTERVAL_SECONDS,
         )
+    except ValueError as exc:
+        return _response(400, {"error": str(exc)})
 
     credentials, _ = google.auth.default(
         scopes=["https://www.googleapis.com/auth/cloud-platform"]
     )
-    session = AuthorizedSession(credentials)
+    session = AuthorizedSession(credentials)  # type: ignore[no-untyped-call]
 
     try:
         operation_name = _start_job(

@@ -32,6 +32,7 @@ class UserRegister(SQLModel):
 class UserUpdate(UserBase):
     email: EmailStr | None = Field(default=None, max_length=255)  # type: ignore
     password: str | None = Field(default=None, min_length=8, max_length=128)
+    force_password_reset: bool | None = None
 
 
 class UserUpdateMe(SQLModel):
@@ -54,11 +55,13 @@ class User(UserBase, table=True):
     items: list["Item"] = Relationship(back_populates="owner", cascade_delete=True)
     # User preferences
     last_viewed_cds: str | None = Field(default=None, max_length=14)
+    force_password_reset: bool = Field(default=False)
 
 
 class UserPublic(UserBase):
     id: uuid.UUID
     created_at: datetime | None = None
+    force_password_reset: bool = False
 
 
 class UsersPublic(SQLModel):
@@ -75,3 +78,8 @@ class UserPreferencesUpdate(SQLModel):
 class NewPassword(SQLModel):
     token: str
     new_password: str = Field(min_length=8, max_length=128)
+
+
+class ForcePasswordResetRequest(SQLModel):
+    emails: list[EmailStr] = Field(default_factory=list)
+    include_all_active_users: bool = False

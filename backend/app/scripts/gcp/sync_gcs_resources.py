@@ -27,19 +27,52 @@ def parse_gs_uri(uri: str) -> tuple[str, str]:
     return bucket, normalized_prefix
 
 
-def get_access_token(client: httpx.Client) -> str:
-    response = client.get(
-        METADATA_URL,
-        headers={"Metadata-Flavor": "Google"},
-        timeout=10.0,
+def _get_token_from_adc() -> str:
+    """Obtain a bearer token via Application Default Credentials (local dev)."""
+    try:
+        import google.auth
+        import google.auth.transport.requests
+    except ImportError as exc:
+        msg = "google-auth is not installed. Run: pip install google-auth"
+        raise RuntimeError(msg) from exc
+
+    credentials, _ = google.auth.default(
+        scopes=["https://www.googleapis.com/auth/devstorage.read_only"]
     )
-    response.raise_for_status()
-    payload = response.json()
-    token = payload.get("access_token")
-    if not token:
-        msg = "Metadata server response did not include access_token."
+    request = google.auth.transport.requests.Request()
+    credentials.refresh(request)  # type: ignore[no-untyped-call]
+    if not credentials.token:
+        msg = "ADC did not return an access token."
         raise RuntimeError(msg)
-    return str(token)
+    return str(credentials.token)
+
+
+def get_access_token(client: httpx.Client) -> str:
+    """Return a GCS bearer token.
+
+    Tries the GCE metadata server first (works inside Cloud Run / GCE).
+    Falls back to Application Default Credentials when running locally.
+    """
+    try:
+        response = client.get(
+            METADATA_URL,
+            headers={"Metadata-Flavor": "Google"},
+            timeout=3.0,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        token = payload.get("access_token")
+        if not token:
+            msg = "Metadata server response did not include access_token."
+            raise RuntimeError(msg)
+        return str(token)
+    except (httpx.ConnectError, httpx.TimeoutException):
+        print(
+            "[sync_gcs_resources] GCE metadata server unreachable; "
+            "falling back to Application Default Credentials.",
+            flush=True,
+        )
+        return _get_token_from_adc()
 
 
 def list_objects(

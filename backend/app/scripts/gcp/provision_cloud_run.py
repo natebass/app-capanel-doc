@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sys
 
-from app.scripts.script_utils import (
+from app.scripts.gcp.gcp_utils import (
     ScriptError,
     env_or,
     env_required,

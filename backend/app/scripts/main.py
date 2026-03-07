@@ -3,11 +3,10 @@ import os
 import time
 from typing import Any, TypedDict, cast
 
-import google.auth  # type: ignore[import-not-found]
-from google.auth.transport.requests import (  # type: ignore[import-not-found]
+import google.auth
+from google.auth.transport.requests import (
     AuthorizedSession,
 )
-
 
 MODES = {
     "full",
@@ -31,6 +30,22 @@ def _env_int(name: str, default: int) -> int:
         return int(raw)
     except ValueError:
         return default
+
+
+def _parse_bool(raw: Any, default: bool = False) -> bool:
+    if raw is None:
+        return default
+    if isinstance(raw, bool):
+        return raw
+    if isinstance(raw, (int, float)):
+        return bool(raw)
+    if isinstance(raw, str):
+        normalized = raw.strip().lower()
+        if normalized in {"1", "true", "t", "yes", "y", "on"}:
+            return True
+        if normalized in {"0", "false", "f", "no", "n", "off"}:
+            return False
+    raise ValueError("must be a boolean")
 
 
 DEFAULT_STEP_TIMEOUT_SECONDS = _env_int("JOB_STEP_TIMEOUT_SECONDS", 7200)
@@ -167,6 +182,8 @@ def _build_steps(
     indicators_source: str,
     indicators_path: str,
     batch_size: int,
+    overwrite: bool,
+    skip_sync: bool,
     indicator: str,
     years: list[str],
 ) -> list[Step]:
@@ -181,7 +198,7 @@ def _build_steps(
     sync_step: Step = {
         "name": "sync_gcs_resources",
         "args": [
-            "app/scripts/sync_gcs_resources.py",
+            "app/scripts/gcp/sync_gcs_resources.py",
             "--uri",
             gcs_uri,
             "--dest",
@@ -190,12 +207,17 @@ def _build_steps(
     }
     import_ela_step: Step = {
         "name": "import_ela_data",
-        "args": ["app/scripts/import_ela_data.py", ela_file],
+        "args": [
+            "app/scripts/cde/import_ela_data.py",
+            ela_file,
+            "--batch-size",
+            str(batch_size),
+        ],
     }
     import_indicators_step: Step = {
         "name": "import_indicators",
         "args": [
-            "app/scripts/import_indicators.py",
+            "app/scripts/cde/import_indicators.py",
             "--source",
             indicators_source,
             "--path",
@@ -208,26 +230,40 @@ def _build_steps(
         import_indicators_step["args"].extend(["--indicator", indicator])
     if years:
         import_indicators_step["args"].extend(["--years", ",".join(years)])
+    if overwrite:
+        import_ela_step["args"].append("--overwrite")
+        import_indicators_step["args"].append("--overwrite")
 
     if mode == "initial_data":
         return [migrate_step, initial_data_step]
     if mode == "import_ela_data":
-        return [sync_step, import_ela_step]
+        return [import_ela_step] if skip_sync else [sync_step, import_ela_step]
     if mode == "import_indicators":
-        return [sync_step, import_indicators_step]
+        return (
+            [import_indicators_step]
+            if skip_sync
+            else [sync_step, import_indicators_step]
+        )
     if mode == "both_imports":
         ela_steps: list[Step] = []
         for i, current_ela_file in enumerate(ela_files):
             ela_steps.append(
                 {
                     "name": f"import_ela_data_{i + 1}",
-                    "args": ["app/scripts/import_ela_data.py", current_ela_file],
+                    "args": [
+                        "app/scripts/cde/import_ela_data.py",
+                        current_ela_file,
+                        "--batch-size",
+                        str(batch_size),
+                    ],
                 }
             )
+            if overwrite:
+                ela_steps[-1]["args"].append("--overwrite")
         import_indicators_all_step: Step = {
             "name": "import_indicators_all_files",
             "args": [
-                "app/scripts/import_indicators.py",
+                "app/scripts/cde/import_indicators.py",
                 "--source",
                 indicators_source,
                 "--path",
@@ -241,7 +277,18 @@ def _build_steps(
             import_indicators_all_step["args"].extend(["--indicator", indicator])
         if years:
             import_indicators_all_step["args"].extend(["--years", ",".join(years)])
+        if overwrite:
+            import_indicators_all_step["args"].append("--overwrite")
+        if skip_sync:
+            return [*ela_steps, import_indicators_all_step]
         return [sync_step, *ela_steps, import_indicators_all_step]
+    if skip_sync:
+        return [
+            migrate_step,
+            initial_data_step,
+            import_ela_step,
+            import_indicators_step,
+        ]
     return [
         migrate_step,
         initial_data_step,
@@ -332,6 +379,14 @@ def trigger_backend_init(request: Any) -> tuple[str, int, dict[str, str]]:
     if poll_interval_seconds <= 0:
         return _response(400, {"error": "poll_interval_seconds must be > 0."})
     indicator = str(request_json.get("indicator", "")).strip()
+    try:
+        overwrite = _parse_bool(request_json.get("overwrite"), False)
+    except ValueError:
+        return _response(400, {"error": "overwrite must be a boolean."})
+    try:
+        skip_sync = _parse_bool(request_json.get("skip_sync"), False)
+    except ValueError:
+        return _response(400, {"error": "skip_sync must be a boolean."})
 
     if not gcs_uri.startswith("gs://"):
         return _response(400, {"error": "gcs_uri must start with gs://"})
@@ -339,7 +394,7 @@ def trigger_backend_init(request: Any) -> tuple[str, int, dict[str, str]]:
     credentials, _ = google.auth.default(
         scopes=["https://www.googleapis.com/auth/cloud-platform"]
     )
-    session = AuthorizedSession(credentials)
+    session = AuthorizedSession(credentials)  # type: ignore[no-untyped-call]
 
     steps = _build_steps(
         mode=mode,
@@ -350,6 +405,8 @@ def trigger_backend_init(request: Any) -> tuple[str, int, dict[str, str]]:
         indicators_source=indicators_source,
         indicators_path=indicators_path,
         batch_size=batch_size,
+        overwrite=overwrite,
+        skip_sync=skip_sync,
         indicator=indicator,
         years=years,
     )
@@ -389,6 +446,8 @@ def trigger_backend_init(request: Any) -> tuple[str, int, dict[str, str]]:
             "resources_path": resources_path,
             "years": years,
             "ela_files": ela_files,
+            "overwrite": overwrite,
+            "skip_sync": skip_sync,
             "step_timeout_seconds": step_timeout_seconds,
             "poll_interval_seconds": poll_interval_seconds,
             "status": "completed",

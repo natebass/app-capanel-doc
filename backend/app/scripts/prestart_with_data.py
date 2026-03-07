@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from app.scripts import prestart
-from app.scripts.script_utils import ScriptError, log
+from app.scripts.gcp.gcp_utils import ScriptError, log
 
 
 def main() -> int:

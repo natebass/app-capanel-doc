@@ -1,5 +1,5 @@
 """
-Indicator data importers for California School Dashboard.
+Indicator data cde for California School Dashboard.
 
 This package provides parsers for importing accountability indicator data
 from various sources:

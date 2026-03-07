@@ -26,6 +26,11 @@ class BaseIndicatorParser(ABC):
     INDICATOR: str = ""
     BATCH_SIZE: int = 1000
 
+    # Maps raw indicator values from source files to canonical names.
+    INDICATOR_NORMALIZE: dict[str, str] = {
+        "CHRO": "CHRONIC",
+    }
+
     # Common fields across all indicators
     COMMON_MAPPING = {
         "cds": "cds",
@@ -186,6 +191,10 @@ class BaseIndicatorParser(ABC):
                     )
 
         # Ensure CDS code is padded to 14 characters
+        # Handle statewide aggregate (rtype = 'X') where CDS might be missing/empty in Excel
+        if not record_data.get("cds") and record_data.get("rtype") == "X":
+            record_data["cds"] = "00000000000000"
+
         if record_data.get("cds"):
             cds = str(record_data["cds"]).strip()
             # Remove any decimal points (e.g., "0.0" -> "0")
@@ -202,6 +211,10 @@ class BaseIndicatorParser(ABC):
             record_data["rtype"] = "S"
         if not record_data.get("indicator"):
             record_data["indicator"] = self.INDICATOR
+        else:
+            record_data["indicator"] = self.INDICATOR_NORMALIZE.get(
+                record_data["indicator"], record_data["indicator"]
+            )
         if not record_data.get("reportingyear"):
             record_data["reportingyear"] = "2025"
 

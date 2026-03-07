@@ -10,7 +10,7 @@ but might be abstracted into a standalone package if it proves useful.
 """
 
 from pathlib import Path
-from typing import Any, Dict, List, cast
+from typing import Any, cast
 
 from docutils import nodes
 from docutils.parsers.rst import directives
@@ -65,7 +65,7 @@ class GalleryGridDirective(SphinxDirective):
         "class-card": directives.unchanged,
     }
 
-    def run(self) -> List[nodes.Node]:
+    def run(self) -> list[nodes.Node]:
         """Create the gallery grid."""
         if self.arguments:
             # If an argument is given, assume it's a path to a YAML file
@@ -136,7 +136,7 @@ class GalleryGridDirective(SphinxDirective):
         return [container.children[0]]
 
 
-def setup(app: Sphinx) -> Dict[str, Any]:
+def setup(app: Sphinx) -> dict[str, Any]:
     """Add custom configuration to sphinx app.
 
     Args:
