@@ -86,7 +86,7 @@ def _run_data_import_pipeline() -> None:
         print("RUN_DATA_IMPORTS is disabled; skipping startup data import pipeline")
         return
 
-    gcs_uri = os.getenv("IMPORT_GCS_URI", "gs://ca-panel-001-resources/resources")
+    gcs_uri = os.getenv("IMPORT_GCS_URI", "")
     resources_dir = Path(os.getenv("IMPORT_RESOURCES_LOCAL_PATH", "/tmp/resources"))
     downloaded = _sync_resources(gcs_uri, resources_dir)
     print(f"Synced {downloaded} object(s) from {gcs_uri} to {resources_dir}")
