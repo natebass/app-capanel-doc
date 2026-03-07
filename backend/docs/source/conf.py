@@ -71,11 +71,11 @@ html_sidebars = {
 
 
 def setup_to_main(
-    app: Sphinx,
-    pagename: str,
-    templatename: str,
+    _app: Sphinx,
+    _pagename: str,
+    _templatename: str,
     context: dict[str, Any],
-    doctree: Any,
+    _doctree: Any,
 ) -> None:
     """
     Add a function that jinja can access for returning an 'edit this page' link

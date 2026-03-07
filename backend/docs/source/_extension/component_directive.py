@@ -66,7 +66,7 @@ class ComponentListDirective(SphinxDirective):
 
         # build the list of all the components
         items = []
-        for component, url, doc in zip(components, urls, docs):
+        for component, url, doc in zip(components, urls, docs, strict=True):
             items.append(
                 nodes.list_item(
                     "",
