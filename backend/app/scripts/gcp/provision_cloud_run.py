@@ -33,6 +33,7 @@ def main() -> int:
     cloud_sql_db = env_required("CLOUD_SQL_DB")
     cloud_sql_user = env_required("CLOUD_SQL_USER")
     cloud_sql_password = env_required("CLOUD_SQL_PASSWORD")
+    import_gcs_uri = env_required("IMPORT_GCS_URI")
 
     cloud_sql_version = env_or("CLOUD_SQL_VERSION", "POSTGRES_18")
     cloud_sql_edition = env_or("CLOUD_SQL_EDITION", "enterprise")
@@ -217,6 +218,25 @@ def main() -> int:
                 f"--password={cloud_sql_password}",
             ]
         )
+
+    # Ensure the resources bucket exists and is in the correct region
+    if import_gcs_uri.startswith("gs://"):
+        import_gcs_bucket = import_gcs_uri.split("/")[2]
+        if not exists(
+            ["gcloud", "storage", "buckets", "describe", f"gs://{import_gcs_bucket}"]
+        ):
+            print(f"Creating bucket gs://{import_gcs_bucket} in {region}")
+            run_command(
+                [
+                    "gcloud",
+                    "storage",
+                    "buckets",
+                    "create",
+                    f"gs://{import_gcs_bucket}",
+                    f"--location={region}",
+                    "--uniform-bucket-level-access",
+                ]
+            )
 
     print("Provisioning complete.")
     print(f"Artifact Registry: {region}-docker.pkg.dev/{project_id}/{ar_repo}")

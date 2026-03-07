@@ -186,14 +186,21 @@ def build_config(defaults: GcpDefaults) -> DeployConfig:
     )
 
 
-def ensure_bucket_exists(import_gcs_uri: str) -> None:
+def ensure_bucket_exists(import_gcs_uri: str, region: str) -> None:
     bucket = import_gcs_uri.removeprefix("gs://").split("/", 1)[0]
     if not cmd_exists(["gcloud", "storage", "buckets", "describe", f"gs://{bucket}"]):
-        msg = (
-            f"Bucket gs://{bucket} was not found. "
-            "This deploy expects an existing bucket."
+        print(f"Creating bucket gs://{bucket} in {region}")
+        run_command(
+            [
+                "gcloud",
+                "storage",
+                "buckets",
+                "create",
+                f"gs://{bucket}",
+                f"--location={region}",
+                "--uniform-bucket-level-access",
+            ]
         )
-        raise ScriptError(msg)
 
 
 def maybe_sync_local_resources(cfg: DeployConfig) -> None:
@@ -617,7 +624,7 @@ def main() -> int:
         ]
     )
 
-    ensure_bucket_exists(cfg.import_gcs_uri)
+    ensure_bucket_exists(cfg.import_gcs_uri, cfg.region)
     maybe_sync_local_resources(cfg)
 
     if not cmd_exists(

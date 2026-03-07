@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import os
+import sys
 from pathlib import Path
 from urllib.parse import quote
 
@@ -92,6 +94,8 @@ def list_objects(
             headers=headers,
             timeout=30.0,
         )
+        if response.status_code == 404:
+            return []
         response.raise_for_status()
         payload = response.json()
         for item in payload.get("items", []):
@@ -146,25 +150,36 @@ def main() -> None:
     )
     parser.add_argument(
         "--uri",
-        required=True,
         help="Source GCS URI, for example gs://ca-panel-001-resources or gs://bucket/path",
     )
     parser.add_argument(
         "--dest",
-        required=True,
         help="Destination directory inside the container.",
     )
     args = parser.parse_args()
 
-    destination = Path(args.dest).resolve()
+    # Fallback to environment variables if arguments are missing
+    uri = args.uri or os.getenv("IMPORT_GCS_URI")
+    dest = args.dest or os.getenv("IMPORT_RESOURCES_DEST_PATH")
+
+    if not uri:
+        print("Error: --uri or IMPORT_GCS_URI environment variable is required.")
+        sys.exit(1)
+    if not dest:
+        print(
+            "Error: --dest or IMPORT_RESOURCES_DEST_PATH environment variable is required."
+        )
+        sys.exit(1)
+
+    destination = Path(dest).resolve()
     destination.mkdir(parents=True, exist_ok=True)
 
-    bucket, prefix = parse_gs_uri(args.uri)
+    bucket, prefix = parse_gs_uri(uri)
     with httpx.Client(follow_redirects=True) as client:
         token = get_access_token(client)
         objects = list_objects(client, token, bucket, prefix)
         count = download_objects(client, token, bucket, prefix, destination, objects)
-    print(f"Downloaded {count} object(s) from {args.uri} to {destination}")
+    print(f"Downloaded {count} object(s) from {uri} to {destination}")
 
 
 if __name__ == "__main__":
