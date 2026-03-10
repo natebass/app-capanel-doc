@@ -4,8 +4,8 @@ import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { z } from 'zod'
 
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Button } from '@/components/ui/button.tsx'
+import { Checkbox } from '@/components/ui/checkbox.tsx'
 import {
 	Dialog,
 	DialogClose,
@@ -15,14 +15,14 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from '@/components/ui/dialog'
-import { Field, FieldError, FieldLabel } from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/ui/password-input'
-import { Spinner } from '@/components/ui/spinner'
+} from '@/components/ui/dialog.tsx'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx'
+import { Input } from '@/components/ui/input.tsx'
+import { PasswordInput } from '@/components/ui/password-input.tsx'
+import { Spinner } from '@/components/ui/spinner.tsx'
 import { type UserCreate, UsersService } from '@/lib/client'
-import { handleError } from '@/lib/client-utils'
-import useCustomToast from '@/lib/hooks/useCustomToast'
+import { handleError } from '@/lib/client-utils.ts'
+import useCustomToast from '@/lib/hooks/useCustomToast.ts'
 
 const formSchema = z
 	.object({

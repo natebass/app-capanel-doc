@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@/components/ui/skeleton.tsx'
 import {
 	Table,
 	TableBody,
@@ -6,16 +6,15 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from '@/components/ui/table'
+} from '@/components/ui/table.tsx'
 
-const PendingUsers = () => (
+const PendingItems = () => (
 	<Table>
 		<TableHeader>
 			<TableRow>
-				<TableHead className='w-40'>Full name</TableHead>
-				<TableHead className='w-40'>Email</TableHead>
-				<TableHead className='w-40'>Role</TableHead>
-				<TableHead className='w-40'>Status</TableHead>
+				<TableHead className='w-40'>ID</TableHead>
+				<TableHead className='w-40'>Title</TableHead>
+				<TableHead className='w-40'>Description</TableHead>
 				<TableHead className='w-40'>Actions</TableHead>
 			</TableRow>
 		</TableHeader>
@@ -34,13 +33,10 @@ const PendingUsers = () => (
 					<TableCell>
 						<Skeleton className='h-4 w-full' />
 					</TableCell>
-					<TableCell>
-						<Skeleton className='h-4 w-full' />
-					</TableCell>
 				</TableRow>
 			))}
 		</TableBody>
 	</Table>
 )
 
-export default PendingUsers
+export default PendingItems

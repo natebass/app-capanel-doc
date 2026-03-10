@@ -2,10 +2,10 @@ import { Link, type NotFoundRouteProps } from '@tanstack/react-router'
 import { FileQuestion, Home, Search } from 'lucide-react'
 import type { ReactNode } from 'react'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button.tsx'
+import { Input } from '@/components/ui/input.tsx'
 
-import { StatusCard, StatusTemplate } from './StatusTemplate'
+import { StatusCard, StatusTemplate } from './StatusTemplate.tsx'
 
 export interface DefaultNotFoundProps {
 	/** Data passed from notFoundComponent */

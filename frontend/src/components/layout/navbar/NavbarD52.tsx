@@ -1,18 +1,13 @@
 import { Link } from '@tanstack/react-router'
 import { FaMagnifyingGlass } from 'react-icons/fa6'
 
-import useAuth from '@/lib/hooks/useAuth.ts'
-
-import MobileButton from './MobileButton'
-import SearchBar from './SearchBar'
-import SettingsButton from './SettingsButton'
-import UserAvatar from './UserAvatar'
+import MobileButton from './MobileButton.tsx'
+import SearchBar from './SearchBar.tsx'
+import SettingsButton from './SettingsButton.tsx'
 
 import styles from './NavbarD52.module.css'
 
 export default function NavbarD52({ shadow = false }: { shadow?: boolean }) {
-	const { user: currentUser } = useAuth()
-
 	return (
 		<div
 			className={`${styles.container} ${shadow ? styles.containerShadow : styles.containerBorder}`}
@@ -58,11 +53,6 @@ export default function NavbarD52({ shadow = false }: { shadow?: boolean }) {
 							Report
 						</Link>
 						<SettingsButton />
-						{currentUser && (
-							<Link to='/user'>
-								<UserAvatar />
-							</Link>
-						)}
 					</div>
 				</div>
 				<MobileButton />

@@ -280,7 +280,7 @@ function SystemStatusPage() {
 				</Card>
 			</div>
 
-			{/* Common Status Pages Quick Links */}
+			{/* common Status Pages Quick Links */}
 			<Card>
 				<CardHeader>
 					<CardTitle>Quick Links</CardTitle>

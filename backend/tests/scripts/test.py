@@ -1,19 +1,27 @@
 import subprocess
 import sys
+from pathlib import Path
 
 
 def main() -> None:
+    backend_dir = Path(__file__).resolve().parents[2]
+    project_dir = backend_dir.parent
+    compose_file = project_dir / "compose.yml"
+    compose_cmd = ["docker", "compose", "-f", str(compose_file)]
+
     try:
         # docker compose build
-        subprocess.run(["docker", "compose", "build"], check=True)
+        subprocess.run([*compose_cmd, "build"], check=True, cwd=project_dir)
 
         # docker compose down -v --remove-orphans
         subprocess.run(
-            ["docker", "compose", "down", "-v", "--remove-orphans"], check=True
+            [*compose_cmd, "down", "-v", "--remove-orphans"],
+            check=True,
+            cwd=project_dir,
         )
 
         # docker compose up -d
-        subprocess.run(["docker", "compose", "up", "-d"], check=True)
+        subprocess.run([*compose_cmd, "up", "-d"], check=True, cwd=project_dir)
 
         # docker compose exec -T backend bash scripts/tests-start.sh "$@"
         # We assume the Python version should be called inside the container, but since we are converting,
@@ -22,8 +30,7 @@ def main() -> None:
         # Assuming the container has Python installed.
         subprocess.run(
             [
-                "docker",
-                "compose",
+                *compose_cmd,
                 "exec",
                 "-T",
                 "backend",
@@ -32,12 +39,15 @@ def main() -> None:
             ]
             + sys.argv[1:],
             check=True,
+            cwd=project_dir,
         )
 
     finally:
         # docker compose down -v --remove-orphans
         subprocess.run(
-            ["docker", "compose", "down", "-v", "--remove-orphans"], check=True
+            [*compose_cmd, "down", "-v", "--remove-orphans"],
+            check=True,
+            cwd=project_dir,
         )
 
 

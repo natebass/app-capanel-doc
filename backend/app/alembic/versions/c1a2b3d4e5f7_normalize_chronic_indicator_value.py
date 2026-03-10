@@ -12,7 +12,7 @@ column contains a single consistent value.
 
 # revision identifiers, used by Alembic.
 revision = 'c1a2b3d4e5f7'
-down_revision = 'f5a83e87d6ee'
+down_revision = ('f5a83e87d6ee', 'a1b2c3d4e5f6')
 branch_labels = None
 depends_on = None
 

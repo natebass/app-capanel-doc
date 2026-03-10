@@ -24,7 +24,7 @@ class StoreDevtoolsEventClient extends EventClient<EventMap> {
 const sdec = new StoreDevtoolsEventClient()
 
 store.subscribe(() => {
-	sdec.emit('state', {
+	sdec.emit('store-devtools:state', {
 		firstName: store.state.firstName,
 		lastName: store.state.lastName,
 		fullName: getFullName(),
@@ -39,7 +39,7 @@ function DevtoolPanel() {
 	}))
 
 	useEffect(() => {
-		return sdec.on('state', (e) => setState(e.payload))
+		return sdec.on('store-devtools:state', (e) => setState(e.payload))
 	}, [])
 
 	return (

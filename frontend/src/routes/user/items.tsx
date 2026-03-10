@@ -1,13 +1,14 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Search } from 'lucide-react'
-import { Suspense } from 'react'
+import { Suspense, useMemo } from 'react'
 
-import { DataTable } from '@/components/Common/DataTable'
-import AddItem from '@/components/Items/AddItem'
-import { columns } from '@/components/Items/columns'
-import PendingItems from '@/components/Pending/PendingItems'
+import { DataTable } from '@/components/common/DataTable'
+import AddItem from '@/components/items/AddItem'
+import { createItemColumns } from '@/components/items/columns'
+import PendingItems from '@/components/layout/pending/PendingItems'
 import { ItemsService } from '@/lib/client'
+import useAuth from '@/lib/hooks/useAuth'
 
 function getItemsQueryOptions() {
 	return {
@@ -27,14 +28,23 @@ export const Route = createFileRoute('/user/items')({
 	head: () => ({
 		meta: [
 			{
-				title: 'Items - FastAPI Cloud',
+				title: 'items - FastAPI Cloud',
 			},
 		],
 	}),
 })
 
 function ItemsTableContent() {
+	const { user: currentUser } = useAuth()
 	const { data: items } = useSuspenseQuery(getItemsQueryOptions())
+	const columns = useMemo(
+		() =>
+			createItemColumns({
+				currentUserId: currentUser?.id,
+				isSuperuser: currentUser?.is_superuser,
+			}),
+		[currentUser?.id, currentUser?.is_superuser],
+	)
 
 	if (items.data.length === 0) {
 		return (
@@ -42,8 +52,16 @@ function ItemsTableContent() {
 				<div className='rounded-full bg-muted p-4 mb-4'>
 					<Search className='h-8 w-8 text-muted-foreground' />
 				</div>
-				<h3 className='text-lg font-semibold'>You don't have any items yet</h3>
-				<p className='text-muted-foreground'>Add a new item to get started</p>
+				<h3 className='text-lg font-semibold'>
+					{currentUser?.is_superuser
+						? "There aren't any items yet"
+						: "You don't have any items yet"}
+				</h3>
+				<p className='text-muted-foreground'>
+					{currentUser?.is_superuser
+						? 'Create one or wait for users to add their items'
+						: 'Add a new item to get started'}
+				</p>
 			</div>
 		)
 	}

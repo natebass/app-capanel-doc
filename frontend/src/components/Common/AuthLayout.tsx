@@ -1,5 +1,5 @@
-import { Appearance } from '@/components/Common/Appearance'
-import { Logo } from '@/components/Common/Logo'
+import { Appearance } from '@/components/common/Appearance'
+import { Logo } from '@/components/common/Logo'
 
 import { Footer } from './Footer'
 

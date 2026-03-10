@@ -531,6 +531,118 @@ export type BodyLoginLoginAccessToken = {
 }
 
 /**
+ * CensusData
+ *
+ * A simple CensusData model following the same pattern as User.
+ */
+export type CensusData = {
+	/**
+	 * Academic Year
+	 */
+	academic_year: number
+	/**
+	 * Aggregation Level
+	 */
+	aggregation_level: string
+	/**
+	 * County Code
+	 */
+	county_code: string
+	/**
+	 * District Code
+	 */
+	district_code: string
+	/**
+	 * School Code
+	 */
+	school_code: string
+	/**
+	 * County Name
+	 */
+	county_name: string
+	/**
+	 * District Name
+	 */
+	district_name: string
+	/**
+	 * School Name
+	 */
+	school_name: string
+	/**
+	 * Charter
+	 */
+	charter: string
+	/**
+	 * Reporting Category
+	 */
+	reporting_category: string
+	/**
+	 * Total Enr
+	 */
+	total_enr?: number
+	/**
+	 * Gr Tk
+	 */
+	gr_tk?: number
+	/**
+	 * Gr Kn
+	 */
+	gr_kn?: number
+	/**
+	 * Gr 1
+	 */
+	gr_1?: number
+	/**
+	 * Gr 2
+	 */
+	gr_2?: number
+	/**
+	 * Gr 3
+	 */
+	gr_3?: number
+	/**
+	 * Gr 4
+	 */
+	gr_4?: number
+	/**
+	 * Gr 5
+	 */
+	gr_5?: number
+	/**
+	 * Gr 6
+	 */
+	gr_6?: number
+	/**
+	 * Gr 7
+	 */
+	gr_7?: number
+	/**
+	 * Gr 8
+	 */
+	gr_8?: number
+	/**
+	 * Gr 9
+	 */
+	gr_9?: number
+	/**
+	 * Gr 10
+	 */
+	gr_10?: number
+	/**
+	 * Gr 11
+	 */
+	gr_11?: number
+	/**
+	 * Gr 12
+	 */
+	gr_12?: number
+	/**
+	 * Census Data Id
+	 */
+	census_data_id?: string
+}
+
+/**
  * DashboardAggregation
  *
  * Dashboard aggregation response model (legacy single-indicator)
@@ -682,6 +794,20 @@ export type EquityReportResponse = {
 	 * Groups
 	 */
 	groups: Array<EquityGroupSummary>
+}
+
+/**
+ * ForcePasswordResetRequest
+ */
+export type ForcePasswordResetRequest = {
+	/**
+	 * Emails
+	 */
+	emails?: Array<string>
+	/**
+	 * Include All Active Users
+	 */
+	include_all_active_users?: boolean
 }
 
 /**
@@ -858,6 +984,266 @@ export type PrivateUserCreate = {
 }
 
 /**
+ * SchoolPublic
+ *
+ * Properties to return via API, id is always required
+ */
+export type SchoolPublic = {
+	/**
+	 * Cds Code
+	 */
+	cds_code: string
+	/**
+	 * Nces Dist
+	 */
+	nces_dist: string
+	/**
+	 * Nces School
+	 */
+	nces_school: string
+	/**
+	 * School Code
+	 */
+	school_code: string
+	/**
+	 * Status Type
+	 */
+	status_type?: string | null
+	/**
+	 * County
+	 */
+	county?: string | null
+	/**
+	 * District
+	 */
+	district?: string | null
+	/**
+	 * School
+	 */
+	school?: string | null
+	/**
+	 * Street
+	 */
+	street?: string | null
+	/**
+	 * Street Abr
+	 */
+	street_abr?: string | null
+	/**
+	 * City
+	 */
+	city?: string | null
+	/**
+	 * Zip
+	 */
+	zip?: string | null
+	/**
+	 * State
+	 */
+	state?: string | null
+	/**
+	 * Mail Street
+	 */
+	mail_street?: string | null
+	/**
+	 * Mail Street Abr
+	 */
+	mail_street_abr?: string | null
+	/**
+	 * Mail City
+	 */
+	mail_city?: string | null
+	/**
+	 * Mail Zip
+	 */
+	mail_zip?: string | null
+	/**
+	 * Mail State
+	 */
+	mail_state?: string | null
+	/**
+	 * Phone
+	 */
+	phone?: string | null
+	/**
+	 * Ext
+	 */
+	ext?: string | null
+	/**
+	 * Fax Number
+	 */
+	fax_number?: string | null
+	/**
+	 * Website
+	 */
+	website?: string | null
+	/**
+	 * Open Date
+	 */
+	open_date?: string | null
+	/**
+	 * Closed Date
+	 */
+	closed_date?: string | null
+	/**
+	 * Charter
+	 */
+	charter?: string | null
+	/**
+	 * Charter Num
+	 */
+	charter_num?: string | null
+	/**
+	 * Funding Type
+	 */
+	funding_type?: string | null
+	/**
+	 * Doc
+	 */
+	doc?: string | null
+	/**
+	 * Doc Type
+	 */
+	doc_type?: string | null
+	/**
+	 * Soc
+	 */
+	soc?: string | null
+	/**
+	 * Soc Type
+	 */
+	soc_type?: string | null
+	/**
+	 * Edops Code
+	 */
+	edops_code?: string | null
+	/**
+	 * Edops Name
+	 */
+	edops_name?: string | null
+	/**
+	 * Eil Code
+	 */
+	eil_code?: string | null
+	/**
+	 * Eil Name
+	 */
+	eil_name?: string | null
+	/**
+	 * Gs Offered
+	 */
+	gs_offered?: string | null
+	/**
+	 * Gs Served
+	 */
+	gs_served?: string | null
+	/**
+	 * Virtual
+	 */
+	virtual?: string | null
+	/**
+	 * Magnet
+	 */
+	magnet?: string | null
+	/**
+	 * Year Round Yn
+	 */
+	year_round_yn?: string | null
+	/**
+	 * Federal Dfc District Id
+	 */
+	federal_dfc_district_id?: string | null
+	/**
+	 * Latitude
+	 */
+	latitude?: number | null
+	/**
+	 * Longitude
+	 */
+	longitude?: number | null
+	/**
+	 * Adm Fname
+	 */
+	adm_fname?: string | null
+	/**
+	 * Adm Lname
+	 */
+	adm_lname?: string | null
+	/**
+	 * Last Up Date
+	 */
+	last_up_date?: string | null
+	/**
+	 * Multilingual
+	 */
+	multilingual?: string | null
+	/**
+	 * Id
+	 */
+	id: string
+}
+
+/**
+ * SchoolSummary
+ *
+ * Properties for a refined school view.
+ */
+export type SchoolSummary = {
+	/**
+	 * Id
+	 */
+	id: string
+	/**
+	 * School
+	 */
+	school?: string | null
+	/**
+	 * City
+	 */
+	city?: string | null
+	/**
+	 * County
+	 */
+	county?: string | null
+	/**
+	 * Cds Code
+	 */
+	cds_code?: string | null
+	/**
+	 * School Code
+	 */
+	school_code?: string | null
+}
+
+/**
+ * SchoolsPublic
+ */
+export type SchoolsPublic = {
+	/**
+	 * Data
+	 */
+	data: Array<SchoolPublic>
+	/**
+	 * Count
+	 */
+	count: number
+}
+
+/**
+ * SchoolsSummary
+ */
+export type SchoolsSummary = {
+	/**
+	 * Data
+	 */
+	data: Array<SchoolSummary>
+	/**
+	 * Count
+	 */
+	count: number
+}
+
+/**
  * Token
  *
  * A JSON payload containing the access token.
@@ -953,6 +1339,10 @@ export type UserPublic = {
 	 * Created At
 	 */
 	created_at?: string | null
+	/**
+	 * Force Password Reset
+	 */
+	force_password_reset?: boolean
 }
 
 /**
@@ -997,6 +1387,10 @@ export type UserUpdate = {
 	 * Password
 	 */
 	password?: string | null
+	/**
+	 * Force Password Reset
+	 */
+	force_password_reset?: boolean | null
 }
 
 /**
@@ -1176,6 +1570,33 @@ export type LoginRecoverPasswordHtmlContentResponses = {
 
 export type LoginRecoverPasswordHtmlContentResponse =
 	LoginRecoverPasswordHtmlContentResponses[keyof LoginRecoverPasswordHtmlContentResponses]
+
+export type LoginForcePasswordResetForUsersData = {
+	body: ForcePasswordResetRequest
+	path?: never
+	query?: never
+	url: '/api/v1/login/force-password-reset'
+}
+
+export type LoginForcePasswordResetForUsersErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type LoginForcePasswordResetForUsersError =
+	LoginForcePasswordResetForUsersErrors[keyof LoginForcePasswordResetForUsersErrors]
+
+export type LoginForcePasswordResetForUsersResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: Message
+}
+
+export type LoginForcePasswordResetForUsersResponse =
+	LoginForcePasswordResetForUsersResponses[keyof LoginForcePasswordResetForUsersResponses]
 
 export type UsersReadUsersData = {
 	body?: never
@@ -1631,6 +2052,246 @@ export type ItemsUpdateItemResponses = {
 }
 
 export type ItemsUpdateItemResponse = ItemsUpdateItemResponses[keyof ItemsUpdateItemResponses]
+
+export type CensusdataCountOfCensusDataData = {
+	body?: never
+	path?: never
+	query?: {
+		/**
+		 * Skip
+		 */
+		skip?: number
+		/**
+		 * Limit
+		 */
+		limit?: number
+	}
+	url: '/api/v1/censusdata/'
+}
+
+export type CensusdataCountOfCensusDataErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type CensusdataCountOfCensusDataError =
+	CensusdataCountOfCensusDataErrors[keyof CensusdataCountOfCensusDataErrors]
+
+export type CensusdataCountOfCensusDataResponses = {
+	/**
+	 * Response Censusdata-Count Of Census Data
+	 *
+	 * Successful Response
+	 */
+	200: Array<CensusData>
+}
+
+export type CensusdataCountOfCensusDataResponse =
+	CensusdataCountOfCensusDataResponses[keyof CensusdataCountOfCensusDataResponses]
+
+export type CensusdataCreateCensusDataData = {
+	body: CensusData
+	path?: never
+	query?: never
+	url: '/api/v1/censusdata/'
+}
+
+export type CensusdataCreateCensusDataErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type CensusdataCreateCensusDataError =
+	CensusdataCreateCensusDataErrors[keyof CensusdataCreateCensusDataErrors]
+
+export type CensusdataCreateCensusDataResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: CensusData
+}
+
+export type CensusdataCreateCensusDataResponse =
+	CensusdataCreateCensusDataResponses[keyof CensusdataCreateCensusDataResponses]
+
+export type CensusdataDeleteCensusDataData = {
+	body?: never
+	path: {
+		/**
+		 * Id
+		 */
+		id: string
+	}
+	query?: never
+	url: '/api/v1/censusdata/{id}'
+}
+
+export type CensusdataDeleteCensusDataErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type CensusdataDeleteCensusDataError =
+	CensusdataDeleteCensusDataErrors[keyof CensusdataDeleteCensusDataErrors]
+
+export type CensusdataDeleteCensusDataResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: CensusData
+}
+
+export type CensusdataDeleteCensusDataResponse =
+	CensusdataDeleteCensusDataResponses[keyof CensusdataDeleteCensusDataResponses]
+
+export type CensusdataReadCensusDataData = {
+	body?: never
+	path: {
+		/**
+		 * Id
+		 */
+		id: string
+	}
+	query?: never
+	url: '/api/v1/censusdata/{id}'
+}
+
+export type CensusdataReadCensusDataErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type CensusdataReadCensusDataError =
+	CensusdataReadCensusDataErrors[keyof CensusdataReadCensusDataErrors]
+
+export type CensusdataReadCensusDataResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: CensusData
+}
+
+export type CensusdataReadCensusDataResponse =
+	CensusdataReadCensusDataResponses[keyof CensusdataReadCensusDataResponses]
+
+export type CensusdataUpdateCensusDataData = {
+	body: CensusData
+	path: {
+		/**
+		 * Id
+		 */
+		id: string
+	}
+	query?: never
+	url: '/api/v1/censusdata/{id}'
+}
+
+export type CensusdataUpdateCensusDataErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type CensusdataUpdateCensusDataError =
+	CensusdataUpdateCensusDataErrors[keyof CensusdataUpdateCensusDataErrors]
+
+export type CensusdataUpdateCensusDataResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: CensusData
+}
+
+export type CensusdataUpdateCensusDataResponse =
+	CensusdataUpdateCensusDataResponses[keyof CensusdataUpdateCensusDataResponses]
+
+export type SchoolsReadSchoolsData = {
+	body?: never
+	path?: never
+	query?: {
+		/**
+		 * Q
+		 */
+		q?: string | null
+		/**
+		 * Skip
+		 */
+		skip?: number
+		/**
+		 * Limit
+		 */
+		limit?: number
+	}
+	url: '/api/v1/schools/'
+}
+
+export type SchoolsReadSchoolsErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type SchoolsReadSchoolsError = SchoolsReadSchoolsErrors[keyof SchoolsReadSchoolsErrors]
+
+export type SchoolsReadSchoolsResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: SchoolsPublic
+}
+
+export type SchoolsReadSchoolsResponse =
+	SchoolsReadSchoolsResponses[keyof SchoolsReadSchoolsResponses]
+
+export type SchoolsReadSchoolsSummaryData = {
+	body?: never
+	path?: never
+	query?: {
+		/**
+		 * Q
+		 */
+		q?: string | null
+		/**
+		 * Skip
+		 */
+		skip?: number
+		/**
+		 * Limit
+		 */
+		limit?: number
+	}
+	url: '/api/v1/schools/summary'
+}
+
+export type SchoolsReadSchoolsSummaryErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type SchoolsReadSchoolsSummaryError =
+	SchoolsReadSchoolsSummaryErrors[keyof SchoolsReadSchoolsSummaryErrors]
+
+export type SchoolsReadSchoolsSummaryResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: SchoolsSummary
+}
+
+export type SchoolsReadSchoolsSummaryResponse =
+	SchoolsReadSchoolsSummaryResponses[keyof SchoolsReadSchoolsSummaryResponses]
 
 export type AcademicIndicatorsReadAcademicIndicatorsData = {
 	body?: never

@@ -1,18 +1,18 @@
 import { Link } from '@tanstack/react-router'
 import { FaBars } from 'react-icons/fa'
 
-import { buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button.tsx'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import useAuth from '@/lib/hooks/useAuth'
-import { cn } from '@/lib/utils'
+} from '@/components/ui/dropdown-menu.tsx'
+import useAuth from '@/lib/hooks/useAuth.ts'
+import { cn } from '@/lib/utils.ts'
 
 export default function MobileButton() {
-	const { user: currentUser } = useAuth()
+	const { user: currentUser, logout } = useAuth()
 
 	return (
 		<DropdownMenu>
@@ -29,9 +29,14 @@ export default function MobileButton() {
 					Dashboard
 				</DropdownMenuItem>
 				{currentUser ? (
-					<DropdownMenuItem className='text-base p-3 tracking-wide' render={<Link to='/login' />}>
-						Sign Out
-					</DropdownMenuItem>
+					<>
+						<DropdownMenuItem className='text-base p-3 tracking-wide' render={<Link to='/user' />}>
+							My Account
+						</DropdownMenuItem>
+						<DropdownMenuItem className='text-base p-3 tracking-wide' onClick={logout}>
+							Sign Out
+						</DropdownMenuItem>
+					</>
 				) : (
 					<>
 						<DropdownMenuItem className='text-base p-3 tracking-wide' render={<Link to='/login' />}>

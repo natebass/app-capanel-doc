@@ -28,38 +28,69 @@ function CopyId({ id }: { id: string }) {
 	)
 }
 
-export const columns: ColumnDef<ItemPublic>[] = [
-	{
-		accessorKey: 'id',
-		header: 'ID',
-		cell: ({ row }) => <CopyId id={row.original.id} />,
-	},
-	{
-		accessorKey: 'title',
-		header: 'Title',
-		cell: ({ row }) => <span className='font-medium'>{row.original.title}</span>,
-	},
-	{
-		accessorKey: 'description',
-		header: 'Description',
-		cell: ({ row }) => {
-			const description = row.original.description
-			return (
-				<span
-					className={cn('max-w-xs truncate block text-muted-foreground', !description && 'italic')}
-				>
-					{description || 'No description'}
-				</span>
-			)
+interface CreateItemColumnsOptions {
+	currentUserId?: string
+	isSuperuser?: boolean
+}
+
+export function createItemColumns({
+	currentUserId,
+	isSuperuser = false,
+}: CreateItemColumnsOptions): ColumnDef<ItemPublic>[] {
+	const baseColumns: ColumnDef<ItemPublic>[] = [
+		{
+			accessorKey: 'id',
+			header: 'ID',
+			cell: ({ row }) => <CopyId id={row.original.id} />,
 		},
-	},
-	{
+		{
+			accessorKey: 'title',
+			header: 'Title',
+			cell: ({ row }) => <span className='font-medium'>{row.original.title}</span>,
+		},
+		{
+			accessorKey: 'description',
+			header: 'Description',
+			cell: ({ row }) => {
+				const description = row.original.description
+				return (
+					<span
+						className={cn(
+							'max-w-xs truncate block text-muted-foreground',
+							!description && 'italic',
+						)}
+					>
+						{description || 'No description'}
+					</span>
+				)
+			},
+		},
+	]
+
+	if (isSuperuser) {
+		baseColumns.push({
+			accessorKey: 'owner_id',
+			header: 'Owner',
+			cell: ({ row }) => (
+				<span className='font-mono text-xs text-muted-foreground'>
+					{row.original.owner_id === currentUserId ? 'You' : row.original.owner_id}
+				</span>
+			),
+		})
+	}
+
+	baseColumns.push({
 		id: 'actions',
 		header: () => <span className='sr-only'>Actions</span>,
-		cell: ({ row }) => (
-			<div className='flex justify-end'>
-				<ItemActionsMenu item={row.original} />
-			</div>
-		),
-	},
-]
+		cell: ({ row }) => {
+			const canManage = isSuperuser || row.original.owner_id === currentUserId
+			return (
+				<div className='flex justify-end'>
+					<ItemActionsMenu item={row.original} canManage={canManage} />
+				</div>
+			)
+		},
+	})
+
+	return baseColumns
+}

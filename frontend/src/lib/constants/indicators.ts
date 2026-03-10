@@ -1,8 +1,8 @@
 /**
- * California School Accountability Dashboard indicator definitions.
+ * California School Accountability dashboard indicator definitions.
  *
  * These define the 8 accountability indicators used in the California
- * School Dashboard system.
+ * School dashboard system.
  */
 
 export const INDICATORS = {

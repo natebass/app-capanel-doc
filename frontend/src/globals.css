@@ -66,6 +66,26 @@ code {
 	--sidebar-ring: oklch(0.707 0.022 261.325);
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.13 0.028 261.692);
+	--surface-page: oklch(0.97 0.003 264.542);
+	--surface-elevated: var(--card);
+	--surface-muted: oklch(0.955 0.006 264.531);
+	--surface-info: oklch(0.96 0.02 250.222);
+	--surface-warning: oklch(0.97 0.04 98.12);
+	--border-subtle: var(--border);
+	--border-info: oklch(0.9 0.03 250.222);
+	--border-warning: oklch(0.82 0.14 92.11);
+	--text-primary: var(--foreground);
+	--text-secondary: var(--muted-foreground);
+	--text-tertiary: oklch(0.62 0.02 264.364);
+	--text-heading: oklch(0.2 0.03 261.692);
+	--text-warning: oklch(0.5 0.13 86.047);
+	--link-primary: oklch(0.58 0.2 258.338);
+	--link-hover: oklch(0.52 0.2 258.338);
+	--interactive-hover: oklch(0.94 0.006 264.531);
+	--navbar-shadow: 0 20px 25px -5px rgb(15 23 42 / 0.1), 0 8px 10px -6px rgb(15 23 42 / 0.1);
+	--skeleton: rgb(15 23 42 / 0.1);
+	--status-positive: oklch(0.62 0.19 146.8);
+	--status-negative: oklch(0.62 0.24 27.325);
 }
 
 .dark {
@@ -101,6 +121,26 @@ code {
 	--sidebar-accent-foreground: oklch(0.969 0.015 12.422);
 	--sidebar-border: oklch(1 0 0 / 10%);
 	--sidebar-ring: oklch(0.551 0.027 264.364);
+	--surface-page: oklch(0.17 0.026 264.665);
+	--surface-elevated: var(--card);
+	--surface-muted: oklch(0.26 0.03 264.665);
+	--surface-info: oklch(0.3 0.05 257.672);
+	--surface-warning: oklch(0.31 0.03 97.94);
+	--border-subtle: var(--border);
+	--border-info: oklch(0.58 0.08 254.148);
+	--border-warning: oklch(0.74 0.11 88.45);
+	--text-primary: var(--foreground);
+	--text-secondary: var(--muted-foreground);
+	--text-tertiary: oklch(0.78 0.016 261.325);
+	--text-heading: oklch(0.93 0.01 247.839);
+	--text-warning: oklch(0.9 0.08 92.11);
+	--link-primary: oklch(0.75 0.16 254.148);
+	--link-hover: oklch(0.81 0.14 252.883);
+	--interactive-hover: oklch(0.32 0.03 264.665);
+	--navbar-shadow: 0 20px 25px -5px rgb(2 6 23 / 0.55), 0 8px 10px -6px rgb(2 6 23 / 0.45);
+	--skeleton: rgb(255 255 255 / 0.12);
+	--status-positive: oklch(0.74 0.16 146.8);
+	--status-negative: oklch(0.72 0.19 25.331);
 }
 
 @theme inline {

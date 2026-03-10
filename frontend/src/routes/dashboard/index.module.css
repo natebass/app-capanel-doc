@@ -1,6 +1,6 @@
 .page {
 	min-height: 100vh;
-	background-color: #f3f4fa;
+	background-color: var(--surface-page);
 }
 
 .container {
@@ -26,7 +26,25 @@
 
 .yearLabel {
 	font-size: 0.875rem;
-	color: var(--muted-foreground);
+	color: var(--text-secondary);
+}
+
+.backButton {
+	gap: 0.25rem;
+	border-color: var(--border-subtle);
+	background-color: var(--surface-elevated);
+	color: var(--text-primary);
+
+	&:hover {
+		background-color: var(--interactive-hover);
+	}
+}
+
+.yearSelectTrigger {
+	width: 7.5rem;
+	border-color: var(--border-subtle);
+	background-color: var(--surface-elevated);
+	color: var(--text-primary);
 }
 
 .content {
@@ -39,17 +57,17 @@
 	& h1 {
 		font-size: 1.5rem;
 		font-weight: 700;
-		color: #111827;
+		color: var(--text-heading);
 	}
 
 	& .subtitle {
-		color: var(--muted-foreground);
+		color: var(--text-secondary);
 	}
 
 	& .meta {
 		margin-top: 0.25rem;
 		font-size: 0.875rem;
-		color: var(--muted-foreground);
+		color: var(--text-secondary);
 	}
 }
 
@@ -58,13 +76,13 @@
 		margin-bottom: 1rem;
 		font-size: 1.125rem;
 		font-weight: 600;
-		color: #1f2937;
+		color: var(--text-primary);
 	}
 }
 
 .skeleton {
 	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-	background-color: rgb(0 0 0 / 0.1);
+	background-color: var(--skeleton);
 	border-radius: 0.25rem;
 }
 

@@ -38,7 +38,7 @@ function ColorBar({ colorCounts }: { colorCounts: ColorCounts }) {
 
 	if (total === 0) {
 		return (
-			<div className='flex h-8 w-full items-center justify-center rounded bg-gray-200 text-sm text-gray-500'>
+			<div className='flex h-8 w-full items-center justify-center rounded bg-muted text-sm text-muted-foreground'>
 				No student group data
 			</div>
 		)

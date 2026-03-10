@@ -4,6 +4,9 @@ from app.scripts.gcp.gcp_utils import ScriptError, compute_paths, run_command
 
 
 def main() -> int:
+    """
+    Generate OpenAPI client for the frontend.
+    """
     paths = compute_paths(__file__)
     backend_dir = paths.backend_dir
     repo_dir = paths.repo_dir

@@ -1,1 +1,1 @@
-export { StatusCard, StatusTemplate } from './status/StatusTemplate'
+export { StatusCard, StatusTemplate } from '@/components/layout/status/StatusTemplate'

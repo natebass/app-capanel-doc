@@ -36,6 +36,7 @@ const formSchema = z
 		confirm_password: z.string().optional(),
 		is_superuser: z.boolean().optional(),
 		is_active: z.boolean().optional(),
+		force_password_reset: z.boolean().optional(),
 	})
 	.refine((data) => !data.password || data.password === data.confirm_password, {
 		message: "The passwords don't match",
@@ -62,6 +63,7 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 			confirm_password: '',
 			is_superuser: user.is_superuser,
 			is_active: user.is_active,
+			force_password_reset: user.force_password_reset,
 		} as FormData,
 		validators: {
 			onChange: formSchema,
@@ -225,6 +227,22 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 									/>
 									<FieldLabel htmlFor={field.name} className='font-normal'>
 										Is active?
+									</FieldLabel>
+								</Field>
+							)}
+						/>
+
+						<form.Field
+							name='force_password_reset'
+							children={(field) => (
+								<Field className='flex items-center gap-3'>
+									<Checkbox
+										id={field.name}
+										checked={field.state.value}
+										onCheckedChange={(checked) => field.handleChange(checked === true)}
+									/>
+									<FieldLabel htmlFor={field.name} className='font-normal'>
+										Require password reset on next login
 									</FieldLabel>
 								</Field>
 							)}

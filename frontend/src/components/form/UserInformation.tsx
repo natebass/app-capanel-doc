@@ -3,15 +3,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { z } from 'zod'
 
-import { Button } from '@/components/ui/button'
-import { Field, FieldError, FieldLabel } from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
-import { Spinner } from '@/components/ui/spinner'
+import { Button } from '@/components/ui/button.tsx'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx'
+import { Input } from '@/components/ui/input.tsx'
+import { Spinner } from '@/components/ui/spinner.tsx'
 import { UsersService, type UserUpdateMe } from '@/lib/client'
-import { handleError } from '@/lib/client-utils'
-import useAuth from '@/lib/hooks/useAuth'
-import useCustomToast from '@/lib/hooks/useCustomToast'
-import { cn } from '@/lib/utils'
+import { handleError } from '@/lib/client-utils.ts'
+import useAuth from '@/lib/hooks/useAuth.ts'
+import useCustomToast from '@/lib/hooks/useCustomToast.ts'
+import { cn } from '@/lib/utils.ts'
 
 const formSchema = z.object({
 	full_name: z.string().max(30).optional(),

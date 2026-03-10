@@ -2,10 +2,10 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { Suspense } from 'react'
 
-import AddUser from '@/components/Admin/AddUser'
-import { columns, type UserTableData } from '@/components/Admin/columns'
-import { DataTable } from '@/components/Common/DataTable'
-import PendingUsers from '@/components/Pending/PendingUsers'
+import { columns, type UserTableData } from '@/components/admin/columns'
+import { DataTable } from '@/components/common/DataTable'
+import AddUser from '@/components/form/AddUser.tsx'
+import PendingUsers from '@/components/layout/pending/PendingUsers'
 import { type UserPublic, UsersService } from '@/lib/client'
 import useAuth from '@/lib/hooks/useAuth'
 
@@ -35,7 +35,7 @@ export const Route = createFileRoute('/user/admin')({
 	head: () => ({
 		meta: [
 			{
-				title: 'Admin - FastAPI Cloud',
+				title: 'admin - FastAPI Cloud',
 			},
 		],
 	}),

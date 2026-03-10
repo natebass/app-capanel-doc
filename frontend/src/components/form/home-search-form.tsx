@@ -2,7 +2,7 @@ import { useForm } from '@tanstack/react-form'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
-import { ComboBox } from '@/components/ui/input/ComboBox.tsx'
+import { ComboBox } from '@/components/form/ComboBox.tsx'
 import { useDebounce } from '@/lib/hooks/useDebounce.ts'
 
 interface SchoolSummary {

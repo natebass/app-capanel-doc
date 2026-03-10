@@ -70,7 +70,7 @@ ${network_annotations}    spec:
         image: ${backend_image}
         startupProbe:
           httpGet:
-            path: /api/v1/utils/health-check/
+            path: ${backend_health_check_path}
             port: 9000
           initialDelaySeconds: 20
           periodSeconds: 10
@@ -78,7 +78,7 @@ ${network_annotations}    spec:
           failureThreshold: 18
         livenessProbe:
           httpGet:
-            path: /api/v1/utils/health-check/
+            path: ${backend_health_check_path}
             port: 9000
           periodSeconds: 30
           timeoutSeconds: 5
@@ -161,6 +161,11 @@ def network_annotations(env: RenderEnv) -> str:
     return ""
 
 
+def backend_health_check_path(api_v1_str: str) -> str:
+    normalized_api_v1 = "/" + api_v1_str.strip("/")
+    return f"{normalized_api_v1}/utils/health-check/"
+
+
 def main() -> int:
     env = build_env()
     output = TEMPLATE
@@ -190,6 +195,9 @@ def main() -> int:
     output = output.replace("${import_gcs_uri}", yaml_escape(env.import_gcs_uri))
     output = output.replace(
         "${import_resources_local_path}", yaml_escape(env.import_resources_local_path)
+    )
+    output = output.replace(
+        "${backend_health_check_path}", backend_health_check_path(env.api_v1_str)
     )
     output = output.replace("${network_annotations}", network_annotations(env))
 

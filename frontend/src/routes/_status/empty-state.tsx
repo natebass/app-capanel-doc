@@ -8,7 +8,7 @@ import { Separator } from '@/components/ui/separator'
 export const Route = createFileRoute('/_status/empty-state')({
 	component: EmptyStatePage,
 	head: () => ({
-		meta: [{ title: 'No Items Yet' }],
+		meta: [{ title: 'No items Yet' }],
 	}),
 })
 

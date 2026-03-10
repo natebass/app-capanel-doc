@@ -3,11 +3,11 @@ import { ChevronLeft } from 'lucide-react'
 import { Suspense, useCallback, useState } from 'react'
 import { z } from 'zod'
 
-import type { ColorKey } from '@/components/Dashboard/card/IndicatorCard'
-import { IndicatorDetailModal } from '@/components/Dashboard/detail/IndicatorDetailModal'
-import { IndicatorGrid, IndicatorGridSkeleton } from '@/components/Dashboard/IndicatorGrid'
+import type { ColorKey } from '@/components/dashboard/card/IndicatorCard'
+import { IndicatorDetailModal } from '@/components/dashboard/detail/IndicatorDetailModal'
+import { IndicatorGrid, IndicatorGridSkeleton } from '@/components/dashboard/IndicatorGrid'
+import NavbarD52 from '@/components/layout/navbar/NavbarD52'
 import { Button } from '@/components/ui/button'
-import NavbarD52 from '@/components/ui/navbar/NavbarD52'
 import {
 	Select,
 	SelectContent,

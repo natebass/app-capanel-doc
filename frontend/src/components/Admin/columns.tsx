@@ -62,6 +62,16 @@ export const columns: ColumnDef<UserTableData>[] = [
 		),
 	},
 	{
+		accessorKey: 'force_password_reset',
+		header: 'Security',
+		cell: ({ row }) =>
+			row.original.force_password_reset ? (
+				<Badge variant='destructive'>Reset Required</Badge>
+			) : (
+				<span className='text-muted-foreground text-sm'>Normal</span>
+			),
+	},
+	{
 		id: 'actions',
 		header: () => <span className='sr-only'>Actions</span>,
 		cell: ({ row }) => (

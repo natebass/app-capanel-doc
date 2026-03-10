@@ -41,4 +41,6 @@ Learn how to build and run the application locally.
    sphinx
    storybook
    components
+   readme-reference
+   documentation-repository-sync
    AGENTS

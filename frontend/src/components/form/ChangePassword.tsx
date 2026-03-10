@@ -1,14 +1,14 @@
 import { useForm } from '@tanstack/react-form'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { z } from 'zod'
 
-import { Button } from '@/components/ui/button'
-import { Field, FieldError, FieldLabel } from '@/components/ui/field'
-import { PasswordInput } from '@/components/ui/password-input'
-import { Spinner } from '@/components/ui/spinner'
+import { Button } from '@/components/ui/button.tsx'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx'
+import { PasswordInput } from '@/components/ui/password-input.tsx'
+import { Spinner } from '@/components/ui/spinner.tsx'
 import { type UpdatePassword, UsersService } from '@/lib/client'
-import { handleError } from '@/lib/client-utils'
-import useCustomToast from '@/lib/hooks/useCustomToast'
+import { handleError } from '@/lib/client-utils.ts'
+import useCustomToast from '@/lib/hooks/useCustomToast.ts'
 
 const formSchema = z
 	.object({
@@ -31,6 +31,7 @@ type FormData = z.infer<typeof formSchema>
 
 const ChangePassword = () => {
 	const { showSuccessToast, showErrorToast } = useCustomToast()
+	const queryClient = useQueryClient()
 
 	const form = useForm({
 		defaultValues: {
@@ -52,6 +53,7 @@ const ChangePassword = () => {
 		onSuccess: () => {
 			showSuccessToast('Password updated successfully')
 			form.reset()
+			queryClient.invalidateQueries({ queryKey: ['currentUser'] })
 		},
 		onError: handleError.bind(showErrorToast),
 	})

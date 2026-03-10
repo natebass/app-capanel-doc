@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { createFileRoute, Link as RouterLink, redirect, useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 
-import { AuthLayout } from '@/components/Common/AuthLayout'
+import { AuthLayout } from '@/components/common/AuthLayout'
 import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'

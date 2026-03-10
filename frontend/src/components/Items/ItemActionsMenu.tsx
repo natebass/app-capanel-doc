@@ -1,6 +1,8 @@
 import { EllipsisVertical } from 'lucide-react'
 import { useState } from 'react'
 
+import DeleteItem from '@/components/items/DeleteItem'
+import EditItem from '@/components/items/EditItem'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -9,15 +11,17 @@ import {
 } from '@/components/ui/dropdown-menu'
 import type { ItemPublic } from '@/lib/client'
 
-import DeleteItem from '../Items/DeleteItem'
-import EditItem from '../Items/EditItem'
-
 interface ItemActionsMenuProps {
 	item: ItemPublic
+	canManage: boolean
 }
 
-export const ItemActionsMenu = ({ item }: ItemActionsMenuProps) => {
+export const ItemActionsMenu = ({ item, canManage }: ItemActionsMenuProps) => {
 	const [open, setOpen] = useState(false)
+
+	if (!canManage) {
+		return null
+	}
 
 	return (
 		<DropdownMenu open={open} onOpenChange={setOpen}>

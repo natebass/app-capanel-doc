@@ -3,8 +3,8 @@ import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
-import { DefaultError } from '@/components/status/DefaultError'
-import { DefaultNotFound } from '@/components/status/DefaultNotFound'
+import { DefaultError } from '@/components/layout/status/DefaultError'
+import { DefaultNotFound } from '@/components/layout/status/DefaultNotFound'
 
 import { ThemeProvider } from './components/theme-provider'
 
@@ -14,8 +14,23 @@ import * as TanstackQuery from './integrations/tanstack-query/root-provider'
 import { client } from './lib/client/client.gen'
 import { routeTree } from './routeTree.gen'
 
+const trimTrailingSlash = (value: string): string => value.replace(/\/+$/, '')
+
+const normalizeApiBaseUrl = (value: string | undefined): string | undefined => {
+	if (!value) return
+	const trimmed = trimTrailingSlash(value.trim())
+	if (!trimmed || trimmed === '/api' || trimmed === '/api/v1') return
+	if (trimmed.endsWith('/api/v1')) return trimmed.slice(0, -7)
+	if (trimmed.endsWith('/api')) return trimmed.slice(0, -4)
+	return trimmed
+}
+
+const apiBaseUrl = normalizeApiBaseUrl(
+	import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL,
+)
+
 client.setConfig({
-	baseUrl: import.meta.env.VITE_API_URL,
+	baseUrl: apiBaseUrl,
 	auth: async () => localStorage.getItem('access_token') || '',
 })
 

@@ -133,13 +133,13 @@ export function IndicatorCardSkeleton({ compact = false }: { compact?: boolean }
 	return (
 		<div>
 			<div className='flex flex-col items-center gap-2'>
-				<div className='h-4 w-16 animate-pulse rounded bg-black/10' />
+				<div className='h-4 w-16 animate-pulse rounded bg-muted/40' />
 				<div
-					className='animate-pulse rounded-t-full bg-black/10'
+					className='animate-pulse rounded-t-full bg-muted/40'
 					style={{ width: compact ? 100 : 140, height: compact ? 65 : 91 }}
 				/>
-				<div className='h-6 w-12 animate-pulse rounded bg-black/10' />
-				<div className='h-3 w-20 animate-pulse rounded bg-black/10' />
+				<div className='h-6 w-12 animate-pulse rounded bg-muted/40' />
+				<div className='h-3 w-20 animate-pulse rounded bg-muted/40' />
 			</div>
 		</div>
 	)

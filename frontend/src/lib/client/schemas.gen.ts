@@ -1355,6 +1355,151 @@ export const Body_login_login_access_tokenSchema = {
 	title: 'Body_login-login_access_token',
 } as const
 
+export const CensusDataSchema = {
+	properties: {
+		academic_year: {
+			type: 'integer',
+			title: 'Academic Year',
+		},
+		aggregation_level: {
+			type: 'string',
+			title: 'Aggregation Level',
+		},
+		county_code: {
+			type: 'string',
+			title: 'County Code',
+		},
+		district_code: {
+			type: 'string',
+			title: 'District Code',
+		},
+		school_code: {
+			type: 'string',
+			title: 'School Code',
+		},
+		county_name: {
+			type: 'string',
+			maxLength: 255,
+			title: 'County Name',
+		},
+		district_name: {
+			type: 'string',
+			maxLength: 255,
+			title: 'District Name',
+		},
+		school_name: {
+			type: 'string',
+			maxLength: 255,
+			title: 'School Name',
+		},
+		charter: {
+			type: 'string',
+			maxLength: 255,
+			title: 'Charter',
+		},
+		reporting_category: {
+			type: 'string',
+			maxLength: 255,
+			title: 'Reporting Category',
+		},
+		total_enr: {
+			type: 'integer',
+			title: 'Total Enr',
+			default: 0,
+		},
+		gr_tk: {
+			type: 'integer',
+			title: 'Gr Tk',
+			default: 0,
+		},
+		gr_kn: {
+			type: 'integer',
+			title: 'Gr Kn',
+			default: 0,
+		},
+		gr_1: {
+			type: 'integer',
+			title: 'Gr 1',
+			default: 0,
+		},
+		gr_2: {
+			type: 'integer',
+			title: 'Gr 2',
+			default: 0,
+		},
+		gr_3: {
+			type: 'integer',
+			title: 'Gr 3',
+			default: 0,
+		},
+		gr_4: {
+			type: 'integer',
+			title: 'Gr 4',
+			default: 0,
+		},
+		gr_5: {
+			type: 'integer',
+			title: 'Gr 5',
+			default: 0,
+		},
+		gr_6: {
+			type: 'integer',
+			title: 'Gr 6',
+			default: 0,
+		},
+		gr_7: {
+			type: 'integer',
+			title: 'Gr 7',
+			default: 0,
+		},
+		gr_8: {
+			type: 'integer',
+			title: 'Gr 8',
+			default: 0,
+		},
+		gr_9: {
+			type: 'integer',
+			title: 'Gr 9',
+			default: 0,
+		},
+		gr_10: {
+			type: 'integer',
+			title: 'Gr 10',
+			default: 0,
+		},
+		gr_11: {
+			type: 'integer',
+			title: 'Gr 11',
+			default: 0,
+		},
+		gr_12: {
+			type: 'integer',
+			title: 'Gr 12',
+			default: 0,
+		},
+		census_data_id: {
+			type: 'string',
+			format: 'uuid',
+			title: 'Census Data Id',
+		},
+	},
+	type: 'object',
+	required: [
+		'academic_year',
+		'aggregation_level',
+		'county_code',
+		'district_code',
+		'school_code',
+		'county_name',
+		'district_name',
+		'school_name',
+		'charter',
+		'reporting_category',
+	],
+	title: 'CensusData',
+	description: 'A simple CensusData model following the same pattern as User.',
+} as const
+
 export const DashboardAggregationSchema = {
 	properties: {
 		cds: {
@@ -1630,6 +1775,26 @@ export const EquityReportResponseSchema = {
 	required: ['cds', 'indicator', 'reportingyear', 'color_counts', 'groups'],
 	title: 'EquityReportResponse',
 	description: 'Response containing student group breakdown for an indicator.',
+} as const
+
+export const ForcePasswordResetRequestSchema = {
+	properties: {
+		emails: {
+			items: {
+				type: 'string',
+				format: 'email',
+			},
+			type: 'array',
+			title: 'Emails',
+		},
+		include_all_active_users: {
+			type: 'boolean',
+			title: 'Include All Active Users',
+			default: false,
+		},
+	},
+	type: 'object',
+	title: 'ForcePasswordResetRequest',
 } as const
 
 export const HTTPValidationErrorSchema = {
@@ -1921,6 +2086,657 @@ export const PrivateUserCreateSchema = {
 	title: 'PrivateUserCreate',
 } as const
 
+export const SchoolPublicSchema = {
+	properties: {
+		cds_code: {
+			type: 'string',
+			maxLength: 255,
+			title: 'Cds Code',
+		},
+		nces_dist: {
+			type: 'string',
+			maxLength: 255,
+			title: 'Nces Dist',
+		},
+		nces_school: {
+			type: 'string',
+			maxLength: 255,
+			title: 'Nces School',
+		},
+		school_code: {
+			type: 'string',
+			maxLength: 255,
+			title: 'School Code',
+		},
+		status_type: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Status Type',
+		},
+		county: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'County',
+		},
+		district: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'District',
+		},
+		school: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'School',
+		},
+		street: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Street',
+		},
+		street_abr: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Street Abr',
+		},
+		city: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'City',
+		},
+		zip: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Zip',
+		},
+		state: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'State',
+		},
+		mail_street: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Mail Street',
+		},
+		mail_street_abr: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Mail Street Abr',
+		},
+		mail_city: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Mail City',
+		},
+		mail_zip: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Mail Zip',
+		},
+		mail_state: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Mail State',
+		},
+		phone: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Phone',
+		},
+		ext: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Ext',
+		},
+		fax_number: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Fax Number',
+		},
+		website: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Website',
+		},
+		open_date: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Open Date',
+		},
+		closed_date: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Closed Date',
+		},
+		charter: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Charter',
+		},
+		charter_num: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Charter Num',
+		},
+		funding_type: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Funding Type',
+		},
+		doc: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Doc',
+		},
+		doc_type: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Doc Type',
+		},
+		soc: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Soc',
+		},
+		soc_type: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Soc Type',
+		},
+		edops_code: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Edops Code',
+		},
+		edops_name: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Edops Name',
+		},
+		eil_code: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Eil Code',
+		},
+		eil_name: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Eil Name',
+		},
+		gs_offered: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Gs Offered',
+		},
+		gs_served: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Gs Served',
+		},
+		virtual: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Virtual',
+		},
+		magnet: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Magnet',
+		},
+		year_round_yn: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Year Round Yn',
+		},
+		federal_dfc_district_id: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Federal Dfc District Id',
+		},
+		latitude: {
+			anyOf: [
+				{
+					type: 'number',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Latitude',
+		},
+		longitude: {
+			anyOf: [
+				{
+					type: 'number',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Longitude',
+		},
+		adm_fname: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Adm Fname',
+		},
+		adm_lname: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Adm Lname',
+		},
+		last_up_date: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Last Up Date',
+		},
+		multilingual: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 255,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Multilingual',
+		},
+		id: {
+			type: 'string',
+			format: 'uuid',
+			title: 'Id',
+		},
+	},
+	type: 'object',
+	required: ['cds_code', 'nces_dist', 'nces_school', 'school_code', 'id'],
+	title: 'SchoolPublic',
+	description: 'Properties to return via API, id is always required',
+} as const
+
+export const SchoolSummarySchema = {
+	properties: {
+		id: {
+			type: 'string',
+			format: 'uuid',
+			title: 'Id',
+		},
+		school: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'School',
+		},
+		city: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'City',
+		},
+		county: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'County',
+		},
+		cds_code: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Cds Code',
+		},
+		school_code: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'School Code',
+		},
+	},
+	type: 'object',
+	required: ['id'],
+	title: 'SchoolSummary',
+	description: 'Properties for a refined school view.',
+} as const
+
+export const SchoolsPublicSchema = {
+	properties: {
+		data: {
+			items: {
+				$ref: '#/components/schemas/SchoolPublic',
+			},
+			type: 'array',
+			title: 'Data',
+		},
+		count: {
+			type: 'integer',
+			title: 'Count',
+		},
+	},
+	type: 'object',
+	required: ['data', 'count'],
+	title: 'SchoolsPublic',
+} as const
+
+export const SchoolsSummarySchema = {
+	properties: {
+		data: {
+			items: {
+				$ref: '#/components/schemas/SchoolSummary',
+			},
+			type: 'array',
+			title: 'Data',
+		},
+		count: {
+			type: 'integer',
+			title: 'Count',
+		},
+	},
+	type: 'object',
+	required: ['data', 'count'],
+	title: 'SchoolsSummary',
+} as const
+
 export const TokenSchema = {
 	properties: {
 		access_token: {
@@ -2068,6 +2884,11 @@ export const UserPublicSchema = {
 			],
 			title: 'Created At',
 		},
+		force_password_reset: {
+			type: 'boolean',
+			title: 'Force Password Reset',
+			default: false,
+		},
 	},
 	type: 'object',
 	required: ['email', 'id'],
@@ -2155,6 +2976,17 @@ export const UserUpdateSchema = {
 				},
 			],
 			title: 'Password',
+		},
+		force_password_reset: {
+			anyOf: [
+				{
+					type: 'boolean',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Force Password Reset',
 		},
 	},
 	type: 'object',

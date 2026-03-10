@@ -37,6 +37,21 @@ import type {
 	AcademicIndicatorsUpdateUserPreferencesData,
 	AcademicIndicatorsUpdateUserPreferencesErrors,
 	AcademicIndicatorsUpdateUserPreferencesResponses,
+	CensusdataCountOfCensusDataData,
+	CensusdataCountOfCensusDataErrors,
+	CensusdataCountOfCensusDataResponses,
+	CensusdataCreateCensusDataData,
+	CensusdataCreateCensusDataErrors,
+	CensusdataCreateCensusDataResponses,
+	CensusdataDeleteCensusDataData,
+	CensusdataDeleteCensusDataErrors,
+	CensusdataDeleteCensusDataResponses,
+	CensusdataReadCensusDataData,
+	CensusdataReadCensusDataErrors,
+	CensusdataReadCensusDataResponses,
+	CensusdataUpdateCensusDataData,
+	CensusdataUpdateCensusDataErrors,
+	CensusdataUpdateCensusDataResponses,
 	ItemsCreateItemData,
 	ItemsCreateItemErrors,
 	ItemsCreateItemResponses,
@@ -52,6 +67,9 @@ import type {
 	ItemsUpdateItemData,
 	ItemsUpdateItemErrors,
 	ItemsUpdateItemResponses,
+	LoginForcePasswordResetForUsersData,
+	LoginForcePasswordResetForUsersErrors,
+	LoginForcePasswordResetForUsersResponses,
 	LoginLoginAccessTokenData,
 	LoginLoginAccessTokenErrors,
 	LoginLoginAccessTokenResponses,
@@ -69,6 +87,12 @@ import type {
 	PrivateCreateUserData,
 	PrivateCreateUserErrors,
 	PrivateCreateUserResponses,
+	SchoolsReadSchoolsData,
+	SchoolsReadSchoolsErrors,
+	SchoolsReadSchoolsResponses,
+	SchoolsReadSchoolsSummaryData,
+	SchoolsReadSchoolsSummaryErrors,
+	SchoolsReadSchoolsSummaryResponses,
 	UsersCreateUserData,
 	UsersCreateUserErrors,
 	UsersCreateUserResponses,
@@ -213,6 +237,29 @@ export class LoginService {
 			security: [{ scheme: 'bearer', type: 'http' }],
 			url: '/api/v1/password-recovery-html-content/{email}',
 			...options,
+		})
+	}
+
+	/**
+	 * Force Password Reset For Users
+	 *
+	 * Force password reset for a targeted list of users or all active users.
+	 */
+	public static loginForcePasswordResetForUsers<ThrowOnError extends boolean = false>(
+		options: Options<LoginForcePasswordResetForUsersData, ThrowOnError>,
+	) {
+		return (options.client ?? client).post<
+			LoginForcePasswordResetForUsersResponses,
+			LoginForcePasswordResetForUsersErrors,
+			ThrowOnError
+		>({
+			security: [{ scheme: 'bearer', type: 'http' }],
+			url: '/api/v1/login/force-password-reset',
+			...options,
+			headers: {
+				'Content-Type': 'application/json',
+				...options.headers,
+			},
 		})
 	}
 }
@@ -555,6 +602,143 @@ export class ItemsService {
 				...options.headers,
 			},
 		})
+	}
+}
+
+export class CensusdataService {
+	/**
+	 * Count Of Census Data
+	 *
+	 * Retrieve census data.
+	 */
+	public static censusdataCountOfCensusData<ThrowOnError extends boolean = false>(
+		options?: Options<CensusdataCountOfCensusDataData, ThrowOnError>,
+	) {
+		return (options?.client ?? client).get<
+			CensusdataCountOfCensusDataResponses,
+			CensusdataCountOfCensusDataErrors,
+			ThrowOnError
+		>({
+			security: [{ scheme: 'bearer', type: 'http' }],
+			url: '/api/v1/censusdata/',
+			...options,
+		})
+	}
+
+	/**
+	 * Create Census Data
+	 *
+	 * Create new census data.
+	 */
+	public static censusdataCreateCensusData<ThrowOnError extends boolean = false>(
+		options: Options<CensusdataCreateCensusDataData, ThrowOnError>,
+	) {
+		return (options.client ?? client).post<
+			CensusdataCreateCensusDataResponses,
+			CensusdataCreateCensusDataErrors,
+			ThrowOnError
+		>({
+			security: [{ scheme: 'bearer', type: 'http' }],
+			url: '/api/v1/censusdata/',
+			...options,
+			headers: {
+				'Content-Type': 'application/json',
+				...options.headers,
+			},
+		})
+	}
+
+	/**
+	 * Delete Census Data
+	 *
+	 * Delete census data by ID.
+	 */
+	public static censusdataDeleteCensusData<ThrowOnError extends boolean = false>(
+		options: Options<CensusdataDeleteCensusDataData, ThrowOnError>,
+	) {
+		return (options.client ?? client).delete<
+			CensusdataDeleteCensusDataResponses,
+			CensusdataDeleteCensusDataErrors,
+			ThrowOnError
+		>({
+			security: [{ scheme: 'bearer', type: 'http' }],
+			url: '/api/v1/censusdata/{id}',
+			...options,
+		})
+	}
+
+	/**
+	 * Read Census Data
+	 *
+	 * Get census data by ID.
+	 */
+	public static censusdataReadCensusData<ThrowOnError extends boolean = false>(
+		options: Options<CensusdataReadCensusDataData, ThrowOnError>,
+	) {
+		return (options.client ?? client).get<
+			CensusdataReadCensusDataResponses,
+			CensusdataReadCensusDataErrors,
+			ThrowOnError
+		>({
+			security: [{ scheme: 'bearer', type: 'http' }],
+			url: '/api/v1/censusdata/{id}',
+			...options,
+		})
+	}
+
+	/**
+	 * Update Census Data
+	 *
+	 * Update census data by ID.
+	 */
+	public static censusdataUpdateCensusData<ThrowOnError extends boolean = false>(
+		options: Options<CensusdataUpdateCensusDataData, ThrowOnError>,
+	) {
+		return (options.client ?? client).put<
+			CensusdataUpdateCensusDataResponses,
+			CensusdataUpdateCensusDataErrors,
+			ThrowOnError
+		>({
+			security: [{ scheme: 'bearer', type: 'http' }],
+			url: '/api/v1/censusdata/{id}',
+			...options,
+			headers: {
+				'Content-Type': 'application/json',
+				...options.headers,
+			},
+		})
+	}
+}
+
+export class SchoolsService {
+	/**
+	 * Read Schools
+	 *
+	 * Retrieve schools.
+	 */
+	public static schoolsReadSchools<ThrowOnError extends boolean = false>(
+		options?: Options<SchoolsReadSchoolsData, ThrowOnError>,
+	) {
+		return (options?.client ?? client).get<
+			SchoolsReadSchoolsResponses,
+			SchoolsReadSchoolsErrors,
+			ThrowOnError
+		>({ url: '/api/v1/schools/', ...options })
+	}
+
+	/**
+	 * Read Schools Summary
+	 *
+	 * Retrieve schools with a summarized view.
+	 */
+	public static schoolsReadSchoolsSummary<ThrowOnError extends boolean = false>(
+		options?: Options<SchoolsReadSchoolsSummaryData, ThrowOnError>,
+	) {
+		return (options?.client ?? client).get<
+			SchoolsReadSchoolsSummaryResponses,
+			SchoolsReadSchoolsSummaryErrors,
+			ThrowOnError
+		>({ url: '/api/v1/schools/summary', ...options })
 	}
 }
 
