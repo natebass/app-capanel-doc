@@ -252,7 +252,7 @@ function SystemStatusPage() {
 					<CardContent>
 						<Progress value={99.87}>
 							<ProgressLabel>Uptime</ProgressLabel>
-							<ProgressValue>99.87%</ProgressValue>
+							<ProgressValue>{() => '99.87%'}</ProgressValue>
 						</Progress>
 					</CardContent>
 				</Card>

@@ -69,9 +69,8 @@ const ChangePassword = () => {
 				}}
 				className='flex flex-col gap-4'
 			>
-				<form.Field
-					name='current_password'
-					children={(field) => (
+				<form.Field name='current_password'>
+					{(field) => (
 						<Field>
 							<FieldLabel htmlFor={field.name}>Current Password</FieldLabel>
 							<PasswordInput
@@ -90,11 +89,10 @@ const ChangePassword = () => {
 							)}
 						</Field>
 					)}
-				/>
+				</form.Field>
 
-				<form.Field
-					name='new_password'
-					children={(field) => (
+				<form.Field name='new_password'>
+					{(field) => (
 						<Field>
 							<FieldLabel htmlFor={field.name}>New Password</FieldLabel>
 							<PasswordInput
@@ -113,11 +111,10 @@ const ChangePassword = () => {
 							)}
 						</Field>
 					)}
-				/>
+				</form.Field>
 
-				<form.Field
-					name='confirm_password'
-					children={(field) => (
+				<form.Field name='confirm_password'>
+					{(field) => (
 						<Field>
 							<FieldLabel htmlFor={field.name}>Confirm Password</FieldLabel>
 							<PasswordInput
@@ -136,11 +133,10 @@ const ChangePassword = () => {
 							)}
 						</Field>
 					)}
-				/>
+				</form.Field>
 
-				<form.Subscribe
-					selector={(state) => [state.canSubmit, state.isSubmitting]}
-					children={([canSubmit, isSubmitting]) => (
+				<form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+					{([canSubmit, isSubmitting]) => (
 						<Button
 							type='submit'
 							className='self-start'
@@ -150,7 +146,7 @@ const ChangePassword = () => {
 							Update Password
 						</Button>
 					)}
-				/>
+				</form.Subscribe>
 			</form>
 		</div>
 	)

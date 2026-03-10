@@ -1,5 +1,10 @@
-import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from 'lucide-react'
-import type * as React from 'react'
+import {
+	ArrowLeft01Icon,
+	ArrowRight01Icon,
+	MoreHorizontalCircle01Icon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -19,7 +24,7 @@ function PaginationContent({ className, ...props }: React.ComponentProps<'ul'>) 
 	return (
 		<ul
 			data-slot='pagination-content'
-			className={cn('gap-1 flex items-center', className)}
+			className={cn('flex items-center gap-1', className)}
 			{...props}
 		/>
 	)
@@ -34,7 +39,13 @@ type PaginationLinkProps = {
 } & Pick<React.ComponentProps<typeof Button>, 'size'> &
 	React.ComponentProps<'a'>
 
-function PaginationLink({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) {
+function PaginationLink({
+	className,
+	isActive,
+	size = 'icon',
+	children,
+	...props
+}: PaginationLinkProps) {
 	return (
 		<Button
 			variant={isActive ? 'outline' : 'ghost'}
@@ -47,13 +58,19 @@ function PaginationLink({ className, isActive, size = 'icon', ...props }: Pagina
 					data-slot='pagination-link'
 					data-active={isActive}
 					{...props}
-				/>
+				>
+					{children}
+				</a>
 			}
 		/>
 	)
 }
 
-function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+function PaginationPrevious({
+	className,
+	text = 'Previous',
+	...props
+}: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
 	return (
 		<PaginationLink
 			aria-label='Go to previous page'
@@ -61,13 +78,17 @@ function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof
 			className={cn('pl-2!', className)}
 			{...props}
 		>
-			<ChevronLeftIcon data-icon='inline-start' />
-			<span className='hidden sm:block'>Previous</span>
+			<HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} data-icon='inline-start' />
+			<span className='hidden sm:block'>{text}</span>
 		</PaginationLink>
 	)
 }
 
-function PaginationNext({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+function PaginationNext({
+	className,
+	text = 'Next',
+	...props
+}: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
 	return (
 		<PaginationLink
 			aria-label='Go to next page'
@@ -75,8 +96,8 @@ function PaginationNext({ className, ...props }: React.ComponentProps<typeof Pag
 			className={cn('pr-2!', className)}
 			{...props}
 		>
-			<span className='hidden sm:block'>Next</span>
-			<ChevronRightIcon data-icon='inline-end' />
+			<span className='hidden sm:block'>{text}</span>
+			<HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} data-icon='inline-end' />
 		</PaginationLink>
 	)
 }
@@ -87,12 +108,12 @@ function PaginationEllipsis({ className, ...props }: React.ComponentProps<'span'
 			aria-hidden
 			data-slot='pagination-ellipsis'
 			className={cn(
-				"size-9 items-center justify-center [&_svg:not([class*='size-'])]:size-4 flex items-center justify-center",
+				"flex size-9 items-center justify-center [&_svg:not([class*='size-'])]:size-4",
 				className,
 			)}
 			{...props}
 		>
-			<MoreHorizontalIcon />
+			<HugeiconsIcon icon={MoreHorizontalCircle01Icon} strokeWidth={2} />
 			<span className='sr-only'>More pages</span>
 		</span>
 	)

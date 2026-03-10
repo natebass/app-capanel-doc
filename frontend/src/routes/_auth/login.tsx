@@ -65,9 +65,8 @@ function Login() {
 				</div>
 
 				<div className='grid gap-4'>
-					<form.Field
-						name='username'
-						children={(field) => (
+					<form.Field name='username'>
+						{(field) => (
 							<Field>
 								<FieldLabel htmlFor={field.name}>Email</FieldLabel>
 								<Input
@@ -87,11 +86,10 @@ function Login() {
 								)}
 							</Field>
 						)}
-					/>
+					</form.Field>
 
-					<form.Field
-						name='password'
-						children={(field) => (
+					<form.Field name='password'>
+						{(field) => (
 							<Field>
 								<div className='flex items-center'>
 									<FieldLabel htmlFor={field.name}>Password</FieldLabel>
@@ -118,11 +116,10 @@ function Login() {
 								)}
 							</Field>
 						)}
-					/>
+					</form.Field>
 
-					<form.Subscribe
-						selector={(state) => [state.canSubmit, state.isSubmitting]}
-						children={([canSubmit, isSubmitting]) => (
+					<form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+						{([canSubmit, isSubmitting]) => (
 							<Button
 								type='submit'
 								className='w-full'
@@ -132,7 +129,7 @@ function Login() {
 								Log In
 							</Button>
 						)}
-					/>
+					</form.Subscribe>
 				</div>
 
 				<div className='text-center text-sm'>

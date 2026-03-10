@@ -100,9 +100,8 @@ const AddUser = () => {
 					}}
 				>
 					<div className='grid gap-4 py-4'>
-						<form.Field
-							name='email'
-							children={(field) => (
+						<form.Field name='email'>
+							{(field) => (
 								<Field>
 									<FieldLabel htmlFor={field.name}>
 										Email <span className='text-destructive'>*</span>
@@ -123,11 +122,10 @@ const AddUser = () => {
 									)}
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='full_name'
-							children={(field) => (
+						<form.Field name='full_name'>
+							{(field) => (
 								<Field>
 									<FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
 									<Input
@@ -146,11 +144,10 @@ const AddUser = () => {
 									)}
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='password'
-							children={(field) => (
+						<form.Field name='password'>
+							{(field) => (
 								<Field>
 									<FieldLabel htmlFor={field.name}>
 										Set Password <span className='text-destructive'>*</span>
@@ -170,11 +167,10 @@ const AddUser = () => {
 									)}
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='confirm_password'
-							children={(field) => (
+						<form.Field name='confirm_password'>
+							{(field) => (
 								<Field>
 									<FieldLabel htmlFor={field.name}>
 										Confirm Password <span className='text-destructive'>*</span>
@@ -194,11 +190,10 @@ const AddUser = () => {
 									)}
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='is_superuser'
-							children={(field) => (
+						<form.Field name='is_superuser'>
+							{(field) => (
 								<Field className='flex items-center gap-3'>
 									<Checkbox
 										id={field.name}
@@ -210,11 +205,10 @@ const AddUser = () => {
 									</FieldLabel>
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='is_active'
-							children={(field) => (
+						<form.Field name='is_active'>
+							{(field) => (
 								<Field className='flex items-center gap-3'>
 									<Checkbox
 										id={field.name}
@@ -226,22 +220,21 @@ const AddUser = () => {
 									</FieldLabel>
 								</Field>
 							)}
-						/>
+						</form.Field>
 					</div>
 
 					<DialogFooter>
 						<DialogClose render={<Button variant='outline' disabled={mutation.isPending} />}>
 							Cancel
 						</DialogClose>
-						<form.Subscribe
-							selector={(state) => [state.canSubmit, state.isSubmitting]}
-							children={([canSubmit, isSubmitting]) => (
+						<form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+							{([canSubmit, isSubmitting]) => (
 								<Button type='submit' disabled={!canSubmit || mutation.isPending}>
 									{(isSubmitting || mutation.isPending) && <Spinner className='mr-2' />}
 									Save
 								</Button>
 							)}
-						/>
+						</form.Subscribe>
 					</DialogFooter>
 				</form>
 			</DialogContent>

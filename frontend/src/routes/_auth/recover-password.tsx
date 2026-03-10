@@ -73,9 +73,8 @@ function RecoverPassword() {
 				</div>
 
 				<div className='grid gap-4'>
-					<form.Field
-						name='email'
-						children={(field) => (
+					<form.Field name='email'>
+						{(field) => (
 							<Field>
 								<FieldLabel htmlFor={field.name}>Email</FieldLabel>
 								<Input
@@ -95,17 +94,16 @@ function RecoverPassword() {
 								)}
 							</Field>
 						)}
-					/>
+					</form.Field>
 
-					<form.Subscribe
-						selector={(state) => [state.canSubmit, state.isSubmitting]}
-						children={([canSubmit, isSubmitting]) => (
+					<form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+						{([canSubmit, isSubmitting]) => (
 							<Button type='submit' className='w-full' disabled={!canSubmit || mutation.isPending}>
 								{(isSubmitting || mutation.isPending) && <Spinner className='mr-2' />}
 								Continue
 							</Button>
 						)}
-					/>
+					</form.Subscribe>
 				</div>
 
 				<div className='text-center text-sm'>

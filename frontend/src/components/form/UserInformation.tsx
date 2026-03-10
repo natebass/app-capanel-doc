@@ -80,9 +80,8 @@ const UserInformation = () => {
 				}}
 				className='flex flex-col gap-4'
 			>
-				<form.Field
-					name='full_name'
-					children={(field) =>
+				<form.Field name='full_name'>
+					{(field) =>
 						editMode ? (
 							<Field>
 								<FieldLabel htmlFor={field.name}>Full name</FieldLabel>
@@ -114,11 +113,10 @@ const UserInformation = () => {
 							</Field>
 						)
 					}
-				/>
+				</form.Field>
 
-				<form.Field
-					name='email'
-					children={(field) =>
+				<form.Field name='email'>
+					{(field) =>
 						editMode ? (
 							<Field>
 								<FieldLabel htmlFor={field.name}>Email</FieldLabel>
@@ -143,20 +141,21 @@ const UserInformation = () => {
 							</Field>
 						)
 					}
-				/>
+				</form.Field>
 
 				<div className='flex gap-3'>
 					{editMode ? (
 						<>
 							<form.Subscribe
 								selector={(state) => [state.canSubmit, state.isSubmitting, state.isDirty]}
-								children={([canSubmit, isSubmitting, isDirty]) => (
+							>
+								{([canSubmit, isSubmitting, isDirty]) => (
 									<Button type='submit' disabled={!canSubmit || !isDirty || mutation.isPending}>
 										{(isSubmitting || mutation.isPending) && <Spinner className='mr-2' />}
 										Save
 									</Button>
 								)}
-							/>
+							</form.Subscribe>
 							<Button
 								type='button'
 								variant='outline'

@@ -114,7 +114,13 @@ export function ComboBox({
 							{filteredOptions.map((option) => (
 								<li
 									key={option}
+									tabIndex={0}
 									onClick={() => handleSelect(option)}
+									onKeyDown={(e) => {
+										if (e.key === 'Enter' || e.key === ' ') {
+											handleSelect(option)
+										}
+									}}
 									className='relative cursor-pointer select-none py-2 pl-3 pr-9 text-gray-900 hover:bg-cool4-500 '
 								>
 									{option}

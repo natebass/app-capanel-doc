@@ -74,9 +74,8 @@ function SignUp() {
 				</div>
 
 				<div className='grid gap-4'>
-					<form.Field
-						name='full_name'
-						children={(field) => (
+					<form.Field name='full_name'>
+						{(field) => (
 							<Field>
 								<FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
 								<Input
@@ -96,11 +95,10 @@ function SignUp() {
 								)}
 							</Field>
 						)}
-					/>
+					</form.Field>
 
-					<form.Field
-						name='email'
-						children={(field) => (
+					<form.Field name='email'>
+						{(field) => (
 							<Field>
 								<FieldLabel htmlFor={field.name}>Email</FieldLabel>
 								<Input
@@ -120,11 +118,10 @@ function SignUp() {
 								)}
 							</Field>
 						)}
-					/>
+					</form.Field>
 
-					<form.Field
-						name='password'
-						children={(field) => (
+					<form.Field name='password'>
+						{(field) => (
 							<Field>
 								<FieldLabel htmlFor={field.name}>Password</FieldLabel>
 								<PasswordInput
@@ -143,11 +140,10 @@ function SignUp() {
 								)}
 							</Field>
 						)}
-					/>
+					</form.Field>
 
-					<form.Field
-						name='confirm_password'
-						children={(field) => (
+					<form.Field name='confirm_password'>
+						{(field) => (
 							<Field>
 								<FieldLabel htmlFor={field.name}>Confirm Password</FieldLabel>
 								<PasswordInput
@@ -166,11 +162,10 @@ function SignUp() {
 								)}
 							</Field>
 						)}
-					/>
+					</form.Field>
 
-					<form.Subscribe
-						selector={(state) => [state.canSubmit, state.isSubmitting]}
-						children={([canSubmit, isSubmitting]) => (
+					<form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+						{([canSubmit, isSubmitting]) => (
 							<Button
 								type='submit'
 								className='w-full'
@@ -180,7 +175,7 @@ function SignUp() {
 								Sign Up
 							</Button>
 						)}
-					/>
+					</form.Subscribe>
 				</div>
 
 				<div className='text-center text-sm'>

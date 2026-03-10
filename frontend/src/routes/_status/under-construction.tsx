@@ -42,7 +42,7 @@ function UnderConstructionPage() {
 
 				<Progress value={35}>
 					<ProgressLabel>Build Progress</ProgressLabel>
-					<ProgressValue>35%</ProgressValue>
+					<ProgressValue>{() => '35%'}</ProgressValue>
 				</Progress>
 
 				<Separator />

@@ -66,7 +66,7 @@ function LoadingDemoPage() {
 							</div>
 							<Progress value={65}>
 								<ProgressLabel>Loading</ProgressLabel>
-								<ProgressValue>65%</ProgressValue>
+								<ProgressValue>{() => '65%'}</ProgressValue>
 							</Progress>
 						</div>
 						<Separator className='my-4' />

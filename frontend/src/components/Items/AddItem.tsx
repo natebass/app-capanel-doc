@@ -79,9 +79,8 @@ const AddItem = () => {
 					}}
 				>
 					<div className='grid gap-4 py-4'>
-						<form.Field
-							name='title'
-							children={(field) => (
+						<form.Field name='title'>
+							{(field) => (
 								<Field>
 									<FieldLabel htmlFor={field.name}>
 										Title <span className='text-destructive'>*</span>
@@ -102,11 +101,10 @@ const AddItem = () => {
 									)}
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='description'
-							children={(field) => (
+						<form.Field name='description'>
+							{(field) => (
 								<Field>
 									<FieldLabel htmlFor={field.name}>Description</FieldLabel>
 									<Input
@@ -125,22 +123,21 @@ const AddItem = () => {
 									)}
 								</Field>
 							)}
-						/>
+						</form.Field>
 					</div>
 
 					<DialogFooter>
 						<DialogClose render={<Button variant='outline' disabled={mutation.isPending} />}>
 							Cancel
 						</DialogClose>
-						<form.Subscribe
-							selector={(state) => [state.canSubmit, state.isSubmitting]}
-							children={([canSubmit, isSubmitting]) => (
+						<form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+							{([canSubmit, isSubmitting]) => (
 								<Button type='submit' disabled={!canSubmit || mutation.isPending}>
 									{(isSubmitting || mutation.isPending) && <Spinner className='mr-2' />}
 									Save
 								</Button>
 							)}
-						/>
+						</form.Subscribe>
 					</DialogFooter>
 				</form>
 			</DialogContent>

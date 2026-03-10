@@ -45,7 +45,7 @@ function BandwidthExceededPage() {
 
 				<Progress value={100}>
 					<ProgressLabel>Bandwidth Used</ProgressLabel>
-					<ProgressValue>100GB / 100GB</ProgressValue>
+					<ProgressValue>{() => '100%'}</ProgressValue>
 				</Progress>
 
 				<Separator />

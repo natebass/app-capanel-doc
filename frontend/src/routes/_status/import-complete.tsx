@@ -48,7 +48,7 @@ function ImportCompletePage() {
 
 				<Progress value={100}>
 					<ProgressLabel>Import Progress</ProgressLabel>
-					<ProgressValue>100%</ProgressValue>
+					<ProgressValue>{() => '100%'}</ProgressValue>
 				</Progress>
 
 				<Separator />

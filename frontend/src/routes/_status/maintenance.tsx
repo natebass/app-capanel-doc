@@ -47,7 +47,7 @@ function MaintenancePage() {
 
 				<Progress value={45}>
 					<ProgressLabel>Maintenance Progress</ProgressLabel>
-					<ProgressValue>45%</ProgressValue>
+					<ProgressValue>{() => '45%'}</ProgressValue>
 				</Progress>
 
 				<Separator />

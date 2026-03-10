@@ -108,9 +108,8 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 						<DialogDescription>Update the user details below.</DialogDescription>
 					</DialogHeader>
 					<div className='grid gap-4 py-4'>
-						<form.Field
-							name='email'
-							children={(field) => (
+						<form.Field name='email'>
+							{(field) => (
 								<Field>
 									<FieldLabel htmlFor={field.name}>
 										Email <span className='text-destructive'>*</span>
@@ -131,11 +130,10 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 									)}
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='full_name'
-							children={(field) => (
+						<form.Field name='full_name'>
+							{(field) => (
 								<Field>
 									<FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
 									<Input
@@ -154,11 +152,10 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 									)}
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='password'
-							children={(field) => (
+						<form.Field name='password'>
+							{(field) => (
 								<Field>
 									<FieldLabel htmlFor={field.name}>Set Password</FieldLabel>
 									<PasswordInput
@@ -176,11 +173,10 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 									)}
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='confirm_password'
-							children={(field) => (
+						<form.Field name='confirm_password'>
+							{(field) => (
 								<Field>
 									<FieldLabel htmlFor={field.name}>Confirm Password</FieldLabel>
 									<PasswordInput
@@ -198,11 +194,10 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 									)}
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='is_superuser'
-							children={(field) => (
+						<form.Field name='is_superuser'>
+							{(field) => (
 								<Field className='flex items-center gap-3'>
 									<Checkbox
 										id={field.name}
@@ -214,11 +209,10 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 									</FieldLabel>
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='is_active'
-							children={(field) => (
+						<form.Field name='is_active'>
+							{(field) => (
 								<Field className='flex items-center gap-3'>
 									<Checkbox
 										id={field.name}
@@ -230,11 +224,10 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 									</FieldLabel>
 								</Field>
 							)}
-						/>
+						</form.Field>
 
-						<form.Field
-							name='force_password_reset'
-							children={(field) => (
+						<form.Field name='force_password_reset'>
+							{(field) => (
 								<Field className='flex items-center gap-3'>
 									<Checkbox
 										id={field.name}
@@ -246,22 +239,21 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 									</FieldLabel>
 								</Field>
 							)}
-						/>
+						</form.Field>
 					</div>
 
 					<DialogFooter>
 						<DialogClose render={<Button variant='outline' disabled={mutation.isPending} />}>
 							Cancel
 						</DialogClose>
-						<form.Subscribe
-							selector={(state) => [state.canSubmit, state.isSubmitting]}
-							children={([canSubmit, isSubmitting]) => (
+						<form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+							{([canSubmit, isSubmitting]) => (
 								<Button type='submit' disabled={!canSubmit || mutation.isPending}>
 									{(isSubmitting || mutation.isPending) && <Spinner className='mr-2' />}
 									Save
 								</Button>
 							)}
-						/>
+						</form.Subscribe>
 					</DialogFooter>
 				</form>
 			</DialogContent>

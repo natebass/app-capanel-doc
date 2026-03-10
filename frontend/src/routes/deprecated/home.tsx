@@ -4,7 +4,7 @@ import CardGrid from '@/components/CardGrid.tsx'
 import NavbarD52 from '@/components/layout/navbar/NavbarD52.tsx'
 import { Button } from '@/components/ui/button'
 
-export const Route = createFileRoute('/_deprecated/home')({
+export const Route = createFileRoute('/deprecated/home')({
 	component: HomePage,
 })
 

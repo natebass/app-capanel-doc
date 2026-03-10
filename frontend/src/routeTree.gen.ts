@@ -20,6 +20,7 @@ import { Route as UserItemsRouteImport } from './routes/user/items'
 import { Route as UserAdminRouteImport } from './routes/user/admin'
 import { Route as UserLayoutRouteImport } from './routes/user/_layout'
 import { Route as PrivatePrivateRouteImport } from './routes/private/_private'
+import { Route as DeprecatedHomeRouteImport } from './routes/deprecated/home'
 import { Route as StatusWelcomeRouteImport } from './routes/_status/welcome'
 import { Route as StatusWebhookConfiguredRouteImport } from './routes/_status/webhook-configured'
 import { Route as StatusVerifyEmailRouteImport } from './routes/_status/verify-email'
@@ -71,7 +72,6 @@ import { Route as Status403RouteImport } from './routes/_status/403'
 import { Route as Status401RouteImport } from './routes/_status/401'
 import { Route as Status2faRequiredRouteImport } from './routes/_status/2fa-required'
 import { Route as Status2faEnabledRouteImport } from './routes/_status/2fa-enabled'
-import { Route as DeprecatedHomeRouteImport } from './routes/_deprecated/home'
 import { Route as AuthSignUpRouteImport } from './routes/_auth/sign-up'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as AuthRecoverPasswordRouteImport } from './routes/_auth/recover-password'
@@ -129,6 +129,11 @@ const UserLayoutRoute = UserLayoutRouteImport.update({
 const PrivatePrivateRoute = PrivatePrivateRouteImport.update({
   id: '/private/_private',
   path: '/private',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeprecatedHomeRoute = DeprecatedHomeRouteImport.update({
+  id: '/deprecated/home',
+  path: '/deprecated/home',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StatusWelcomeRoute = StatusWelcomeRouteImport.update({
@@ -387,11 +392,6 @@ const Status2faEnabledRoute = Status2faEnabledRouteImport.update({
   path: '/2fa-enabled',
   getParentRoute: () => StatusRoute,
 } as any)
-const DeprecatedHomeRoute = DeprecatedHomeRouteImport.update({
-  id: '/_deprecated/home',
-  path: '/home',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthSignUpRoute = AuthSignUpRouteImport.update({
   id: '/_auth/sign-up',
   path: '/sign-up',
@@ -419,7 +419,6 @@ export interface FileRoutesByFullPath {
   '/recover-password': typeof AuthRecoverPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/home': typeof DeprecatedHomeRoute
   '/2fa-enabled': typeof Status2faEnabledRoute
   '/2fa-required': typeof Status2faRequiredRoute
   '/401': typeof Status401Route
@@ -471,6 +470,7 @@ export interface FileRoutesByFullPath {
   '/verify-email': typeof StatusVerifyEmailRoute
   '/webhook-configured': typeof StatusWebhookConfiguredRoute
   '/welcome': typeof StatusWelcomeRoute
+  '/deprecated/home': typeof DeprecatedHomeRoute
   '/private': typeof PrivatePrivateRoute
   '/user': typeof UserLayoutRoute
   '/user/admin': typeof UserAdminRoute
@@ -487,7 +487,6 @@ export interface FileRoutesByTo {
   '/recover-password': typeof AuthRecoverPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/home': typeof DeprecatedHomeRoute
   '/2fa-enabled': typeof Status2faEnabledRoute
   '/2fa-required': typeof Status2faRequiredRoute
   '/401': typeof Status401Route
@@ -539,6 +538,7 @@ export interface FileRoutesByTo {
   '/verify-email': typeof StatusVerifyEmailRoute
   '/webhook-configured': typeof StatusWebhookConfiguredRoute
   '/welcome': typeof StatusWelcomeRoute
+  '/deprecated/home': typeof DeprecatedHomeRoute
   '/private': typeof PrivatePrivateRoute
   '/user': typeof UserIndexRoute
   '/user/admin': typeof UserAdminRoute
@@ -556,7 +556,6 @@ export interface FileRoutesById {
   '/_auth/recover-password': typeof AuthRecoverPasswordRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
-  '/_deprecated/home': typeof DeprecatedHomeRoute
   '/_status/2fa-enabled': typeof Status2faEnabledRoute
   '/_status/2fa-required': typeof Status2faRequiredRoute
   '/_status/401': typeof Status401Route
@@ -608,6 +607,7 @@ export interface FileRoutesById {
   '/_status/verify-email': typeof StatusVerifyEmailRoute
   '/_status/webhook-configured': typeof StatusWebhookConfiguredRoute
   '/_status/welcome': typeof StatusWelcomeRoute
+  '/deprecated/home': typeof DeprecatedHomeRoute
   '/private/_private': typeof PrivatePrivateRoute
   '/user/_layout': typeof UserLayoutRoute
   '/user/admin': typeof UserAdminRoute
@@ -626,7 +626,6 @@ export interface FileRouteTypes {
     | '/recover-password'
     | '/reset-password'
     | '/sign-up'
-    | '/home'
     | '/2fa-enabled'
     | '/2fa-required'
     | '/401'
@@ -678,6 +677,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/webhook-configured'
     | '/welcome'
+    | '/deprecated/home'
     | '/private'
     | '/user'
     | '/user/admin'
@@ -694,7 +694,6 @@ export interface FileRouteTypes {
     | '/recover-password'
     | '/reset-password'
     | '/sign-up'
-    | '/home'
     | '/2fa-enabled'
     | '/2fa-required'
     | '/401'
@@ -746,6 +745,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/webhook-configured'
     | '/welcome'
+    | '/deprecated/home'
     | '/private'
     | '/user'
     | '/user/admin'
@@ -762,7 +762,6 @@ export interface FileRouteTypes {
     | '/_auth/recover-password'
     | '/_auth/reset-password'
     | '/_auth/sign-up'
-    | '/_deprecated/home'
     | '/_status/2fa-enabled'
     | '/_status/2fa-required'
     | '/_status/401'
@@ -814,6 +813,7 @@ export interface FileRouteTypes {
     | '/_status/verify-email'
     | '/_status/webhook-configured'
     | '/_status/welcome'
+    | '/deprecated/home'
     | '/private/_private'
     | '/user/_layout'
     | '/user/admin'
@@ -921,6 +921,13 @@ declare module '@tanstack/react-router' {
       path: '/private'
       fullPath: '/private'
       preLoaderRoute: typeof PrivatePrivateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/deprecated/home': {
+      id: '/deprecated/home'
+      path: '/deprecated/home'
+      fullPath: '/deprecated/home'
+      preLoaderRoute: typeof DeprecatedHomeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_status/welcome': {
@@ -1279,13 +1286,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/2fa-enabled'
       preLoaderRoute: typeof Status2faEnabledRouteImport
       parentRoute: typeof StatusRoute
-    }
-    '/_deprecated/home': {
-      id: '/_deprecated/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof DeprecatedHomeRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/_auth/sign-up': {
       id: '/_auth/sign-up'

@@ -47,7 +47,7 @@ function QueuedPage() {
 
 				<Progress value={25}>
 					<ProgressLabel>Estimated wait</ProgressLabel>
-					<ProgressValue>~3 min</ProgressValue>
+					<ProgressValue>{() => '~3 min'}</ProgressValue>
 				</Progress>
 
 				<Separator />

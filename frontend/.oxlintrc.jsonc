@@ -14,7 +14,6 @@
 		"react-perf",
 		"promise",
 	],
-	"jsPlugins": ["eslint-plugin-playwright", "eslint-plugin-react"],
 	// Ignore patterns (from biome files.includes negations)
 	"ignorePatterns": [
 		"**/src/routeTree.gen.ts",

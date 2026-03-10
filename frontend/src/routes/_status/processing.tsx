@@ -45,7 +45,7 @@ function ProcessingPage() {
 
 				<Progress value={68}>
 					<ProgressLabel>Progress</ProgressLabel>
-					<ProgressValue>68%</ProgressValue>
+					<ProgressValue>{() => '68%'}</ProgressValue>
 				</Progress>
 
 				<Separator />

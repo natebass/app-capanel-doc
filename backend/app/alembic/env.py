@@ -9,6 +9,8 @@ config = context.config
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
+# mypy says config.config_file_name can be None, but Alembic always sets it.
+assert config.config_file_name is not None, "config_file_name is required"
 fileConfig(config.config_file_name)
 
 # add your model's MetaData object here

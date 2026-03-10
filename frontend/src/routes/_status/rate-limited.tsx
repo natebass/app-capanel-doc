@@ -48,7 +48,7 @@ function RateLimitedPage() {
 
 				<Progress value={100}>
 					<ProgressLabel>Rate Limit</ProgressLabel>
-					<ProgressValue>100/100</ProgressValue>
+					<ProgressValue>{() => '100/100'}</ProgressValue>
 				</Progress>
 
 				<Separator />

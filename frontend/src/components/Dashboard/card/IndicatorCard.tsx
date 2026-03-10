@@ -83,23 +83,14 @@ export function IndicatorCard({
 		onColorClick?.(colorKey)
 	}
 
-	const handleKeyDown = (e: React.KeyboardEvent) => {
-		if (e.key === 'Enter' || e.key === ' ') {
-			e.preventDefault()
-			onClick?.()
-		}
-	}
-
 	return (
-		<div
+		<button
+			type='button'
 			className={cn(
-				'bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+				'bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-left w-full block',
 				!hasData && 'opacity-60',
 			)}
 			onClick={onClick}
-			onKeyDown={handleKeyDown}
-			tabIndex={0}
-			role='button'
 			aria-label={`${config.shortLabel} indicator`}
 		>
 			<div className='font-semibold'>{config.shortLabel}</div>
@@ -125,7 +116,7 @@ export function IndicatorCard({
 					))}
 				</div>
 			)}
-		</div>
+		</button>
 	)
 }
 

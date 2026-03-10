@@ -92,9 +92,8 @@ function ResetPassword() {
 				</div>
 
 				<div className='grid gap-4'>
-					<form.Field
-						name='new_password'
-						children={(field) => (
+					<form.Field name='new_password'>
+						{(field) => (
 							<Field>
 								<FieldLabel htmlFor={field.name}>New Password</FieldLabel>
 								<PasswordInput
@@ -113,11 +112,10 @@ function ResetPassword() {
 								)}
 							</Field>
 						)}
-					/>
+					</form.Field>
 
-					<form.Field
-						name='confirm_password'
-						children={(field) => (
+					<form.Field name='confirm_password'>
+						{(field) => (
 							<Field>
 								<FieldLabel htmlFor={field.name}>Confirm Password</FieldLabel>
 								<PasswordInput
@@ -136,17 +134,16 @@ function ResetPassword() {
 								)}
 							</Field>
 						)}
-					/>
+					</form.Field>
 
-					<form.Subscribe
-						selector={(state) => [state.canSubmit, state.isSubmitting]}
-						children={([canSubmit, isSubmitting]) => (
+					<form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+						{([canSubmit, isSubmitting]) => (
 							<Button type='submit' className='w-full' disabled={!canSubmit || mutation.isPending}>
 								{(isSubmitting || mutation.isPending) && <Spinner className='mr-2' />}
 								Reset Password
 							</Button>
 						)}
-					/>
+					</form.Subscribe>
 				</div>
 
 				<div className='text-center text-sm'>
