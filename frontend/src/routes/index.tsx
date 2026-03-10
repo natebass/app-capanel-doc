@@ -77,10 +77,15 @@ function RouteComponent() {
 							<li className={styles.actionItem}>
 								<span className={styles.actionDescription}>Explore the dashboard.</span>
 								<div className={styles.actionButtons}>
-									<Button render={<Link to='/dashboard'>Find a school</Link>} variant='default' />
+									<Button
+										render={<Link to='/dashboard'>Find a school</Link>}
+										variant='default'
+										nativeButton={false}
+									/>
 									<Button
 										render={<Link to='/dashboard'>View state-wide summary</Link>}
 										variant='default'
+										nativeButton={false}
 									/>
 								</div>
 							</li>
@@ -89,14 +94,22 @@ function RouteComponent() {
 								<span className={styles.actionDescription}>
 									Search for a school or district to view performance data.
 								</span>
-								<Button render={<Link to='/dashboard'>Search now</Link>} variant='outline' />
+								<Button
+									render={<Link to='/dashboard'>Search now</Link>}
+									variant='outline'
+									nativeButton={false}
+								/>
 							</li>
 
 							<li className={styles.actionItem}>
 								<span className={styles.actionDescription}>
 									Personalize the dashboard by uploading custom CSV data.
 								</span>
-								<Button render={<Link to='/dashboard'>Upload CSV file</Link>} variant='secondary' />
+								<Button
+									render={<Link to='/dashboard'>Upload CSV file</Link>}
+									variant='secondary'
+									nativeButton={false}
+								/>
 							</li>
 						</ol>
 					</div>
