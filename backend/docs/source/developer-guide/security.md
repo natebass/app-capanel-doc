@@ -21,15 +21,14 @@ If specific credentials are known to be exposed, follow these steps immediately.
 
 ### 1. Rotate exposed credentials immediately
 
-*   **Cloud SQL app user password (`CLOUD_SQL_PASSWORD`)**: Rotate via `rotate_gcp_credentials.py --rotate-cloud-sql-password` (or `--all`).
-*   **Local/Postgres passwords**: Regenerate in `.env` (`POSTGRES_PASSWORD`, `DATABASE_PASSWORD`).
-*   **App auth secrets**: Regenerate in `.env` (`SECRET_KEY`, `FIRST_SUPERUSER_PASSWORD`).
-*   **Strapi API key**: Set the rotated value in `.env` (`VITE_STRAPI_API_KEY`).
+*   **Generate fresh values first**: Use `rotate_exposed_secrets.py` to generate the exposed values in one pass (for example `--target gcloud --target local-db --target secret-key`, or `--target all`).
+*   **Update local env values**: Put generated values into `.env` (`CLOUD_SQL_PASSWORD`, `POSTGRES_PASSWORD`, `FIRST_SUPERUSER_PASSWORD`, `SECRET_KEY`) and rotate `VITE_STRAPI_API_KEY` as needed.
+*   **Apply Cloud SQL password rotation in GCP**: Run `rotate_gcp_credentials.py --rotate-cloud-sql-password` (or `--all`) after `.env` has the new `CLOUD_SQL_PASSWORD`.
 
 ### 2. Update secret distribution
 
-*   **Push rotated DB password**: Update Secret Manager with `rotate_gcp_credentials.py --update-secret-manager` (or `--all`).
-*   **Update app secrets**: Update app secrets in Secret Manager with `create_secrets.py` so Cloud Run services use the latest versions.
+*   **Push rotated DB password**: Update Secret Manager with `rotate_gcp_credentials.py --update-secret-manager` (or `--all`) so `capanel-postgres-password` matches the newly generated value.
+*   **Update app secrets**: Run `create_secrets.py` after rotating values so `capanel-secret-key` (and related app secrets) are synchronized in Secret Manager for Cloud Run.
 
 ### 3. Recycle runtime and access paths
 
