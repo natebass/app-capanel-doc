@@ -1,3 +1,13 @@
+"""FastAPI application entry point.
+
+Creates the :class:`FastAPI` application instance, configures CORS
+middleware, registers the API router, and defines the application
+lifespan for startup/shutdown hooks.
+"""
+
+from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
+
 import sentry_sdk
 from fastapi import FastAPI
 from fastapi.routing import APIRoute
@@ -5,19 +15,51 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.api.main import api_router
 from app.core.config import settings
+from app.data_import import startup_data_import
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
-    return f'{route.tags[0]}-{route.name}'
+    """Generate a deterministic OpenAPI operation ID for a route.
+
+    The ID is formed as ``"{tag}-{route_name}"``, using the first tag
+    assigned to the route or ``"default"`` when no tags are present.
+
+    Args:
+        route: The :class:`APIRoute` to generate an ID for.
+
+    Returns:
+        A unique string identifier for the route's OpenAPI operation.
+    """
+    tag = route.tags[0] if route.tags else "default"
+    return f"{tag}-{route.name}"
 
 
-if settings.SENTRY_DSN and settings.ENVIRONMENT != 'local':
+if settings.SENTRY_DSN and settings.ENVIRONMENT != "local":
     sentry_sdk.init(dsn=str(settings.SENTRY_DSN), enable_tracing=True)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:  # noqa: ARG001
+    """Manage application startup and shutdown events.
+
+    On startup the data-import pipeline is triggered (subject to
+    environment-variable flags).  Shutdown is currently a no-op.
+
+    Args:
+        app: The :class:`FastAPI` application instance.
+
+    Yields:
+        Control to the running application between startup and shutdown.
+    """
+    startup_data_import()
+    yield
+
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    openapi_url=f'{settings.API_V1_STR}/openapi.json',
+    openapi_url="/openapi.json",
     generate_unique_id_function=custom_generate_unique_id,
+    lifespan=lifespan,
 )
 
 # Set all CORS enabled origins
@@ -26,8 +68,8 @@ if settings.all_cors_origins:
         CORSMiddleware,
         allow_origins=settings.all_cors_origins,
         allow_credentials=True,
-        allow_methods=['*'],
-        allow_headers=['*'],
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
 app.include_router(api_router, prefix=settings.API_V1_STR)

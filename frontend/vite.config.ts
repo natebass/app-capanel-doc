@@ -1,59 +1,82 @@
-/// <reference types="vitest/config" />
+import { fileURLToPath, URL } from 'node:url'
 
-import path, { resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
 import tailwindcss from '@tailwindcss/vite'
+import { devtools } from '@tanstack/devtools-vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
-import viteReact from '@vitejs/plugin-react-swc'
-import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { defineConfig, loadEnv } from 'vite'
+import viteTsConfigPaths from 'vite-tsconfig-paths'
 
-const dirname =
-	typeof __dirname !== 'undefined'
-		? __dirname
-		: path.dirname(fileURLToPath(import.meta.url))
+const trimTrailingSlash = (value: string): string => value.replace(/\/+$/, '')
 
-// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
-export default defineConfig({
-	plugins: [
-		tanstackRouter({
-			target: 'react',
-			autoCodeSplitting: true,
-		}),
-		viteReact(),
-		tailwindcss(),
-	],
-	resolve: {
-		alias: {
-			'@': resolve(__dirname, './src'),
+const normalizeApiBase = (value: string | undefined): string | undefined => {
+	if (!value) return
+	const trimmed = trimTrailingSlash(value.trim())
+	if (!trimmed || trimmed === '/api' || trimmed === '/api/v1') return
+	if (trimmed.endsWith('/api/v1')) return trimmed.slice(0, -7)
+	if (trimmed.endsWith('/api')) return trimmed.slice(0, -4)
+	return trimmed
+}
+
+/**
+ * base: './' is required for relative paths in single-container deployment
+ * Add a delay to allow the Nitro server to boot in the container. This prevents the "fetch failed" immediately upon starting
+ */
+const config = defineConfig(({ command, mode }) => {
+	const env = loadEnv(mode, process.cwd(), '')
+	const apiTarget =
+		env.VITE_DEV_PROXY_TARGET || normalizeApiBase(env.VITE_API_URL) || 'http://localhost:8000'
+
+	return {
+		// Keep relative assets for production container builds, but use root base
+		// in dev so Vite's React refresh runtime is loaded correctly on routed URLs.
+		base: command === 'serve' ? '/' : './',
+		build: {
+			outDir: 'dist',
 		},
-	},
-	test: {
-		projects: [
-			{
-				extends: true,
-				plugins: [
-					// The plugin will run tests for the stories defined in your Storybook config
-					// See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
-					storybookTest({
-						configDir: path.join(dirname, '.storybook'),
-					}),
-				],
-				test: {
-					name: 'storybook',
-					browser: {
-						enabled: true,
-						headless: true,
-						provider: 'playwright',
-						instances: [
-							{
-								browser: 'chromium',
-							},
-						],
-					},
-					setupFiles: ['.storybook/vitest.setup.ts'],
+		resolve: {
+			alias: {
+				'@': fileURLToPath(new URL('./src', import.meta.url)),
+			},
+		},
+		server: {
+			proxy: {
+				'/api': {
+					target: apiTarget,
+					changeOrigin: true,
+				},
+				'/docs': {
+					target: apiTarget,
+					changeOrigin: true,
+				},
+				'/docs/oauth2-redirect': {
+					target: apiTarget,
+					changeOrigin: true,
+				},
+				'/redoc': {
+					target: apiTarget,
+					changeOrigin: true,
+				},
+				'/openapi.json': {
+					target: apiTarget,
+					changeOrigin: true,
 				},
 			},
+		},
+		plugins: [
+			devtools(),
+			viteTsConfigPaths({
+				projects: ['./tsconfig.json'],
+			}),
+			tailwindcss(),
+			tanstackRouter({ target: 'react', autoCodeSplitting: true }),
+			react({
+				babel: {
+					plugins: ['babel-plugin-react-compiler'],
+				},
+			}),
 		],
-	},
+	}
 })
+
+export default config

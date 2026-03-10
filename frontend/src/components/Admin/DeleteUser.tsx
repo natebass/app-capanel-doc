@@ -1,103 +1,83 @@
-import { Button, DialogTitle, Text } from '@chakra-ui/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Trash2 } from 'lucide-react'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { FiTrash2 } from 'react-icons/fi'
 
-import { UsersService } from '../../client'
-import useCustomToast from '../../hooks/useCustomToast'
+import { Button } from '@/components/ui/button'
 import {
-	DialogActionTrigger,
-	DialogBody,
-	DialogCloseTrigger,
+	Dialog,
+	DialogClose,
 	DialogContent,
+	DialogDescription,
 	DialogFooter,
 	DialogHeader,
-	DialogRoot,
-	DialogTrigger,
-} from '../ui/dialog'
+	DialogTitle,
+} from '@/components/ui/dialog'
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import { Spinner } from '@/components/ui/spinner'
+import { UsersService } from '@/lib/client'
+import { handleError } from '@/lib/client-utils'
+import useCustomToast from '@/lib/hooks/useCustomToast'
 
-const DeleteUser = ({ id }: { id: string }) => {
+interface DeleteUserProps {
+	id: string
+	onSuccess: () => void
+}
+
+const DeleteUser = ({ id, onSuccess }: DeleteUserProps) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const queryClient = useQueryClient()
 	const { showSuccessToast, showErrorToast } = useCustomToast()
-	const {
-		handleSubmit,
-		formState: { isSubmitting },
-	} = useForm()
-
-	const deleteUser = async (id: string) => {
-		await UsersService.deleteUser({ userId: id })
-	}
 
 	const mutation = useMutation({
-		mutationFn: deleteUser,
+		mutationFn: () => UsersService.usersDeleteUser({ path: { user_id: id } }),
 		onSuccess: () => {
 			showSuccessToast('The user was deleted successfully')
 			setIsOpen(false)
+			onSuccess()
 		},
-		onError: () => {
-			showErrorToast('An error occurred while deleting the user')
-		},
+		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			queryClient.invalidateQueries()
+			queryClient.invalidateQueries({ queryKey: ['users'] })
 		},
 	})
 
-	const onSubmit = async () => {
-		mutation.mutate(id)
+	const handleDelete = (e: React.FormEvent) => {
+		e.preventDefault()
+		mutation.mutate()
 	}
 
 	return (
-		<DialogRoot
-			size={{ base: 'xs', md: 'md' }}
-			placement='center'
-			role='alertdialog'
-			open={isOpen}
-			onOpenChange={({ open }) => setIsOpen(open)}
-		>
-			<DialogTrigger asChild>
-				<Button variant='ghost' size='sm' colorPalette='red'>
-					<FiTrash2 fontSize='16px' />
-					Delete User
-				</Button>
-			</DialogTrigger>
-			<DialogContent>
-				<form onSubmit={handleSubmit(onSubmit)}>
+		<Dialog open={isOpen} onOpenChange={setIsOpen}>
+			<DropdownMenuItem
+				variant='destructive'
+				onSelect={(e) => e.preventDefault()}
+				onClick={() => setIsOpen(true)}
+			>
+				<Trash2 />
+				Delete User
+			</DropdownMenuItem>
+			<DialogContent className='sm:max-w-md'>
+				<form onSubmit={handleDelete}>
 					<DialogHeader>
 						<DialogTitle>Delete User</DialogTitle>
+						<DialogDescription>
+							All items associated with this user will also be <strong>permanently deleted.</strong>{' '}
+							Are you sure? You will not be able to undo this action.
+						</DialogDescription>
 					</DialogHeader>
-					<DialogBody>
-						<Text mb={4}>
-							All items associated with this user will also be{' '}
-							<strong>permanently deleted.</strong> Are you sure? You will not
-							be able to undo this action.
-						</Text>
-					</DialogBody>
 
-					<DialogFooter gap={2}>
-						<DialogActionTrigger asChild>
-							<Button
-								variant='subtle'
-								colorPalette='gray'
-								disabled={isSubmitting}
-							>
-								Cancel
-							</Button>
-						</DialogActionTrigger>
-						<Button
-							variant='solid'
-							colorPalette='red'
-							type='submit'
-							loading={isSubmitting}
-						>
+					<DialogFooter className='mt-4'>
+						<DialogClose render={<Button variant='outline' disabled={mutation.isPending} />}>
+							Cancel
+						</DialogClose>
+						<Button variant='destructive' type='submit' disabled={mutation.isPending}>
+							{mutation.isPending && <Spinner className='mr-2' />}
 							Delete
 						</Button>
 					</DialogFooter>
-					<DialogCloseTrigger />
 				</form>
 			</DialogContent>
-		</DialogRoot>
+		</Dialog>
 	)
 }
 

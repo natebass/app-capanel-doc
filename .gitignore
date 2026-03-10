@@ -1,33 +1,71 @@
-.env
-
-# Python virtual environments
-.venv/
-venv/
-env/
-ENV/
-docs_venv/
-backend/docs_venv/
-
-# Python cache
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-
-# Sphinx documentation
-docs/_build/
-docs/build/
-backend/docs/build/
-backend/docs/_build/
-
-# IDE
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 .idea/
-*.swp
-*.swo
-*~
-
-# OS
 .DS_Store
-Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# JavaScript / workspaces
+node_modules/
+**/node_modules/
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+dist
+dist-ssr
+*.local
+count.txt
+openapi.json
+.nitro
+.tanstack
+.wrangler
+.vinxi
+mcp-todos.json.output
+todos.json
+
+# Playwright / E2E
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Runtime / env
+nohup.out
+.env
+.gcloud/
+cloud-run.env
+
+# Python
+**/__pycache__/
+app.egg-info/
+**/*.py[cod]
+**/.venv/
+**/venv/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.cache/
+**/.coverage
+**/.coverage.*
+**/htmlcov/
+
+# Storybook
+*storybook.log
+storybook-static
+
+# Sphinx build artifacts
+_build/
+build/
+dist/
+*.log
+*.doctree
+*.pot
+*.mo

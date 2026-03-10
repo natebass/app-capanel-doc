@@ -4,12 +4,12 @@ from fastapi import APIRouter
 from sqlmodel import func, select
 
 from app.api.deps import SessionDep
-from app.utility.models import School, SchoolsPublic, SchoolsSummary
+from app.model.school import School, SchoolsPublic, SchoolsSummary
 
 router = APIRouter()
 
 
-@router.get('/', response_model=SchoolsPublic)
+@router.get("/", response_model=SchoolsPublic)
 def read_schools(
     session: SessionDep,
     q: str | None = None,
@@ -23,7 +23,7 @@ def read_schools(
         statement = (
             select(School)
             .where(func.lower(School.school).contains(q.lower()))
-            .where(School.status_type == 'Active')
+            .where(School.status_type == "Active")
             .offset(skip)
             .limit(limit)
         )
@@ -36,7 +36,7 @@ def read_schools(
     return SchoolsPublic(data=schools, count=count)
 
 
-@router.get('/summary', response_model=SchoolsSummary)
+@router.get("/summary", response_model=SchoolsSummary)
 def read_schools_summary(
     session: SessionDep,
     q: str | None = None,
@@ -50,7 +50,7 @@ def read_schools_summary(
         statement = (
             select(School)
             .where(func.lower(School.school).contains(q.lower()))
-            .where(School.status_type == 'Active')
+            .where(School.status_type == "Active")
             .offset(skip)
             .limit(limit)
         )

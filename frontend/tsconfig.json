@@ -1,18 +1,16 @@
 {
 	"compilerOptions": {
-		"target": "ES2020",
-		"useDefineForClassFields": true,
-		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"target": "ESNext",
+		"jsx": "react-jsx",
 		"module": "ESNext",
-		"skipLibCheck": true,
-		/* Bundler mode */
+		"useDefineForClassFields": true,
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
-		"jsx": "react-jsx",
-		/* Linting */
+		"skipLibCheck": true,
 		"strict": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
@@ -21,18 +19,9 @@
 			"@/*": ["./src/*"]
 		},
 		"forceConsistentCasingInFileNames": true,
+		"allowJs": true,
 		"allowSyntheticDefaultImports": true
 	},
-	"include": [
-		"src/**/*.ts",
-		"tests/**/*.ts",
-		"playwright.config.ts",
-		"panda.config.ts",
-		"vite.config.ts"
-	],
-	"references": [
-		{
-			"path": "./tsconfig.node.json"
-		}
-	]
+	"include": ["src", "vite.config.ts"],
+	"exclude": ["src/lib/client"]
 }

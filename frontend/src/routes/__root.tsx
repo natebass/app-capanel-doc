@@ -1,33 +1,46 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
-import React, { Suspense } from 'react'
-import NotFound from '../components/Common/NotFound'
+import { TanStackDevtools } from '@tanstack/react-devtools'
+import type { QueryClient } from '@tanstack/react-query'
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
+import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 
-const loadDevtools = () =>
-	Promise.all([
-		import('@tanstack/react-router-devtools'),
-		import('@tanstack/react-query-devtools'),
-	]).then(([routerDevtools, reactQueryDevtools]) => {
-		return {
-			default: () => (
-				<>
-					<routerDevtools.TanStackRouterDevtools />
-					<reactQueryDevtools.ReactQueryDevtools />
-				</>
-			),
-		}
-	})
+import { DefaultPending } from '@/components/layout/status/DefaultPending'
+import { ThemeProvider } from '@/components/theme-provider'
 
-const TanStackDevtools =
-	process.env.NODE_ENV === 'production' ? () => null : React.lazy(loadDevtools)
+import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
+import { Provider } from '../integrations/tanstack-query/root-provider'
+import StoreDevtools from '../lib/demo-store-devtools'
 
-export const Route = createRootRoute({
-	component: () => (
-		<>
-			<Outlet />
-			<Suspense>
-				<TanStackDevtools />
-			</Suspense>
-		</>
+interface MyRouterContext {
+	queryClient: QueryClient
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
+	pendingComponent: () => (
+		<DefaultPending fullPage={false} variant='card' message='Loading application...' />
 	),
-	notFoundComponent: () => <NotFound />,
+	component: RootComponent,
 })
+
+function RootComponent() {
+	const { queryClient } = Route.useRouteContext()
+	return (
+		<ThemeProvider>
+			<Provider queryClient={queryClient}>
+				<Outlet />
+				<TanStackDevtools
+					config={{
+						position: 'bottom-right',
+					}}
+					plugins={[
+						{
+							name: 'Tanstack Router',
+							render: <TanStackRouterDevtoolsPanel />,
+						},
+						TanStackQueryDevtools,
+						StoreDevtools,
+					]}
+				/>
+			</Provider>
+		</ThemeProvider>
+	)
+}

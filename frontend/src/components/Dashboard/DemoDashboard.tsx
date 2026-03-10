@@ -1,17 +1,4 @@
 import {
-	Badge,
-	Box,
-	Button,
-	Container,
-	Grid,
-	Heading,
-	HStack,
-	Icon,
-	Tabs,
-	Text,
-	VStack,
-} from '@chakra-ui/react'
-import {
 	FiActivity,
 	FiArrowDown,
 	FiArrowUp,
@@ -21,343 +8,277 @@ import {
 	FiTrendingUp,
 	FiUser,
 } from 'react-icons/fi'
-import { Card, CardBody, CardFooter, CardHeader } from '../ui/card'
+
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function DemoDashboard() {
 	return (
-		<Container maxW='7xl' py={8}>
-			<VStack gap={8} align='stretch'>
+		<div className='container max-w-7xl mx-auto py-8'>
+			<div className='flex flex-col gap-8'>
 				{/* Page Header */}
-				<Box>
-					<Heading size='2xl' mb={2}>
-						Dashboard
-					</Heading>
-					<Text color='fg.muted' fontSize='lg'>
+				<div>
+					<h1 className='text-3xl font-bold mb-2'>Dashboard</h1>
+					<p className='text-muted-foreground text-lg'>
 						Welcome back! Here's an overview of your application.
-					</Text>
-				</Box>
+					</p>
+				</div>
 
 				{/* Stats Cards */}
-				<Grid
-					templateColumns={{
-						base: '1fr',
-						md: 'repeat(2, 1fr)',
-						lg: 'repeat(4, 1fr)',
-					}}
-					gap={6}
-				>
-					<Card variant='elevated'>
-						<CardBody>
-							<Tabs.Root defaultValue='total' variant='subtle' size='lg'>
-								<Tabs.List mb={3}>
-									<Tabs.Trigger value='total'>Total</Tabs.Trigger>
-									<Tabs.Trigger value='active'>Active</Tabs.Trigger>
-									<Tabs.Trigger value='new'>New</Tabs.Trigger>
-								</Tabs.List>
+				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+					<Card>
+						<CardContent className='pt-6'>
+							<Tabs defaultValue='total'>
+								<TabsList className='mb-3'>
+									<TabsTrigger value='total'>Total</TabsTrigger>
+									<TabsTrigger value='active'>Active</TabsTrigger>
+									<TabsTrigger value='new'>New</TabsTrigger>
+								</TabsList>
 
-								<Tabs.Content value='total'>
-									<VStack align='stretch' gap={2}>
-										<Text fontSize='sm' color='fg.muted' fontWeight='medium'>
-											Total Users
-										</Text>
-										<Text fontSize='2xl' fontWeight='bold'>
-											2,543
-										</Text>
-										<HStack>
-											<Icon as={FiArrowUp} color='green.500' boxSize={3} />
-											<Text fontSize='sm' color='green.500'>
-												+12.5% from last month
-											</Text>
-										</HStack>
-									</VStack>
-								</Tabs.Content>
+								<TabsContent value='total'>
+									<div className='flex flex-col gap-2'>
+										<p className='text-sm text-muted-foreground font-medium'>Total Users</p>
+										<p className='text-2xl font-bold'>2,543</p>
+										<div className='flex items-center gap-1'>
+											<FiArrowUp className='h-3 w-3 text-green-500' />
+											<span className='text-sm text-green-500'>+12.5% from last month</span>
+										</div>
+									</div>
+								</TabsContent>
 
-								<Tabs.Content value='active'>
-									<VStack align='stretch' gap={2}>
-										<Text fontSize='sm' color='fg.muted' fontWeight='medium'>
-											Active Users (30d)
-										</Text>
-										<Text fontSize='2xl' fontWeight='bold'>
-											1,987
-										</Text>
-										<HStack>
-											<Icon as={FiArrowUp} color='green.500' boxSize={3} />
-											<Text fontSize='sm' color='green.500'>
-												+8.3% from last month
-											</Text>
-										</HStack>
-									</VStack>
-								</Tabs.Content>
+								<TabsContent value='active'>
+									<div className='flex flex-col gap-2'>
+										<p className='text-sm text-muted-foreground font-medium'>Active Users (30d)</p>
+										<p className='text-2xl font-bold'>1,987</p>
+										<div className='flex items-center gap-1'>
+											<FiArrowUp className='h-3 w-3 text-green-500' />
+											<span className='text-sm text-green-500'>+8.3% from last month</span>
+										</div>
+									</div>
+								</TabsContent>
 
-								<Tabs.Content value='new'>
-									<VStack align='stretch' gap={2}>
-										<Text fontSize='lg' color='fg.muted' fontWeight='medium'>
-											New Users (7d)
-										</Text>
-										<Text fontSize='2xl' fontWeight='bold'>
-											142
-										</Text>
-										<HStack>
-											<Icon as={FiArrowDown} color='red.500' boxSize={3} />
-											<Text fontSize='sm' color='red.500'>
-												-5.2% from last week
-											</Text>
-										</HStack>
-									</VStack>
-								</Tabs.Content>
-							</Tabs.Root>
-						</CardBody>
+								<TabsContent value='new'>
+									<div className='flex flex-col gap-2'>
+										<p className='text-lg text-muted-foreground font-medium'>New Users (7d)</p>
+										<p className='text-2xl font-bold'>142</p>
+										<div className='flex items-center gap-1'>
+											<FiArrowDown className='h-3 w-3 text-red-500' />
+											<span className='text-sm text-red-500'>-5.2% from last week</span>
+										</div>
+									</div>
+								</TabsContent>
+							</Tabs>
+						</CardContent>
 					</Card>
 
-					<Card variant='elevated'>
-						<CardBody>
-							<HStack justify='space-between'>
-								<Box>
-									<Text fontSize='sm' color='fg.muted' fontWeight='medium'>
-										Revenue
-									</Text>
-									<Text fontSize='2xl' fontWeight='bold'>
-										$45,231
-									</Text>
-									<HStack>
-										<Icon as={FiArrowUp} color='green.500' boxSize={3} />
-										<Text fontSize='sm' color='green.500'>
-											+8.2%
-										</Text>
-									</HStack>
-								</Box>
-								<Box p={3} bg='green.50' borderRadius='lg'>
-									<Icon as={FiDollarSign} boxSize={6} color='green.500' />
-								</Box>
-							</HStack>
-						</CardBody>
+					<Card>
+						<CardContent className='pt-6'>
+							<div className='flex justify-between items-center'>
+								<div>
+									<p className='text-sm text-muted-foreground font-medium'>Revenue</p>
+									<p className='text-2xl font-bold'>$45,231</p>
+									<div className='flex items-center gap-1'>
+										<FiArrowUp className='h-3 w-3 text-green-500' />
+										<span className='text-sm text-green-500'>+8.2%</span>
+									</div>
+								</div>
+								<div className='p-3 bg-green-50 rounded-lg'>
+									<FiDollarSign className='h-6 w-6 text-green-500' />
+								</div>
+							</div>
+						</CardContent>
 					</Card>
 
-					<Card variant='elevated'>
-						<CardBody>
-							<HStack justify='space-between'>
-								<Box>
-									<Text fontSize='sm' color='fg.muted' fontWeight='medium'>
-										Orders
-									</Text>
-									<Text fontSize='2xl' fontWeight='bold'>
-										1,234
-									</Text>
-									<HStack>
-										<Icon as={FiArrowDown} color='red.500' boxSize={3} />
-										<Text fontSize='sm' color='red.500'>
-											-3.1%
-										</Text>
-									</HStack>
-								</Box>
-								<Box p={3} bg='orange.50' borderRadius='lg'>
-									<Icon as={FiShoppingCart} boxSize={6} color='orange.500' />
-								</Box>
-							</HStack>
-						</CardBody>
+					<Card>
+						<CardContent className='pt-6'>
+							<div className='flex justify-between items-center'>
+								<div>
+									<p className='text-sm text-muted-foreground font-medium'>Orders</p>
+									<p className='text-2xl font-bold'>1,234</p>
+									<div className='flex items-center gap-1'>
+										<FiArrowDown className='h-3 w-3 text-red-500' />
+										<span className='text-sm text-red-500'>-3.1%</span>
+									</div>
+								</div>
+								<div className='p-3 bg-orange-50 rounded-lg'>
+									<FiShoppingCart className='h-6 w-6 text-orange-500' />
+								</div>
+							</div>
+						</CardContent>
 					</Card>
 
-					<Card variant='elevated'>
-						<CardBody>
-							<HStack justify='space-between'>
-								<Box>
-									<Text fontSize='sm' color='fg.muted' fontWeight='medium'>
-										Growth Rate
-									</Text>
-									<Text fontSize='2xl' fontWeight='bold'>
-										15.3%
-									</Text>
-									<HStack>
-										<Icon as={FiArrowUp} color='green.500' boxSize={3} />
-										<Text fontSize='sm' color='green.500'>
-											+2.4%
-										</Text>
-									</HStack>
-								</Box>
-								<Box p={3} bg='purple.50' borderRadius='lg'>
-									<Icon as={FiTrendingUp} boxSize={6} color='purple.500' />
-								</Box>
-							</HStack>
-						</CardBody>
+					<Card>
+						<CardContent className='pt-6'>
+							<div className='flex justify-between items-center'>
+								<div>
+									<p className='text-sm text-muted-foreground font-medium'>Growth Rate</p>
+									<p className='text-2xl font-bold'>15.3%</p>
+									<div className='flex items-center gap-1'>
+										<FiArrowUp className='h-3 w-3 text-green-500' />
+										<span className='text-sm text-green-500'>+2.4%</span>
+									</div>
+								</div>
+								<div className='p-3 bg-purple-50 rounded-lg'>
+									<FiTrendingUp className='h-6 w-6 text-purple-500' />
+								</div>
+							</div>
+						</CardContent>
 					</Card>
-				</Grid>
+				</div>
 
 				{/* Main Content Cards */}
-				<Grid templateColumns={{ base: '1fr', lg: '2fr 1fr' }} gap={6}>
+				<div className='grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6'>
 					{/* Activity Card */}
-					<Card variant='outline'>
+					<Card className='border'>
 						<CardHeader>
-							<HStack justify='space-between'>
-								<Heading size='md'>Recent Activity</Heading>
-								<Badge colorScheme='blue' variant='subtle'>
-									Live
-								</Badge>
-							</HStack>
+							<div className='flex justify-between items-center'>
+								<h2 className='text-lg font-semibold'>Recent Activity</h2>
+								<Badge variant='secondary'>Live</Badge>
+							</div>
 						</CardHeader>
-						<CardBody>
-							<VStack gap={4} align='stretch'>
-								<HStack>
-									<Box p={2} bg='blue.50' borderRadius='md'>
-										<Icon as={FiUser} color='blue.500' />
-									</Box>
-									<Box flex={1}>
-										<Text fontWeight='medium'>New user registered</Text>
-										<Text fontSize='sm' color='fg.muted'>
+						<CardContent>
+							<div className='flex flex-col gap-4'>
+								<div className='flex items-center gap-3'>
+									<div className='p-2 bg-blue-50 rounded-md'>
+										<FiUser className='text-blue-500' />
+									</div>
+									<div className='flex-1'>
+										<p className='font-medium'>New user registered</p>
+										<p className='text-sm text-muted-foreground'>
 											john.doe@example.com joined 2 minutes ago
-										</Text>
-									</Box>
-									<Text fontSize='xs' color='fg.muted'>
-										2m ago
-									</Text>
-								</HStack>
+										</p>
+									</div>
+									<span className='text-xs text-muted-foreground'>2m ago</span>
+								</div>
 
-								<HStack>
-									<Box p={2} bg='green.50' borderRadius='md'>
-										<Icon as={FiDollarSign} color='green.500' />
-									</Box>
-									<Box flex={1}>
-										<Text fontWeight='medium'>Payment received</Text>
-										<Text fontSize='sm' color='fg.muted'>
+								<div className='flex items-center gap-3'>
+									<div className='p-2 bg-green-50 rounded-md'>
+										<FiDollarSign className='text-green-500' />
+									</div>
+									<div className='flex-1'>
+										<p className='font-medium'>Payment received</p>
+										<p className='text-sm text-muted-foreground'>
 											$299.00 from Premium subscription
-										</Text>
-									</Box>
-									<Text fontSize='xs' color='fg.muted'>
-										5m ago
-									</Text>
-								</HStack>
+										</p>
+									</div>
+									<span className='text-xs text-muted-foreground'>5m ago</span>
+								</div>
 
-								<HStack>
-									<Box p={2} bg='orange.50' borderRadius='md'>
-										<Icon as={FiShoppingCart} color='orange.500' />
-									</Box>
-									<Box flex={1}>
-										<Text fontWeight='medium'>New order placed</Text>
-										<Text fontSize='sm' color='fg.muted'>
-											Order #1234 for $89.99
-										</Text>
-									</Box>
-									<Text fontSize='xs' color='fg.muted'>
-										15m ago
-									</Text>
-								</HStack>
-							</VStack>
-						</CardBody>
+								<div className='flex items-center gap-3'>
+									<div className='p-2 bg-orange-50 rounded-md'>
+										<FiShoppingCart className='text-orange-500' />
+									</div>
+									<div className='flex-1'>
+										<p className='font-medium'>New order placed</p>
+										<p className='text-sm text-muted-foreground'>Order #1234 for $89.99</p>
+									</div>
+									<span className='text-xs text-muted-foreground'>15m ago</span>
+								</div>
+							</div>
+						</CardContent>
 						<CardFooter>
-							<Button variant='ghost' size='sm' width='full'>
+							<Button variant='ghost' size='sm' className='w-full'>
 								View all activity
 							</Button>
 						</CardFooter>
 					</Card>
 
 					{/* Quick Actions Card */}
-					<Card variant='filled'>
+					<Card className='bg-muted/50'>
 						<CardHeader>
-							<Heading size='md'>Quick Actions</Heading>
+							<h2 className='text-lg font-semibold'>Quick Actions</h2>
 						</CardHeader>
-						<CardBody>
-							<VStack gap={3}>
-								<Button width='full' colorScheme='blue' variant='solid'>
-									<Icon as={FiUser} mr={2} />
+						<CardContent>
+							<div className='flex flex-col gap-3'>
+								<Button className='w-full'>
+									<FiUser className='mr-2' />
 									Add New User
 								</Button>
-								<Button width='full' colorScheme='green' variant='outline'>
-									<Icon as={FiActivity} mr={2} />
+								<Button variant='outline' className='w-full'>
+									<FiActivity className='mr-2' />
 									View Analytics
 								</Button>
-								<Button width='full' colorScheme='gray' variant='outline'>
-									<Icon as={FiSettings} mr={2} />
+								<Button variant='outline' className='w-full'>
+									<FiSettings className='mr-2' />
 									Settings
 								</Button>
-							</VStack>
-						</CardBody>
+							</div>
+						</CardContent>
 					</Card>
-				</Grid>
+				</div>
 
 				{/* Additional Example Cards */}
-				<Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6}>
-					<Card variant='outline'>
+				<div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+					<Card className='border'>
 						<CardHeader>
-							<Heading size='sm'>System Status</Heading>
+							<h3 className='text-base font-semibold'>System Status</h3>
 						</CardHeader>
-						<CardBody>
-							<VStack gap={3} align='stretch'>
-								<HStack justify='space-between'>
-									<Text fontSize='sm'>API Status</Text>
-									<Badge colorScheme='green' size='sm'>
+						<CardContent>
+							<div className='flex flex-col gap-3'>
+								<div className='flex justify-between items-center'>
+									<span className='text-sm'>API Status</span>
+									<Badge variant='default' className='bg-green-500'>
 										Operational
 									</Badge>
-								</HStack>
-								<HStack justify='space-between'>
-									<Text fontSize='sm'>Database</Text>
-									<Badge colorScheme='green' size='sm'>
+								</div>
+								<div className='flex justify-between items-center'>
+									<span className='text-sm'>Database</span>
+									<Badge variant='default' className='bg-green-500'>
 										Healthy
 									</Badge>
-								</HStack>
-								<HStack justify='space-between'>
-									<Text fontSize='sm'>Cache</Text>
-									<Badge colorScheme='yellow' size='sm'>
+								</div>
+								<div className='flex justify-between items-center'>
+									<span className='text-sm'>Cache</span>
+									<Badge variant='default' className='bg-yellow-500'>
 										Warning
 									</Badge>
-								</HStack>
-							</VStack>
-						</CardBody>
+								</div>
+							</div>
+						</CardContent>
 					</Card>
 
-					<Card variant='elevated'>
+					<Card>
 						<CardHeader>
-							<Heading size='sm'>Performance</Heading>
+							<h3 className='text-base font-semibold'>Performance</h3>
 						</CardHeader>
-						<CardBody>
-							<VStack gap={3}>
-								<Box textAlign='center'>
-									<Text fontSize='xs' color='fg.muted' fontWeight='medium'>
-										Response Time
-									</Text>
-									<Text fontSize='lg' fontWeight='bold'>
-										234ms
-									</Text>
-									<HStack justify='center'>
-										<Icon as={FiArrowDown} color='green.500' boxSize={3} />
-										<Text fontSize='sm' color='green.500'>
-											-12ms from last hour
-										</Text>
-									</HStack>
-								</Box>
-							</VStack>
-						</CardBody>
+						<CardContent>
+							<div className='flex flex-col gap-3'>
+								<div className='text-center'>
+									<p className='text-xs text-muted-foreground font-medium'>Response Time</p>
+									<p className='text-lg font-bold'>234ms</p>
+									<div className='flex justify-center items-center gap-1'>
+										<FiArrowDown className='h-3 w-3 text-green-500' />
+										<span className='text-sm text-green-500'>-12ms from last hour</span>
+									</div>
+								</div>
+							</div>
+						</CardContent>
 					</Card>
 
-					<Card variant='outline'>
+					<Card className='border'>
 						<CardHeader>
-							<Heading size='sm'>Storage Usage</Heading>
+							<h3 className='text-base font-semibold'>Storage Usage</h3>
 						</CardHeader>
-						<CardBody>
-							<VStack gap={2}>
-								<HStack justify='space-between' width='full'>
-									<Text fontSize='sm'>Used</Text>
-									<Text fontSize='sm' fontWeight='medium'>
-										45.2 GB
-									</Text>
-								</HStack>
-								<HStack justify='space-between' width='full'>
-									<Text fontSize='sm'>Available</Text>
-									<Text fontSize='sm' fontWeight='medium'>
-										54.8 GB
-									</Text>
-								</HStack>
-								<Box width='full' height={2} bg='gray.200' borderRadius='full'>
-									<Box
-										width='45.2%'
-										height='full'
-										bg='blue.500'
-										borderRadius='full'
-									/>
-								</Box>
-							</VStack>
-						</CardBody>
+						<CardContent>
+							<div className='flex flex-col gap-2'>
+								<div className='flex justify-between w-full'>
+									<span className='text-sm'>Used</span>
+									<span className='text-sm font-medium'>45.2 GB</span>
+								</div>
+								<div className='flex justify-between w-full'>
+									<span className='text-sm'>Available</span>
+									<span className='text-sm font-medium'>54.8 GB</span>
+								</div>
+								<div className='w-full h-2 bg-gray-200 rounded-full'>
+									<div className='h-full bg-blue-500 rounded-full' style={{ width: '45.2%' }} />
+								</div>
+							</div>
+						</CardContent>
 					</Card>
-				</Grid>
-			</VStack>
-		</Container>
+				</div>
+			</div>
+		</div>
 	)
 }

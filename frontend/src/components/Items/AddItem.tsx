@@ -1,146 +1,150 @@
-import {
-	Button,
-	DialogActionTrigger,
-	DialogTitle,
-	Input,
-	Text,
-	VStack,
-} from '@chakra-ui/react'
+import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Plus } from 'lucide-react'
 import { useState } from 'react'
-import { type SubmitHandler, useForm } from 'react-hook-form'
-import { FaPlus } from 'react-icons/fa'
+import { z } from 'zod'
 
-import { type ItemCreate, ItemsService } from '../../client'
-import type { ApiError } from '../../client/core/ApiError'
-import useCustomToast from '../../hooks/useCustomToast'
-import { handleError } from '../../utils'
+import { Button } from '@/components/ui/button'
 import {
-	DialogBody,
-	DialogCloseTrigger,
+	Dialog,
+	DialogClose,
 	DialogContent,
+	DialogDescription,
 	DialogFooter,
 	DialogHeader,
-	DialogRoot,
+	DialogTitle,
 	DialogTrigger,
-} from '../ui/dialog'
-import { Field } from '../ui/field'
+} from '@/components/ui/dialog'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Spinner } from '@/components/ui/spinner'
+import { type ItemCreate, ItemsService } from '@/lib/client'
+import { handleError } from '@/lib/client-utils'
+import useCustomToast from '@/lib/hooks/useCustomToast'
+
+const formSchema = z.object({
+	title: z.string().min(1, { message: 'Title is required' }),
+	description: z.string().optional(),
+})
+
+type FormData = z.infer<typeof formSchema>
 
 const AddItem = () => {
 	const [isOpen, setIsOpen] = useState(false)
 	const queryClient = useQueryClient()
-	const { showSuccessToast } = useCustomToast()
-	const titleId = useId()
-	const descriptionId = useId()
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors, isValid, isSubmitting },
-	} = useForm<ItemCreate>({
-		mode: 'onBlur',
-		criteriaMode: 'all',
+	const { showSuccessToast, showErrorToast } = useCustomToast()
+
+	const form = useForm({
 		defaultValues: {
 			title: '',
 			description: '',
+		} as FormData,
+		validators: {
+			onChange: formSchema,
+		},
+		onSubmit: async ({ value }) => {
+			mutation.mutate(value as ItemCreate)
 		},
 	})
 
 	const mutation = useMutation({
-		mutationFn: (data: ItemCreate) =>
-			ItemsService.createItem({ requestBody: data }),
+		mutationFn: (data: ItemCreate) => ItemsService.itemsCreateItem({ body: data }),
 		onSuccess: () => {
-			showSuccessToast('Item created successfully.')
-			reset()
+			showSuccessToast('Item created successfully')
+			form.reset()
 			setIsOpen(false)
 		},
-		onError: (err: ApiError) => {
-			handleError(err)
-		},
+		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: ['items'] })
 		},
 	})
 
-	const onSubmit: SubmitHandler<ItemCreate> = (data) => {
-		mutation.mutate(data)
-	}
-
 	return (
-		<DialogRoot
-			size={{ base: 'xs', md: 'md' }}
-			placement='center'
-			open={isOpen}
-			onOpenChange={({ open }) => setIsOpen(open)}
-		>
-			<DialogTrigger asChild>
-				<Button value='add-item' my={4}>
-					<FaPlus fontSize='16px' />
-					Add Item
-				</Button>
+		<Dialog open={isOpen} onOpenChange={setIsOpen}>
+			<DialogTrigger render={<Button className='my-4' />}>
+				<Plus className='mr-2' />
+				Add Item
 			</DialogTrigger>
-			<DialogContent>
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<DialogHeader>
-						<DialogTitle>Add Item</DialogTitle>
-					</DialogHeader>
-					<DialogBody>
-						<Text mb={4}>Fill in the details to add a new item.</Text>
-						<VStack gap={4}>
-							<Field
-								required
-								invalid={!!errors.title}
-								errorText={errors.title?.message}
-								label='Title'
-							>
-								<Input
-									id={titleId}
-									{...register('title', {
-										required: 'Title is required.',
-									})}
-									placeholder='Title'
-									type='text'
-								/>
-							</Field>
+			<DialogContent className='sm:max-w-md'>
+				<DialogHeader>
+					<DialogTitle>Add Item</DialogTitle>
+					<DialogDescription>Fill in the details to add a new item.</DialogDescription>
+				</DialogHeader>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
+					}}
+				>
+					<div className='grid gap-4 py-4'>
+						<form.Field
+							name='title'
+							children={(field) => (
+								<Field>
+									<FieldLabel htmlFor={field.name}>
+										Title <span className='text-destructive'>*</span>
+									</FieldLabel>
+									<Input
+										id={field.name}
+										name={field.name}
+										placeholder='Title'
+										type='text'
+										value={field.state.value}
+										onBlur={field.handleBlur}
+										onChange={(e) => field.handleChange(e.target.value)}
+									/>
+									{field.state.meta.isTouched && !field.state.meta.isValid && (
+										<FieldError>
+											{field.state.meta.errors.map((err) => err?.message ?? '').join(', ')}
+										</FieldError>
+									)}
+								</Field>
+							)}
+						/>
 
-							<Field
-								invalid={!!errors.description}
-								errorText={errors.description?.message}
-								label='Description'
-							>
-								<Input
-									id={descriptionId}
-									{...register('description')}
-									placeholder='Description'
-									type='text'
-								/>
-							</Field>
-						</VStack>
-					</DialogBody>
+						<form.Field
+							name='description'
+							children={(field) => (
+								<Field>
+									<FieldLabel htmlFor={field.name}>Description</FieldLabel>
+									<Input
+										id={field.name}
+										name={field.name}
+										placeholder='Description'
+										type='text'
+										value={field.state.value ?? ''}
+										onBlur={field.handleBlur}
+										onChange={(e) => field.handleChange(e.target.value)}
+									/>
+									{field.state.meta.isTouched && !field.state.meta.isValid && (
+										<FieldError>
+											{field.state.meta.errors.map((err) => err?.message ?? '').join(', ')}
+										</FieldError>
+									)}
+								</Field>
+							)}
+						/>
+					</div>
 
-					<DialogFooter gap={2}>
-						<DialogActionTrigger asChild>
-							<Button
-								variant='subtle'
-								colorPalette='gray'
-								disabled={isSubmitting}
-							>
-								Cancel
-							</Button>
-						</DialogActionTrigger>
-						<Button
-							variant='solid'
-							type='submit'
-							disabled={!isValid}
-							loading={isSubmitting}
-						>
-							Save
-						</Button>
+					<DialogFooter>
+						<DialogClose render={<Button variant='outline' disabled={mutation.isPending} />}>
+							Cancel
+						</DialogClose>
+						<form.Subscribe
+							selector={(state) => [state.canSubmit, state.isSubmitting]}
+							children={([canSubmit, isSubmitting]) => (
+								<Button type='submit' disabled={!canSubmit || mutation.isPending}>
+									{(isSubmitting || mutation.isPending) && <Spinner className='mr-2' />}
+									Save
+								</Button>
+							)}
+						/>
 					</DialogFooter>
 				</form>
-				<DialogCloseTrigger />
 			</DialogContent>
-		</DialogRoot>
+		</Dialog>
 	)
 }
 

@@ -1,0 +1,48 @@
+frontend:
+  - all:
+      - changed-files:
+          - any-glob-to-any-file:
+              - "frontend/**"
+
+backend:
+  - all:
+      - changed-files:
+          - any-glob-to-any-file:
+              - "backend/**"
+          - all-globs-to-all-files:
+              - "!backend/app/scripts/gcp/**"
+
+assets:
+  - all:
+      - changed-files:
+          - any-glob-to-any-file:
+              - "**/public/**"
+              - "**/screenshots/**"
+
+deployment:
+  - all:
+      - changed-files:
+          - any-glob-to-any-file:
+              - "backend/app/scripts/gcp/**"
+              - ".gcloudignore"
+              - "Dockerfile"
+              - "**/Dockerfile"
+              - "*.dockerfile"
+              - "**/*.dockerfile"
+              - "docker-compose*.yml"
+              - "docker-compose*.yaml"
+              - "compose.override.yml"
+              - "compose.override.yaml"
+
+internal:
+  - all:
+      - changed-files:
+          - any-glob-to-any-file:
+              - ".github/**"
+              - "scripts/**"
+              - ".gitignore"
+              - ".pre-commit-config.yaml"
+          - all-globs-to-all-files:
+              - "!./**/*.md"
+              - "!frontend/**"
+              - "!backend/**"

@@ -21,11 +21,7 @@ const fillForm = async (
 	await page.getByPlaceholder('Confirm Password').fill(confirm_password)
 }
 
-const verifyInput = async (
-	page: Page,
-	placeholder: string,
-	options?: OptionsType,
-) => {
+const verifyInput = async (page: Page, placeholder: string, options?: OptionsType) => {
 	const input = page.getByPlaceholder(placeholder, options)
 	await expect(input).toBeVisible()
 	await expect(input).toHaveText('')
@@ -66,13 +62,7 @@ test('Sign up with valid name, email, and password', async ({ page }) => {
 test('Sign up with invalid email', async ({ page }) => {
 	await page.goto('/signup')
 
-	await fillForm(
-		page,
-		'Playwright Test',
-		'invalid-email',
-		'changethis',
-		'changethis',
-	)
+	await fillForm(page, 'Playwright Test', 'invalid-email', 'changethis', 'changethis')
 	await page.getByRole('button', { name: 'Sign Up' }).click()
 
 	await expect(page.getByText('Invalid email address')).toBeVisible()
@@ -95,9 +85,7 @@ test('Sign up with existing email', async ({ page }) => {
 	await fillForm(page, fullName, email, password, password)
 	await page.getByRole('button', { name: 'Sign Up' }).click()
 
-	await page
-		.getByText('The user with this email already exists in the system')
-		.click()
+	await page.getByText('The user with this email already exists in the system').click()
 })
 
 test('Sign up with weak password', async ({ page }) => {
@@ -110,9 +98,7 @@ test('Sign up with weak password', async ({ page }) => {
 	await fillForm(page, fullName, email, password, password)
 	await page.getByRole('button', { name: 'Sign Up' }).click()
 
-	await expect(
-		page.getByText('Password must be at least 8 characters'),
-	).toBeVisible()
+	await expect(page.getByText('Password must be at least 8 characters')).toBeVisible()
 })
 
 test('Sign up with mismatched passwords', async ({ page }) => {

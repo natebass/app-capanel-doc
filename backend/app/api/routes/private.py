@@ -5,12 +5,9 @@ from pydantic import BaseModel
 
 from app.api.deps import SessionDep
 from app.core.security import get_password_hash
-from app.utility.models import (
-    User,
-    UserPublic,
-)
+from app.model.user import User, UserPublic
 
-router = APIRouter(tags=['private'], prefix='/private')
+router = APIRouter(tags=["private"], prefix="/private")
 
 
 class PrivateUserCreate(BaseModel):
@@ -20,7 +17,7 @@ class PrivateUserCreate(BaseModel):
     is_verified: bool = False
 
 
-@router.post('/users/', response_model=UserPublic)
+@router.post("/users/", response_model=UserPublic)
 def create_user(user_in: PrivateUserCreate, session: SessionDep) -> Any:
     """
     Create a new user.

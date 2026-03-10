@@ -12,12 +12,13 @@ Cards that display the performance of local educational agencies (LEAs) on a set
    components/MetricCard
    components/StudentGroupBreakdown
    components/TrendChart
+   components/PerformanceChart
    components/DataSuppressionNotice
 
 Overview
 --------
 
-The Performance Cards feature is built using six core UI components that work together to display California Dashboard accountability data in an accessible, user-friendly format.
+The Performance Cards feature is built using seven core UI components that work together to display California Dashboard accountability data in an accessible, user-friendly format.
 
 .. image:: /_static/image/Dashboard.png
 
@@ -36,5 +37,5 @@ This feature uses the following components:
 3. **MetricCard**: Container component that holds all metric information
 4. **StudentGroupBreakdown**: Disaggregated data table by student demographics
 5. **TrendChart**: Multi-year performance visualization
-6. **DataSuppressionNotice**: Privacy protection message when data cannot be displayed
-
+6. **PerformanceChart**: Cross-metric performance comparison in a single summary chart
+7. **DataSuppressionNotice**: Privacy protection message when data cannot be displayed

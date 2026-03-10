@@ -1,161 +1,85 @@
-'use client';
+import * as React from 'react'
 
-import { Box, type BoxProps } from '@chakra-ui/react';
-import { forwardRef } from 'react';
+import { cn } from '@/lib/utils'
 
-/**
- * Card component props extending Chakra UI BoxProps
- *
- * @interface CardProps
- * @extends BoxProps
- */
-export interface CardProps extends BoxProps {
-	/**
-	 * Visual style variant for the card
-	 *
-	 * - `outline`: Clean border design with transparent background (default)
-	 * - `filled`: Solid muted background, no border
-	 * - `elevated`: Clean background with subtle shadow for depth
-	 *
-	 * @default "outline"
-	 */
-	variant?: 'outline' | 'filled' | 'elevated';
+function Card({
+	className,
+	size = 'default',
+	...props
+}: React.ComponentProps<'div'> & { size?: 'default' | 'sm' }) {
+	return (
+		<div
+			data-slot='card'
+			data-size={size}
+			className={cn(
+				'ring-foreground/10 bg-card text-card-foreground gap-6 overflow-hidden rounded-2xl py-6 text-sm ring-1 has-[>img:first-child]:pt-0 data-[size=sm]:gap-4 data-[size=sm]:py-4 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl group/card flex flex-col',
+				className,
+			)}
+			{...props}
+		/>
+	)
 }
 
-/**
- * Card component - A flexible container for grouping related content and actions
- *
- * @example
- * ```tsx
- * <Card variant="elevated">
- *   <CardHeader>
- *     <Heading size="md">Title</Heading>
- *   </CardHeader>
- *   <CardBody>
- *     <Text>Content goes here</Text>
- *   </CardBody>
- *   <CardFooter>
- *     <Button>Action</Button>
- *   </CardFooter>
- * </Card>
- * ```
- *
- * @param variant - Visual style variant (outline | filled | elevated)
- * @param props - All Chakra UI Box props are supported
- */
-export const Card = forwardRef<HTMLDivElement, CardProps>(
-	({ variant = 'outline', ...props }, ref) => {
-		const baseStyles = {
-			borderRadius: 'lg',
-			overflow: 'hidden',
-			position: 'relative' as const,
-		};
+function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
+	return (
+		<div
+			data-slot='card-header'
+			className={cn(
+				'gap-2 rounded-t-xl px-6 group-data-[size=sm]/card:px-4 [.border-b]:pb-6 group-data-[size=sm]/card:[.border-b]:pb-4 group/card-header @container/card-header grid auto-rows-min items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]',
+				className,
+			)}
+			{...props}
+		/>
+	)
+}
 
-		const variantStyles = {
-			outline: {
-				border: '1px solid',
-				borderColor: 'border.default',
-				bg: 'bg.panel',
-			},
-			filled: {
-				bg: 'bg.muted',
-			},
-			elevated: {
-				bg: 'bg.panel',
-				boxShadow: 'lg',
-			},
-		};
+function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
+	return (
+		<div data-slot='card-title' className={cn('text-base font-medium', className)} {...props} />
+	)
+}
 
-		return (
-			<Box ref={ref} {...baseStyles} {...variantStyles[variant]} {...props} />
-		);
-	},
-);
+function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {
+	return (
+		<div
+			data-slot='card-description'
+			className={cn('text-muted-foreground text-sm', className)}
+			{...props}
+		/>
+	)
+}
 
-Card.displayName = 'Card';
+function CardAction({ className, ...props }: React.ComponentProps<'div'>) {
+	return (
+		<div
+			data-slot='card-action'
+			className={cn('col-start-2 row-span-2 row-start-1 self-start justify-self-end', className)}
+			{...props}
+		/>
+	)
+}
 
-/**
- * CardHeader component - Container for card title, subtitle, and header actions
- *
- * @example
- * ```tsx
- * <CardHeader>
- *   <HStack justify="space-between">
- *     <Heading size="md">Card Title</Heading>
- *     <Badge>Status</Badge>
- *   </HStack>
- * </CardHeader>
- * ```
- *
- * Features:
- * - Consistent padding (px=6, py=4)
- * - Bottom border separator
- * - Supports all Chakra UI Box props
- */
-export const CardHeader = forwardRef<HTMLDivElement, BoxProps>((props, ref) => (
-	<Box
-		ref={ref}
-		px={6}
-		py={4}
-		borderBottomWidth='1px'
-		borderColor='border.default'
-		{...props}
-	/>
-));
+function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
+	return (
+		<div
+			data-slot='card-content'
+			className={cn('px-6 group-data-[size=sm]/card:px-4', className)}
+			{...props}
+		/>
+	)
+}
 
-CardHeader.displayName = 'CardHeader';
+function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
+	return (
+		<div
+			data-slot='card-footer'
+			className={cn(
+				'rounded-b-xl px-6 group-data-[size=sm]/card:px-4 [.border-t]:pt-6 group-data-[size=sm]/card:[.border-t]:pt-4 flex items-center',
+				className,
+			)}
+			{...props}
+		/>
+	)
+}
 
-/**
- * CardBody component - Main content area of the card
- *
- * @example
- * ```tsx
- * <CardBody>
- *   <Text>Your main content goes here</Text>
- *   <Button mt={4}>Action Button</Button>
- * </CardBody>
- * ```
- *
- * Features:
- * - Consistent padding (px=6, py=4)
- * - No borders or separators
- * - Supports all Chakra UI Box props
- * - Primary content container
- */
-export const CardBody = forwardRef<HTMLDivElement, BoxProps>((props, ref) => (
-	<Box ref={ref} px={6} py={4} {...props} />
-));
-
-CardBody.displayName = 'CardBody';
-
-/**
- * CardFooter component - Container for actions and secondary content
- *
- * @example
- * ```tsx
- * <CardFooter>
- *   <HStack spacing={3}>
- *     <Button colorScheme="blue">Save</Button>
- *     <Button variant="ghost">Cancel</Button>
- *   </HStack>
- * </CardFooter>
- * ```
- *
- * Features:
- * - Consistent padding (px=6, py=4)
- * - Top border separator
- * - Supports all Chakra UI Box props
- * - Ideal for action buttons
- */
-export const CardFooter = forwardRef<HTMLDivElement, BoxProps>((props, ref) => (
-	<Box
-		ref={ref}
-		px={6}
-		py={4}
-		borderTopWidth='1px'
-		borderColor='border.default'
-		{...props}
-	/>
-));
-
-CardFooter.displayName = 'CardFooter';
+export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent }

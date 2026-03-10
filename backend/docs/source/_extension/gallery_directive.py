@@ -10,14 +10,15 @@ but might be abstracted into a standalone package if it proves useful.
 """
 
 from pathlib import Path
-from typing import Any, ClassVar, Dict, List
+from typing import Any, cast
 
 from docutils import nodes
 from docutils.parsers.rst import directives
+from docutils.statemachine import StringList
 from sphinx.application import Sphinx
 from sphinx.util import logging
 from sphinx.util.docutils import SphinxDirective
-from yaml import safe_load
+from yaml import safe_load  # type: ignore[import-untyped]
 
 logger = logging.getLogger(__name__)
 
@@ -53,52 +54,61 @@ class GalleryGridDirective(SphinxDirective):
         the templates use Markdown flavored formatting.
     """
 
-    name = 'gallery-grid'
     has_content = True
     required_arguments = 0
     optional_arguments = 1
     final_argument_whitespace = True
-    option_spec: ClassVar[dict[str, Any]] = {
+    option_spec = {
         # A class to be added to the resulting container
-        'grid-columns': directives.unchanged,
-        'class-container': directives.unchanged,
-        'class-card': directives.unchanged,
+        "grid-columns": directives.unchanged,
+        "class-container": directives.unchanged,
+        "class-card": directives.unchanged,
     }
 
-    def run(self) -> List[nodes.Node]:
+    def run(self) -> list[nodes.Node]:
         """Create the gallery grid."""
         if self.arguments:
             # If an argument is given, assume it's a path to a YAML file
             # Parse it and load it into the directive content
             path_data_rel = Path(self.arguments[0])
-            path_doc, _ = self.get_source_info()
-            path_doc = Path(path_doc).parent
+            source_path, _ = self.get_source_info()
+            if source_path is None:
+                logger.info("Could not resolve source path for gallery data.")
+                return []
+            path_doc = Path(source_path).parent
             path_data = (path_doc / path_data_rel).resolve()
             if not path_data.exists():
-                logger.info('Could not find grid data at %s.', path_data)
-                nodes.text('No grid data found at {path_data}.')
-                return
+                logger.info("Could not find grid data at %s.", path_data)
+                return [nodes.Text(f"No grid data found at {path_data}.")]
             yaml_string = path_data.read_text()
         else:
-            yaml_string = '\n'.join(self.content)
+            yaml_string = "\n".join(self.content)
 
         # Use all the element with an img-bottom key as sites to show
         # and generate a card item for each of them
-        grid_items = []
-        for item in safe_load(yaml_string):
+        data = safe_load(yaml_string)
+        if not isinstance(data, list):
+            logger.info("Expected gallery YAML to parse as a list, got %s.", type(data))
+            return []
+        grid_items: list[str] = []
+        for raw_item in data:
+            if not isinstance(raw_item, dict):
+                logger.info("Skipping gallery item that is not a mapping: %s", raw_item)
+                continue
+            item = cast(dict[str, Any], raw_item)
             # remove parameters that are not needed for the card options
-            title = item.pop('title', '')
+            title = item.pop("title", "")
 
             # build the content of the card using some extra parameters
-            header = f'{item.pop("header")}  \n^^^  \n' if 'header' in item else ''
-            image = f'![image]({item.pop("image")})  \n' if 'image' in item else ''
-            content = f'{item.pop("content")}  \n' if 'content' in item else ''
+            header = f"{item.pop('header')}  \n^^^  \n" if "header" in item else ""
+            image = f"![image]({item.pop('image')})  \n" if "image" in item else ""
+            content = f"{item.pop('content')}  \n" if "content" in item else ""
 
             # optional parameter that influence all cards
-            if 'class-card' in self.options:
-                item['class-card'] = self.options['class-card']
+            if "class-card" in self.options:
+                item["class-card"] = self.options["class-card"]
 
-            loc_options_str = '\n'.join(f':{k}: {v}' for k, v in item.items()) + '  \n'
+            loc_options_str = "\n".join(f":{k}: {v}" for k, v in item.items()) + "  \n"
 
             card = GRID_CARD.format(
                 options=loc_options_str, content=header + image + content, title=title
@@ -107,26 +117,26 @@ class GalleryGridDirective(SphinxDirective):
 
         # Parse the template with Sphinx Design to create an output container
         # Prep the options for the template grid
-        class_ = 'gallery-directive' + f' {self.options.get("class-container", "")}'
-        options = {'gutter': 2, 'class-container': class_}
-        options_str = '\n'.join(f':{k}: {v}' for k, v in options.items())
+        class_ = "gallery-directive" + f" {self.options.get('class-container', '')}"
+        options = {"gutter": 2, "class-container": class_}
+        options_str = "\n".join(f":{k}: {v}" for k, v in options.items())
 
         # Create the directive string for the grid
         grid_directive = TEMPLATE_GRID.format(
-            columns=self.options.get('grid-columns', '1 2 3 4'),
+            columns=self.options.get("grid-columns", "1 2 3 4"),
             options=options_str,
-            content='\n'.join(grid_items),
+            content="\n".join(grid_items),
         )
 
         # Parse content as a directive so Sphinx Design processes it
         container = nodes.container()
-        self.state.nested_parse([grid_directive], 0, container)
+        self.state.nested_parse(StringList([grid_directive]), 0, container)
 
         # Sphinx Design outputs a container too, so just use that
         return [container.children[0]]
 
 
-def setup(app: Sphinx) -> Dict[str, Any]:
+def setup(app: Sphinx) -> dict[str, Any]:
     """Add custom configuration to sphinx app.
 
     Args:
@@ -135,9 +145,9 @@ def setup(app: Sphinx) -> Dict[str, Any]:
     Returns:
         the 2 parallel parameters set to ``True``.
     """
-    app.add_directive('gallery-grid', GalleryGridDirective)
+    app.add_directive("gallery-grid", GalleryGridDirective)
 
     return {
-        'parallel_read_safe': True,
-        'parallel_write_safe': True,
+        "parallel_read_safe": True,
+        "parallel_write_safe": True,
     }

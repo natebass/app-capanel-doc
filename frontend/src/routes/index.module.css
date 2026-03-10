@@ -1,0 +1,234 @@
+.page {
+	min-height: 100vh;
+	background-color: var(--surface-page);
+}
+
+.container {
+	margin: 0 auto;
+	max-width: 80rem;
+	padding: 4rem 1rem 2rem;
+}
+
+.heroGrid {
+	display: grid;
+	gap: 2rem;
+	margin-bottom: 6rem;
+
+	@media (min-width: 768px) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: start;
+	}
+}
+
+.introSection {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.title {
+	font-size: clamp(2.25rem, 4vw, 3rem);
+	line-height: 1.1;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	color: var(--text-heading);
+}
+
+.actionList {
+	margin-left: 1.25rem;
+	display: flex;
+	list-style: decimal outside;
+	flex-direction: column;
+	gap: 1.5rem;
+	font-size: 1.125rem;
+	color: var(--text-secondary);
+}
+
+.actionItem {
+	padding-left: 0.5rem;
+}
+
+.actionDescription {
+	display: block;
+	margin-bottom: 0.5rem;
+	color: var(--text-primary);
+}
+
+.actionButtons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.featurePanel {
+	border-radius: var(--radius-lg);
+}
+
+.featureList {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	list-style: disc;
+	color: var(--text-secondary);
+}
+
+.externalLink {
+	padding-left: 0.5rem;
+	color: var(--link-primary);
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: var(--link-hover);
+	}
+}
+
+.gaugeScreenshot {
+	padding-top: 1rem;
+	padding-bottom: 2rem;
+}
+
+.supportItem {
+	padding-left: 0.5rem;
+}
+
+.content {
+	margin: 0 auto;
+	max-width: 56rem;
+	display: flex;
+	flex-direction: column;
+	gap: 3rem;
+}
+
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.sectionHeading {
+	font-size: 1.875rem;
+	font-weight: 700;
+	color: var(--text-heading);
+}
+
+.subHeading {
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: var(--text-heading);
+}
+
+.leadText {
+	font-size: 1.125rem;
+	line-height: 1.75;
+	color: var(--text-secondary);
+}
+
+.bodyText {
+	color: var(--text-secondary);
+	line-height: 1.65;
+}
+
+.factorGrid {
+	display: grid;
+	gap: 1rem;
+
+	@media (min-width: 640px) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.factorCard {
+	display: flex;
+	align-items: center;
+	border: 1px solid var(--border-info);
+	border-radius: var(--radius-lg);
+	padding: 1rem;
+	background-color: var(--surface-info);
+}
+
+.factorNumber {
+	margin-right: 1rem;
+	font-size: 2.25rem;
+	font-weight: 700;
+	line-height: 1;
+	color: var(--link-primary);
+}
+
+.factorLabel {
+	font-weight: 500;
+	color: var(--text-primary);
+}
+
+.gaugeGrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+	padding: 1.5rem 0;
+
+	@media (min-width: 640px) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	@media (min-width: 768px) {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+	}
+}
+
+.gaugeItem {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+	text-align: center;
+}
+
+.gaugeImage {
+	height: auto;
+	width: 6rem;
+}
+
+.gaugeColor {
+	font-weight: 500;
+	color: var(--text-primary);
+}
+
+.gaugeLabel {
+	font-size: 0.75rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--text-tertiary);
+}
+
+.noteCard {
+	margin-top: 2rem;
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-lg);
+	padding: 1.5rem;
+	background-color: var(--surface-muted);
+}
+
+.noteHeading {
+	margin-bottom: 0.5rem;
+	font-size: 1.125rem;
+	font-weight: 600;
+	color: var(--text-heading);
+}
+
+.footnote {
+	margin-top: 1rem;
+	font-size: 0.875rem;
+	color: var(--text-tertiary);
+}
+
+.localSection {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.alertSection {
+	border-left: 4px solid var(--border-warning);
+	padding: 1rem;
+	background-color: var(--surface-warning);
+	color: var(--text-warning);
+}

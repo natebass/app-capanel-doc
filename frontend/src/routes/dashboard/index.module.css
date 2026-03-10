@@ -1,0 +1,97 @@
+.page {
+	min-height: 100vh;
+	background-color: var(--surface-page);
+}
+
+.container {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 96rem;
+	padding: 2rem 1rem;
+}
+
+.topBar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 1.5rem;
+	padding: 0 1rem;
+}
+
+.yearSelector {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.yearLabel {
+	font-size: 0.875rem;
+	color: var(--text-secondary);
+}
+
+.backButton {
+	gap: 0.25rem;
+	border-color: var(--border-subtle);
+	background-color: var(--surface-elevated);
+	color: var(--text-primary);
+
+	&:hover {
+		background-color: var(--interactive-hover);
+	}
+}
+
+.yearSelectTrigger {
+	width: 7.5rem;
+	border-color: var(--border-subtle);
+	background-color: var(--surface-elevated);
+	color: var(--text-primary);
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.header {
+	& h1 {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--text-heading);
+	}
+
+	& .subtitle {
+		color: var(--text-secondary);
+	}
+
+	& .meta {
+		margin-top: 0.25rem;
+		font-size: 0.875rem;
+		color: var(--text-secondary);
+	}
+}
+
+.gridSection {
+	& h2 {
+		margin-bottom: 1rem;
+		font-size: 1.125rem;
+		font-weight: 600;
+		color: var(--text-primary);
+	}
+}
+
+.skeleton {
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	background-color: var(--skeleton);
+	border-radius: 0.25rem;
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
