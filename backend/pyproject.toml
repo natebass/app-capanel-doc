@@ -1,7 +1,7 @@
 [project]
 name = "app"
-version = "1.0.0"
-description = "FastAPI application for the California Accountability Panel website."
+version = "1.0.1"
+description = "Sphinx documentation for the California Accountability Panel website."
 requires-python = ">=3.10,<4.0"
 dependencies = [
     "fastapi[standard]<1.0.0,>=0.114.2",

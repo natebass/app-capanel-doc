@@ -1,6 +1,6 @@
 {
-	"name": "app-capanel-doc",
-	"version": "1.0.0",
+	"name": "frontend",
+	"version": "1.0.1",
 	"keywords": [
 		"California",
 		"documentation",
@@ -8,7 +8,7 @@
 		"sphinx",
 		"storybook"
 	],
-	"homepage": "https://capanel.org",
+	"homepage": "https://opensacorg.github.io/app-capanel-doc",
 	"license": "MIT",
 	"author": {
 		"name": "Open Sacramento",
