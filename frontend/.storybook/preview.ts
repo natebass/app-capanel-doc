@@ -16,8 +16,7 @@ const preview: Preview = {
 		},
 		options: {
 			storySort: {
-				order: ['Getting started', 'Chakra UI cards', 'Layout', 'Navigation bar', 'UI'],
-			},
+order: ['Getting started', 'Chakra UI cards', "layout", ['Navigation bar', '*'], 'UI', '*'],			},
 		},
 	},
 }
