@@ -107,6 +107,9 @@ function getTypeIcon(type: SearchResult['type']) {
 	}
 }
 
+/**
+ * The search bar launches a modal.
+ */
 export default function SearchBar({
 	className,
 	placeholder = 'Search schools, districts...',

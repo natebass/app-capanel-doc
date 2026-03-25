@@ -38,6 +38,9 @@ const buttonVariants = cva(
 	},
 )
 
+/**
+ * A button that uses the Maia Shadcn theme. It is a rounded and friendly theme.
+ */
 function Button({
 	className,
 	variant = 'default',

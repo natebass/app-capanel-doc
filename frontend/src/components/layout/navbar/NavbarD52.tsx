@@ -8,6 +8,9 @@ import SettingsButton from './SettingsButton'
 
 import styles from './NavbarD52.module.css'
 
+/**
+ * The default navigation bar. It is sticky because it provides access to search and settings.
+ */
 export default function NavbarD52({ shadow = false }: { shadow?: boolean }) {
 	return (
 		<div
