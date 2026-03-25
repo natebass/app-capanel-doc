@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 
 import { columns, type UserTableData } from '@/components/admin/columns'
 import { DataTable } from '@/components/common/DataTable'
-import AddUser from '@/components/form/AddUser.tsx'
+import AddUser from '@/components/form/AddUser'
 import PendingUsers from '@/components/layout/pending/PendingUsers'
 import { type UserPublic, UsersService } from '@/lib/client'
 import useAuth from '@/lib/hooks/useAuth'

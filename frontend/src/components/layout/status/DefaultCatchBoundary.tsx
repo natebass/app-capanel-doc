@@ -1,10 +1,10 @@
 import { Link, type ErrorComponentProps, useRouter } from '@tanstack/react-router'
 import { AlertTriangle, Home, RefreshCcw, RotateCcw } from 'lucide-react'
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert.tsx'
-import { Button } from '@/components/ui/button.tsx'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
 
-import { StatusCard, StatusTemplate } from './StatusTemplate.tsx'
+import { StatusCard, StatusTemplate } from './StatusTemplate'
 
 export interface DefaultCatchBoundaryProps extends Partial<ErrorComponentProps> {
 	/** Whether to show the full template with header/footer */

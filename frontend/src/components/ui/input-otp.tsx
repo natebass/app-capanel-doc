@@ -1,5 +1,3 @@
-'use client'
-
 import { MinusSignIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { OTPInput, OTPInputContext } from 'input-otp'

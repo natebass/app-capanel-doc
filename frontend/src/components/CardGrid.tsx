@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar.tsx'
-import { Button } from '@/components/ui/button.tsx'
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card.tsx'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function CardGrid() {
 	const variants = ['subtle', 'outline', 'elevated'] as const

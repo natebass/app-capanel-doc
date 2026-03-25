@@ -1,5 +1,3 @@
-'use client'
-
 import { mergeProps } from '@base-ui/react/merge-props'
 import { useRender } from '@base-ui/react/use-render'
 import { SidebarLeftIcon } from '@hugeicons/core-free-icons'
@@ -512,7 +510,12 @@ function SidebarMenuButton({
 		return comp
 	}
 
-	const tooltipContent = typeof tooltip === 'string' ? { children: tooltip } : tooltip
+	if (typeof tooltip === 'string') {
+		/* eslint-disable-next-line eslint/no-param-reassign */
+		tooltip = {
+			children: tooltip,
+		}
+	}
 
 	return (
 		<Tooltip>
@@ -521,7 +524,7 @@ function SidebarMenuButton({
 				side='right'
 				align='center'
 				hidden={state !== 'collapsed' || isMobile}
-				{...tooltipContent}
+				{...tooltip}
 			/>
 		</Tooltip>
 	)

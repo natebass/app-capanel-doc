@@ -2,9 +2,9 @@ import { Link as RouterLink, useRouterState } from '@tanstack/react-router'
 import type { LucideIcon } from 'lucide-react'
 import { Briefcase, ChevronsUpDown, Home, LogOut, Settings, Users } from 'lucide-react'
 
-import { SidebarAppearance } from '@/components/common/Appearance.tsx'
-import { Logo } from '@/components/common/Logo.tsx'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar.tsx'
+import { SidebarAppearance } from '@/components/common/Appearance'
+import { Logo } from '@/components/common/Logo'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -12,7 +12,7 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu.tsx'
+} from '@/components/ui/dropdown-menu'
 import {
 	Sidebar,
 	SidebarContent,
@@ -24,7 +24,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	useSidebar,
-} from '@/components/ui/sidebar.tsx'
+} from '@/components/ui/sidebar'
 import { getInitials } from '@/lib/client-utils.ts'
 import useAuth from '@/lib/hooks/useAuth.ts'
 

@@ -3,10 +3,10 @@ import { createFileRoute, Link as RouterLink, redirect } from '@tanstack/react-r
 import { z } from 'zod'
 
 import { AuthLayout } from '@/components/common/AuthLayout'
+import { PasswordInput } from '@/components/password-input'
 import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/ui/password-input'
 import { Spinner } from '@/components/ui/spinner'
 import useAuth, { isLoggedIn } from '@/lib/hooks/useAuth'
 

@@ -7,7 +7,7 @@ import {
 	SubscribeButton,
 	TextArea,
 	TextField,
-} from '@/components/form/demo-form.tsx'
+} from '@/components/form/demo-form'
 
 export const { useAppForm } = createFormHook({
 	fieldComponents: {

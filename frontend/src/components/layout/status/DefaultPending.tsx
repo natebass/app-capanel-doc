@@ -1,11 +1,11 @@
 import { Loader2 } from 'lucide-react'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.tsx'
-import { Progress } from '@/components/ui/progress.tsx'
-import { Skeleton } from '@/components/ui/skeleton.tsx'
-import { Spinner } from '@/components/ui/spinner.tsx'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Spinner } from '@/components/ui/spinner'
 
-import { StatusTemplate } from './StatusTemplate.tsx'
+import { StatusTemplate } from './StatusTemplate'
 
 export interface DefaultPendingProps {
 	/** Whether to show the full template with header/footer */

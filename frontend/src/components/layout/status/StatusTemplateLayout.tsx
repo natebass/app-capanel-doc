@@ -1,7 +1,7 @@
 import { Link, Outlet } from '@tanstack/react-router'
 
-import { Button } from '@/components/ui/button.tsx'
-import { Separator } from '@/components/ui/separator.tsx'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 
 export function StatusTemplateLayout() {
 	return (

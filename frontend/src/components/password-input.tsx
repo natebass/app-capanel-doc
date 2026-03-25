@@ -3,7 +3,7 @@ import { forwardRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils.ts'
 
 export interface PasswordInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 

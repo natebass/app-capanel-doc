@@ -6,11 +6,11 @@ import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from '@/components/ui/accordion.tsx'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert.tsx'
-import { Button } from '@/components/ui/button.tsx'
+} from '@/components/ui/accordion'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
 
-import { StatusCard, StatusTemplate } from './StatusTemplate.tsx'
+import { StatusCard, StatusTemplate } from './StatusTemplate'
 
 export interface DefaultErrorProps extends Partial<ErrorComponentProps> {
 	/** Whether to show the full template with header/footer */

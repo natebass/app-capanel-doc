@@ -1,6 +1,7 @@
 import { Suspense, useState } from 'react'
 import { FiArrowDown, FiArrowUp, FiChevronDown, FiChevronRight, FiMinus } from 'react-icons/fi'
 
+import { Gauge } from '@/components/gauge'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
 	Dialog,
@@ -9,7 +10,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from '@/components/ui/dialog'
-import { Gauge } from '@/components/ui/gauge'
 import type { IndicatorSummary } from '@/lib/client'
 import { type IndicatorCode, INDICATORS, getIndicatorLabel } from '@/lib/constants/indicators'
 import { useEquityReport } from '@/lib/hooks/useDashboardData'

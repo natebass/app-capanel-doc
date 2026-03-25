@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 
-import { Button } from '@/components/ui/button.tsx'
+import { Button } from '@/components/ui/button'
 import {
 	Card,
 	CardContent,
@@ -9,8 +9,8 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from '@/components/ui/card.tsx'
-import { Separator } from '@/components/ui/separator.tsx'
+} from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils.ts'
 
 export interface StatusTemplateProps {

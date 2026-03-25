@@ -5,7 +5,6 @@ import { devtools } from '@tanstack/devtools-vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig, loadEnv } from 'vite'
-import viteTsConfigPaths from 'vite-tsconfig-paths'
 
 const trimTrailingSlash = (value: string): string => value.replace(/\/+$/, '')
 
@@ -35,6 +34,7 @@ const config = defineConfig(({ command, mode }) => {
 			outDir: 'dist',
 		},
 		resolve: {
+			tsconfigPaths: true,
 			alias: {
 				'@': fileURLToPath(new URL('./src', import.meta.url)),
 			},
@@ -65,12 +65,10 @@ const config = defineConfig(({ command, mode }) => {
 		},
 		plugins: [
 			devtools(),
-			viteTsConfigPaths({
-				projects: ['./tsconfig.json'],
-			}),
 			tailwindcss(),
 			tanstackRouter({ target: 'react', autoCodeSplitting: true }),
 			react({
+				// @ts-expect-error This is the official solution from the website.
 				babel: {
 					plugins: ['babel-plugin-react-compiler'],
 				},

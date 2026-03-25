@@ -1,13 +1,13 @@
 import { Link } from '@tanstack/react-router'
 import { FaBars } from 'react-icons/fa'
 
-import { buttonVariants } from '@/components/ui/button.tsx'
+import { buttonVariants } from '@/components/ui/button'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu.tsx'
+} from '@/components/ui/dropdown-menu'
 import useAuth from '@/lib/hooks/useAuth.ts'
 import { cn } from '@/lib/utils.ts'
 

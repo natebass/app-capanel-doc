@@ -4,6 +4,7 @@ import { Pencil } from 'lucide-react'
 import { useState } from 'react'
 import { z } from 'zod'
 
+import { PasswordInput } from '@/components/password-input'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -18,7 +19,6 @@ import {
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/ui/password-input'
 import { Spinner } from '@/components/ui/spinner'
 import { type UserPublic, UsersService } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'

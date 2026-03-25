@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { TriangleAlert } from 'lucide-react'
 
-import ChangePassword from '@/components/form/ChangePassword.tsx'
-import DeleteConfirmation from '@/components/form/DeleteConfirmation.tsx'
-import UserInformation from '@/components/form/UserInformation.tsx'
+import ChangePassword from '@/components/form/ChangePassword'
+import DeleteConfirmation from '@/components/form/DeleteConfirmation'
+import UserInformation from '@/components/form/UserInformation'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'

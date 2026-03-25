@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton.tsx'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
 	Table,
 	TableBody,
@@ -6,7 +6,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from '@/components/ui/table.tsx'
+} from '@/components/ui/table'
 
 const PendingUsers = () => (
 	<Table>

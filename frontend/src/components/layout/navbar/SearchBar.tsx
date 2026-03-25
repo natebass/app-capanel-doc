@@ -11,8 +11,8 @@ import {
 	CommandItem,
 	CommandList,
 	CommandSeparator,
-} from '@/components/ui/command.tsx'
-import { Kbd, KbdGroup } from '@/components/ui/kbd.tsx'
+} from '@/components/ui/command'
+import { Kbd, KbdGroup } from '@/components/ui/kbd'
 import { cn } from '@/lib/utils.ts'
 
 import styles from './SearchBar.module.css'

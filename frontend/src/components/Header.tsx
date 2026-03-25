@@ -17,7 +17,7 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 
-import ParaglideLocaleSwitcher from './LocaleSwitcher.tsx'
+import ParaglideLocaleSwitcher from './LocaleSwitcher'
 
 export default function Header() {
 	const [isOpen, setIsOpen] = useState(false)

@@ -9,10 +9,10 @@ import {
 	FiUser,
 } from 'react-icons/fi'
 
+import { Gauge, GaugeSkeleton } from '@/components/gauge'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { Gauge, GaugeSkeleton } from '@/components/ui/gauge'
 import { useDashboardDataSuspense } from '@/lib/hooks/useDashboardData'
 
 import DashboardCardD655 from './card/DashboardCardD655'

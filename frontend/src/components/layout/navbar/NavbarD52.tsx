@@ -1,9 +1,9 @@
 import { Link } from '@tanstack/react-router'
 import { FaMagnifyingGlass } from 'react-icons/fa6'
 
-import MobileButton from './MobileButton.tsx'
-import SearchBar from './SearchBar.tsx'
-import SettingsButton from './SettingsButton.tsx'
+import MobileButton from './MobileButton'
+import SearchBar from './SearchBar'
+import SettingsButton from './SettingsButton'
 
 import styles from './NavbarD52.module.css'
 

@@ -1,4 +1,4 @@
-import { Gauge } from '@/components/ui/gauge'
+import { Gauge } from '@/components/gauge'
 import type { IndicatorSummary } from '@/lib/client'
 import { COLOR_LEVELS, type IndicatorCode, INDICATORS } from '@/lib/constants/indicators'
 import { useEquityReport } from '@/lib/hooks/useDashboardData'

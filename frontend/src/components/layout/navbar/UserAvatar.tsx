@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarGroup, AvatarImage } from '@/components/ui/avatar.tsx'
+import { Avatar, AvatarFallback, AvatarGroup, AvatarImage } from '@/components/ui/avatar'
 
 export default function UserAvatar() {
 	return (

@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 
 import { Button, type buttonVariants } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils.ts'
 
 export interface LoadingButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
