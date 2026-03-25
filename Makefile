@@ -19,3 +19,4 @@ frontend:
 
 backend:
 	cd backend && uv sync && uv run fastapi dev
+

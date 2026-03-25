@@ -19,7 +19,7 @@ const normalizeApiBase = (value: string | undefined): string | undefined => {
 
 /**
  * base: './' is required for relative paths in single-container deployment
- * Add a delay to allow the Nitro server to boot in the container. This prevents the "fetch failed" immediately upon starting
+ * Add a delay to allow the Nitro server to boot in the container. This prevents the "fetch failed" immediately upon starting.
  */
 const config = defineConfig(({ command, mode }) => {
 	const env = loadEnv(mode, process.cwd(), '')
