@@ -1,5 +1,10 @@
+import {
+	Home01Icon as Home,
+	StructureIcon as Network,
+	RefreshIcon as RefreshCcw,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Home, Network, RefreshCcw } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -18,7 +23,7 @@ function BadGatewayPage() {
 			variant='error'
 			icon={
 				<div className='rounded-full bg-destructive/10 p-6'>
-					<Network className='size-16 text-destructive' />
+					<HugeiconsIcon icon={Network} className='size-16 text-destructive' />
 				</div>
 			}
 			title='502 - Bad Gateway'
@@ -26,18 +31,18 @@ function BadGatewayPage() {
 			footer={
 				<>
 					<Button onClick={() => window.location.reload()}>
-						<RefreshCcw className='mr-2 size-4' />
+						<HugeiconsIcon icon={RefreshCcw} className='mr-2 size-4' />
 						Retry
 					</Button>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
 			}
 		>
 			<Alert variant='destructive'>
-				<Network className='size-4' />
+				<HugeiconsIcon icon={Network} className='size-4' />
 				<AlertTitle>Gateway Error</AlertTitle>
 				<AlertDescription>
 					Our servers are having trouble communicating. This is usually temporary. Please try again.
@@ -46,5 +51,3 @@ function BadGatewayPage() {
 		</StatusCard>
 	)
 }
-
-export default BadGatewayPage

@@ -1,5 +1,6 @@
+import { Home01Icon, Key01Icon, Login01Icon, Tick01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Check, Home, KeyRound, LogIn } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -19,7 +20,7 @@ function PasswordChangedPage() {
 			variant='success'
 			icon={
 				<div className='rounded-full bg-green-500/10 p-6'>
-					<KeyRound className='size-16 text-green-500' />
+					<HugeiconsIcon icon={Key01Icon} className='size-16 text-green-500' />
 				</div>
 			}
 			title='Password Changed'
@@ -27,11 +28,11 @@ function PasswordChangedPage() {
 			footer={
 				<>
 					<Button render={<Link to='/login' />}>
-						<LogIn className='mr-2 size-4' />
+						<HugeiconsIcon icon={Login01Icon} className='mr-2 size-4' />
 						Sign In
 					</Button>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
@@ -40,13 +41,13 @@ function PasswordChangedPage() {
 			<div className='space-y-4'>
 				<div className='flex items-center justify-center'>
 					<Badge variant='default'>
-						<Check className='mr-1 size-3' />
+						<HugeiconsIcon icon={Tick01Icon} className='mr-1 size-3' />
 						Secured
 					</Badge>
 				</div>
 
 				<Alert>
-					<KeyRound className='size-4' />
+					<HugeiconsIcon icon={Key01Icon} className='size-4' />
 					<AlertTitle>Security Notice</AlertTitle>
 					<AlertDescription>
 						You've been logged out of all devices for security. Please sign in with your new
@@ -57,5 +58,3 @@ function PasswordChangedPage() {
 		</StatusCard>
 	)
 }
-
-export default PasswordChangedPage

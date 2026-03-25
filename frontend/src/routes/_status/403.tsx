@@ -1,5 +1,6 @@
+import { Home01Icon, SecurityBlockIcon as ShieldOff } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Home, ShieldOff } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -18,7 +19,7 @@ function ForbiddenPage() {
 			variant='error'
 			icon={
 				<div className='rounded-full bg-destructive/10 p-6'>
-					<ShieldOff className='size-16 text-destructive' />
+					<HugeiconsIcon icon={ShieldOff} className='size-16 text-destructive' />
 				</div>
 			}
 			title='403 - Forbidden'
@@ -26,7 +27,7 @@ function ForbiddenPage() {
 			footer={
 				<>
 					<Button render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 					<Button variant='outline' render={<Link to='/' />}>
@@ -36,7 +37,7 @@ function ForbiddenPage() {
 			}
 		>
 			<Alert>
-				<ShieldOff className='size-4' />
+				<HugeiconsIcon icon={ShieldOff} className='size-4' />
 				<AlertTitle>Access Denied</AlertTitle>
 				<AlertDescription>
 					If you believe this is an error, please contact your administrator or support team.
@@ -45,5 +46,3 @@ function ForbiddenPage() {
 		</StatusCard>
 	)
 }
-
-export default ForbiddenPage

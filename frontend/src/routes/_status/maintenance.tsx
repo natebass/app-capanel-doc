@@ -1,5 +1,6 @@
+import { Clock01Icon, ConstructionIcon, Home01Icon, WrenchIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Clock, Construction, Home, Wrench } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -20,7 +21,7 @@ function MaintenancePage() {
 			variant='info'
 			icon={
 				<div className='rounded-full bg-blue-500/10 p-6'>
-					<Construction className='size-16 text-blue-500' />
+					<HugeiconsIcon icon={ConstructionIcon} className='size-16 text-blue-500' />
 				</div>
 			}
 			title='Scheduled Maintenance'
@@ -28,7 +29,7 @@ function MaintenancePage() {
 			footer={
 				<>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 					<Button variant='outline' render={<Link to='/status' />}>
@@ -40,7 +41,7 @@ function MaintenancePage() {
 			<div className='space-y-4'>
 				<div className='flex items-center justify-center gap-2'>
 					<Badge variant='outline'>
-						<Wrench className='mr-1 size-3' />
+						<HugeiconsIcon icon={WrenchIcon} className='mr-1 size-3' />
 						In Progress
 					</Badge>
 				</div>
@@ -56,14 +57,14 @@ function MaintenancePage() {
 					<div className='flex items-center justify-between'>
 						<span className='text-muted-foreground'>Started</span>
 						<span className='flex items-center gap-1'>
-							<Clock className='size-3' />
+							<HugeiconsIcon icon={Clock01Icon} className='size-3' />
 							2:00 AM UTC
 						</span>
 					</div>
 					<div className='flex items-center justify-between'>
 						<span className='text-muted-foreground'>Expected End</span>
 						<span className='flex items-center gap-1'>
-							<Clock className='size-3' />
+							<HugeiconsIcon icon={Clock01Icon} className='size-3' />
 							4:00 AM UTC
 						</span>
 					</div>
@@ -83,5 +84,3 @@ function MaintenancePage() {
 		</StatusCard>
 	)
 }
-
-export default MaintenancePage

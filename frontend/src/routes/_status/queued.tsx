@@ -1,5 +1,11 @@
+import {
+	Clock01Icon,
+	Home01Icon,
+	WorkflowSquare01Icon as ListOrdered,
+	UserGroupIcon as Users,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Clock, Home, ListOrdered, Users } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -20,14 +26,14 @@ function QueuedPage() {
 			variant='info'
 			icon={
 				<div className='rounded-full bg-blue-500/10 p-6'>
-					<ListOrdered className='size-16 text-blue-500' />
+					<HugeiconsIcon icon={ListOrdered} className='size-16 text-blue-500' />
 				</div>
 			}
 			title='Request Queued'
 			description='Your request has been added to the processing queue.'
 			footer={
 				<Button variant='outline' render={<Link to='/' />}>
-					<Home className='mr-2 size-4' />
+					<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 					Go Home
 				</Button>
 			}
@@ -35,7 +41,7 @@ function QueuedPage() {
 			<div className='space-y-4'>
 				<div className='flex items-center justify-center gap-2'>
 					<Badge variant='outline'>
-						<Clock className='mr-1 size-3' />
+						<HugeiconsIcon icon={Clock01Icon} className='mr-1 size-3' />
 						Waiting
 					</Badge>
 				</div>
@@ -53,7 +59,7 @@ function QueuedPage() {
 				<Separator />
 
 				<div className='flex items-center justify-center gap-2 text-sm text-muted-foreground'>
-					<Users className='size-4' />
+					<HugeiconsIcon icon={Users} className='size-4' />
 					<span>47 requests processed in the last hour</span>
 				</div>
 
@@ -64,5 +70,3 @@ function QueuedPage() {
 		</StatusCard>
 	)
 }
-
-export default QueuedPage

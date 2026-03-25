@@ -1,5 +1,6 @@
+import { Clock01Icon, Home01Icon, RefreshIcon, CloudServerIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Clock, Home, RefreshCcw, ServerCrash } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -18,7 +19,7 @@ function GatewayTimeoutPage() {
 			variant='error'
 			icon={
 				<div className='rounded-full bg-destructive/10 p-6'>
-					<ServerCrash className='size-16 text-destructive' />
+					<HugeiconsIcon icon={CloudServerIcon} className='size-16 text-destructive' />
 				</div>
 			}
 			title='504 - Gateway Timeout'
@@ -26,18 +27,18 @@ function GatewayTimeoutPage() {
 			footer={
 				<>
 					<Button onClick={() => window.location.reload()}>
-						<RefreshCcw className='mr-2 size-4' />
+						<HugeiconsIcon icon={RefreshIcon} className='mr-2 size-4' />
 						Try Again
 					</Button>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
 			}
 		>
 			<Alert>
-				<Clock className='size-4' />
+				<HugeiconsIcon icon={Clock01Icon} className='size-4' />
 				<AlertTitle>Server Timeout</AlertTitle>
 				<AlertDescription>
 					The server is taking longer than expected to respond. This could be due to high traffic or
@@ -47,5 +48,3 @@ function GatewayTimeoutPage() {
 		</StatusCard>
 	)
 }
-
-export default GatewayTimeoutPage

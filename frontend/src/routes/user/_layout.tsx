@@ -34,5 +34,3 @@ function Layout() {
 		</SidebarProvider>
 	)
 }
-
-export default Layout

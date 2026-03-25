@@ -1,5 +1,6 @@
+import { Menu01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@tanstack/react-router'
-import { FaBars } from 'react-icons/fa'
 
 import { buttonVariants } from '@/components/ui/button'
 import {
@@ -19,7 +20,7 @@ export default function MobileButton() {
 			<DropdownMenuTrigger
 				className={cn('min-[1180px]:hidden', buttonVariants({ variant: 'outline' }))}
 			>
-				<FaBars />
+				<HugeiconsIcon icon={Menu01Icon} />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				<DropdownMenuItem className='text-base p-3 tracking-wide' render={<Link to='/' />}>

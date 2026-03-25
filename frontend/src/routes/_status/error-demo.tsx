@@ -1,5 +1,12 @@
+import {
+	AlertCircleIcon,
+	BugIcon,
+	FileQuestionMarkIcon,
+	SecurityBlockIcon,
+	Structure01Icon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { AlertOctagon, AlertTriangle, Bug, FileQuestion, Network, ShieldOff } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -16,98 +23,98 @@ const errorPages = [
 	{
 		code: '400',
 		name: 'Bad Request',
-		icon: AlertTriangle,
+		icon: AlertCircleIcon,
 		path: '/bad-request',
 		color: 'text-yellow-500',
 	},
 	{
 		code: '401',
 		name: 'Unauthorized',
-		icon: ShieldOff,
+		icon: SecurityBlockIcon,
 		path: '/401',
 		color: 'text-yellow-500',
 	},
 	{
 		code: '403',
 		name: 'Forbidden',
-		icon: ShieldOff,
+		icon: SecurityBlockIcon,
 		path: '/403',
 		color: 'text-destructive',
 	},
 	{
 		code: '404',
 		name: 'Not Found',
-		icon: FileQuestion,
+		icon: FileQuestionMarkIcon,
 		path: '/404',
 		color: 'text-destructive',
 	},
 	{
 		code: '408',
 		name: 'Timeout',
-		icon: AlertTriangle,
+		icon: AlertCircleIcon,
 		path: '/timeout',
 		color: 'text-yellow-500',
 	},
 	{
 		code: '409',
 		name: 'Conflict',
-		icon: AlertTriangle,
+		icon: AlertCircleIcon,
 		path: '/conflict',
 		color: 'text-yellow-500',
 	},
 	{
 		code: '410',
 		name: 'Gone',
-		icon: FileQuestion,
+		icon: FileQuestionMarkIcon,
 		path: '/gone',
 		color: 'text-muted-foreground',
 	},
 	{
 		code: '415',
 		name: 'Unsupported Media',
-		icon: AlertTriangle,
+		icon: AlertCircleIcon,
 		path: '/unsupported-media',
 		color: 'text-destructive',
 	},
 	{
 		code: '423',
 		name: 'Locked',
-		icon: ShieldOff,
+		icon: SecurityBlockIcon,
 		path: '/locked',
 		color: 'text-destructive',
 	},
 	{
 		code: '429',
 		name: 'Rate Limited',
-		icon: AlertTriangle,
+		icon: AlertCircleIcon,
 		path: '/rate-limited',
 		color: 'text-yellow-500',
 	},
 	{
 		code: '500',
 		name: 'Server Error',
-		icon: AlertOctagon,
+		icon: AlertCircleIcon,
 		path: '/500',
 		color: 'text-destructive',
 	},
 	{
 		code: '502',
 		name: 'Bad Gateway',
-		icon: Network,
+		icon: Structure01Icon,
 		path: '/bad-gateway',
 		color: 'text-destructive',
 	},
 	{
 		code: '503',
 		name: 'Unavailable',
-		icon: Network,
+		icon: Structure01Icon,
 		path: '/503',
 		color: 'text-yellow-500',
 	},
 	{
 		code: '504',
 		name: 'Gateway Timeout',
-		icon: Network,
+		icon: Structure01Icon,
 		path: '/gateway-timeout',
 		color: 'text-destructive',
 	},
@@ -120,7 +127,7 @@ function ErrorDemoPage() {
 				<CardHeader className='text-center'>
 					<div className='mx-auto mb-4'>
 						<div className='rounded-full bg-destructive/10 p-4'>
-							<Bug className='size-12 text-destructive' />
+							<HugeiconsIcon icon={BugIcon} className='size-12 text-destructive' />
 						</div>
 					</div>
 					<CardTitle className='text-3xl'>Error States</CardTitle>
@@ -145,7 +152,7 @@ function ErrorDemoPage() {
 									to={error.path}
 									className='flex items-center gap-3 p-3 rounded-lg border hover:bg-muted/50 transition-colors'
 								>
-									<Icon className={`size-5 ${error.color}`} />
+									<HugeiconsIcon icon={Icon} className={`size-5 ${error.color}`} />
 									<div>
 										<div className='font-medium'>{error.code}</div>
 										<div className='text-xs text-muted-foreground'>{error.name}</div>
@@ -263,5 +270,3 @@ export const Route = createFileRoute('/my-route')({
 		</div>
 	)
 }
-
-export default ErrorDemoPage

@@ -1,5 +1,6 @@
+import { ConstructionIcon, Home01Icon, Wrench01Icon as Wrench } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { HardHat, Home, Wrench } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -20,14 +21,14 @@ function UnderConstructionPage() {
 			variant='info'
 			icon={
 				<div className='rounded-full bg-blue-500/10 p-6'>
-					<HardHat className='size-16 text-blue-500' />
+					<HugeiconsIcon icon={ConstructionIcon} className='size-16 text-blue-500' />
 				</div>
 			}
 			title='Under Construction'
 			description="We're building something amazing here!"
 			footer={
 				<Button variant='outline' render={<Link to='/' />}>
-					<Home className='mr-2 size-4' />
+					<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 					Go Home
 				</Button>
 			}
@@ -35,7 +36,7 @@ function UnderConstructionPage() {
 			<div className='space-y-4'>
 				<div className='flex items-center justify-center gap-2'>
 					<Badge variant='outline'>
-						<Wrench className='mr-1 size-3' />
+						<HugeiconsIcon icon={Wrench} className='mr-1 size-3' />
 						Work in Progress
 					</Badge>
 				</div>
@@ -60,5 +61,3 @@ function UnderConstructionPage() {
 		</StatusCard>
 	)
 }
-
-export default UnderConstructionPage

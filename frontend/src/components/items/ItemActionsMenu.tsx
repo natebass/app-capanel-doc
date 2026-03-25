@@ -1,4 +1,5 @@
-import { EllipsisVertical } from 'lucide-react'
+import { MoreVerticalIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { useState } from 'react'
 
 import DeleteItem from '@/components/items/DeleteItem'
@@ -26,7 +27,7 @@ export const ItemActionsMenu = ({ item, canManage }: ItemActionsMenuProps) => {
 	return (
 		<DropdownMenu open={open} onOpenChange={setOpen}>
 			<DropdownMenuTrigger render={<Button variant='ghost' size='icon' />}>
-				<EllipsisVertical />
+				<HugeiconsIcon icon={MoreVerticalIcon} />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>
 				<EditItem item={item} onSuccess={() => setOpen(false)} />

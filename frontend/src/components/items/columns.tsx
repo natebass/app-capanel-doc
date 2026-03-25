@@ -1,5 +1,6 @@
+import { Copy01Icon, Tick02Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import type { ColumnDef } from '@tanstack/react-table'
-import { Check, Copy } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import type { ItemPublic } from '@/lib/client'
@@ -21,7 +22,11 @@ function CopyId({ id }: { id: string }) {
 				className='size-6 opacity-0 group-hover:opacity-100 transition-opacity'
 				onClick={() => copy(id)}
 			>
-				{isCopied ? <Check className='size-3 text-green-500' /> : <Copy className='size-3' />}
+				{isCopied ? (
+					<HugeiconsIcon icon={Tick02Icon} className='size-3 text-green-500' />
+				) : (
+					<HugeiconsIcon icon={Copy01Icon} className='size-3' />
+				)}
 				<span className='sr-only'>Copy ID</span>
 			</Button>
 		</div>

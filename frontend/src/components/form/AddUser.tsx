@@ -1,6 +1,7 @@
+import { PlusSignIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { z } from 'zod'
 
@@ -82,7 +83,7 @@ const AddUser = () => {
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DialogTrigger render={<Button className='my-4' />}>
-				<Plus className='mr-2' />
+				<HugeiconsIcon icon={PlusSignIcon} className='mr-2' />
 				Add User
 			</DialogTrigger>
 			<DialogContent className='sm:max-w-md'>

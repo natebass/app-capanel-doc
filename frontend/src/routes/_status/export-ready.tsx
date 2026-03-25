@@ -1,5 +1,6 @@
+import { Download01Icon, FileDownloadIcon, Home01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Download, FileDown, Home } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -19,7 +20,7 @@ function ExportReadyPage() {
 			variant='success'
 			icon={
 				<div className='rounded-full bg-green-500/10 p-6'>
-					<FileDown className='size-16 text-green-500' />
+					<HugeiconsIcon icon={FileDownloadIcon} className='size-16 text-green-500' />
 				</div>
 			}
 			title='Export Ready'
@@ -27,11 +28,11 @@ function ExportReadyPage() {
 			footer={
 				<>
 					<Button>
-						<Download className='mr-2 size-4' />
+						<HugeiconsIcon icon={Download01Icon} className='mr-2 size-4' />
 						Download
 					</Button>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
@@ -66,5 +67,3 @@ function ExportReadyPage() {
 		</StatusCard>
 	)
 }
-
-export default ExportReadyPage

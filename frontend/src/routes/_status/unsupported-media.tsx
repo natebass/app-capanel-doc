@@ -1,5 +1,6 @@
+import { FileRemoveIcon, Home01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { FileX, Home } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -19,7 +20,7 @@ function UnsupportedMediaPage() {
 			variant='error'
 			icon={
 				<div className='rounded-full bg-destructive/10 p-6'>
-					<FileX className='size-16 text-destructive' />
+					<HugeiconsIcon icon={FileRemoveIcon} className='size-16 text-destructive' />
 				</div>
 			}
 			title='415 - Unsupported Media Type'
@@ -27,7 +28,7 @@ function UnsupportedMediaPage() {
 			footer={
 				<>
 					<Button render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 					<Button variant='outline' onClick={() => window.history.back()}>
@@ -57,5 +58,3 @@ function UnsupportedMediaPage() {
 		</StatusCard>
 	)
 }
-
-export default UnsupportedMediaPage

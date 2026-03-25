@@ -1,6 +1,7 @@
+import { PencilEdit02Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Pencil } from 'lucide-react'
 import { useState } from 'react'
 import { z } from 'zod'
 
@@ -92,7 +93,7 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setIsOpen(true)}>
-				<Pencil />
+				<HugeiconsIcon icon={PencilEdit02Icon} />
 				Edit User
 			</DropdownMenuItem>
 			<DialogContent className='sm:max-w-md'>

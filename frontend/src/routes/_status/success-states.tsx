@@ -1,19 +1,19 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
 import {
-	Check,
-	CheckCircle2,
-	Crown,
-	Database,
-	FileDown,
-	FileUp,
-	Key,
-	KeyRound,
-	Mail,
-	PartyPopper,
-	Shield,
-	Sparkles,
-	Webhook,
-} from 'lucide-react'
+	CheckmarkCircle01Icon,
+	CrownIcon,
+	Database01Icon,
+	FileDownloadIcon,
+	FileUploadIcon,
+	Key01Icon,
+	Mail01Icon,
+	Shield01Icon,
+	SparklesIcon,
+	Tick01Icon,
+	ChampionIcon as TrophyIcon,
+	WebhookIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -26,45 +26,50 @@ export const Route = createFileRoute('/_status/success-states')({
 })
 
 const successPages = [
-	{ name: 'General Success', icon: CheckCircle2, path: '/success', color: 'text-green-500' },
-	{ name: 'Welcome', icon: Sparkles, path: '/welcome', color: 'text-green-500' },
+	{
+		name: 'General Success',
+		icon: CheckmarkCircle01Icon,
+		path: '/success',
+		color: 'text-green-500',
+	},
+	{ name: 'Welcome', icon: SparklesIcon, path: '/welcome', color: 'text-green-500' },
 	{
 		name: 'Upgrade Success',
-		icon: Crown,
+		icon: CrownIcon,
 		path: '/upgrade-success',
 		color: 'text-green-500',
 	},
 	{
 		name: 'Password Changed',
-		icon: KeyRound,
+		icon: Key01Icon,
 		path: '/password-changed',
 		color: 'text-green-500',
 	},
-	{ name: 'Email Sent', icon: Mail, path: '/email-sent', color: 'text-green-500' },
-	{ name: '2FA Enabled', icon: Shield, path: '/2fa-enabled', color: 'text-green-500' },
+	{ name: 'Email Sent', icon: Mail01Icon, path: '/email-sent', color: 'text-green-500' },
+	{ name: '2FA Enabled', icon: Shield01Icon, path: '/2fa-enabled', color: 'text-green-500' },
 	{
 		name: 'Device Verified',
-		icon: Check,
+		icon: Tick01Icon,
 		path: '/device-verified',
 		color: 'text-green-500',
 	},
-	{ name: 'Export Ready', icon: FileDown, path: '/export-ready', color: 'text-green-500' },
+	{ name: 'Export Ready', icon: FileDownloadIcon, path: '/export-ready', color: 'text-green-500' },
 	{
 		name: 'Import Complete',
-		icon: FileUp,
+		icon: FileUploadIcon,
 		path: '/import-complete',
 		color: 'text-green-500',
 	},
 	{
 		name: 'Backup Complete',
-		icon: Database,
+		icon: Database01Icon,
 		path: '/backup-complete',
 		color: 'text-green-500',
 	},
-	{ name: 'API Key Created', icon: Key, path: '/api-key-created', color: 'text-green-500' },
+	{ name: 'API Key Created', icon: Key01Icon, path: '/api-key-created', color: 'text-green-500' },
 	{
 		name: 'Webhook Configured',
-		icon: Webhook,
+		icon: WebhookIcon,
 		path: '/webhook-configured',
 		color: 'text-green-500',
 	},
@@ -77,7 +82,7 @@ function SuccessStatesPage() {
 				<CardHeader className='text-center'>
 					<div className='mx-auto mb-4'>
 						<div className='rounded-full bg-green-500/10 p-4'>
-							<PartyPopper className='size-12 text-green-500' />
+							<HugeiconsIcon icon={TrophyIcon} className='size-12 text-green-500' />
 						</div>
 					</div>
 					<CardTitle className='text-3xl'>Success States</CardTitle>
@@ -103,7 +108,7 @@ function SuccessStatesPage() {
 									className='flex items-center gap-3 p-3 rounded-lg border hover:bg-muted/50 transition-colors'
 								>
 									<div className='rounded-full bg-green-500/10 p-2'>
-										<Icon className={`size-4 ${page.color}`} />
+										<HugeiconsIcon icon={Icon} className={`size-4 ${page.color}`} />
 									</div>
 									<div className='font-medium text-sm'>{page.name}</div>
 								</Link>
@@ -154,14 +159,14 @@ const handleUpgrade = async () => {
 				<CardContent>
 					<div className='grid gap-4 md:grid-cols-2'>
 						<div className='flex items-center gap-3 p-4 rounded-lg border-2 border-green-500/50'>
-							<CheckCircle2 className='size-6 text-green-500' />
+							<HugeiconsIcon icon={CheckmarkCircle01Icon} className='size-6 text-green-500' />
 							<div>
 								<div className='font-medium'>variant="success"</div>
 								<div className='text-xs text-muted-foreground'>Green border accent</div>
 							</div>
 						</div>
 						<div className='flex items-center gap-3 p-4 rounded-lg border-2 border-blue-500/50'>
-							<Sparkles className='size-6 text-blue-500' />
+							<HugeiconsIcon icon={SparklesIcon} className='size-6 text-blue-500' />
 							<div>
 								<div className='font-medium'>variant="info"</div>
 								<div className='text-xs text-muted-foreground'>Blue border accent</div>
@@ -173,5 +178,3 @@ const handleUpgrade = async () => {
 		</div>
 	)
 }
-
-export default SuccessStatesPage

@@ -1,20 +1,21 @@
-import { Link } from '@tanstack/react-router'
 import {
-	ChefHat,
-	ClipboardType,
-	Home,
-	ImageIcon,
-	Languages,
-	Menu,
-	MessagesSquare,
-	Network,
-	SquareFunction,
-	StickyNote,
-	Store,
-	Table,
-	Webhook,
-	X,
-} from 'lucide-react'
+	AiNetworkIcon,
+	ChefHatIcon,
+	ClipboardIcon,
+	Comment01Icon,
+	FunctionIcon,
+	Home01Icon,
+	Image01Icon,
+	Menu01Icon,
+	Note01Icon,
+	Store01Icon,
+	TableIcon,
+	TranslateIcon,
+	WebhookIcon,
+	Cancel01Icon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import ParaglideLocaleSwitcher from './LocaleSwitcher'
@@ -32,7 +33,7 @@ export default function Header() {
 					aria-label='Open menu'
 					type='button'
 				>
-					<Menu size={24} />
+					<HugeiconsIcon icon={Menu01Icon} size={24} />
 				</button>
 				<h1 className='ml-4 text-xl font-semibold'>
 					<Link to='/'>
@@ -54,7 +55,7 @@ export default function Header() {
 						aria-label='Close menu'
 						type='button'
 					>
-						<X size={24} />
+						<HugeiconsIcon icon={Cancel01Icon} size={24} />
 					</button>
 				</div>
 
@@ -68,7 +69,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<Home size={20} />
+						<HugeiconsIcon icon={Home01Icon} size={20} />
 						<span className='font-medium'>Home</span>
 					</Link>
 
@@ -83,7 +84,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<Network size={20} />
+						<HugeiconsIcon icon={AiNetworkIcon} size={20} />
 						<span className='font-medium'>TanStack Query</span>
 					</Link>
 
@@ -96,7 +97,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<Store size={20} />
+						<HugeiconsIcon icon={Store01Icon} size={20} />
 						<span className='font-medium'>Store</span>
 					</Link>
 
@@ -109,7 +110,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<Table size={20} />
+						<HugeiconsIcon icon={TableIcon} size={20} />
 						<span className='font-medium'>TanStack Table</span>
 					</Link>
 
@@ -122,7 +123,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<Languages size={20} />
+						<HugeiconsIcon icon={TranslateIcon} size={20} />
 						<span className='font-medium'>I18n example</span>
 					</Link>
 
@@ -135,7 +136,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<Webhook size={20} />
+						<HugeiconsIcon icon={WebhookIcon} size={20} />
 						<span className='font-medium'>MCP</span>
 					</Link>
 
@@ -148,7 +149,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<ClipboardType size={20} />
+						<HugeiconsIcon icon={ClipboardIcon} size={20} />
 						<span className='font-medium'>Simple Form</span>
 					</Link>
 
@@ -161,7 +162,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<ClipboardType size={20} />
+						<HugeiconsIcon icon={ClipboardIcon} size={20} />
 						<span className='font-medium'>Address Form</span>
 					</Link>
 
@@ -174,7 +175,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<MessagesSquare size={20} />
+						<HugeiconsIcon icon={Comment01Icon} size={20} />
 						<span className='font-medium'>Chat</span>
 					</Link>
 
@@ -187,7 +188,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<ImageIcon size={20} />
+						<HugeiconsIcon icon={Image01Icon} size={20} />
 						<span className='font-medium'>Generate Image</span>
 					</Link>
 
@@ -200,7 +201,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<ChefHat size={20} />
+						<HugeiconsIcon icon={ChefHatIcon} size={20} />
 						<span className='font-medium'>Structured Output</span>
 					</Link>
 
@@ -213,7 +214,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<SquareFunction size={20} />
+						<HugeiconsIcon icon={FunctionIcon} size={20} />
 						<span className='font-medium'>Start - Server Functions</span>
 					</Link>
 
@@ -226,7 +227,7 @@ export default function Header() {
 								'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 						}}
 					>
-						<Network size={20} />
+						<HugeiconsIcon icon={AiNetworkIcon} size={20} />
 						<span className='font-medium'>Start - API Request</span>
 					</Link>
 
@@ -241,7 +242,7 @@ export default function Header() {
 										'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 								}}
 							>
-								<StickyNote size={20} />
+								<HugeiconsIcon icon={Note01Icon} size={20} />
 								<span className='font-medium'>SPA Mode</span>
 							</Link>
 
@@ -254,7 +255,7 @@ export default function Header() {
 										'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 								}}
 							>
-								<StickyNote size={20} />
+								<HugeiconsIcon icon={Note01Icon} size={20} />
 								<span className='font-medium'>Full SSR</span>
 							</Link>
 
@@ -267,7 +268,7 @@ export default function Header() {
 										'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
 								}}
 							>
-								<StickyNote size={20} />
+								<HugeiconsIcon icon={Note01Icon} size={20} />
 								<span className='font-medium'>Data Only</span>
 							</Link>
 						</div>

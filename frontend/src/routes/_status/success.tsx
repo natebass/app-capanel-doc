@@ -1,5 +1,6 @@
+import { Tick02Icon, Home01Icon, SparklesIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { CheckCircle2, Home, PartyPopper } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -19,7 +20,7 @@ function SuccessPage() {
 			variant='success'
 			icon={
 				<div className='rounded-full bg-green-500/10 p-6'>
-					<CheckCircle2 className='size-16 text-green-500' />
+					<HugeiconsIcon icon={Tick02Icon} className='size-16 text-green-500' />
 				</div>
 			}
 			title='Success!'
@@ -27,7 +28,7 @@ function SuccessPage() {
 			footer={
 				<>
 					<Button render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 					<Button variant='outline' render={<Link to='/dashboard' />}>
@@ -38,9 +39,9 @@ function SuccessPage() {
 		>
 			<div className='space-y-4 text-center'>
 				<div className='flex items-center justify-center gap-2'>
-					<PartyPopper className='size-5 text-yellow-500' />
+					<HugeiconsIcon icon={SparklesIcon} className='size-5 text-yellow-500' />
 					<Badge variant='default'>Completed</Badge>
-					<PartyPopper className='size-5 text-yellow-500' />
+					<HugeiconsIcon icon={SparklesIcon} className='size-5 text-yellow-500' />
 				</div>
 
 				<Separator />
@@ -69,5 +70,3 @@ function SuccessPage() {
 		</StatusCard>
 	)
 }
-
-export default SuccessPage

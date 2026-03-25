@@ -1,5 +1,10 @@
+import {
+	Alert01Icon as AlertCircle,
+	FileQuestionMarkIcon as FileWarning,
+	Home01Icon as Home,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { AlertCircle, FileWarning, Home } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -18,7 +23,7 @@ function BadRequestPage() {
 			variant='error'
 			icon={
 				<div className='rounded-full bg-destructive/10 p-6'>
-					<FileWarning className='size-16 text-destructive' />
+					<HugeiconsIcon icon={FileWarning} className='size-16 text-destructive' />
 				</div>
 			}
 			title='400 - Bad Request'
@@ -26,7 +31,7 @@ function BadRequestPage() {
 			footer={
 				<>
 					<Button render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home} className='mr-2 size-4' />
 						Go Home
 					</Button>
 					<Button variant='outline' onClick={() => window.history.back()}>
@@ -36,7 +41,7 @@ function BadRequestPage() {
 			}
 		>
 			<Alert variant='destructive'>
-				<AlertCircle className='size-4' />
+				<HugeiconsIcon icon={AlertCircle} className='size-4' />
 				<AlertTitle>Invalid Request</AlertTitle>
 				<AlertDescription>
 					Please check the URL or form data and try again. If the problem persists, contact support.
@@ -45,5 +50,3 @@ function BadRequestPage() {
 		</StatusCard>
 	)
 }
-
-export default BadRequestPage

@@ -1,5 +1,11 @@
+import {
+	Clock01Icon,
+	DashboardCircleIcon as Gauge,
+	Home01Icon,
+	TimerIcon as Timer,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Clock, Gauge, Home, Timer } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -20,7 +26,7 @@ function RateLimitedPage() {
 			variant='warning'
 			icon={
 				<div className='rounded-full bg-yellow-500/10 p-6'>
-					<Gauge className='size-16 text-yellow-500' />
+					<HugeiconsIcon icon={Gauge} className='size-16 text-yellow-500' />
 				</div>
 			}
 			title='429 - Too Many Requests'
@@ -28,11 +34,11 @@ function RateLimitedPage() {
 			footer={
 				<>
 					<Button disabled>
-						<Timer className='mr-2 size-4' />
+						<HugeiconsIcon icon={Timer} className='mr-2 size-4' />
 						Wait 60 seconds
 					</Button>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
@@ -41,7 +47,7 @@ function RateLimitedPage() {
 			<div className='space-y-4'>
 				<div className='flex items-center justify-center gap-2'>
 					<Badge variant='secondary'>
-						<Clock className='mr-1 size-3' />
+						<HugeiconsIcon icon={Clock01Icon} className='mr-1 size-3' />
 						Cooldown Active
 					</Badge>
 				</div>
@@ -80,5 +86,3 @@ function RateLimitedPage() {
 		</StatusCard>
 	)
 }
-
-export default RateLimitedPage

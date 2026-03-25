@@ -1,5 +1,11 @@
+import {
+	Ticket02Icon as Check,
+	Database01Icon as Database,
+	Download01Icon as Download,
+	Home01Icon as Home,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Check, Database, Download, Home } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -19,7 +25,7 @@ function BackupCompletePage() {
 			variant='success'
 			icon={
 				<div className='rounded-full bg-green-500/10 p-6'>
-					<Database className='size-16 text-green-500' />
+					<HugeiconsIcon icon={Database} className='size-16 text-green-500' />
 				</div>
 			}
 			title='Backup Complete'
@@ -27,11 +33,11 @@ function BackupCompletePage() {
 			footer={
 				<>
 					<Button>
-						<Download className='mr-2 size-4' />
+						<HugeiconsIcon icon={Download} className='mr-2 size-4' />
 						Download Backup
 					</Button>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
@@ -40,7 +46,7 @@ function BackupCompletePage() {
 			<div className='space-y-4'>
 				<div className='flex items-center justify-center gap-2'>
 					<Badge variant='default'>
-						<Check className='mr-1 size-3' />
+						<HugeiconsIcon icon={Check} className='mr-1 size-3' />
 						Verified
 					</Badge>
 				</div>
@@ -69,5 +75,3 @@ function BackupCompletePage() {
 		</StatusCard>
 	)
 }
-
-export default BackupCompletePage

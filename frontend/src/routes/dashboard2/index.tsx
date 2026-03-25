@@ -1,17 +1,18 @@
+import {
+	ActivityIcon,
+	AnalyticsUpIcon,
+	ArrowDown01Icon,
+	ArrowUp01Icon,
+	Dollar01Icon,
+	Home01Icon,
+	Settings02Icon,
+	ShoppingBasket01Icon,
+	UserGroupIcon,
+	UserIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import {
-	FiActivity,
-	FiArrowDown,
-	FiArrowUp,
-	FiDollarSign,
-	FiHome,
-	FiSettings,
-	FiShoppingCart,
-	FiTrendingUp,
-	FiUser,
-	FiUsers,
-} from 'react-icons/fi'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -20,6 +21,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Spinner } from '@/components/ui/spinner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useCensusDataById, useTotalEnrollment } from '@/lib/hooks/useCensusData'
+
+export const Route = createFileRoute('/dashboard2/')({
+	component: Dashboard2Page,
+})
 
 // Component to display total enrollment with loading and error states
 function TotalEnrollmentDisplay() {
@@ -113,7 +118,7 @@ function CensusDataSearchCard() {
 						</span>
 						<span className='text-sm text-muted-foreground font-medium'>Total Enrollment</span>
 					</div>
-					<FiHome className='h-4 w-4 text-blue-500' />
+					<HugeiconsIcon icon={Home01Icon} className='h-4 w-4 text-blue-500' />
 				</div>
 				<p className='text-2xl font-bold text-blue-500'>
 					{data.total_enr?.toLocaleString() || '0'}
@@ -152,7 +157,7 @@ function CensusDataSearchCard() {
 					<p className='text-sm text-muted-foreground font-medium'>Default View</p>
 					<p className='text-2xl font-bold'>-</p>
 					<div className='flex items-center gap-2'>
-						<FiUsers className='h-3 w-3 text-gray-500' />
+						<HugeiconsIcon icon={UserGroupIcon} className='h-3 w-3 text-gray-500' />
 						<span className='text-sm text-muted-foreground'>No data selected</span>
 					</div>
 				</div>
@@ -163,7 +168,7 @@ function CensusDataSearchCard() {
 					<p className='text-sm text-muted-foreground font-medium'>Last Searched</p>
 					<p className='text-2xl font-bold'>{searchId ? '✓' : '-'}</p>
 					<div className='flex items-center gap-2'>
-						<FiActivity className='h-3 w-3 text-blue-500' />
+						<HugeiconsIcon icon={ActivityIcon} className='h-3 w-3 text-blue-500' />
 						<span className='text-sm text-muted-foreground'>
 							{searchId ? 'Data loaded' : 'No recent searches'}
 						</span>
@@ -173,10 +178,6 @@ function CensusDataSearchCard() {
 		</Tabs>
 	)
 }
-
-export const Route = createFileRoute('/dashboard2/')({
-	component: Dashboard2Page,
-})
 
 function Dashboard2Page() {
 	return (
@@ -206,7 +207,7 @@ function Dashboard2Page() {
 										<p className='text-sm text-muted-foreground font-medium'>Total Users</p>
 										<TotalEnrollmentDisplay />
 										<div className='flex items-center gap-1'>
-											<FiArrowUp className='h-3 w-3 text-green-500' />
+											<HugeiconsIcon icon={ArrowUp01Icon} className='h-3 w-3 text-green-500' />
 											<span className='text-sm text-green-500'>+12.5% from last month</span>
 										</div>
 									</div>
@@ -217,7 +218,7 @@ function Dashboard2Page() {
 										<p className='text-sm text-muted-foreground font-medium'>Active Users (30d)</p>
 										<p className='text-2xl font-bold'>1,987</p>
 										<div className='flex items-center gap-1'>
-											<FiArrowUp className='h-3 w-3 text-green-500' />
+											<HugeiconsIcon icon={ArrowUp01Icon} className='h-3 w-3 text-green-500' />
 											<span className='text-sm text-green-500'>+8.3% from last month</span>
 										</div>
 									</div>
@@ -228,7 +229,7 @@ function Dashboard2Page() {
 										<p className='text-lg text-muted-foreground font-medium'>New Users (7d)</p>
 										<p className='text-2xl font-bold'>142</p>
 										<div className='flex items-center gap-1'>
-											<FiArrowDown className='h-3 w-3 text-red-500' />
+											<HugeiconsIcon icon={ArrowDown01Icon} className='h-3 w-3 text-red-500' />
 											<span className='text-sm text-red-500'>-5.2% from last week</span>
 										</div>
 									</div>
@@ -250,12 +251,12 @@ function Dashboard2Page() {
 									<p className='text-sm text-muted-foreground font-medium'>Orders</p>
 									<p className='text-2xl font-bold'>1,234</p>
 									<div className='flex items-center gap-1'>
-										<FiArrowDown className='h-3 w-3 text-red-500' />
+										<HugeiconsIcon icon={ArrowDown01Icon} className='h-3 w-3 text-red-500' />
 										<span className='text-sm text-red-500'>-3.1%</span>
 									</div>
 								</div>
 								<div className='p-3 bg-orange-50 rounded-lg'>
-									<FiShoppingCart className='h-6 w-6 text-orange-500' />
+									<HugeiconsIcon icon={ShoppingBasket01Icon} className='h-6 w-6 text-orange-500' />
 								</div>
 							</div>
 						</CardContent>
@@ -268,12 +269,12 @@ function Dashboard2Page() {
 									<p className='text-sm text-muted-foreground font-medium'>Growth Rate</p>
 									<p className='text-2xl font-bold'>15.3%</p>
 									<div className='flex items-center gap-1'>
-										<FiArrowUp className='h-3 w-3 text-green-500' />
+										<HugeiconsIcon icon={ArrowUp01Icon} className='h-3 w-3 text-green-500' />
 										<span className='text-sm text-green-500'>+2.4%</span>
 									</div>
 								</div>
 								<div className='p-3 bg-purple-50 rounded-lg'>
-									<FiTrendingUp className='h-6 w-6 text-purple-500' />
+									<HugeiconsIcon icon={AnalyticsUpIcon} className='h-6 w-6 text-purple-500' />
 								</div>
 							</div>
 						</CardContent>
@@ -294,7 +295,7 @@ function Dashboard2Page() {
 							<div className='flex flex-col gap-4'>
 								<div className='flex items-center gap-3'>
 									<div className='p-2 bg-blue-50 rounded-md'>
-										<FiUser className='text-blue-500' />
+										<HugeiconsIcon icon={UserIcon} className='text-blue-500' />
 									</div>
 									<div className='flex-1'>
 										<p className='font-medium'>New user registered</p>
@@ -307,7 +308,7 @@ function Dashboard2Page() {
 
 								<div className='flex items-center gap-3'>
 									<div className='p-2 bg-green-50 rounded-md'>
-										<FiDollarSign className='text-green-500' />
+										<HugeiconsIcon icon={Dollar01Icon} className='text-green-500' />
 									</div>
 									<div className='flex-1'>
 										<p className='font-medium'>Payment received</p>
@@ -320,7 +321,7 @@ function Dashboard2Page() {
 
 								<div className='flex items-center gap-3'>
 									<div className='p-2 bg-orange-50 rounded-md'>
-										<FiShoppingCart className='text-orange-500' />
+										<HugeiconsIcon icon={ShoppingBasket01Icon} className='text-orange-500' />
 									</div>
 									<div className='flex-1'>
 										<p className='font-medium'>New order placed</p>
@@ -345,15 +346,15 @@ function Dashboard2Page() {
 						<CardContent>
 							<div className='flex flex-col gap-3'>
 								<Button className='w-full'>
-									<FiUser className='mr-2' />
+									<HugeiconsIcon icon={UserIcon} className='mr-2' />
 									Add New User
 								</Button>
 								<Button variant='outline' className='w-full'>
-									<FiActivity className='mr-2' />
+									<HugeiconsIcon icon={ActivityIcon} className='mr-2' />
 									View Analytics
 								</Button>
 								<Button variant='outline' className='w-full'>
-									<FiSettings className='mr-2' />
+									<HugeiconsIcon icon={Settings02Icon} className='mr-2' />
 									Settings
 								</Button>
 							</div>
@@ -401,7 +402,7 @@ function Dashboard2Page() {
 									<p className='text-xs text-muted-foreground font-medium'>Response Time</p>
 									<p className='text-lg font-bold'>234ms</p>
 									<div className='flex justify-center items-center gap-1'>
-										<FiArrowDown className='h-3 w-3 text-green-500' />
+										<HugeiconsIcon icon={ArrowDown01Icon} className='h-3 w-3 text-green-500' />
 										<span className='text-sm text-green-500'>-12ms from last hour</span>
 									</div>
 								</div>

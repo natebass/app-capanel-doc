@@ -1,5 +1,12 @@
+import {
+	ArrowRight01Icon as ArrowRight,
+	Book01Icon as BookOpen,
+	RocketIcon as Rocket,
+	Settings01Icon as Settings,
+	SparklesIcon as Sparkles,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowRight, BookOpen, Rocket, Settings, Sparkles } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -20,7 +27,7 @@ function WelcomePage() {
 			variant='success'
 			icon={
 				<div className='rounded-full bg-green-500/10 p-6'>
-					<Sparkles className='size-16 text-green-500' />
+					<HugeiconsIcon icon={Sparkles} className='size-16 text-green-500' />
 				</div>
 			}
 			title='Welcome to FastAPI Cloud!'
@@ -28,14 +35,14 @@ function WelcomePage() {
 			footer={
 				<Button render={<Link to='/dashboard' />}>
 					Get Started
-					<ArrowRight className='ml-2 size-4' />
+					<HugeiconsIcon icon={ArrowRight} className='ml-2 size-4' />
 				</Button>
 			}
 		>
 			<div className='space-y-4'>
 				<div className='flex items-center justify-center'>
 					<Badge variant='default'>
-						<Sparkles className='mr-1 size-3' />
+						<HugeiconsIcon icon={Sparkles} className='mr-1 size-3' />
 						Account Active
 					</Badge>
 				</div>
@@ -48,7 +55,7 @@ function WelcomePage() {
 					<Card size='sm'>
 						<CardHeader className='pb-2'>
 							<CardTitle className='flex items-center gap-2 text-sm'>
-								<Rocket className='size-4' />
+								<HugeiconsIcon icon={Rocket} className='size-4' />
 								Explore the Dashboard
 							</CardTitle>
 						</CardHeader>
@@ -64,7 +71,7 @@ function WelcomePage() {
 					<Card size='sm'>
 						<CardHeader className='pb-2'>
 							<CardTitle className='flex items-center gap-2 text-sm'>
-								<Settings className='size-4' />
+								<HugeiconsIcon icon={Settings} className='size-4' />
 								Configure Settings
 							</CardTitle>
 						</CardHeader>
@@ -80,7 +87,7 @@ function WelcomePage() {
 					<Card size='sm'>
 						<CardHeader className='pb-2'>
 							<CardTitle className='flex items-center gap-2 text-sm'>
-								<BookOpen className='size-4' />
+								<HugeiconsIcon icon={BookOpen} className='size-4' />
 								Read the Docs
 							</CardTitle>
 						</CardHeader>
@@ -97,5 +104,3 @@ function WelcomePage() {
 		</StatusCard>
 	)
 }
-
-export default WelcomePage

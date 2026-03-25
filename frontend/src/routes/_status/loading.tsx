@@ -1,5 +1,6 @@
+import { Loading01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute } from '@tanstack/react-router'
-import { Loader2 } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -23,7 +24,7 @@ function LoadingDemoPage() {
 				<CardHeader className='text-center'>
 					<div className='mx-auto mb-4'>
 						<div className='rounded-full bg-primary/10 p-4'>
-							<Loader2 className='size-12 text-primary animate-spin' />
+							<HugeiconsIcon icon={Loading01Icon} className='size-12 text-primary animate-spin' />
 						</div>
 					</div>
 					<CardTitle className='text-3xl'>Loading States</CardTitle>
@@ -62,7 +63,7 @@ function LoadingDemoPage() {
 					<CardContent>
 						<div className='p-4 rounded-lg bg-muted/50 space-y-4'>
 							<div className='flex items-center justify-center'>
-								<Loader2 className='size-8 text-primary animate-spin' />
+								<HugeiconsIcon icon={Loading01Icon} className='size-8 text-primary animate-spin' />
 							</div>
 							<Progress value={65}>
 								<ProgressLabel>Loading</ProgressLabel>
@@ -144,5 +145,3 @@ export const Route = createFileRoute('/my-route')({
 		</div>
 	)
 }
-
-export default LoadingDemoPage

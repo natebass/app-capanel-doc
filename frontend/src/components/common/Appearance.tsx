@@ -1,4 +1,5 @@
-import { Monitor, Moon, Sun } from 'lucide-react'
+import { Monitor, MoonIcon, SunIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 
 import { type Theme, useTheme } from '@/components/theme-provider'
 import { Button } from '@/components/ui/button'
@@ -10,12 +11,10 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 
-type LucideIcon = typeof Monitor
-
-const ICON_MAP: Record<Theme, LucideIcon> = {
+const ICON_MAP: Record<Theme, any> = {
 	system: Monitor,
-	light: Sun,
-	dark: Moon,
+	light: SunIcon,
+	dark: MoonIcon,
 }
 
 export const SidebarAppearance = () => {
@@ -39,15 +38,15 @@ export const SidebarAppearance = () => {
 					className='w-(--radix-dropdown-menu-trigger-width) min-w-56'
 				>
 					<DropdownMenuItem data-testid='light-mode' onClick={() => setTheme('light')}>
-						<Sun className='mr-2 h-4 w-4' />
+						<HugeiconsIcon icon={SunIcon} className='mr-2 h-4 w-4' />
 						Light
 					</DropdownMenuItem>
 					<DropdownMenuItem data-testid='dark-mode' onClick={() => setTheme('dark')}>
-						<Moon className='mr-2 h-4 w-4' />
+						<HugeiconsIcon icon={MoonIcon} className='mr-2 h-4 w-4' />
 						Dark
 					</DropdownMenuItem>
 					<DropdownMenuItem onClick={() => setTheme('system')}>
-						<Monitor className='mr-2 h-4 w-4' />
+						<HugeiconsIcon icon={Monitor} className='mr-2 h-4 w-4' />
 						System
 					</DropdownMenuItem>
 				</DropdownMenuContent>
@@ -65,21 +64,27 @@ export const Appearance = () => {
 				<DropdownMenuTrigger
 					render={<Button data-testid='theme-button' variant='outline' size='icon' />}
 				>
-					<Sun className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
-					<Moon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
+					<HugeiconsIcon
+						icon={SunIcon}
+						className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0'
+					/>
+					<HugeiconsIcon
+						icon={MoonIcon}
+						className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100'
+					/>
 					<span className='sr-only'>Toggle theme</span>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align='end'>
 					<DropdownMenuItem data-testid='light-mode' onClick={() => setTheme('light')}>
-						<Sun className='mr-2 h-4 w-4' />
+						<HugeiconsIcon icon={SunIcon} className='mr-2 h-4 w-4' />
 						Light
 					</DropdownMenuItem>
 					<DropdownMenuItem data-testid='dark-mode' onClick={() => setTheme('dark')}>
-						<Moon className='mr-2 h-4 w-4' />
+						<HugeiconsIcon icon={MoonIcon} className='mr-2 h-4 w-4' />
 						Dark
 					</DropdownMenuItem>
 					<DropdownMenuItem onClick={() => setTheme('system')}>
-						<Monitor className='mr-2 h-4 w-4' />
+						<HugeiconsIcon icon={Monitor} className='mr-2 h-4 w-4' />
 						System
 					</DropdownMenuItem>
 				</DropdownMenuContent>

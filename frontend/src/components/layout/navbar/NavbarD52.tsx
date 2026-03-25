@@ -1,5 +1,6 @@
+import { Search01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@tanstack/react-router'
-import { FaMagnifyingGlass } from 'react-icons/fa6'
 
 import MobileButton from './MobileButton'
 import SearchBar from './SearchBar'
@@ -23,7 +24,7 @@ export default function NavbarD52({ shadow = false }: { shadow?: boolean }) {
 				</div>
 				<div className={styles.right}>
 					<SearchBar />
-					<FaMagnifyingGlass className={styles.searchIcon} />
+					<HugeiconsIcon icon={Search01Icon} className={styles.searchIcon} />
 					<div className={styles.linksContainer}>
 						<Link
 							to='/'

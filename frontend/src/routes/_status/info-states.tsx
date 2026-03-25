@@ -1,17 +1,18 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
 import {
-	Bell,
-	Clock,
-	Construction,
-	FolderOpen,
-	HardHat,
-	Info,
-	ListOrdered,
-	Mail,
-	Rocket,
-	Search,
-	Users,
-} from 'lucide-react'
+	Clock01Icon,
+	ConstructionIcon,
+	FolderOpenIcon,
+	Information,
+	Mail01Icon,
+	Menu01Icon,
+	Notification01Icon,
+	RocketIcon,
+	Search01Icon,
+	SecurityIcon,
+	UserGroupIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -24,28 +25,33 @@ export const Route = createFileRoute('/_status/info-states')({
 })
 
 const infoPages = [
-	{ name: 'Coming Soon', icon: Rocket, path: '/coming-soon', color: 'text-blue-500' },
-	{ name: 'Maintenance', icon: Construction, path: '/maintenance', color: 'text-blue-500' },
+	{ name: 'Coming Soon', icon: RocketIcon, path: '/coming-soon', color: 'text-blue-500' },
+	{ name: 'Maintenance', icon: ConstructionIcon, path: '/maintenance', color: 'text-blue-500' },
 	{
 		name: 'Under Construction',
-		icon: HardHat,
+		icon: SecurityIcon,
 		path: '/under-construction',
 		color: 'text-blue-500',
 	},
-	{ name: 'Verify Email', icon: Mail, path: '/verify-email', color: 'text-blue-500' },
-	{ name: 'Login Required', icon: Users, path: '/login-required', color: 'text-blue-500' },
-	{ name: '2FA Required', icon: Clock, path: '/2fa-required', color: 'text-blue-500' },
-	{ name: 'Team Invitation', icon: Users, path: '/invitation', color: 'text-blue-500' },
-	{ name: 'Processing', icon: Clock, path: '/processing', color: 'text-blue-500' },
-	{ name: 'Queued', icon: ListOrdered, path: '/queued', color: 'text-blue-500' },
+	{ name: 'Verify Email', icon: Mail01Icon, path: '/verify-email', color: 'text-blue-500' },
+	{ name: 'Login Required', icon: UserGroupIcon, path: '/login-required', color: 'text-blue-500' },
+	{ name: '2FA Required', icon: Clock01Icon, path: '/2fa-required', color: 'text-blue-500' },
+	{ name: 'Team Invitation', icon: UserGroupIcon, path: '/invitation', color: 'text-blue-500' },
+	{ name: 'Processing', icon: Clock01Icon, path: '/processing', color: 'text-blue-500' },
+	{ name: 'Queued', icon: Menu01Icon, path: '/queued', color: 'text-blue-500' },
 	{
 		name: 'Empty State',
-		icon: FolderOpen,
+		icon: FolderOpenIcon,
 		path: '/empty-state',
 		color: 'text-muted-foreground',
 	},
-	{ name: 'No Results', icon: Search, path: '/no-results', color: 'text-muted-foreground' },
-	{ name: 'Cancelled', icon: Info, path: '/cancelled', color: 'text-muted-foreground' },
+	{ name: 'No Results', icon: Search01Icon, path: '/no-results', color: 'text-muted-foreground' },
+	{
+		name: 'Cancelled',
+		icon: Information,
+		path: '/cancelled',
+		color: 'text-muted-foreground',
+	},
 ]
 
 function InfoStatesPage() {
@@ -55,7 +61,7 @@ function InfoStatesPage() {
 				<CardHeader className='text-center'>
 					<div className='mx-auto mb-4'>
 						<div className='rounded-full bg-blue-500/10 p-4'>
-							<Bell className='size-12 text-blue-500' />
+							<HugeiconsIcon icon={Notification01Icon} className='size-12 text-blue-500' />
 						</div>
 					</div>
 					<CardTitle className='text-3xl'>Informational States</CardTitle>
@@ -81,7 +87,7 @@ function InfoStatesPage() {
 									className='flex items-center gap-3 p-3 rounded-lg border hover:bg-muted/50 transition-colors'
 								>
 									<div className='rounded-full bg-blue-500/10 p-2'>
-										<Icon className={`size-4 ${page.color}`} />
+										<HugeiconsIcon icon={Icon} className={`size-4 ${page.color}`} />
 									</div>
 									<div className='font-medium text-sm'>{page.name}</div>
 								</Link>
@@ -156,5 +162,3 @@ function InfoStatesPage() {
 		</div>
 	)
 }
-
-export default InfoStatesPage

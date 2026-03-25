@@ -1,5 +1,6 @@
+import { Tick02Icon, LaptopIcon, Monitor, SmartPhone01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Check, Laptop, Monitor, Smartphone } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -19,7 +20,7 @@ function DeviceVerifiedPage() {
 			variant='success'
 			icon={
 				<div className='rounded-full bg-green-500/10 p-6'>
-					<Laptop className='size-16 text-green-500' />
+					<HugeiconsIcon icon={LaptopIcon} className='size-16 text-green-500' />
 				</div>
 			}
 			title='Device Verified'
@@ -29,14 +30,14 @@ function DeviceVerifiedPage() {
 			<div className='space-y-4'>
 				<div className='flex items-center justify-center gap-2'>
 					<Badge variant='default'>
-						<Check className='mr-1 size-3' />
+						<HugeiconsIcon icon={Tick02Icon} className='mr-1 size-3' />
 						Trusted
 					</Badge>
 				</div>
 
 				<div className='rounded-lg border bg-muted/50 p-4'>
 					<div className='flex items-center gap-3'>
-						<Monitor className='size-8 text-muted-foreground' />
+						<HugeiconsIcon icon={Monitor} className='size-8 text-muted-foreground' />
 						<div>
 							<p className='font-medium text-sm'>Chrome on Linux</p>
 							<p className='text-xs text-muted-foreground'>Added just now</p>
@@ -50,15 +51,15 @@ function DeviceVerifiedPage() {
 					<p>Your trusted devices:</p>
 					<div className='flex justify-center gap-4'>
 						<div className='flex items-center gap-1'>
-							<Monitor className='size-4' />
+							<HugeiconsIcon icon={Monitor} className='size-4' />
 							<span>2</span>
 						</div>
 						<div className='flex items-center gap-1'>
-							<Smartphone className='size-4' />
+							<HugeiconsIcon icon={SmartPhone01Icon} className='size-4' />
 							<span>1</span>
 						</div>
 						<div className='flex items-center gap-1'>
-							<Laptop className='size-4' />
+							<HugeiconsIcon icon={LaptopIcon} className='size-4' />
 							<span>1</span>
 						</div>
 					</div>
@@ -71,5 +72,3 @@ function DeviceVerifiedPage() {
 		</StatusCard>
 	)
 }
-
-export default DeviceVerifiedPage

@@ -1,4 +1,5 @@
-import { Loader2 } from 'lucide-react'
+import { Loading01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
@@ -49,7 +50,10 @@ export function DefaultPending({
 						<CardHeader className='text-center'>
 							<div className='mx-auto mb-4'>
 								<div className='rounded-full bg-primary/10 p-6'>
-									<Loader2 className='size-16 text-primary animate-spin' />
+									<HugeiconsIcon
+										icon={Loading01Icon}
+										className='size-16 text-primary animate-spin'
+									/>
 								</div>
 							</div>
 							<CardTitle className='text-2xl'>{message}</CardTitle>

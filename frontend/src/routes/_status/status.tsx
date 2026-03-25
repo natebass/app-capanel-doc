@@ -1,18 +1,19 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
 import {
-	Activity,
-	AlertTriangle,
-	Bell,
-	CheckCircle2,
-	Clock,
-	Database,
-	Globe,
-	Loader2,
-	PartyPopper,
-	Server,
-	Shield,
-	Zap,
-} from 'lucide-react'
+	ActivityIcon,
+	Alert01Icon,
+	Notification01Icon,
+	Tick02Icon,
+	Clock01Icon,
+	Database01Icon,
+	InternetIcon,
+	Loading01Icon,
+	SparklesIcon,
+	CloudServerIcon as Server,
+	Shield01Icon,
+	ZapIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -39,42 +40,42 @@ const services: ServiceStatus[] = [
 	{
 		name: 'API Gateway',
 		status: 'operational',
-		icon: <Globe className='size-5' />,
+		icon: <HugeiconsIcon icon={InternetIcon} className='size-5' />,
 		uptime: 99.99,
 		responseTime: 45,
 	},
 	{
 		name: 'Database',
 		status: 'operational',
-		icon: <Database className='size-5' />,
+		icon: <HugeiconsIcon icon={Database01Icon} className='size-5' />,
 		uptime: 99.95,
 		responseTime: 12,
 	},
 	{
 		name: 'Authentication',
 		status: 'operational',
-		icon: <Shield className='size-5' />,
+		icon: <HugeiconsIcon icon={Shield01Icon} className='size-5' />,
 		uptime: 99.98,
 		responseTime: 89,
 	},
 	{
 		name: 'Web Servers',
 		status: 'operational',
-		icon: <Server className='size-5' />,
+		icon: <HugeiconsIcon icon={Server} className='size-5' />,
 		uptime: 99.97,
 		responseTime: 23,
 	},
 	{
 		name: 'CDN',
 		status: 'degraded',
-		icon: <Zap className='size-5' />,
+		icon: <HugeiconsIcon icon={ZapIcon} className='size-5' />,
 		uptime: 99.5,
 		responseTime: 156,
 	},
 	{
 		name: 'Background Jobs',
 		status: 'operational',
-		icon: <Activity className='size-5' />,
+		icon: <HugeiconsIcon icon={ActivityIcon} className='size-5' />,
 		uptime: 99.9,
 		responseTime: 34,
 	},
@@ -118,15 +119,15 @@ function SystemStatusPage() {
 					<div className='mx-auto mb-4'>
 						{allOperational ? (
 							<div className='rounded-full bg-green-500/10 p-4'>
-								<CheckCircle2 className='size-12 text-green-500' />
+								<HugeiconsIcon icon={Tick02Icon} className='size-12 text-green-500' />
 							</div>
 						) : hasOutage ? (
 							<div className='rounded-full bg-red-500/10 p-4'>
-								<Activity className='size-12 text-red-500' />
+								<HugeiconsIcon icon={ActivityIcon} className='size-12 text-red-500' />
 							</div>
 						) : (
 							<div className='rounded-full bg-yellow-500/10 p-4'>
-								<Activity className='size-12 text-yellow-500' />
+								<HugeiconsIcon icon={ActivityIcon} className='size-12 text-yellow-500' />
 							</div>
 						)}
 					</div>
@@ -146,7 +147,7 @@ function SystemStatusPage() {
 				<CardContent>
 					<div className='flex items-center justify-center gap-4 text-sm text-muted-foreground'>
 						<div className='flex items-center gap-2'>
-							<Clock className='size-4' />
+							<HugeiconsIcon icon={Clock01Icon} className='size-4' />
 							<span>Last updated: {new Date().toLocaleTimeString()}</span>
 						</div>
 					</div>
@@ -166,7 +167,7 @@ function SystemStatusPage() {
 							className='flex flex-col items-center gap-2 p-4 rounded-lg border hover:bg-muted/50 transition-colors'
 						>
 							<div className='rounded-full bg-destructive/10 p-3'>
-								<AlertTriangle className='size-6 text-destructive' />
+								<HugeiconsIcon icon={Alert01Icon} className='size-6 text-destructive' />
 							</div>
 							<span className='font-medium'>Error States</span>
 							<span className='text-xs text-muted-foreground'>HTTP errors & failures</span>
@@ -176,7 +177,7 @@ function SystemStatusPage() {
 							className='flex flex-col items-center gap-2 p-4 rounded-lg border hover:bg-muted/50 transition-colors'
 						>
 							<div className='rounded-full bg-green-500/10 p-3'>
-								<PartyPopper className='size-6 text-green-500' />
+								<HugeiconsIcon icon={SparklesIcon} className='size-6 text-green-500' />
 							</div>
 							<span className='font-medium'>Success States</span>
 							<span className='text-xs text-muted-foreground'>Confirmations</span>
@@ -186,7 +187,7 @@ function SystemStatusPage() {
 							className='flex flex-col items-center gap-2 p-4 rounded-lg border hover:bg-muted/50 transition-colors'
 						>
 							<div className='rounded-full bg-blue-500/10 p-3'>
-								<Bell className='size-6 text-blue-500' />
+								<HugeiconsIcon icon={Notification01Icon} className='size-6 text-blue-500' />
 							</div>
 							<span className='font-medium'>Info States</span>
 							<span className='text-xs text-muted-foreground'>Notifications</span>
@@ -196,7 +197,7 @@ function SystemStatusPage() {
 							className='flex flex-col items-center gap-2 p-4 rounded-lg border hover:bg-muted/50 transition-colors'
 						>
 							<div className='rounded-full bg-primary/10 p-3'>
-								<Loader2 className='size-6 text-primary' />
+								<HugeiconsIcon icon={Loading01Icon} className='size-6 text-primary' />
 							</div>
 							<span className='font-medium'>Loading States</span>
 							<span className='text-xs text-muted-foreground'>Pending & progress</span>
@@ -312,5 +313,3 @@ function SystemStatusPage() {
 		</div>
 	)
 }
-
-export default SystemStatusPage

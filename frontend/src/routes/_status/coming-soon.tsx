@@ -1,5 +1,11 @@
+import {
+	Notification01Icon,
+	Home01Icon,
+	RocketIcon,
+	SparklesIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Bell, Home, Rocket, Sparkles } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Button } from '@/components/ui/button'
@@ -19,21 +25,21 @@ function ComingSoonPage() {
 			variant='info'
 			icon={
 				<div className='rounded-full bg-blue-500/10 p-6'>
-					<Rocket className='size-16 text-blue-500' />
+					<HugeiconsIcon icon={RocketIcon} className='size-16 text-blue-500' />
 				</div>
 			}
 			title='Coming Soon'
 			description="We're working on something exciting. Stay tuned!"
 			footer={
 				<Button variant='outline' render={<Link to='/' />}>
-					<Home className='mr-2 size-4' />
+					<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 					Go Home
 				</Button>
 			}
 		>
 			<div className='space-y-4'>
 				<div className='flex items-center justify-center gap-2 text-sm text-muted-foreground'>
-					<Sparkles className='size-4 text-yellow-500' />
+					<HugeiconsIcon icon={SparklesIcon} className='size-4 text-yellow-500' />
 					<span>New features launching soon</span>
 				</div>
 
@@ -44,7 +50,7 @@ function ComingSoonPage() {
 					<div className='flex gap-2'>
 						<Input type='email' placeholder='your@email.com' className='flex-1' />
 						<Button size='icon'>
-							<Bell className='size-4' />
+							<HugeiconsIcon icon={Notification01Icon} className='size-4' />
 						</Button>
 					</div>
 				</div>
@@ -69,5 +75,3 @@ function ComingSoonPage() {
 		</StatusCard>
 	)
 }
-
-export default ComingSoonPage

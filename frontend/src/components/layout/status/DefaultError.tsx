@@ -1,5 +1,6 @@
+import { AlertCircleIcon, Bug01Icon, Home01Icon, RefreshIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { Link, type ErrorComponentProps } from '@tanstack/react-router'
-import { AlertOctagon, Bug, Home, RefreshCcw } from 'lucide-react'
 
 import {
 	Accordion,
@@ -26,7 +27,7 @@ export function DefaultError({ error, reset, info, fullPage = true }: DefaultErr
 			variant='error'
 			icon={
 				<div className='rounded-full bg-destructive/10 p-6'>
-					<AlertOctagon className='size-16 text-destructive' />
+					<HugeiconsIcon icon={AlertCircleIcon} className='size-16 text-destructive' />
 				</div>
 			}
 			title='Something Went Wrong'
@@ -35,17 +36,17 @@ export function DefaultError({ error, reset, info, fullPage = true }: DefaultErr
 				<>
 					{reset ? (
 						<Button onClick={reset}>
-							<RefreshCcw className='mr-2 size-4' />
+							<HugeiconsIcon icon={RefreshIcon} className='mr-2 size-4' />
 							Try Again
 						</Button>
 					) : (
 						<Button onClick={() => window.location.reload()}>
-							<RefreshCcw className='mr-2 size-4' />
+							<HugeiconsIcon icon={RefreshIcon} className='mr-2 size-4' />
 							Reload Page
 						</Button>
 					)}
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
@@ -53,7 +54,7 @@ export function DefaultError({ error, reset, info, fullPage = true }: DefaultErr
 		>
 			<div className='space-y-4'>
 				<Alert variant='destructive'>
-					<Bug className='size-4' />
+					<HugeiconsIcon icon={Bug01Icon} className='size-4' />
 					<AlertTitle>Error Details</AlertTitle>
 					<AlertDescription className='break-words'>{errorMessage}</AlertDescription>
 				</Alert>

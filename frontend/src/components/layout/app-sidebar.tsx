@@ -1,6 +1,13 @@
+import {
+	Briefcase01Icon,
+	Home01Icon,
+	Logout01Icon,
+	ScrollVerticalIcon,
+	Settings03Icon,
+	UserGroupIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { Link as RouterLink, useRouterState } from '@tanstack/react-router'
-import type { LucideIcon } from 'lucide-react'
-import { Briefcase, ChevronsUpDown, Home, LogOut, Settings, Users } from 'lucide-react'
 
 import { SidebarAppearance } from '@/components/common/Appearance'
 import { Logo } from '@/components/common/Logo'
@@ -34,7 +41,7 @@ interface UserInfoProps {
 }
 
 export type Item = {
-	icon: LucideIcon
+	icon: any
 	title: string
 	path: string
 }
@@ -43,16 +50,16 @@ interface MainProps {
 	items: Item[]
 }
 const baseItems: Item[] = [
-	{ icon: Home, title: 'Dashboard', path: '/user/' },
-	{ icon: Briefcase, title: 'Items', path: '/user/items' },
-	{ icon: Settings, title: 'Settings', path: '/user/settings' },
+	{ icon: Home01Icon, title: 'Dashboard', path: '/user/' },
+	{ icon: Briefcase01Icon, title: 'Items', path: '/user/items' },
+	{ icon: Settings03Icon, title: 'Settings', path: '/user/settings' },
 ]
 
 export default function AppSidebar() {
 	const { user: currentUser } = useAuth()
 
 	const items = currentUser?.is_superuser
-		? [...baseItems, { icon: Users, title: 'Admin', path: '/user/admin' }]
+		? [...baseItems, { icon: UserGroupIcon, title: 'Admin', path: '/user/admin' }]
 		: baseItems
 
 	return (
@@ -116,7 +123,10 @@ function User({ user }: { user: any }) {
 						}
 					>
 						<UserInfo fullName={user?.full_name} email={user?.email} />
-						<ChevronsUpDown className='ml-auto size-4 text-muted-foreground' />
+						<HugeiconsIcon
+							icon={ScrollVerticalIcon}
+							className='ml-auto size-4 text-muted-foreground'
+						/>
 					</DropdownMenuTrigger>
 
 					<DropdownMenuContent
@@ -135,12 +145,12 @@ function User({ user }: { user: any }) {
 
 						{/* Use 'render' prop for routing components in Base UI to avoid nesting issues */}
 						<DropdownMenuItem render={<RouterLink to='/user/settings' />} onClick={handleMenuClick}>
-							<Settings />
+							<HugeiconsIcon icon={Settings03Icon} />
 							User Settings
 						</DropdownMenuItem>
 
 						<DropdownMenuItem onClick={handleLogout}>
-							<LogOut />
+							<HugeiconsIcon icon={Logout01Icon} />
 							Log Out
 						</DropdownMenuItem>
 					</DropdownMenuContent>
@@ -179,7 +189,7 @@ function Main({ items }: MainProps) {
 									// Base UI uses 'render' to merge functionality onto custom components
 									render={<RouterLink to={item.path} onClick={handleMenuClick} />}
 								>
-									<item.icon />
+									<HugeiconsIcon icon={item.icon} />
 									<span>{item.title}</span>
 								</SidebarMenuButton>
 							</SidebarMenuItem>

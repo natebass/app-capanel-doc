@@ -1,5 +1,14 @@
+import {
+	Building01Icon,
+	Clock01Icon,
+	MapsLocation01Icon,
+	School01Icon,
+	Search01Icon,
+	SparklesIcon,
+	Sorting05Icon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { useNavigate } from '@tanstack/react-router'
-import { Building2, Clock, GraduationCap, MapPin, Search, Sparkles, TrendingUp } from 'lucide-react'
 import * as React from 'react'
 
 import {
@@ -60,9 +69,9 @@ const SUGGESTED_SCHOOLS: SearchResult[] = [
 ]
 
 const QUICK_FILTERS = [
-	{ id: 'top-performing', label: 'Top Performing Schools', icon: TrendingUp },
-	{ id: 'nearby', label: 'Schools Near Me', icon: MapPin },
-	{ id: 'charter', label: 'Charter Schools', icon: Sparkles },
+	{ id: 'top-performing', label: 'Top Performing Schools', icon: Sorting05Icon },
+	{ id: 'nearby', label: 'Schools Near Me', icon: MapsLocation01Icon },
+	{ id: 'charter', label: 'SparklesIcon', icon: SparklesIcon },
 ]
 
 function getRecentSearches(): SearchResult[] {
@@ -88,13 +97,13 @@ function clearRecentSearches() {
 function getTypeIcon(type: SearchResult['type']) {
 	switch (type) {
 		case 'school':
-			return GraduationCap
+			return School01Icon
 		case 'district':
-			return Building2
+			return Building01Icon
 		case 'county':
-			return MapPin
+			return MapsLocation01Icon
 		default:
-			return GraduationCap
+			return School01Icon
 	}
 }
 
@@ -151,7 +160,7 @@ export default function SearchBar({
 		<div className={styles.searchbar}>
 			{/* Trigger Button */}
 			<button type='button' onClick={() => setOpen(true)} className={cn(styles.trigger, className)}>
-				<Search className='h-4 w-4 shrink-0' />
+				<HugeiconsIcon icon={Search01Icon} className='h-4 w-4 shrink-0' />
 				<span className='flex-1 text-left truncate'>{placeholder}</span>
 				<KbdGroup className='hidden sm:flex'>
 					<Kbd>⌘</Kbd>
@@ -176,7 +185,7 @@ export default function SearchBar({
 					<CommandList className={styles.commandList}>
 						<CommandEmpty className='py-12'>
 							<div className={styles.emptyContainer}>
-								<Search className={styles.emptyIcon} />
+								<HugeiconsIcon icon={Search01Icon} className={styles.emptyIcon} />
 								<p>No results found for "{query}"</p>
 								<p className='text-xs'>Try searching by school name, district, or county</p>
 							</div>
@@ -188,7 +197,7 @@ export default function SearchBar({
 								heading={
 									<div className={styles.headingRow}>
 										<span className={styles.headingLabel}>
-											<Clock className='h-3 w-3' />
+											<HugeiconsIcon icon={Clock01Icon} className='h-3 w-3' />
 											Recent
 										</span>
 										<button type='button' onClick={handleClearRecent} className={styles.clearBtn}>
@@ -207,7 +216,7 @@ export default function SearchBar({
 											className={styles.commandItem}
 										>
 											<div className={styles.iconBox}>
-												<Icon className='h-4 w-4' />
+												<HugeiconsIcon icon={Icon} className='h-4 w-4' />
 											</div>
 											<div className='flex flex-col'>
 												<span className='font-medium'>{result.label}</span>
@@ -230,7 +239,7 @@ export default function SearchBar({
 									{QUICK_FILTERS.map((filter) => (
 										<CommandItem key={filter.id} value={filter.id} className={styles.commandItem}>
 											<div className={styles.iconBoxPrimary}>
-												<filter.icon className='h-4 w-4' />
+												<HugeiconsIcon icon={filter.icon} className='h-4 w-4' />
 											</div>
 											<span>{filter.label}</span>
 										</CommandItem>
@@ -252,7 +261,7 @@ export default function SearchBar({
 										className={styles.commandItem}
 									>
 										<div className={styles.iconBox}>
-											<Icon className='h-4 w-4' />
+											<HugeiconsIcon icon={Icon} className='h-4 w-4' />
 										</div>
 										<div className={styles.resultContent}>
 											<span className='font-medium'>{result.label}</span>

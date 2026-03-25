@@ -1,5 +1,11 @@
+import {
+	ArrowDown01Icon,
+	ArrowRight01Icon,
+	ArrowUp01Icon,
+	MinusSignIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { Suspense, useState } from 'react'
-import { FiArrowDown, FiArrowUp, FiChevronDown, FiChevronRight, FiMinus } from 'react-icons/fi'
 
 import { Gauge } from '@/components/gauge'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
@@ -30,7 +36,11 @@ function CollapsibleSection({ title, defaultOpen = true, children }: Collapsible
 	return (
 		<Collapsible open={isOpen} onOpenChange={setIsOpen}>
 			<CollapsibleTrigger className='flex w-full items-center gap-2 rounded-lg p-2 text-left font-medium hover:bg-accent transition-colors'>
-				{isOpen ? <FiChevronDown className='h-4 w-4' /> : <FiChevronRight className='h-4 w-4' />}
+				{isOpen ? (
+					<HugeiconsIcon icon={ArrowDown01Icon} className='h-4 w-4' />
+				) : (
+					<HugeiconsIcon icon={ArrowRight01Icon} className='h-4 w-4' />
+				)}
 				{title}
 			</CollapsibleTrigger>
 			<CollapsibleContent className='px-2'>{children}</CollapsibleContent>
@@ -61,7 +71,7 @@ function ChangeDisplay({ change, indicator }: { change: number | null; indicator
 	if (change === null) {
 		return (
 			<div className='flex items-center gap-2 text-muted-foreground'>
-				<FiMinus className='h-4 w-4' />
+				<HugeiconsIcon icon={MinusSignIcon} className='h-4 w-4' />
 				<span>No change data available</span>
 			</div>
 		)
@@ -78,11 +88,11 @@ function ChangeDisplay({ change, indicator }: { change: number | null; indicator
 			}`}
 		>
 			{change > 0 ? (
-				<FiArrowUp className='h-4 w-4' />
+				<HugeiconsIcon icon={ArrowUp01Icon} className='h-4 w-4' />
 			) : change < 0 ? (
-				<FiArrowDown className='h-4 w-4' />
+				<HugeiconsIcon icon={ArrowDown01Icon} className='h-4 w-4' />
 			) : (
-				<FiMinus className='h-4 w-4' />
+				<HugeiconsIcon icon={MinusSignIcon} className='h-4 w-4' />
 			)}
 			<span>
 				{change > 0 ? '+' : ''}

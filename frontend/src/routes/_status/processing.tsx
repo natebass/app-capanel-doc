@@ -1,5 +1,6 @@
+import { Clock01Icon, Home01Icon, Settings01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Clock, Cog, Home } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -22,14 +23,18 @@ function ProcessingPage() {
 			variant='info'
 			icon={
 				<div className='rounded-full bg-blue-500/10 p-6 animate-pulse'>
-					<Cog className='size-16 text-blue-500 animate-spin' style={{ animationDuration: '3s' }} />
+					<HugeiconsIcon
+						icon={Settings01Icon}
+						className='size-16 text-blue-500 animate-spin'
+						style={{ animationDuration: '3s' }}
+					/>
 				</div>
 			}
 			title='Processing...'
 			description='Your request is being processed. Please wait.'
 			footer={
 				<Button variant='outline' render={<Link to='/' />}>
-					<Home className='mr-2 size-4' />
+					<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 					Go Home
 				</Button>
 			}
@@ -38,7 +43,7 @@ function ProcessingPage() {
 				<div className='flex items-center justify-center gap-2'>
 					<Spinner className='size-4' />
 					<Badge variant='outline'>
-						<Clock className='mr-1 size-3' />
+						<HugeiconsIcon icon={Clock01Icon} className='mr-1 size-3' />
 						In Progress
 					</Badge>
 				</div>
@@ -70,5 +75,3 @@ function ProcessingPage() {
 		</StatusCard>
 	)
 }
-
-export default ProcessingPage

@@ -1,5 +1,10 @@
+import {
+	Clock01Icon as Clock,
+	Home01Icon as Home,
+	CloudServerIcon as ServerOff,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Clock, Home, ServerOff } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -19,7 +24,7 @@ function ServiceUnavailablePage() {
 			variant='warning'
 			icon={
 				<div className='rounded-full bg-yellow-500/10 p-6'>
-					<ServerOff className='size-16 text-yellow-500' />
+					<HugeiconsIcon icon={ServerOff} className='size-16 text-yellow-500' />
 				</div>
 			}
 			title='503 - Service Unavailable'
@@ -28,7 +33,7 @@ function ServiceUnavailablePage() {
 				<>
 					<Button onClick={() => window.location.reload()}>Retry Connection</Button>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
@@ -38,7 +43,7 @@ function ServiceUnavailablePage() {
 				<div className='flex items-center justify-between'>
 					<span className='text-sm text-muted-foreground'>Status</span>
 					<Badge variant='secondary'>
-						<Clock className='mr-1 size-3' />
+						<HugeiconsIcon icon={Clock} className='mr-1 size-3' />
 						Recovering
 					</Badge>
 				</div>
@@ -50,5 +55,3 @@ function ServiceUnavailablePage() {
 		</StatusCard>
 	)
 }
-
-export default ServiceUnavailablePage

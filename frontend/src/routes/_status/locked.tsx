@@ -1,5 +1,6 @@
+import { Home01Icon, LockIcon, Mail01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Home, Lock, Mail } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -18,7 +19,7 @@ function LockedPage() {
 			variant='error'
 			icon={
 				<div className='rounded-full bg-destructive/10 p-6'>
-					<Lock className='size-16 text-destructive' />
+					<HugeiconsIcon icon={LockIcon} className='size-16 text-destructive' />
 				</div>
 			}
 			title='423 - Account Locked'
@@ -26,18 +27,18 @@ function LockedPage() {
 			footer={
 				<>
 					<Button render={<Link to='/' />}>
-						<Mail className='mr-2 size-4' />
+						<HugeiconsIcon icon={Mail01Icon} className='mr-2 size-4' />
 						Contact Support
 					</Button>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
 			}
 		>
 			<Alert variant='destructive'>
-				<Lock className='size-4' />
+				<HugeiconsIcon icon={LockIcon} className='size-4' />
 				<AlertTitle>Account Security</AlertTitle>
 				<AlertDescription>
 					This may be due to multiple failed login attempts or suspicious activity. Please contact
@@ -47,5 +48,3 @@ function LockedPage() {
 		</StatusCard>
 	)
 }
-
-export default LockedPage

@@ -1,5 +1,10 @@
+import {
+	Alert01Icon as AlertTriangle,
+	Home01Icon as Home,
+	RefreshIcon as RefreshCcw,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { AlertTriangle, Home, RefreshCcw } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -18,7 +23,7 @@ function InternalServerErrorPage() {
 			variant='error'
 			icon={
 				<div className='rounded-full bg-destructive/10 p-6'>
-					<AlertTriangle className='size-16 text-destructive' />
+					<HugeiconsIcon icon={AlertTriangle} className='size-16 text-destructive' />
 				</div>
 			}
 			title='500 - Internal Server Error'
@@ -26,18 +31,18 @@ function InternalServerErrorPage() {
 			footer={
 				<>
 					<Button onClick={() => window.location.reload()}>
-						<RefreshCcw className='mr-2 size-4' />
+						<HugeiconsIcon icon={RefreshCcw} className='mr-2 size-4' />
 						Try Again
 					</Button>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
 			}
 		>
 			<Alert variant='destructive'>
-				<AlertTriangle className='size-4' />
+				<HugeiconsIcon icon={AlertTriangle} className='size-4' />
 				<AlertTitle>Error Details</AlertTitle>
 				<AlertDescription>
 					Our team has been notified and is investigating the issue. Please try again in a few
@@ -47,5 +52,3 @@ function InternalServerErrorPage() {
 		</StatusCard>
 	)
 }
-
-export default InternalServerErrorPage

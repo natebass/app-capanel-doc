@@ -1,5 +1,6 @@
+import { ArrowLeft01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { ChevronLeft } from 'lucide-react'
 import { Suspense, useCallback, useState } from 'react'
 import { z } from 'zod'
 
@@ -88,7 +89,7 @@ function DashboardPage() {
 						onClick={() => router.history.back()}
 						className='gap-1 bg-white hover:bg-gray-100'
 					>
-						<ChevronLeft className='h-4 w-4' />
+						<HugeiconsIcon icon={ArrowLeft01Icon} className='h-4 w-4' />
 						Go back
 					</Button>
 					<div className={styles.yearSelector}>

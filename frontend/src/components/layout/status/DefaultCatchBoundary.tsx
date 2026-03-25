@@ -1,5 +1,11 @@
+import {
+	Alert01Icon,
+	Home01Icon,
+	RefreshIcon,
+	ArrowTurnBackwardIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { Link, type ErrorComponentProps, useRouter } from '@tanstack/react-router'
-import { AlertTriangle, Home, RefreshCcw, RotateCcw } from 'lucide-react'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
@@ -66,7 +72,8 @@ export function DefaultCatchBoundary({ error, reset, fullPage = true }: DefaultC
 				<div
 					className={`rounded-full p-6 ${errorInfo.variant === 'error' ? 'bg-destructive/10' : 'bg-yellow-500/10'}`}
 				>
-					<AlertTriangle
+					<HugeiconsIcon
+						icon={Alert01Icon}
 						className={`size-16 ${errorInfo.variant === 'error' ? 'text-destructive' : 'text-yellow-500'}`}
 					/>
 				</div>
@@ -76,22 +83,22 @@ export function DefaultCatchBoundary({ error, reset, fullPage = true }: DefaultC
 			footer={
 				<>
 					<Button onClick={handleRetry}>
-						<RefreshCcw className='mr-2 size-4' />
+						<HugeiconsIcon icon={RefreshIcon} className='mr-2 size-4' />
 						Try Again
 					</Button>
 					<Button variant='outline' onClick={() => router.history.back()}>
-						<RotateCcw className='mr-2 size-4' />
+						<HugeiconsIcon icon={ArrowTurnBackwardIcon} className='mr-2 size-4' />
 						Go Back
 					</Button>
 					<Button variant='ghost' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Home
 					</Button>
 				</>
 			}
 		>
 			<Alert variant={errorInfo.variant === 'error' ? 'destructive' : 'default'}>
-				<AlertTriangle className='size-4' />
+				<HugeiconsIcon icon={Alert01Icon} className='size-4' />
 				<AlertTitle>Error Details</AlertTitle>
 				<AlertDescription className='break-words font-mono text-xs'>
 					{errorMessage}

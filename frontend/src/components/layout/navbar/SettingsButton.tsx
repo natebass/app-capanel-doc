@@ -1,5 +1,6 @@
+import { Settings02Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@tanstack/react-router'
-import { FaGear } from 'react-icons/fa6'
 
 import { buttonVariants } from '@/components/ui/button'
 import {
@@ -18,7 +19,7 @@ export default function SettingsButton() {
 		<div className='ml-1'>
 			<DropdownMenu>
 				<DropdownMenuTrigger className={cn(buttonVariants({ variant: 'outline' }))}>
-					<FaGear />
+					<HugeiconsIcon icon={Settings02Icon} />
 				</DropdownMenuTrigger>
 				<DropdownMenuContent>
 					{currentUser ? (

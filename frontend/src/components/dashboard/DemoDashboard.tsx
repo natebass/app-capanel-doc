@@ -1,13 +1,14 @@
 import {
-	FiActivity,
-	FiArrowDown,
-	FiArrowUp,
-	FiDollarSign,
-	FiSettings,
-	FiShoppingCart,
-	FiTrendingUp,
-	FiUser,
-} from 'react-icons/fi'
+	ActivityIcon,
+	AnalyticsUpIcon,
+	ArrowDown01Icon,
+	ArrowUp01Icon,
+	Dollar01Icon,
+	Settings02Icon,
+	ShoppingBasket01Icon,
+	UserIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -42,7 +43,7 @@ export default function DemoDashboard() {
 										<p className='text-sm text-muted-foreground font-medium'>Total Users</p>
 										<p className='text-2xl font-bold'>2,543</p>
 										<div className='flex items-center gap-1'>
-											<FiArrowUp className='h-3 w-3 text-green-500' />
+											<HugeiconsIcon icon={ArrowUp01Icon} className='h-3 w-3 text-green-500' />
 											<span className='text-sm text-green-500'>+12.5% from last month</span>
 										</div>
 									</div>
@@ -53,7 +54,7 @@ export default function DemoDashboard() {
 										<p className='text-sm text-muted-foreground font-medium'>Active Users (30d)</p>
 										<p className='text-2xl font-bold'>1,987</p>
 										<div className='flex items-center gap-1'>
-											<FiArrowUp className='h-3 w-3 text-green-500' />
+											<HugeiconsIcon icon={ArrowUp01Icon} className='h-3 w-3 text-green-500' />
 											<span className='text-sm text-green-500'>+8.3% from last month</span>
 										</div>
 									</div>
@@ -64,7 +65,7 @@ export default function DemoDashboard() {
 										<p className='text-lg text-muted-foreground font-medium'>New Users (7d)</p>
 										<p className='text-2xl font-bold'>142</p>
 										<div className='flex items-center gap-1'>
-											<FiArrowDown className='h-3 w-3 text-red-500' />
+											<HugeiconsIcon icon={ArrowDown01Icon} className='h-3 w-3 text-red-500' />
 											<span className='text-sm text-red-500'>-5.2% from last week</span>
 										</div>
 									</div>
@@ -80,12 +81,12 @@ export default function DemoDashboard() {
 									<p className='text-sm text-muted-foreground font-medium'>Revenue</p>
 									<p className='text-2xl font-bold'>$45,231</p>
 									<div className='flex items-center gap-1'>
-										<FiArrowUp className='h-3 w-3 text-green-500' />
+										<HugeiconsIcon icon={ArrowUp01Icon} className='h-3 w-3 text-green-500' />
 										<span className='text-sm text-green-500'>+8.2%</span>
 									</div>
 								</div>
 								<div className='p-3 bg-green-50 rounded-lg'>
-									<FiDollarSign className='h-6 w-6 text-green-500' />
+									<HugeiconsIcon icon={Dollar01Icon} className='h-6 w-6 text-green-500' />
 								</div>
 							</div>
 						</CardContent>
@@ -98,12 +99,12 @@ export default function DemoDashboard() {
 									<p className='text-sm text-muted-foreground font-medium'>Orders</p>
 									<p className='text-2xl font-bold'>1,234</p>
 									<div className='flex items-center gap-1'>
-										<FiArrowDown className='h-3 w-3 text-red-500' />
+										<HugeiconsIcon icon={ArrowDown01Icon} className='h-3 w-3 text-red-500' />
 										<span className='text-sm text-red-500'>-3.1%</span>
 									</div>
 								</div>
 								<div className='p-3 bg-orange-50 rounded-lg'>
-									<FiShoppingCart className='h-6 w-6 text-orange-500' />
+									<HugeiconsIcon icon={ShoppingBasket01Icon} className='h-6 w-6 text-orange-500' />
 								</div>
 							</div>
 						</CardContent>
@@ -116,12 +117,12 @@ export default function DemoDashboard() {
 									<p className='text-sm text-muted-foreground font-medium'>Growth Rate</p>
 									<p className='text-2xl font-bold'>15.3%</p>
 									<div className='flex items-center gap-1'>
-										<FiArrowUp className='h-3 w-3 text-green-500' />
+										<HugeiconsIcon icon={ArrowUp01Icon} className='h-3 w-3 text-green-500' />
 										<span className='text-sm text-green-500'>+2.4%</span>
 									</div>
 								</div>
 								<div className='p-3 bg-purple-50 rounded-lg'>
-									<FiTrendingUp className='h-6 w-6 text-purple-500' />
+									<HugeiconsIcon icon={AnalyticsUpIcon} className='h-6 w-6 text-purple-500' />
 								</div>
 							</div>
 						</CardContent>
@@ -142,7 +143,7 @@ export default function DemoDashboard() {
 							<div className='flex flex-col gap-4'>
 								<div className='flex items-center gap-3'>
 									<div className='p-2 bg-blue-50 rounded-md'>
-										<FiUser className='text-blue-500' />
+										<HugeiconsIcon icon={UserIcon} className='text-blue-500' />
 									</div>
 									<div className='flex-1'>
 										<p className='font-medium'>New user registered</p>
@@ -155,7 +156,7 @@ export default function DemoDashboard() {
 
 								<div className='flex items-center gap-3'>
 									<div className='p-2 bg-green-50 rounded-md'>
-										<FiDollarSign className='text-green-500' />
+										<HugeiconsIcon icon={Dollar01Icon} className='text-green-500' />
 									</div>
 									<div className='flex-1'>
 										<p className='font-medium'>Payment received</p>
@@ -168,7 +169,7 @@ export default function DemoDashboard() {
 
 								<div className='flex items-center gap-3'>
 									<div className='p-2 bg-orange-50 rounded-md'>
-										<FiShoppingCart className='text-orange-500' />
+										<HugeiconsIcon icon={ShoppingBasket01Icon} className='text-orange-500' />
 									</div>
 									<div className='flex-1'>
 										<p className='font-medium'>New order placed</p>
@@ -193,15 +194,15 @@ export default function DemoDashboard() {
 						<CardContent>
 							<div className='flex flex-col gap-3'>
 								<Button className='w-full'>
-									<FiUser className='mr-2' />
+									<HugeiconsIcon icon={UserIcon} className='mr-2' />
 									Add New User
 								</Button>
 								<Button variant='outline' className='w-full'>
-									<FiActivity className='mr-2' />
+									<HugeiconsIcon icon={ActivityIcon} className='mr-2' />
 									View Analytics
 								</Button>
 								<Button variant='outline' className='w-full'>
-									<FiSettings className='mr-2' />
+									<HugeiconsIcon icon={Settings02Icon} className='mr-2' />
 									Settings
 								</Button>
 							</div>
@@ -249,7 +250,7 @@ export default function DemoDashboard() {
 									<p className='text-xs text-muted-foreground font-medium'>Response Time</p>
 									<p className='text-lg font-bold'>234ms</p>
 									<div className='flex justify-center items-center gap-1'>
-										<FiArrowDown className='h-3 w-3 text-green-500' />
+										<HugeiconsIcon icon={ArrowDown01Icon} className='h-3 w-3 text-green-500' />
 										<span className='text-sm text-green-500'>-12ms from last hour</span>
 									</div>
 								</div>

@@ -1,5 +1,6 @@
+import { CreditCardIcon, Home01Icon, SparklesIcon, Cancel01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { CreditCard, Home, Sparkles, XCircle } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -19,7 +20,7 @@ function SubscriptionCancelledPage() {
 			variant='default'
 			icon={
 				<div className='rounded-full bg-muted p-6'>
-					<XCircle className='size-16 text-muted-foreground' />
+					<HugeiconsIcon icon={Cancel01Icon} className='size-16 text-muted-foreground' />
 				</div>
 			}
 			title='Subscription Cancelled'
@@ -27,11 +28,11 @@ function SubscriptionCancelledPage() {
 			footer={
 				<>
 					<Button render={<Link to='/dashboard' />}>
-						<Sparkles className='mr-2 size-4' />
+						<HugeiconsIcon icon={SparklesIcon} className='mr-2 size-4' />
 						Resubscribe
 					</Button>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
@@ -39,7 +40,7 @@ function SubscriptionCancelledPage() {
 		>
 			<div className='space-y-4'>
 				<Alert>
-					<CreditCard className='size-4' />
+					<HugeiconsIcon icon={CreditCardIcon} className='size-4' />
 					<AlertTitle>Access Until End of Billing Period</AlertTitle>
 					<AlertDescription>
 						You'll continue to have access to Pro features until Feb 28, 2026.
@@ -55,5 +56,3 @@ function SubscriptionCancelledPage() {
 		</StatusCard>
 	)
 }
-
-export default SubscriptionCancelledPage

@@ -1,5 +1,6 @@
+import { Home01Icon, Delete02Icon, Undo02Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Home, Trash2, Undo2 } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -19,7 +20,7 @@ function DeletedPage() {
 			variant='default'
 			icon={
 				<div className='rounded-full bg-muted p-6'>
-					<Trash2 className='size-16 text-muted-foreground' />
+					<HugeiconsIcon icon={Delete02Icon} className='size-16 text-muted-foreground' />
 				</div>
 			}
 			title='Account Deleted'
@@ -30,7 +31,7 @@ function DeletedPage() {
 						Create New Account
 					</Button>
 					<Button variant='ghost' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
@@ -38,7 +39,7 @@ function DeletedPage() {
 		>
 			<div className='space-y-4'>
 				<Alert>
-					<Undo2 className='size-4' />
+					<HugeiconsIcon icon={Undo02Icon} className='size-4' />
 					<AlertTitle>30-Day Recovery Period</AlertTitle>
 					<AlertDescription>
 						You can recover your account within 30 days by contacting support.
@@ -59,5 +60,3 @@ function DeletedPage() {
 		</StatusCard>
 	)
 }
-
-export default DeletedPage

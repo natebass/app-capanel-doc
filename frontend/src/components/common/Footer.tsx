@@ -1,15 +1,15 @@
-import { FaGithub, FaLinkedinIn } from 'react-icons/fa'
-import { FaXTwitter } from 'react-icons/fa6'
+import { GithubIcon, Linkedin01Icon, NewTwitterIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 
 const socialLinks = [
 	{
-		icon: FaGithub,
+		icon: GithubIcon,
 		href: 'https://github.com/fastapi/fastapi',
 		label: 'GitHub',
 	},
-	{ icon: FaXTwitter, href: 'https://x.com/fastapi', label: 'X' },
+	{ icon: NewTwitterIcon, href: 'https://x.com/fastapi', label: 'X' },
 	{
-		icon: FaLinkedinIn,
+		icon: Linkedin01Icon,
 		href: 'https://linkedin.com/company/fastapi',
 		label: 'LinkedIn',
 	},
@@ -32,7 +32,7 @@ export function Footer() {
 							aria-label={label}
 							className='text-muted-foreground hover:text-foreground transition-colors'
 						>
-							<Icon className='h-5 w-5' />
+							<HugeiconsIcon icon={Icon} className='h-5 w-5' />
 						</a>
 					))}
 				</div>

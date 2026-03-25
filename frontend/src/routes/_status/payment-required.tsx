@@ -1,5 +1,6 @@
+import { CreditCardIcon, Home01Icon, SparklesIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { CreditCard, Home, Sparkles } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -20,7 +21,7 @@ function PaymentRequiredPage() {
 			variant='warning'
 			icon={
 				<div className='rounded-full bg-yellow-500/10 p-6'>
-					<CreditCard className='size-16 text-yellow-500' />
+					<HugeiconsIcon icon={CreditCardIcon} className='size-16 text-yellow-500' />
 				</div>
 			}
 			title='402 - Payment Required'
@@ -28,11 +29,11 @@ function PaymentRequiredPage() {
 			footer={
 				<>
 					<Button render={<Link to='/dashboard' />}>
-						<Sparkles className='mr-2 size-4' />
+						<HugeiconsIcon icon={SparklesIcon} className='mr-2 size-4' />
 						View Plans
 					</Button>
 					<Button variant='outline' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Go Home
 					</Button>
 				</>
@@ -69,5 +70,3 @@ function PaymentRequiredPage() {
 		</StatusCard>
 	)
 }
-
-export default PaymentRequiredPage

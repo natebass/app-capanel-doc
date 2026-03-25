@@ -1,5 +1,12 @@
+import {
+	ArrowRight01Icon as ArrowRight,
+	Tick01Icon as Check,
+	CrownIcon as Crown,
+	SparklesIcon as PartyPopper,
+	SparklesIcon as Sparkles,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowRight, Check, Crown, PartyPopper, Sparkles } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -19,7 +26,7 @@ function UpgradeSuccessPage() {
 			variant='success'
 			icon={
 				<div className='rounded-full bg-green-500/10 p-6'>
-					<Crown className='size-16 text-green-500' />
+					<HugeiconsIcon icon={Crown} className='size-16 text-green-500' />
 				</div>
 			}
 			title='Upgrade Successful!'
@@ -27,18 +34,18 @@ function UpgradeSuccessPage() {
 			footer={
 				<Button render={<Link to='/dashboard' />}>
 					Explore New Features
-					<ArrowRight className='ml-2 size-4' />
+					<HugeiconsIcon icon={ArrowRight} className='ml-2 size-4' />
 				</Button>
 			}
 		>
 			<div className='space-y-4'>
 				<div className='flex items-center justify-center gap-2'>
-					<PartyPopper className='size-5 text-yellow-500' />
+					<HugeiconsIcon icon={PartyPopper} className='size-5 text-yellow-500' />
 					<Badge variant='default'>
-						<Sparkles className='mr-1 size-3' />
+						<HugeiconsIcon icon={Sparkles} className='mr-1 size-3' />
 						Pro Member
 					</Badge>
-					<PartyPopper className='size-5 text-yellow-500' />
+					<HugeiconsIcon icon={PartyPopper} className='size-5 text-yellow-500' />
 				</div>
 
 				<Separator />
@@ -47,23 +54,23 @@ function UpgradeSuccessPage() {
 					<p className='font-medium text-center'>New features unlocked:</p>
 					<ul className='space-y-1 text-muted-foreground'>
 						<li className='flex items-center gap-2'>
-							<Check className='size-4 text-green-500' />
+							<HugeiconsIcon icon={Check} className='size-4 text-green-500' />
 							Unlimited API calls
 						</li>
 						<li className='flex items-center gap-2'>
-							<Check className='size-4 text-green-500' />
+							<HugeiconsIcon icon={Check} className='size-4 text-green-500' />
 							Priority support
 						</li>
 						<li className='flex items-center gap-2'>
-							<Check className='size-4 text-green-500' />
+							<HugeiconsIcon icon={Check} className='size-4 text-green-500' />
 							Advanced analytics
 						</li>
 						<li className='flex items-center gap-2'>
-							<Check className='size-4 text-green-500' />
+							<HugeiconsIcon icon={Check} className='size-4 text-green-500' />
 							Team collaboration
 						</li>
 						<li className='flex items-center gap-2'>
-							<Check className='size-4 text-green-500' />
+							<HugeiconsIcon icon={Check} className='size-4 text-green-500' />
 							Custom integrations
 						</li>
 					</ul>
@@ -78,5 +85,3 @@ function UpgradeSuccessPage() {
 		</StatusCard>
 	)
 }
-
-export default UpgradeSuccessPage

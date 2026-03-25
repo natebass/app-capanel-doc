@@ -1,5 +1,12 @@
+import {
+	Cancel01Icon,
+	Home01Icon,
+	Mail01Icon,
+	Tick01Icon,
+	UserGroupIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Check, Home, Mail, Users, X } from 'lucide-react'
 
 import { StatusCard } from '@/components/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
@@ -20,7 +27,7 @@ function InvitationPage() {
 			variant='info'
 			icon={
 				<div className='rounded-full bg-blue-500/10 p-6'>
-					<Mail className='size-16 text-blue-500' />
+					<HugeiconsIcon icon={Mail01Icon} className='size-16 text-blue-500' />
 				</div>
 			}
 			title="You're Invited!"
@@ -28,11 +35,11 @@ function InvitationPage() {
 			footer={
 				<>
 					<Button>
-						<Check className='mr-2 size-4' />
+						<HugeiconsIcon icon={Tick01Icon} className='mr-2 size-4' />
 						Accept
 					</Button>
 					<Button variant='outline'>
-						<X className='mr-2 size-4' />
+						<HugeiconsIcon icon={Cancel01Icon} className='mr-2 size-4' />
 						Decline
 					</Button>
 				</>
@@ -44,7 +51,7 @@ function InvitationPage() {
 						<div className='flex items-center justify-between'>
 							<CardTitle className='text-sm'>Acme Corp</CardTitle>
 							<Badge variant='outline'>
-								<Users className='mr-1 size-3' />
+								<HugeiconsIcon icon={UserGroupIcon} className='mr-1 size-3' />
 								Team
 							</Badge>
 						</div>
@@ -63,7 +70,7 @@ function InvitationPage() {
 
 				<div className='text-center'>
 					<Button variant='ghost' size='sm' render={<Link to='/' />}>
-						<Home className='mr-2 size-4' />
+						<HugeiconsIcon icon={Home01Icon} className='mr-2 size-4' />
 						Skip for now
 					</Button>
 				</div>
@@ -71,5 +78,3 @@ function InvitationPage() {
 		</StatusCard>
 	)
 }
-
-export default InvitationPage

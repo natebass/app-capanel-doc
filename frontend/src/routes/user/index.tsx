@@ -1,5 +1,6 @@
+import { AlertCircleIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { ShieldAlert } from 'lucide-react'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
@@ -38,7 +39,7 @@ function Dashboard() {
 
 			{currentUser.force_password_reset && (
 				<Alert variant='destructive'>
-					<ShieldAlert className='size-4' />
+					<HugeiconsIcon icon={AlertCircleIcon} className='size-4' />
 					<AlertTitle>Password reset required</AlertTitle>
 					<AlertDescription>
 						Your account has <strong>force_password_reset</strong> enabled. Please update your

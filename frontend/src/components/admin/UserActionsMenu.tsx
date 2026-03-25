@@ -1,4 +1,5 @@
-import { EllipsisVertical } from 'lucide-react'
+import { MoreVerticalIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -28,7 +29,7 @@ export const UserActionsMenu = ({ user }: UserActionsMenuProps) => {
 	return (
 		<DropdownMenu open={open} onOpenChange={setOpen}>
 			<DropdownMenuTrigger render={<Button variant='ghost' size='icon' />}>
-				<EllipsisVertical />
+				<HugeiconsIcon icon={MoreVerticalIcon} />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>
 				<EditUser user={user} onSuccess={() => setOpen(false)} />
