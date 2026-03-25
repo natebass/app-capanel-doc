@@ -2,7 +2,7 @@ import { Clock01Icon, Home01Icon, RefreshIcon, TimerIcon } from '@hugeicons/core
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
-import { StatusCard } from '@/components/StatusTemplate'
+import { StatusCard } from '@/components/layout/status/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 

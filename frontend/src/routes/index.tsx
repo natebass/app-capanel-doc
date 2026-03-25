@@ -65,7 +65,7 @@ export const Route = createFileRoute('/')({
 	component: RouteComponent,
 })
 
-export function RouteComponent() {
+function RouteComponent() {
 	return (
 		<div className={styles.page}>
 			<NavbarD52 />

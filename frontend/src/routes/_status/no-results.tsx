@@ -2,7 +2,7 @@ import { Home01Icon, Search01Icon, SearchVisualIcon } from '@hugeicons/core-free
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
-import { StatusCard } from '@/components/StatusTemplate'
+import { StatusCard } from '@/components/layout/status/StatusTemplate'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'

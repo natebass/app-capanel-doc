@@ -2,7 +2,7 @@ import { Home01Icon, Key01Icon, Login01Icon, Tick01Icon } from '@hugeicons/core-
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
-import { StatusCard } from '@/components/StatusTemplate'
+import { StatusCard } from '@/components/layout/status/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'

@@ -2,7 +2,7 @@ import { CreditCardIcon, Home01Icon, SparklesIcon } from '@hugeicons/core-free-i
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
-import { StatusCard } from '@/components/StatusTemplate'
+import { StatusCard } from '@/components/layout/status/StatusTemplate'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
