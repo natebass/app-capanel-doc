@@ -2,307 +2,95 @@
 
 export const AcademicIndicatorCreateSchema = {
 	properties: {
-		cds: {
+		county_code: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 2,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'County Code',
+		},
+		district_code: {
 			type: 'string',
-			maxLength: 14,
-			title: 'Cds',
+			maxLength: 5,
+			title: 'District Code',
 		},
-		rtype: {
+		school_code: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 7,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'School Code',
+		},
+		record_type_id: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 2,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Record Type Id',
+		},
+		charter_number: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 4,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Charter Number',
+		},
+		test_year: {
 			type: 'string',
-			maxLength: 1,
-			title: 'Rtype',
+			maxLength: 4,
+			title: 'Test Year',
 		},
-		schoolname: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Schoolname',
+		test_type: {
+			type: 'string',
+			maxLength: 2,
+			title: 'Test Type',
 		},
-		districtname: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Districtname',
+		test_id: {
+			type: 'string',
+			maxLength: 2,
+			title: 'Test Id',
 		},
-		countyname: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Countyname',
+		student_group_id: {
+			type: 'string',
+			maxLength: 3,
+			title: 'Student Group Id',
 		},
-		charter_flag: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 1,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Charter Flag',
+		grade: {
+			type: 'string',
+			maxLength: 2,
+			title: 'Grade',
 		},
-		coe_flag: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 1,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Coe Flag',
-		},
-		dass_flag: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 1,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Dass Flag',
-		},
-		studentgroup: {
+		students_enrolled: {
 			type: 'string',
 			maxLength: 10,
-			title: 'Studentgroup',
+			title: 'Students Enrolled',
 		},
-		priordenom: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priordenom',
-		},
-		priorstatus: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorstatus',
-		},
-		change: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Change',
-		},
-		statuslevel: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Statuslevel',
-		},
-		changelevel: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Changelevel',
-		},
-		color: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Color',
-		},
-		box: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Box',
-		},
-		priornsizemet: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 10,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priornsizemet',
-		},
-		accountabilitymet: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 10,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Accountabilitymet',
-		},
-		hscutpoints: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Hscutpoints',
-		},
-		pairshare_method: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Pairshare Method',
-		},
-		priorprate_enrolled: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorprate Enrolled',
-		},
-		priorprate_tested: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorprate Tested',
-		},
-		priorprate: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorprate',
-		},
-		priornumprloss: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priornumprloss',
-		},
-		priordenom_withoutprloss: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priordenom Withoutprloss',
-		},
-		priorstatus_withoutprloss: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorstatus Withoutprloss',
-		},
-		indicator: {
+		students_tested: {
 			type: 'string',
 			maxLength: 10,
-			title: 'Indicator',
-			default: 'ELA',
+			title: 'Students Tested',
 		},
-		reportingyear: {
-			type: 'string',
-			maxLength: 10,
-			title: 'Reportingyear',
-		},
-		priornumer: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priornumer',
-		},
-		smalldenom: {
+		students_tested_with_scores: {
 			anyOf: [
 				{
 					type: 'string',
@@ -312,9 +100,9 @@ export const AcademicIndicatorCreateSchema = {
 					type: 'null',
 				},
 			],
-			title: 'Smalldenom',
+			title: 'Students Tested With Scores',
 		},
-		priorcertifyflag: {
+		overall_mean_scale_score: {
 			anyOf: [
 				{
 					type: 'string',
@@ -324,9 +112,9 @@ export const AcademicIndicatorCreateSchema = {
 					type: 'null',
 				},
 			],
-			title: 'Priorcertifyflag',
+			title: 'Overall Mean Scale Score',
 		},
-		dataerrorflag: {
+		overall_total: {
 			anyOf: [
 				{
 					type: 'string',
@@ -336,439 +124,246 @@ export const AcademicIndicatorCreateSchema = {
 					type: 'null',
 				},
 			],
-			title: 'Dataerrorflag',
+			title: 'Overall Total',
 		},
-		school_type: {
+		overall_level_1_pct: {
 			anyOf: [
 				{
 					type: 'string',
-					maxLength: 50,
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'School Type',
+			title: 'Overall Level 1 Pct',
 		},
-		fiveyrnumer: {
+		overall_level_1_count: {
 			anyOf: [
 				{
-					type: 'integer',
+					type: 'string',
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Fiveyrnumer',
+			title: 'Overall Level 1 Count',
 		},
-		priorprogressed: {
+		overall_level_2_pct: {
 			anyOf: [
 				{
-					type: 'integer',
+					type: 'string',
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Priorprogressed',
+			title: 'Overall Level 2 Pct',
 		},
-		priormaintainpl4: {
+		overall_level_2_count: {
 			anyOf: [
 				{
-					type: 'integer',
+					type: 'string',
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Priormaintainpl4',
+			title: 'Overall Level 2 Count',
 		},
-		priormaintainoth: {
+		overall_level_3_pct: {
 			anyOf: [
 				{
-					type: 'integer',
+					type: 'string',
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Priormaintainoth',
+			title: 'Overall Level 3 Pct',
 		},
-		priordeclined: {
+		overall_level_3_count: {
 			anyOf: [
 				{
-					type: 'integer',
+					type: 'string',
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Priordeclined',
+			title: 'Overall Level 3 Count',
 		},
-		priorprogressed_alternate: {
+		overall_level_4_pct: {
 			anyOf: [
 				{
-					type: 'integer',
+					type: 'string',
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Priorprogressed Alternate',
+			title: 'Overall Level 4 Pct',
 		},
-		priormaintainpl3_alternate: {
+		overall_level_4_count: {
 			anyOf: [
 				{
-					type: 'integer',
+					type: 'string',
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Priormaintainpl3 Alternate',
+			title: 'Overall Level 4 Count',
 		},
-		priornotprognotmain_alternate: {
+		overall_met_and_above_pct: {
 			anyOf: [
 				{
-					type: 'integer',
+					type: 'string',
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Priornotprognotmain Alternate',
+			title: 'Overall Met And Above Pct',
 		},
-		prior95: {
+		overall_met_and_above_count: {
 			anyOf: [
 				{
-					type: 'integer',
+					type: 'string',
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Prior95',
+			title: 'Overall Met And Above Count',
 		},
-		studentgroup_pct: {
+		domain_data: {
 			anyOf: [
 				{
-					type: 'number',
+					additionalProperties: true,
+					type: 'object',
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Studentgroup Pct',
+			title: 'Domain Data',
 		},
 	},
 	type: 'object',
-	required: ['cds', 'rtype', 'studentgroup', 'reportingyear'],
+	required: [
+		'district_code',
+		'test_year',
+		'test_type',
+		'test_id',
+		'student_group_id',
+		'grade',
+		'students_enrolled',
+		'students_tested',
+	],
 	title: 'AcademicIndicatorCreate',
 } as const
 
 export const AcademicIndicatorPublicSchema = {
 	properties: {
-		cds: {
+		county_code: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 2,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'County Code',
+		},
+		district_code: {
 			type: 'string',
-			maxLength: 14,
-			title: 'Cds',
+			maxLength: 5,
+			title: 'District Code',
 		},
-		rtype: {
+		school_code: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 7,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'School Code',
+		},
+		record_type_id: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 2,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Record Type Id',
+		},
+		charter_number: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 4,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Charter Number',
+		},
+		test_year: {
 			type: 'string',
-			maxLength: 1,
-			title: 'Rtype',
+			maxLength: 4,
+			title: 'Test Year',
 		},
-		schoolname: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Schoolname',
+		test_type: {
+			type: 'string',
+			maxLength: 2,
+			title: 'Test Type',
 		},
-		districtname: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Districtname',
+		test_id: {
+			type: 'string',
+			maxLength: 2,
+			title: 'Test Id',
 		},
-		countyname: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Countyname',
+		student_group_id: {
+			type: 'string',
+			maxLength: 3,
+			title: 'Student Group Id',
 		},
-		charter_flag: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 1,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Charter Flag',
+		grade: {
+			type: 'string',
+			maxLength: 2,
+			title: 'Grade',
 		},
-		coe_flag: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 1,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Coe Flag',
-		},
-		dass_flag: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 1,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Dass Flag',
-		},
-		studentgroup: {
+		students_enrolled: {
 			type: 'string',
 			maxLength: 10,
-			title: 'Studentgroup',
+			title: 'Students Enrolled',
 		},
-		priordenom: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priordenom',
-		},
-		priorstatus: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorstatus',
-		},
-		change: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Change',
-		},
-		statuslevel: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Statuslevel',
-		},
-		changelevel: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Changelevel',
-		},
-		color: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Color',
-		},
-		box: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Box',
-		},
-		priornsizemet: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 10,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priornsizemet',
-		},
-		accountabilitymet: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 10,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Accountabilitymet',
-		},
-		hscutpoints: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Hscutpoints',
-		},
-		pairshare_method: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Pairshare Method',
-		},
-		priorprate_enrolled: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorprate Enrolled',
-		},
-		priorprate_tested: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorprate Tested',
-		},
-		priorprate: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorprate',
-		},
-		priornumprloss: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priornumprloss',
-		},
-		priordenom_withoutprloss: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priordenom Withoutprloss',
-		},
-		priorstatus_withoutprloss: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorstatus Withoutprloss',
-		},
-		indicator: {
+		students_tested: {
 			type: 'string',
 			maxLength: 10,
-			title: 'Indicator',
-			default: 'ELA',
+			title: 'Students Tested',
 		},
-		reportingyear: {
-			type: 'string',
-			maxLength: 10,
-			title: 'Reportingyear',
-		},
-		priornumer: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priornumer',
-		},
-		smalldenom: {
+		students_tested_with_scores: {
 			anyOf: [
 				{
 					type: 'string',
@@ -778,9 +373,9 @@ export const AcademicIndicatorPublicSchema = {
 					type: 'null',
 				},
 			],
-			title: 'Smalldenom',
+			title: 'Students Tested With Scores',
 		},
-		priorcertifyflag: {
+		overall_mean_scale_score: {
 			anyOf: [
 				{
 					type: 'string',
@@ -790,9 +385,9 @@ export const AcademicIndicatorPublicSchema = {
 					type: 'null',
 				},
 			],
-			title: 'Priorcertifyflag',
+			title: 'Overall Mean Scale Score',
 		},
-		dataerrorflag: {
+		overall_total: {
 			anyOf: [
 				{
 					type: 'string',
@@ -802,481 +397,153 @@ export const AcademicIndicatorPublicSchema = {
 					type: 'null',
 				},
 			],
-			title: 'Dataerrorflag',
+			title: 'Overall Total',
 		},
-		school_type: {
+		overall_level_1_pct: {
 			anyOf: [
 				{
 					type: 'string',
-					maxLength: 50,
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'School Type',
+			title: 'Overall Level 1 Pct',
 		},
-		fiveyrnumer: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Fiveyrnumer',
-		},
-		priorprogressed: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorprogressed',
-		},
-		priormaintainpl4: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priormaintainpl4',
-		},
-		priormaintainoth: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priormaintainoth',
-		},
-		priordeclined: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priordeclined',
-		},
-		priorprogressed_alternate: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorprogressed Alternate',
-		},
-		priormaintainpl3_alternate: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priormaintainpl3 Alternate',
-		},
-		priornotprognotmain_alternate: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priornotprognotmain Alternate',
-		},
-		prior95: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Prior95',
-		},
-		studentgroup_pct: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Studentgroup Pct',
-		},
-		id: {
-			type: 'string',
-			format: 'uuid',
-			title: 'Id',
-		},
-		created_at: {
+		overall_level_1_count: {
 			anyOf: [
 				{
 					type: 'string',
-					format: 'date-time',
+					maxLength: 10,
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Created At',
+			title: 'Overall Level 1 Count',
+		},
+		overall_level_2_pct: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 10,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Overall Level 2 Pct',
+		},
+		overall_level_2_count: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 10,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Overall Level 2 Count',
+		},
+		overall_level_3_pct: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 10,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Overall Level 3 Pct',
+		},
+		overall_level_3_count: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 10,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Overall Level 3 Count',
+		},
+		overall_level_4_pct: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 10,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Overall Level 4 Pct',
+		},
+		overall_level_4_count: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 10,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Overall Level 4 Count',
+		},
+		overall_met_and_above_pct: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 10,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Overall Met And Above Pct',
+		},
+		overall_met_and_above_count: {
+			anyOf: [
+				{
+					type: 'string',
+					maxLength: 10,
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Overall Met And Above Count',
+		},
+		domain_data: {
+			anyOf: [
+				{
+					additionalProperties: true,
+					type: 'object',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Domain Data',
 		},
 	},
 	type: 'object',
-	required: ['cds', 'rtype', 'studentgroup', 'reportingyear', 'id'],
+	required: [
+		'district_code',
+		'test_year',
+		'test_type',
+		'test_id',
+		'student_group_id',
+		'grade',
+		'students_enrolled',
+		'students_tested',
+	],
 	title: 'AcademicIndicatorPublic',
-} as const
-
-export const AcademicIndicatorUpdateSchema = {
-	properties: {
-		cds: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 14,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Cds',
-		},
-		rtype: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 1,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Rtype',
-		},
-		schoolname: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Schoolname',
-		},
-		districtname: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Districtname',
-		},
-		countyname: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Countyname',
-		},
-		charter_flag: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 1,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Charter Flag',
-		},
-		coe_flag: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 1,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Coe Flag',
-		},
-		dass_flag: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 1,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Dass Flag',
-		},
-		studentgroup: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 10,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Studentgroup',
-		},
-		priordenom: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priordenom',
-		},
-		priorstatus: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorstatus',
-		},
-		change: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Change',
-		},
-		statuslevel: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Statuslevel',
-		},
-		changelevel: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Changelevel',
-		},
-		color: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Color',
-		},
-		box: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Box',
-		},
-		priornsizemet: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 10,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priornsizemet',
-		},
-		accountabilitymet: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 10,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Accountabilitymet',
-		},
-		hscutpoints: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Hscutpoints',
-		},
-		pairshare_method: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 255,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Pairshare Method',
-		},
-		priorprate_enrolled: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorprate Enrolled',
-		},
-		priorprate_tested: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorprate Tested',
-		},
-		priorprate: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorprate',
-		},
-		priornumprloss: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priornumprloss',
-		},
-		priordenom_withoutprloss: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priordenom Withoutprloss',
-		},
-		priorstatus_withoutprloss: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorstatus Withoutprloss',
-		},
-		indicator: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 10,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Indicator',
-		},
-		reportingyear: {
-			anyOf: [
-				{
-					type: 'string',
-					maxLength: 10,
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Reportingyear',
-		},
-	},
-	type: 'object',
-	title: 'AcademicIndicatorUpdate',
 } as const
 
 export const AcademicIndicatorsPublicSchema = {
@@ -1506,42 +773,27 @@ export const DashboardAggregationSchema = {
 			type: 'string',
 			title: 'Cds',
 		},
-		schoolname: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Schoolname',
-		},
-		districtname: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Districtname',
-		},
-		countyname: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Countyname',
-		},
 		studentgroup: {
-			type: 'string',
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
 			title: 'Studentgroup',
+		},
+		reportingyear: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Reportingyear',
 		},
 		currstatus: {
 			anyOf: [
@@ -1554,74 +806,12 @@ export const DashboardAggregationSchema = {
 			],
 			title: 'Currstatus',
 		},
-		priorstatus: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorstatus',
-		},
-		change: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Change',
-		},
-		statuslevel: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Statuslevel',
-		},
-		changelevel: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Changelevel',
-		},
-		color: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Color',
-		},
-		indicator: {
-			type: 'string',
-			title: 'Indicator',
-		},
-		reportingyear: {
-			type: 'string',
-			title: 'Reportingyear',
-		},
 	},
 	type: 'object',
-	required: ['cds', 'studentgroup', 'indicator', 'reportingyear'],
+	required: ['cds'],
 	title: 'DashboardAggregation',
-	description: 'Dashboard aggregation response model (legacy single-indicator)',
+	description:
+		'Legacy response model, updated just enough to avoid breaking changes if used elsewhere.',
 } as const
 
 export const DashboardSummaryResponseSchema = {
@@ -1631,7 +821,14 @@ export const DashboardSummaryResponseSchema = {
 			title: 'Cds',
 		},
 		rtype: {
-			type: 'string',
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
 			title: 'Rtype',
 		},
 		schoolname: {
@@ -1691,9 +888,9 @@ export const DashboardSummaryResponseSchema = {
 		},
 	},
 	type: 'object',
-	required: ['cds', 'rtype', 'reportingyear', 'indicators'],
+	required: ['cds', 'reportingyear', 'indicators'],
 	title: 'DashboardSummaryResponse',
-	description: 'Response containing all indicators for a school/district/state.',
+	description: 'Response containing multiple tests for a school/district/county.',
 } as const
 
 export const EquityGroupSummarySchema = {
@@ -1702,38 +899,27 @@ export const EquityGroupSummarySchema = {
 			type: 'string',
 			title: 'Studentgroup',
 		},
-		statuslevel: {
+		overall_met_and_above_pct: {
 			anyOf: [
 				{
-					type: 'integer',
+					type: 'string',
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Statuslevel',
+			title: 'Overall Met And Above Pct',
 		},
-		color: {
+		students_tested: {
 			anyOf: [
 				{
-					type: 'integer',
+					type: 'string',
 				},
 				{
 					type: 'null',
 				},
 			],
-			title: 'Color',
-		},
-		currdenom: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Currdenom',
+			title: 'Students Tested',
 		},
 	},
 	type: 'object',
@@ -1748,8 +934,26 @@ export const EquityReportResponseSchema = {
 			type: 'string',
 			title: 'Cds',
 		},
+		test_id: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Test Id',
+		},
 		indicator: {
-			type: 'string',
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
 			title: 'Indicator',
 		},
 		reportingyear: {
@@ -1757,10 +961,17 @@ export const EquityReportResponseSchema = {
 			title: 'Reportingyear',
 		},
 		color_counts: {
-			additionalProperties: {
-				type: 'integer',
-			},
-			type: 'object',
+			anyOf: [
+				{
+					additionalProperties: {
+						type: 'integer',
+					},
+					type: 'object',
+				},
+				{
+					type: 'null',
+				},
+			],
 			title: 'Color Counts',
 		},
 		groups: {
@@ -1772,9 +983,9 @@ export const EquityReportResponseSchema = {
 		},
 	},
 	type: 'object',
-	required: ['cds', 'indicator', 'reportingyear', 'color_counts', 'groups'],
+	required: ['cds', 'reportingyear', 'groups'],
 	title: 'EquityReportResponse',
-	description: 'Response containing student group breakdown for an indicator.',
+	description: 'Response containing student group breakdown for a test.',
 } as const
 
 export const ForcePasswordResetRequestSchema = {
@@ -1813,8 +1024,26 @@ export const HTTPValidationErrorSchema = {
 
 export const IndicatorSummarySchema = {
 	properties: {
+		test_id: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Test Id',
+		},
 		indicator: {
-			type: 'string',
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
 			title: 'Indicator',
 		},
 		currstatus: {
@@ -1894,12 +1123,76 @@ export const IndicatorSummarySchema = {
 			],
 			title: 'Currdenom',
 		},
+		test_type: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Test Type',
+		},
+		grade: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Grade',
+		},
+		students_enrolled: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Students Enrolled',
+		},
+		students_tested: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Students Tested',
+		},
+		overall_mean_scale_score: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Overall Mean Scale Score',
+		},
+		overall_met_and_above_pct: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Overall Met And Above Pct',
+		},
 	},
 	type: 'object',
-	required: ['indicator'],
 	title: 'IndicatorSummary',
-	description:
-		'New dashboard summary response models\nSummary of a single indicator for the dashboard.',
+	description: 'Summary of CAASPP test results directly for the dashboard.',
 } as const
 
 export const ItemCreateSchema = {
@@ -3067,13 +2360,6 @@ export const ValidationErrorSchema = {
 		type: {
 			type: 'string',
 			title: 'Error Type',
-		},
-		input: {
-			title: 'Input',
-		},
-		ctx: {
-			type: 'object',
-			title: 'Context',
 		},
 	},
 	type: 'object',

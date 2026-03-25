@@ -1,14 +1,13 @@
-import { ArrowLeft01Icon } from '@hugeicons/core-free-icons'
+import { ArrowLeft01Icon, BookOpen01Icon, Calculator01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { Suspense, useCallback, useState } from 'react'
 import { z } from 'zod'
 
-import type { ColorKey } from '@/components/dashboard/card/IndicatorCard'
 import { IndicatorDetailModal } from '@/components/dashboard/detail/IndicatorDetailModal'
-import { IndicatorGrid, IndicatorGridSkeleton } from '@/components/dashboard/IndicatorGrid'
 import NavbarD52 from '@/components/layout/navbar/NavbarD52'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import {
 	Select,
 	SelectContent,
@@ -16,7 +15,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import { STATEWIDE_CDS, type IndicatorCode } from '@/lib/constants/indicators'
+import type { IndicatorSummary } from '@/lib/client'
+import { STATEWIDE_CDS } from '@/lib/constants/indicators'
 import ScrollReset from '@/lib/hooks/ScrollReset'
 import { useDashboardSummarySuspense } from '@/lib/hooks/useDashboardData'
 import { useLastViewedSchool } from '@/lib/hooks/useLastViewedSchool'
@@ -50,24 +50,6 @@ function DashboardPage() {
 
 	const effectiveCds = q || lastViewedCds || STATEWIDE_CDS
 	const effectiveYear: ReportingYear = urlYear || '2025'
-
-	const [selectedIndicator, setSelectedIndicator] = useState<IndicatorCode | null>(null)
-	const [selectedColor, setSelectedColor] = useState<ColorKey | null>(null)
-
-	const handleIndicatorClick = useCallback((code: IndicatorCode) => {
-		setSelectedIndicator(code)
-		setSelectedColor(null)
-	}, [])
-
-	const handleColorClick = useCallback((code: IndicatorCode, color: ColorKey) => {
-		setSelectedIndicator(code)
-		setSelectedColor(color)
-	}, [])
-
-	const handleCloseModal = useCallback(() => {
-		setSelectedIndicator(null)
-		setSelectedColor(null)
-	}, [])
 
 	const handleYearChange = useCallback(
 		(year: ReportingYear) => {
@@ -113,90 +95,116 @@ function DashboardPage() {
 				</div>
 
 				<Suspense fallback={<DashboardSkeleton />}>
-					<DashboardContent
-						cds={effectiveCds}
-						year={effectiveYear}
-						selectedIndicator={selectedIndicator}
-						selectedColor={selectedColor}
-						onIndicatorClick={handleIndicatorClick}
-						onColorClick={handleColorClick}
-						onCloseModal={handleCloseModal}
-					/>
+					<DashboardContent cds={effectiveCds} year={effectiveYear} />
 				</Suspense>
 			</div>
 		</div>
 	)
 }
 
-function DashboardContent({
-	cds,
-	year,
-	selectedIndicator,
-	selectedColor,
-	onIndicatorClick,
-	onColorClick,
-	onCloseModal,
-}: {
-	cds: string
-	year: ReportingYear
-	selectedIndicator: IndicatorCode | null
-	selectedColor: ColorKey | null
-	onIndicatorClick: (code: IndicatorCode) => void
-	onColorClick: (code: IndicatorCode, color: ColorKey) => void
-	onCloseModal: () => void
-}) {
+function getTestName(testId: string) {
+	if (testId === '1') return { name: 'English Language Arts', icon: BookOpen01Icon }
+	if (testId === '2') return { name: 'Mathematics', icon: Calculator01Icon }
+	if (testId === '3' || testId === '4') return { name: 'Science (CAST)', icon: BookOpen01Icon }
+	return { name: `Test ${testId}`, icon: BookOpen01Icon }
+}
+
+function DashboardContent({ cds, year }: { cds: string; year: ReportingYear }) {
 	const { data } = useDashboardSummarySuspense(cds, year)
 	const indicators = Array.isArray(data.indicators) ? data.indicators : []
-	const reportingYear = data.reportingyear || year
+	const reportingYear = data.test_year || year
+	const [selectedIndicator, setSelectedIndicator] = useState<IndicatorSummary | null>(null)
 
-	const entityName =
-		data.schoolname ||
-		data.districtname ||
-		(cds === STATEWIDE_CDS ? 'California Statewide' : 'Unknown')
-
-	const indicatorData = selectedIndicator
-		? indicators.find((ind) => ind.indicator === selectedIndicator)
-		: null
+	const entityName = cds === STATEWIDE_CDS ? 'California Statewide' : 'Dashboard'
 
 	return (
-		<>
-			<div className={styles.content}>
-				<div className={styles.header}>
-					<h1>{entityName}</h1>
-					{data.countyname && cds !== STATEWIDE_CDS && (
-						<p className={styles.subtitle}>
-							{data.districtname && data.schoolname
-								? `${data.districtname} | ${data.countyname}`
-								: data.countyname}
-						</p>
-					)}
-					<p className={styles.meta}>
-						{reportingYear} California School Dashboard
-						{data.charter_flag === 'Y' && ' | Charter School'}
-					</p>
-				</div>
+		<div className={styles.content}>
+			<div className={styles.header}>
+				<h1>{entityName}</h1>
+				<p className={styles.meta}>{reportingYear} CAASPP Test Results</p>
+			</div>
 
-				<div className={styles.gridSection}>
-					<IndicatorGrid
-						indicators={indicators}
-						onIndicatorClick={onIndicatorClick}
-						onColorClick={onColorClick}
-						compact={true}
-						cds={cds}
-						reportingyear={year}
-					/>
-				</div>
+			<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-6'>
+				{indicators.length === 0 ? (
+					<div className='col-span-full py-12 text-center text-muted-foreground bg-muted/20 rounded-lg border border-dashed'>
+						No CAASPP test data available for this selection.
+					</div>
+				) : (
+					indicators.map((ind, i) => {
+						const testInfo = getTestName(ind.test_id || '')
+						const percentMet = ind.overall_met_and_above_pct
+							? parseFloat(ind.overall_met_and_above_pct)
+							: 0
+
+						return (
+							<Card
+								key={`${ind.test_id}-${i}`}
+								className='overflow-hidden border shadow-sm transition-all hover:shadow-md cursor-pointer hover:border-primary/50'
+								onClick={() => setSelectedIndicator(ind)}
+							>
+								<CardHeader className='bg-muted/30 pb-4 border-b'>
+									<CardTitle className='flex items-center gap-2 text-lg'>
+										<div className='p-2 bg-primary/10 rounded-md text-primary'>
+											<HugeiconsIcon icon={testInfo.icon} className='h-5 w-5' />
+										</div>
+										{testInfo.name}
+									</CardTitle>
+									<CardDescription>
+										Grade: {ind.grade === '13' ? 'All Grades' : ind.grade}
+									</CardDescription>
+								</CardHeader>
+								<CardContent className='pt-6'>
+									<div className='flex flex-col gap-6'>
+										<div className='flex justify-between items-end'>
+											<div>
+												<p className='text-sm font-medium text-muted-foreground mb-1'>
+													Standard Met or Exceeded
+												</p>
+												<div className='flex items-baseline gap-1'>
+													<span className='text-4xl font-bold tracking-tight text-foreground'>
+														{ind.overall_met_and_above_pct || '--'}%
+													</span>
+												</div>
+											</div>
+										</div>
+
+										<div className='w-full bg-secondary h-3 rounded-full overflow-hidden'>
+											<div
+												className='bg-primary h-full transition-all duration-500 ease-in-out'
+												style={{ width: `${percentMet}%` }}
+											/>
+										</div>
+
+										<div className='grid grid-cols-2 gap-4 pt-4 border-t'>
+											<div>
+												<p className='text-xs font-medium text-muted-foreground'>
+													Mean Scale Score
+												</p>
+												<p className='text-lg font-semibold'>
+													{ind.overall_mean_scale_score || '--'}
+												</p>
+											</div>
+											<div>
+												<p className='text-xs font-medium text-muted-foreground'>Students Tested</p>
+												<p className='text-lg font-semibold'>{ind.students_tested || '--'}</p>
+											</div>
+										</div>
+									</div>
+								</CardContent>
+							</Card>
+						)
+					})
+				)}
 			</div>
 
 			<IndicatorDetailModal
 				isOpen={!!selectedIndicator}
-				onClose={onCloseModal}
+				onClose={() => setSelectedIndicator(null)}
 				cds={cds}
-				indicator={indicatorData || null}
-				reportingyear={reportingYear}
-				selectedColor={selectedColor}
+				indicator={selectedIndicator}
+				testYear={reportingYear}
 			/>
-		</>
+		</div>
 	)
 }
 
@@ -208,8 +216,27 @@ function DashboardSkeleton() {
 				<div className={styles.skeleton} style={{ height: 16, width: 192, marginTop: 8 }} />
 				<div className={styles.skeleton} style={{ height: 16, width: 224, marginTop: 4 }} />
 			</div>
-			<div className={styles.gridSection}>
-				<IndicatorGridSkeleton compact={true} />
+			<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-6'>
+				{[1, 2, 3].map((i) => (
+					<div
+						key={i}
+						className='h-[280px] rounded-xl bg-card border shadow-sm p-6 flex flex-col gap-4'
+					>
+						<div className={styles.skeleton} style={{ height: 28, width: 180 }} />
+						<div className={styles.skeleton} style={{ height: 16, width: 100 }} />
+						<div className='mt-auto flex flex-col gap-4'>
+							<div className={styles.skeleton} style={{ height: 40, width: 80 }} />
+							<div
+								className={styles.skeleton}
+								style={{ height: 12, width: '100%', borderRadius: 999 }}
+							/>
+							<div className='flex justify-between mt-4'>
+								<div className={styles.skeleton} style={{ height: 32, width: 60 }} />
+								<div className={styles.skeleton} style={{ height: 32, width: 60 }} />
+							</div>
+						</div>
+					</div>
+				))}
 			</div>
 		</div>
 	)

@@ -9,177 +9,111 @@ export type ClientOptions = {
  */
 export type AcademicIndicatorCreate = {
 	/**
-	 * Cds
+	 * County Code
 	 */
-	cds: string
+	county_code?: string | null
 	/**
-	 * Rtype
+	 * District Code
 	 */
-	rtype: string
+	district_code: string
 	/**
-	 * Schoolname
+	 * School Code
 	 */
-	schoolname?: string | null
+	school_code?: string | null
 	/**
-	 * Districtname
+	 * Record Type Id
 	 */
-	districtname?: string | null
+	record_type_id?: string | null
 	/**
-	 * Countyname
+	 * Charter Number
 	 */
-	countyname?: string | null
+	charter_number?: string | null
 	/**
-	 * Charter Flag
+	 * Test Year
 	 */
-	charter_flag?: string | null
+	test_year: string
 	/**
-	 * Coe Flag
+	 * Test Type
 	 */
-	coe_flag?: string | null
+	test_type: string
 	/**
-	 * Dass Flag
+	 * Test Id
 	 */
-	dass_flag?: string | null
+	test_id: string
 	/**
-	 * Studentgroup
+	 * Student Group Id
 	 */
-	studentgroup: string
+	student_group_id: string
 	/**
-	 * Priordenom
+	 * Grade
 	 */
-	priordenom?: number | null
+	grade: string
 	/**
-	 * Priorstatus
+	 * Students Enrolled
 	 */
-	priorstatus?: number | null
+	students_enrolled: string
 	/**
-	 * Change
+	 * Students Tested
 	 */
-	change?: number | null
+	students_tested: string
 	/**
-	 * Statuslevel
+	 * Students Tested With Scores
 	 */
-	statuslevel?: number | null
+	students_tested_with_scores?: string | null
 	/**
-	 * Changelevel
+	 * Overall Mean Scale Score
 	 */
-	changelevel?: number | null
+	overall_mean_scale_score?: string | null
 	/**
-	 * Color
+	 * Overall Total
 	 */
-	color?: number | null
+	overall_total?: string | null
 	/**
-	 * Box
+	 * Overall Level 1 Pct
 	 */
-	box?: number | null
+	overall_level_1_pct?: string | null
 	/**
-	 * Priornsizemet
+	 * Overall Level 1 Count
 	 */
-	priornsizemet?: string | null
+	overall_level_1_count?: string | null
 	/**
-	 * Accountabilitymet
+	 * Overall Level 2 Pct
 	 */
-	accountabilitymet?: string | null
+	overall_level_2_pct?: string | null
 	/**
-	 * Hscutpoints
+	 * Overall Level 2 Count
 	 */
-	hscutpoints?: string | null
+	overall_level_2_count?: string | null
 	/**
-	 * Pairshare Method
+	 * Overall Level 3 Pct
 	 */
-	pairshare_method?: string | null
+	overall_level_3_pct?: string | null
 	/**
-	 * Priorprate Enrolled
+	 * Overall Level 3 Count
 	 */
-	priorprate_enrolled?: number | null
+	overall_level_3_count?: string | null
 	/**
-	 * Priorprate Tested
+	 * Overall Level 4 Pct
 	 */
-	priorprate_tested?: number | null
+	overall_level_4_pct?: string | null
 	/**
-	 * Priorprate
+	 * Overall Level 4 Count
 	 */
-	priorprate?: number | null
+	overall_level_4_count?: string | null
 	/**
-	 * Priornumprloss
+	 * Overall Met And Above Pct
 	 */
-	priornumprloss?: number | null
+	overall_met_and_above_pct?: string | null
 	/**
-	 * Priordenom Withoutprloss
+	 * Overall Met And Above Count
 	 */
-	priordenom_withoutprloss?: number | null
+	overall_met_and_above_count?: string | null
 	/**
-	 * Priorstatus Withoutprloss
+	 * Domain Data
 	 */
-	priorstatus_withoutprloss?: number | null
-	/**
-	 * Indicator
-	 */
-	indicator?: string
-	/**
-	 * Reportingyear
-	 */
-	reportingyear: string
-	/**
-	 * Priornumer
-	 */
-	priornumer?: number | null
-	/**
-	 * Smalldenom
-	 */
-	smalldenom?: string | null
-	/**
-	 * Priorcertifyflag
-	 */
-	priorcertifyflag?: string | null
-	/**
-	 * Dataerrorflag
-	 */
-	dataerrorflag?: string | null
-	/**
-	 * School Type
-	 */
-	school_type?: string | null
-	/**
-	 * Fiveyrnumer
-	 */
-	fiveyrnumer?: number | null
-	/**
-	 * Priorprogressed
-	 */
-	priorprogressed?: number | null
-	/**
-	 * Priormaintainpl4
-	 */
-	priormaintainpl4?: number | null
-	/**
-	 * Priormaintainoth
-	 */
-	priormaintainoth?: number | null
-	/**
-	 * Priordeclined
-	 */
-	priordeclined?: number | null
-	/**
-	 * Priorprogressed Alternate
-	 */
-	priorprogressed_alternate?: number | null
-	/**
-	 * Priormaintainpl3 Alternate
-	 */
-	priormaintainpl3_alternate?: number | null
-	/**
-	 * Priornotprognotmain Alternate
-	 */
-	priornotprognotmain_alternate?: number | null
-	/**
-	 * Prior95
-	 */
-	prior95?: number | null
-	/**
-	 * Studentgroup Pct
-	 */
-	studentgroup_pct?: number | null
+	domain_data?: {
+		[key: string]: unknown
+	} | null
 }
 
 /**
@@ -187,303 +121,111 @@ export type AcademicIndicatorCreate = {
  */
 export type AcademicIndicatorPublic = {
 	/**
-	 * Cds
+	 * County Code
 	 */
-	cds: string
+	county_code?: string | null
 	/**
-	 * Rtype
+	 * District Code
 	 */
-	rtype: string
+	district_code: string
 	/**
-	 * Schoolname
+	 * School Code
 	 */
-	schoolname?: string | null
+	school_code?: string | null
 	/**
-	 * Districtname
+	 * Record Type Id
 	 */
-	districtname?: string | null
+	record_type_id?: string | null
 	/**
-	 * Countyname
+	 * Charter Number
 	 */
-	countyname?: string | null
+	charter_number?: string | null
 	/**
-	 * Charter Flag
+	 * Test Year
 	 */
-	charter_flag?: string | null
+	test_year: string
 	/**
-	 * Coe Flag
+	 * Test Type
 	 */
-	coe_flag?: string | null
+	test_type: string
 	/**
-	 * Dass Flag
+	 * Test Id
 	 */
-	dass_flag?: string | null
+	test_id: string
 	/**
-	 * Studentgroup
+	 * Student Group Id
 	 */
-	studentgroup: string
+	student_group_id: string
 	/**
-	 * Priordenom
+	 * Grade
 	 */
-	priordenom?: number | null
+	grade: string
 	/**
-	 * Priorstatus
+	 * Students Enrolled
 	 */
-	priorstatus?: number | null
+	students_enrolled: string
 	/**
-	 * Change
+	 * Students Tested
 	 */
-	change?: number | null
+	students_tested: string
 	/**
-	 * Statuslevel
+	 * Students Tested With Scores
 	 */
-	statuslevel?: number | null
+	students_tested_with_scores?: string | null
 	/**
-	 * Changelevel
+	 * Overall Mean Scale Score
 	 */
-	changelevel?: number | null
+	overall_mean_scale_score?: string | null
 	/**
-	 * Color
+	 * Overall Total
 	 */
-	color?: number | null
+	overall_total?: string | null
 	/**
-	 * Box
+	 * Overall Level 1 Pct
 	 */
-	box?: number | null
+	overall_level_1_pct?: string | null
 	/**
-	 * Priornsizemet
+	 * Overall Level 1 Count
 	 */
-	priornsizemet?: string | null
+	overall_level_1_count?: string | null
 	/**
-	 * Accountabilitymet
+	 * Overall Level 2 Pct
 	 */
-	accountabilitymet?: string | null
+	overall_level_2_pct?: string | null
 	/**
-	 * Hscutpoints
+	 * Overall Level 2 Count
 	 */
-	hscutpoints?: string | null
+	overall_level_2_count?: string | null
 	/**
-	 * Pairshare Method
+	 * Overall Level 3 Pct
 	 */
-	pairshare_method?: string | null
+	overall_level_3_pct?: string | null
 	/**
-	 * Priorprate Enrolled
+	 * Overall Level 3 Count
 	 */
-	priorprate_enrolled?: number | null
+	overall_level_3_count?: string | null
 	/**
-	 * Priorprate Tested
+	 * Overall Level 4 Pct
 	 */
-	priorprate_tested?: number | null
+	overall_level_4_pct?: string | null
 	/**
-	 * Priorprate
+	 * Overall Level 4 Count
 	 */
-	priorprate?: number | null
+	overall_level_4_count?: string | null
 	/**
-	 * Priornumprloss
+	 * Overall Met And Above Pct
 	 */
-	priornumprloss?: number | null
+	overall_met_and_above_pct?: string | null
 	/**
-	 * Priordenom Withoutprloss
+	 * Overall Met And Above Count
 	 */
-	priordenom_withoutprloss?: number | null
+	overall_met_and_above_count?: string | null
 	/**
-	 * Priorstatus Withoutprloss
-	 */
-	priorstatus_withoutprloss?: number | null
-	/**
-	 * Indicator
-	 */
-	indicator?: string
-	/**
-	 * Reportingyear
-	 */
-	reportingyear: string
-	/**
-	 * Priornumer
-	 */
-	priornumer?: number | null
-	/**
-	 * Smalldenom
-	 */
-	smalldenom?: string | null
-	/**
-	 * Priorcertifyflag
-	 */
-	priorcertifyflag?: string | null
-	/**
-	 * Dataerrorflag
-	 */
-	dataerrorflag?: string | null
-	/**
-	 * School Type
-	 */
-	school_type?: string | null
-	/**
-	 * Fiveyrnumer
-	 */
-	fiveyrnumer?: number | null
-	/**
-	 * Priorprogressed
-	 */
-	priorprogressed?: number | null
-	/**
-	 * Priormaintainpl4
-	 */
-	priormaintainpl4?: number | null
-	/**
-	 * Priormaintainoth
-	 */
-	priormaintainoth?: number | null
-	/**
-	 * Priordeclined
-	 */
-	priordeclined?: number | null
-	/**
-	 * Priorprogressed Alternate
-	 */
-	priorprogressed_alternate?: number | null
-	/**
-	 * Priormaintainpl3 Alternate
-	 */
-	priormaintainpl3_alternate?: number | null
-	/**
-	 * Priornotprognotmain Alternate
-	 */
-	priornotprognotmain_alternate?: number | null
-	/**
-	 * Prior95
-	 */
-	prior95?: number | null
-	/**
-	 * Studentgroup Pct
-	 */
-	studentgroup_pct?: number | null
-	/**
-	 * Id
-	 */
-	id: string
-	/**
-	 * Created At
-	 */
-	created_at?: string | null
-}
-
-/**
- * AcademicIndicatorUpdate
- */
-export type AcademicIndicatorUpdate = {
-	/**
-	 * Cds
-	 */
-	cds?: string | null
-	/**
-	 * Rtype
-	 */
-	rtype?: string | null
-	/**
-	 * Schoolname
-	 */
-	schoolname?: string | null
-	/**
-	 * Districtname
-	 */
-	districtname?: string | null
-	/**
-	 * Countyname
-	 */
-	countyname?: string | null
-	/**
-	 * Charter Flag
-	 */
-	charter_flag?: string | null
-	/**
-	 * Coe Flag
-	 */
-	coe_flag?: string | null
-	/**
-	 * Dass Flag
-	 */
-	dass_flag?: string | null
-	/**
-	 * Studentgroup
-	 */
-	studentgroup?: string | null
-	/**
-	 * Priordenom
-	 */
-	priordenom?: number | null
-	/**
-	 * Priorstatus
-	 */
-	priorstatus?: number | null
-	/**
-	 * Change
-	 */
-	change?: number | null
-	/**
-	 * Statuslevel
-	 */
-	statuslevel?: number | null
-	/**
-	 * Changelevel
-	 */
-	changelevel?: number | null
-	/**
-	 * Color
-	 */
-	color?: number | null
-	/**
-	 * Box
-	 */
-	box?: number | null
-	/**
-	 * Priornsizemet
-	 */
-	priornsizemet?: string | null
-	/**
-	 * Accountabilitymet
-	 */
-	accountabilitymet?: string | null
-	/**
-	 * Hscutpoints
-	 */
-	hscutpoints?: string | null
-	/**
-	 * Pairshare Method
-	 */
-	pairshare_method?: string | null
-	/**
-	 * Priorprate Enrolled
-	 */
-	priorprate_enrolled?: number | null
-	/**
-	 * Priorprate Tested
-	 */
-	priorprate_tested?: number | null
-	/**
-	 * Priorprate
-	 */
-	priorprate?: number | null
-	/**
-	 * Priornumprloss
-	 */
-	priornumprloss?: number | null
-	/**
-	 * Priordenom Withoutprloss
-	 */
-	priordenom_withoutprloss?: number | null
-	/**
-	 * Priorstatus Withoutprloss
-	 */
-	priorstatus_withoutprloss?: number | null
-	/**
-	 * Indicator
-	 */
-	indicator?: string | null
-	/**
-	 * Reportingyear
-	 */
-	reportingyear?: string | null
+	 * Domain Data
+	 */
+	domain_data?: {
+		[key: string]: unknown
+	} | null
 }
 
 /**
@@ -642,100 +384,38 @@ export type CensusData = {
 	census_data_id?: string
 }
 
-/**
- * DashboardAggregation
- *
- * Dashboard aggregation response model (legacy single-indicator)
- */
 export type DashboardAggregation = {
 	/**
 	 * Cds
 	 */
 	cds: string
 	/**
-	 * Schoolname
+	 * Student Group Id
 	 */
-	schoolname?: string | null
+	student_group_id: string
 	/**
-	 * Districtname
+	 * Test Year
 	 */
-	districtname?: string | null
+	test_year: string
 	/**
-	 * Countyname
+	 * Overall Met And Above Pct
 	 */
-	countyname?: string | null
+	overall_met_and_above_pct?: string | null
 	/**
-	 * Studentgroup
+	 * Overall Mean Scale Score
 	 */
-	studentgroup: string
-	/**
-	 * Currstatus
-	 */
-	currstatus?: number | null
-	/**
-	 * Priorstatus
-	 */
-	priorstatus?: number | null
-	/**
-	 * Change
-	 */
-	change?: number | null
-	/**
-	 * Statuslevel
-	 */
-	statuslevel?: number | null
-	/**
-	 * Changelevel
-	 */
-	changelevel?: number | null
-	/**
-	 * Color
-	 */
-	color?: number | null
-	/**
-	 * Indicator
-	 */
-	indicator: string
-	/**
-	 * Reportingyear
-	 */
-	reportingyear: string
+	overall_mean_scale_score?: string | null
 }
 
-/**
- * DashboardSummaryResponse
- *
- * Response containing all indicators for a school/district/state.
- */
 export type DashboardSummaryResponse = {
 	/**
 	 * Cds
 	 */
 	cds: string
 	/**
-	 * Rtype
+	 * Test Year
 	 */
-	rtype: string
-	/**
-	 * Schoolname
-	 */
-	schoolname?: string | null
-	/**
-	 * Districtname
-	 */
-	districtname?: string | null
-	/**
-	 * Countyname
-	 */
-	countyname?: string | null
-	/**
-	 * Charter Flag
-	 */
-	charter_flag?: string | null
-	/**
-	 * Reportingyear
-	 */
-	reportingyear: string
+	test_year: string
 	/**
 	 * Indicators
 	 */
@@ -753,43 +433,28 @@ export type EquityGroupSummary = {
 	 */
 	studentgroup: string
 	/**
-	 * Statuslevel
+	 * Overall Met And Above Pct
 	 */
-	statuslevel?: number | null
+	overall_met_and_above_pct?: string | null
 	/**
-	 * Color
+	 * Students Tested
 	 */
-	color?: number | null
-	/**
-	 * Currdenom
-	 */
-	currdenom?: number | null
+	students_tested?: string | null
 }
 
-/**
- * EquityReportResponse
- *
- * Response containing student group breakdown for an indicator.
- */
 export type EquityReportResponse = {
 	/**
 	 * Cds
 	 */
 	cds: string
 	/**
-	 * Indicator
+	 * Test Id
 	 */
-	indicator: string
+	test_id: string
 	/**
-	 * Reportingyear
+	 * Test Year
 	 */
-	reportingyear: string
-	/**
-	 * Color Counts
-	 */
-	color_counts: {
-		[key: string]: number
-	}
+	test_year: string
 	/**
 	 * Groups
 	 */
@@ -820,45 +485,35 @@ export type HttpValidationError = {
 	detail?: Array<ValidationError>
 }
 
-/**
- * IndicatorSummary
- *
- * New dashboard summary response models
- * Summary of a single indicator for the dashboard.
- */
 export type IndicatorSummary = {
 	/**
-	 * Indicator
+	 * Test Id
 	 */
-	indicator: string
+	test_id: string
 	/**
-	 * Currstatus
+	 * Test Type
 	 */
-	currstatus?: number | null
+	test_type: string
 	/**
-	 * Priorstatus
+	 * Grade
 	 */
-	priorstatus?: number | null
+	grade: string
 	/**
-	 * Change
+	 * Students Enrolled
 	 */
-	change?: number | null
+	students_enrolled: string
 	/**
-	 * Statuslevel
+	 * Students Tested
 	 */
-	statuslevel?: number | null
+	students_tested: string
 	/**
-	 * Changelevel
+	 * Overall Mean Scale Score
 	 */
-	changelevel?: number | null
+	overall_mean_scale_score?: string | null
 	/**
-	 * Color
+	 * Overall Met And Above Pct
 	 */
-	color?: number | null
-	/**
-	 * Currdenom
-	 */
-	currdenom?: number | null
+	overall_met_and_above_pct?: string | null
 }
 
 /**
@@ -1437,16 +1092,6 @@ export type ValidationError = {
 	 * Error Type
 	 */
 	type: string
-	/**
-	 * Input
-	 */
-	input?: unknown
-	/**
-	 * Context
-	 */
-	ctx?: {
-		[key: string]: unknown
-	}
 }
 
 export type LoginLoginAccessTokenData = {
@@ -2477,7 +2122,7 @@ export type AcademicIndicatorsGetEquityReportData = {
 		/**
 		 * Indicator
 		 *
-		 * Indicator code (ELA, MATH, etc.)
+		 * Test ID code (1 for ELA, 2 for MATH, etc.)
 		 */
 		indicator: string
 		/**
@@ -2560,25 +2205,10 @@ export type AcademicIndicatorsGetLastViewedCdsResponse =
 
 export type AcademicIndicatorsDeleteAcademicIndicatorData = {
 	body?: never
-	path: {
-		/**
-		 * Id
-		 */
-		id: string
-	}
+	path?: never
 	query?: never
 	url: '/api/v1/academic-indicators/{id}'
 }
-
-export type AcademicIndicatorsDeleteAcademicIndicatorErrors = {
-	/**
-	 * Validation Error
-	 */
-	422: HttpValidationError
-}
-
-export type AcademicIndicatorsDeleteAcademicIndicatorError =
-	AcademicIndicatorsDeleteAcademicIndicatorErrors[keyof AcademicIndicatorsDeleteAcademicIndicatorErrors]
 
 export type AcademicIndicatorsDeleteAcademicIndicatorResponses = {
 	/**
@@ -2592,25 +2222,10 @@ export type AcademicIndicatorsDeleteAcademicIndicatorResponse =
 
 export type AcademicIndicatorsReadAcademicIndicatorData = {
 	body?: never
-	path: {
-		/**
-		 * Id
-		 */
-		id: string
-	}
+	path?: never
 	query?: never
 	url: '/api/v1/academic-indicators/{id}'
 }
-
-export type AcademicIndicatorsReadAcademicIndicatorErrors = {
-	/**
-	 * Validation Error
-	 */
-	422: HttpValidationError
-}
-
-export type AcademicIndicatorsReadAcademicIndicatorError =
-	AcademicIndicatorsReadAcademicIndicatorErrors[keyof AcademicIndicatorsReadAcademicIndicatorErrors]
 
 export type AcademicIndicatorsReadAcademicIndicatorResponses = {
 	/**
@@ -2623,26 +2238,11 @@ export type AcademicIndicatorsReadAcademicIndicatorResponse =
 	AcademicIndicatorsReadAcademicIndicatorResponses[keyof AcademicIndicatorsReadAcademicIndicatorResponses]
 
 export type AcademicIndicatorsUpdateAcademicIndicatorData = {
-	body: AcademicIndicatorUpdate
-	path: {
-		/**
-		 * Id
-		 */
-		id: string
-	}
+	body?: never
+	path?: never
 	query?: never
 	url: '/api/v1/academic-indicators/{id}'
 }
-
-export type AcademicIndicatorsUpdateAcademicIndicatorErrors = {
-	/**
-	 * Validation Error
-	 */
-	422: HttpValidationError
-}
-
-export type AcademicIndicatorsUpdateAcademicIndicatorError =
-	AcademicIndicatorsUpdateAcademicIndicatorErrors[keyof AcademicIndicatorsUpdateAcademicIndicatorErrors]
 
 export type AcademicIndicatorsUpdateAcademicIndicatorResponses = {
 	/**

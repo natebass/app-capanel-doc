@@ -12,7 +12,6 @@ import type {
 	AcademicIndicatorsCreateAcademicIndicatorErrors,
 	AcademicIndicatorsCreateAcademicIndicatorResponses,
 	AcademicIndicatorsDeleteAcademicIndicatorData,
-	AcademicIndicatorsDeleteAcademicIndicatorErrors,
 	AcademicIndicatorsDeleteAcademicIndicatorResponses,
 	AcademicIndicatorsGetDashboardDataData,
 	AcademicIndicatorsGetDashboardDataErrors,
@@ -26,13 +25,11 @@ import type {
 	AcademicIndicatorsGetLastViewedCdsData,
 	AcademicIndicatorsGetLastViewedCdsResponses,
 	AcademicIndicatorsReadAcademicIndicatorData,
-	AcademicIndicatorsReadAcademicIndicatorErrors,
 	AcademicIndicatorsReadAcademicIndicatorResponses,
 	AcademicIndicatorsReadAcademicIndicatorsData,
 	AcademicIndicatorsReadAcademicIndicatorsErrors,
 	AcademicIndicatorsReadAcademicIndicatorsResponses,
 	AcademicIndicatorsUpdateAcademicIndicatorData,
-	AcademicIndicatorsUpdateAcademicIndicatorErrors,
 	AcademicIndicatorsUpdateAcademicIndicatorResponses,
 	AcademicIndicatorsUpdateUserPreferencesData,
 	AcademicIndicatorsUpdateUserPreferencesErrors,
@@ -760,8 +757,6 @@ export class AcademicIndicatorsService {
 
 	/**
 	 * Create Academic Indicator
-	 *
-	 * Create new academic indicator. Superuser only.
 	 */
 	public static academicIndicatorsCreateAcademicIndicator<ThrowOnError extends boolean = false>(
 		options: Options<AcademicIndicatorsCreateAcademicIndicatorData, ThrowOnError>,
@@ -785,7 +780,6 @@ export class AcademicIndicatorsService {
 	 * Get Dashboard Data
 	 *
 	 * Get aggregated dashboard data for a specific CDS code.
-	 * Returns the 'ALL' student group data for the most recent reporting year.
 	 */
 	public static academicIndicatorsGetDashboardData<ThrowOnError extends boolean = false>(
 		options: Options<AcademicIndicatorsGetDashboardDataData, ThrowOnError>,
@@ -800,10 +794,7 @@ export class AcademicIndicatorsService {
 	/**
 	 * Get Dashboard Summary
 	 *
-	 * Get all indicator summaries for a school/district/state.
-	 *
-	 * Returns summary data for all 8 accountability indicators for the specified
-	 * CDS code, reporting year, and student group.
+	 * Get all test summaries for a school/district/state.
 	 */
 	public static academicIndicatorsGetDashboardSummary<ThrowOnError extends boolean = false>(
 		options: Options<AcademicIndicatorsGetDashboardSummaryData, ThrowOnError>,
@@ -818,10 +809,7 @@ export class AcademicIndicatorsService {
 	/**
 	 * Get Equity Report
 	 *
-	 * Get student group breakdown for an indicator.
-	 *
-	 * Returns color-coded performance data for all student groups within a
-	 * school/district/state for a specific indicator.
+	 * Get student group breakdown for a test.
 	 */
 	public static academicIndicatorsGetEquityReport<ThrowOnError extends boolean = false>(
 		options: Options<AcademicIndicatorsGetEquityReportData, ThrowOnError>,
@@ -835,8 +823,6 @@ export class AcademicIndicatorsService {
 
 	/**
 	 * Update User Preferences
-	 *
-	 * Update user preferences including last viewed school.
 	 */
 	public static academicIndicatorsUpdateUserPreferences<ThrowOnError extends boolean = false>(
 		options: Options<AcademicIndicatorsUpdateUserPreferencesData, ThrowOnError>,
@@ -858,8 +844,6 @@ export class AcademicIndicatorsService {
 
 	/**
 	 * Get Last Viewed Cds
-	 *
-	 * Get the user's last viewed CDS code.
 	 */
 	public static academicIndicatorsGetLastViewedCds<ThrowOnError extends boolean = false>(
 		options?: Options<AcademicIndicatorsGetLastViewedCdsData, ThrowOnError>,
@@ -877,59 +861,41 @@ export class AcademicIndicatorsService {
 
 	/**
 	 * Delete Academic Indicator
-	 *
-	 * Delete an academic indicator. Superuser only.
 	 */
 	public static academicIndicatorsDeleteAcademicIndicator<ThrowOnError extends boolean = false>(
-		options: Options<AcademicIndicatorsDeleteAcademicIndicatorData, ThrowOnError>,
+		options?: Options<AcademicIndicatorsDeleteAcademicIndicatorData, ThrowOnError>,
 	) {
-		return (options.client ?? client).delete<
+		return (options?.client ?? client).delete<
 			AcademicIndicatorsDeleteAcademicIndicatorResponses,
-			AcademicIndicatorsDeleteAcademicIndicatorErrors,
+			unknown,
 			ThrowOnError
-		>({
-			security: [{ scheme: 'bearer', type: 'http' }],
-			url: '/api/v1/academic-indicators/{id}',
-			...options,
-		})
+		>({ url: '/api/v1/academic-indicators/{id}', ...options })
 	}
 
 	/**
 	 * Read Academic Indicator
-	 *
-	 * Get academic indicator by ID.
 	 */
 	public static academicIndicatorsReadAcademicIndicator<ThrowOnError extends boolean = false>(
-		options: Options<AcademicIndicatorsReadAcademicIndicatorData, ThrowOnError>,
+		options?: Options<AcademicIndicatorsReadAcademicIndicatorData, ThrowOnError>,
 	) {
-		return (options.client ?? client).get<
+		return (options?.client ?? client).get<
 			AcademicIndicatorsReadAcademicIndicatorResponses,
-			AcademicIndicatorsReadAcademicIndicatorErrors,
+			unknown,
 			ThrowOnError
 		>({ url: '/api/v1/academic-indicators/{id}', ...options })
 	}
 
 	/**
 	 * Update Academic Indicator
-	 *
-	 * Update an academic indicator. Superuser only.
 	 */
 	public static academicIndicatorsUpdateAcademicIndicator<ThrowOnError extends boolean = false>(
-		options: Options<AcademicIndicatorsUpdateAcademicIndicatorData, ThrowOnError>,
+		options?: Options<AcademicIndicatorsUpdateAcademicIndicatorData, ThrowOnError>,
 	) {
-		return (options.client ?? client).put<
+		return (options?.client ?? client).put<
 			AcademicIndicatorsUpdateAcademicIndicatorResponses,
-			AcademicIndicatorsUpdateAcademicIndicatorErrors,
+			unknown,
 			ThrowOnError
-		>({
-			security: [{ scheme: 'bearer', type: 'http' }],
-			url: '/api/v1/academic-indicators/{id}',
-			...options,
-			headers: {
-				'Content-Type': 'application/json',
-				...options.headers,
-			},
-		})
+		>({ url: '/api/v1/academic-indicators/{id}', ...options })
 	}
 }
 

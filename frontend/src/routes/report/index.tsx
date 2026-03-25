@@ -4,11 +4,12 @@ import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { Suspense, useCallback, useState } from 'react'
 import { z } from 'zod'
 
-import type { ColorKey } from '@/components/dashboard/card/IndicatorCard'
+import { useLastViewedSchool } from '@/lib/hooks/useLastViewedSchool'
 import { IndicatorDetailModal } from '@/components/dashboard/detail/IndicatorDetailModal'
-import { IndicatorGrid, IndicatorGridSkeleton } from '@/components/dashboard/IndicatorGrid'
+import type { IndicatorSummary } from '@/lib/client'
 import NavbarD52 from '@/components/layout/navbar/NavbarD52'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import {
 	Select,
 	SelectContent,
@@ -16,10 +17,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import { STATEWIDE_CDS, type IndicatorCode } from '@/lib/constants/indicators'
+import { STATEWIDE_CDS } from '@/lib/constants/indicators'
 import ScrollReset from '@/lib/hooks/ScrollReset'
 import { useDashboardSummarySuspense } from '@/lib/hooks/useDashboardData'
-import { useLastViewedSchool } from '@/lib/hooks/useLastViewedSchool'
 
 import styles from './index.module.css'
 
@@ -51,22 +51,10 @@ function DashboardPage() {
 	const effectiveCds = q || lastViewedCds || STATEWIDE_CDS
 	const effectiveYear: ReportingYear = urlYear || '2025'
 
-	const [selectedIndicator, setSelectedIndicator] = useState<IndicatorCode | null>(null)
-	const [selectedColor, setSelectedColor] = useState<ColorKey | null>(null)
-
-	const handleIndicatorClick = useCallback((code: IndicatorCode) => {
-		setSelectedIndicator(code)
-		setSelectedColor(null)
-	}, [])
-
-	const handleColorClick = useCallback((code: IndicatorCode, color: ColorKey) => {
-		setSelectedIndicator(code)
-		setSelectedColor(color)
-	}, [])
+	const [selectedIndicator, setSelectedIndicator] = useState<IndicatorSummary | null>(null)
 
 	const handleCloseModal = useCallback(() => {
 		setSelectedIndicator(null)
-		setSelectedColor(null)
 	}, [])
 
 	const handleYearChange = useCallback(
@@ -117,9 +105,7 @@ function DashboardPage() {
 						cds={effectiveCds}
 						year={effectiveYear}
 						selectedIndicator={selectedIndicator}
-						selectedColor={selectedColor}
-						onIndicatorClick={handleIndicatorClick}
-						onColorClick={handleColorClick}
+						onIndicatorClick={setSelectedIndicator}
 						onCloseModal={handleCloseModal}
 					/>
 				</Suspense>
@@ -132,59 +118,66 @@ function DashboardContent({
 	cds,
 	year,
 	selectedIndicator,
-	selectedColor,
 	onIndicatorClick,
-	onColorClick,
 	onCloseModal,
 }: {
 	cds: string
 	year: ReportingYear
-	selectedIndicator: IndicatorCode | null
-	selectedColor: ColorKey | null
-	onIndicatorClick: (code: IndicatorCode) => void
-	onColorClick: (code: IndicatorCode, color: ColorKey) => void
+	selectedIndicator: IndicatorSummary | null
+	onIndicatorClick: (ind: IndicatorSummary) => void
 	onCloseModal: () => void
 }) {
 	const { data } = useDashboardSummarySuspense(cds, year)
 	const indicators = Array.isArray(data.indicators) ? data.indicators : []
-	const reportingYear = data.reportingyear || year
+	const reportingYear = data.test_year || year
 
-	const entityName =
-		data.schoolname ||
-		data.districtname ||
-		(cds === STATEWIDE_CDS ? 'California Statewide' : 'Unknown')
-
-	const indicatorData = selectedIndicator
-		? indicators.find((ind) => ind.indicator === selectedIndicator)
-		: null
+	const entityName = cds === STATEWIDE_CDS ? 'California Statewide' : 'Dashboard'
 
 	return (
 		<>
 			<div className={styles.content}>
 				<div className={styles.header}>
 					<h1>{entityName}</h1>
-					{data.countyname && cds !== STATEWIDE_CDS && (
-						<p className={styles.subtitle}>
-							{data.districtname && data.schoolname
-								? `${data.districtname} | ${data.countyname}`
-								: data.countyname}
-						</p>
-					)}
 					<p className={styles.meta}>
-						{reportingYear} California School Dashboard
-						{data.charter_flag === 'Y' && ' | Charter School'}
+						{reportingYear} CAASPP Test Results
 					</p>
 				</div>
 
-				<div className={styles.gridSection}>
-					<IndicatorGrid
-						indicators={indicators}
-						onIndicatorClick={onIndicatorClick}
-						onColorClick={onColorClick}
-						compact={true}
-						cds={cds}
-						reportingyear={year}
-					/>
+				<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-6'>
+					{indicators.length === 0 ? (
+						<div className='col-span-full py-12 text-center text-muted-foreground bg-muted/20 rounded-lg border border-dashed'>
+							No CAASPP test data available for this selection.
+						</div>
+					) : (
+						indicators.map((ind, i) => {
+							const percentMet = ind.overall_met_and_above_pct ? parseFloat(ind.overall_met_and_above_pct) : 0
+							return (
+								<Card
+									key={`${ind.test_id}-${i}`}
+									className='overflow-hidden border shadow-sm transition-all hover:shadow-md cursor-pointer hover:border-primary/50'
+									onClick={() => onIndicatorClick(ind)}
+								>
+									<CardHeader className='bg-muted/30 pb-4 border-b'>
+										<CardTitle className='text-lg'>{ind.test_id}</CardTitle>
+										<CardDescription>Grade {ind.grade}</CardDescription>
+									</CardHeader>
+									<CardContent className='pt-6'>
+										<div className='flex flex-col gap-4'>
+											<div className='flex justify-between items-end'>
+												<div>
+													<p className='text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1'>Standard Met or Exceeded</p>
+													<p className='text-3xl font-bold'>{ind.overall_met_and_above_pct}%</p>
+												</div>
+											</div>
+											<div className='w-full bg-secondary h-2 rounded-full overflow-hidden'>
+												<div className='bg-primary h-full transition-all' style={{ width: `${percentMet}%` }} />
+											</div>
+										</div>
+									</CardContent>
+								</Card>
+							)
+						})
+					)}
 				</div>
 			</div>
 
@@ -192,9 +185,8 @@ function DashboardContent({
 				isOpen={!!selectedIndicator}
 				onClose={onCloseModal}
 				cds={cds}
-				indicator={indicatorData || null}
-				reportingyear={reportingYear}
-				selectedColor={selectedColor}
+				indicator={selectedIndicator}
+				testYear={reportingYear}
 			/>
 		</>
 	)
@@ -205,11 +197,12 @@ function DashboardSkeleton() {
 		<div className={styles.content}>
 			<div className={styles.header}>
 				<div className={styles.skeleton} style={{ height: 32, width: 256 }} />
-				<div className={styles.skeleton} style={{ height: 16, width: 192, marginTop: 8 }} />
-				<div className={styles.skeleton} style={{ height: 16, width: 224, marginTop: 4 }} />
+				<div className={styles.skeleton} style={{ height: 16, width: 224, marginTop: 12 }} />
 			</div>
-			<div className={styles.gridSection}>
-				<IndicatorGridSkeleton compact={true} />
+			<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-6'>
+				{[1, 2, 3].map((i) => (
+					<div key={i} className='h-[200px] rounded-xl bg-card border shadow-sm p-6 flex flex-col gap-4 animate-pulse' />
+				))}
 			</div>
 		</div>
 	)

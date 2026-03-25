@@ -3,67 +3,45 @@ from sqlmodel import SQLModel
 
 class DashboardAggregation(SQLModel):
     """
-    Dashboard aggregation response model (legacy single-indicator)
+    Aggegrated test data for a CDS code.
     """
-
     cds: str
-    schoolname: str | None = None
-    districtname: str | None = None
-    countyname: str | None = None
-    studentgroup: str
-    currstatus: float | None = None
-    priorstatus: float | None = None
-    change: float | None = None
-    statuslevel: int | None = None  # 0-5, used for gauge display
-    changelevel: int | None = None
-    color: int | None = None
-    indicator: str
-    reportingyear: str
+    student_group_id: str
+    test_year: str
+    overall_met_and_above_pct: str | None = None
+    overall_mean_scale_score: str | None = None
 
 
 class IndicatorSummary(SQLModel):
     """
-    New dashboard summary response models
-    Summary of a single indicator for the dashboard.
+    Summary of a specific CAASPP test result.
     """
-
-    indicator: str
-    currstatus: float | None = None
-    priorstatus: float | None = None
-    change: float | None = None
-    statuslevel: int | None = None
-    changelevel: int | None = None
-    color: int | None = None
-    currdenom: int | None = None
+    test_id: str
+    test_type: str
+    grade: str
+    students_enrolled: str
+    students_tested: str
+    overall_mean_scale_score: str | None = None
+    overall_met_and_above_pct: str | None = None
 
 
 class DashboardSummaryResponse(SQLModel):
-    """Response containing all indicators for a school/district/state."""
-
+    """Response containing multiple tests for a school/district/county."""
     cds: str
-    rtype: str
-    schoolname: str | None = None
-    districtname: str | None = None
-    countyname: str | None = None
-    charter_flag: str | None = None
-    reportingyear: str
+    test_year: str
     indicators: list[IndicatorSummary]
 
 
 class EquityGroupSummary(SQLModel):
     """Summary of a student group for the equity report."""
-
     studentgroup: str
-    statuslevel: int | None = None
-    color: int | None = None
-    currdenom: int | None = None
+    overall_met_and_above_pct: str | None = None
+    students_tested: str | None = None
 
 
 class EquityReportResponse(SQLModel):
-    """Response containing student group breakdown for an indicator."""
-
+    """Response containing student group breakdown for a test."""
     cds: str
-    indicator: str
-    reportingyear: str
-    color_counts: dict[str, int]  # {"red": 1, "orange": 2, ...}
+    test_id: str
+    test_year: str
     groups: list[EquityGroupSummary]

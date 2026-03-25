@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react-vite'
+
 // @ts-ignore
 import '../src/globals.css'
 
@@ -16,7 +17,8 @@ const preview: Preview = {
 		},
 		options: {
 			storySort: {
-order: ['Getting started', 'Chakra UI cards', "layout", ['Navigation bar', '*'], 'UI', '*'],			},
+				order: ['Getting started', 'Chakra UI cards', 'layout', ['Navigation bar', '*'], 'UI', '*'],
+			},
 		},
 	},
 }
