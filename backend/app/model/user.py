@@ -52,7 +52,7 @@ class User(UserBase, table=True):
         default_factory=get_datetime_utc,
         sa_type=DateTime(timezone=True),  # type: ignore
     )
-    items: list["Item"] = Relationship(back_populates="owner", cascade_delete=True)
+    items: list[Item] = Relationship(back_populates="owner", cascade_delete=True)
     # User preferences
     last_viewed_cds: str | None = Field(default=None, max_length=14)
     force_password_reset: bool = Field(default=False)

@@ -358,7 +358,7 @@ def trigger_backend_init(request: Any) -> tuple[str, int, dict[str, str]]:
     ).strip()
     try:
         batch_size = int(request_json.get("batch_size", 1000))
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         return _response(400, {"error": "batch_size must be an integer."})
     if batch_size <= 0:
         return _response(400, {"error": "batch_size must be > 0."})
@@ -366,7 +366,7 @@ def trigger_backend_init(request: Any) -> tuple[str, int, dict[str, str]]:
         step_timeout_seconds = int(
             request_json.get("step_timeout_seconds", DEFAULT_STEP_TIMEOUT_SECONDS)
         )
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         return _response(400, {"error": "step_timeout_seconds must be an integer."})
     if step_timeout_seconds <= 0:
         return _response(400, {"error": "step_timeout_seconds must be > 0."})
@@ -374,7 +374,7 @@ def trigger_backend_init(request: Any) -> tuple[str, int, dict[str, str]]:
         poll_interval_seconds = int(
             request_json.get("poll_interval_seconds", DEFAULT_POLL_INTERVAL_SECONDS)
         )
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         return _response(400, {"error": "poll_interval_seconds must be an integer."})
     if poll_interval_seconds <= 0:
         return _response(400, {"error": "poll_interval_seconds must be > 0."})

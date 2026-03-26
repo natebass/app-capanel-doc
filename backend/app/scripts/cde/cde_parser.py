@@ -83,9 +83,7 @@ class CDEParser(BaseIndicatorParser):
 
         return extra
 
-    def parse_excel(
-        self, file_path: str | Path
-    ) -> Generator[AcademicIndicator, None, None]:
+    def parse_excel(self, file_path: str | Path) -> Generator[AcademicIndicator]:
         """Parse an Excel file and yield AcademicIndicator records.
 
         Args:

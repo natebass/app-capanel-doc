@@ -68,7 +68,7 @@ def get_access_token(client: httpx.Client) -> str:
             msg = "Metadata server response did not include access_token."
             raise RuntimeError(msg)
         return str(token)
-    except (httpx.ConnectError, httpx.TimeoutException):
+    except httpx.ConnectError, httpx.TimeoutException:
         print(
             "[sync_gcs_resources] GCE metadata server unreachable; "
             "falling back to Application Default Credentials.",

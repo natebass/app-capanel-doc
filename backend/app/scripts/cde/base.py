@@ -151,12 +151,12 @@ class BaseIndicatorParser(ABC):
         if field_type == "int":
             try:
                 return int(float(value))
-            except (ValueError, TypeError):
+            except ValueError, TypeError:
                 return None
         elif field_type == "float":
             try:
                 return float(value)
-            except (ValueError, TypeError):
+            except ValueError, TypeError:
                 return None
         else:
             return str(value).strip() if value else None
@@ -245,9 +245,7 @@ class BaseIndicatorParser(ABC):
 
         return cci_details if cci_details else None
 
-    def parse_dataframe(
-        self, df: pd.DataFrame
-    ) -> Generator[AcademicIndicator, None, None]:
+    def parse_dataframe(self, df: pd.DataFrame) -> Generator[AcademicIndicator]:
         """Parse a DataFrame into AcademicIndicator records.
 
         Args:
@@ -281,7 +279,7 @@ class BaseIndicatorParser(ABC):
     def import_to_session(
         self,
         session: Session,
-        records: Generator[AcademicIndicator, None, None],
+        records: Generator[AcademicIndicator],
         batch_size: int | None = None,
     ) -> int:
         """Import records to the database in batches.

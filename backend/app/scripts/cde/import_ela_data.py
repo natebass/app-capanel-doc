@@ -82,12 +82,12 @@ def clean_value(value: Any, field_type: str = "str") -> Any:
     if field_type == "int":
         try:
             return int(float(value))
-        except (ValueError, TypeError):
+        except ValueError, TypeError:
             return None
     elif field_type == "float":
         try:
             return float(value)
-        except (ValueError, TypeError):
+        except ValueError, TypeError:
             return None
     else:
         return str(value).strip() if value else None

@@ -11,7 +11,9 @@ class AcademicIndicatorBase(SQLModel):
 
     # Identifiers
     county_code: str | None = Field(default=None, max_length=2)
-    district_code: str = Field(max_length=5, primary_key=True)  # Used as part of PK for SQLAlchemy
+    district_code: str = Field(
+        max_length=5, primary_key=True
+    )  # Used as part of PK for SQLAlchemy
     school_code: str | None = Field(default=None, max_length=7)
     record_type_id: str | None = Field(default=None, max_length=2)
     charter_number: str | None = Field(default=None, max_length=4)

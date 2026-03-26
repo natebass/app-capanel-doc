@@ -24,11 +24,13 @@ from app.model.user import UserPreferencesUpdate, UserPublic
 
 router = APIRouter(prefix="/academic-indicators", tags=["academic-indicators"])
 
+
 def parse_cds(cds_string: str) -> tuple[str, str, str]:
     if len(cds_string) != 14:
         # Default to state if not 14 chars
         return "00", "00000", "0000000"
     return cds_string[:2], cds_string[2:7], cds_string[7:]
+
 
 @router.get("/", response_model=AcademicIndicatorsPublic)
 def read_academic_indicators(
@@ -54,19 +56,23 @@ def read_academic_indicators(
         statement = statement.where(
             AcademicIndicator.county_code == county,
             AcademicIndicator.district_code == district,
-            AcademicIndicator.school_code == school
+            AcademicIndicator.school_code == school,
         )
         count_statement = count_statement.where(
             AcademicIndicator.county_code == county,
             AcademicIndicator.district_code == district,
-            AcademicIndicator.school_code == school
+            AcademicIndicator.school_code == school,
         )
     if studentgroup:
         statement = statement.where(AcademicIndicator.student_group_id == studentgroup)
-        count_statement = count_statement.where(AcademicIndicator.student_group_id == studentgroup)
+        count_statement = count_statement.where(
+            AcademicIndicator.student_group_id == studentgroup
+        )
     if reportingyear:
         statement = statement.where(AcademicIndicator.test_year == reportingyear)
-        count_statement = count_statement.where(AcademicIndicator.test_year == reportingyear)
+        count_statement = count_statement.where(
+            AcademicIndicator.test_year == reportingyear
+        )
 
     count = session.exec(count_statement).one()
     statement = statement.offset(skip).limit(limit)
@@ -90,13 +96,12 @@ def get_dashboard_data(
             AcademicIndicator.county_code == county,
             AcademicIndicator.district_code == district,
             AcademicIndicator.school_code == school,
-            AcademicIndicator.student_group_id == "1"
+            AcademicIndicator.student_group_id == "1",
         )
         .order_by(col(AcademicIndicator.test_year).desc())
         .limit(1)
     )
     indicator = session.exec(statement).first()
-
 
     if not indicator:
         # Return empty record with 200 OK so frontend doesn't crash
@@ -105,7 +110,7 @@ def get_dashboard_data(
             student_group_id="1",
             test_year="N/A",
             overall_met_and_above_pct=None,
-            overall_mean_scale_score=None
+            overall_mean_scale_score=None,
         )
 
     return DashboardAggregation(
@@ -113,7 +118,7 @@ def get_dashboard_data(
         student_group_id=indicator.student_group_id,
         test_year=indicator.test_year,
         overall_met_and_above_pct=indicator.overall_met_and_above_pct,
-        overall_mean_scale_score=indicator.overall_mean_scale_score
+        overall_mean_scale_score=indicator.overall_mean_scale_score,
     )
 
 
@@ -134,15 +139,12 @@ def get_dashboard_summary(
     # Translate ALL to 1 for CAASPP as discovered in the database
     group_id = "1" if studentgroup == "ALL" else studentgroup
 
-    statement = (
-        select(AcademicIndicator)
-        .where(
-            AcademicIndicator.county_code == county,
-            AcademicIndicator.district_code == district,
-            AcademicIndicator.school_code == school,
-            AcademicIndicator.test_year == reportingyear,
-            AcademicIndicator.student_group_id == group_id
-        )
+    statement = select(AcademicIndicator).where(
+        AcademicIndicator.county_code == county,
+        AcademicIndicator.district_code == district,
+        AcademicIndicator.school_code == school,
+        AcademicIndicator.test_year == reportingyear,
+        AcademicIndicator.student_group_id == group_id,
     )
     indicators = session.exec(statement).all()
 
@@ -181,23 +183,22 @@ def get_dashboard_summary(
 def get_equity_report(
     session: SessionDep,
     cds: str = Query(..., description="14-char CDS code"),
-    indicator: str = Query(..., description="Test ID code (1 for ELA, 2 for MATH, etc.)"),
+    indicator: str = Query(
+        ..., description="Test ID code (1 for ELA, 2 for MATH, etc.)"
+    ),
     reportingyear: str = Query(default="2025", description="Reporting year"),
 ) -> Any:
     """
     Get student group breakdown for a test.
     """
     county, district, school = parse_cds(cds)
-    statement = (
-        select(AcademicIndicator)
-        .where(
-            AcademicIndicator.county_code == county,
-            AcademicIndicator.district_code == district,
-            AcademicIndicator.school_code == school,
-            AcademicIndicator.test_id == indicator,
-            AcademicIndicator.test_year == reportingyear,
-            AcademicIndicator.student_group_id.notin_(["ALL", "001"])
-        )
+    statement = select(AcademicIndicator).where(
+        AcademicIndicator.county_code == county,
+        AcademicIndicator.district_code == district,
+        AcademicIndicator.school_code == school,
+        AcademicIndicator.test_id == indicator,
+        AcademicIndicator.test_year == reportingyear,
+        AcademicIndicator.student_group_id.notin_(["ALL", "001"]),
     )
     indicators = session.exec(statement).all()
 
@@ -265,9 +266,13 @@ def create_academic_indicator(
 
 @router.put("/{id}", response_model=AcademicIndicatorPublic)
 def update_academic_indicator() -> Any:
-    raise HTTPException(status_code=501, detail="Update not implemented for CAASPP composite keys.")
+    raise HTTPException(
+        status_code=501, detail="Update not implemented for CAASPP composite keys."
+    )
 
 
 @router.delete("/{id}")
 def delete_academic_indicator() -> Message:
-    raise HTTPException(status_code=501, detail="Delete not implemented for CAASPP composite keys.")
+    raise HTTPException(
+        status_code=501, detail="Delete not implemented for CAASPP composite keys."
+    )

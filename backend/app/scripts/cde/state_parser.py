@@ -163,9 +163,7 @@ class StateParser(BaseIndicatorParser):
         }
         return subgroup_map.get(subgroup_id, f"SG{subgroup_id}")
 
-    def parse_txt(
-        self, file_path: str | Path
-    ) -> Generator[AcademicIndicator, None, None]:
+    def parse_txt(self, file_path: str | Path) -> Generator[AcademicIndicator]:
         """Parse a caret-delimited TXT file and yield AcademicIndicator records.
 
         Args:

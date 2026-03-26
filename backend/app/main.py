@@ -8,7 +8,6 @@ lifespan for startup/shutdown hooks.
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
-import sentry_sdk
 from fastapi import FastAPI
 from fastapi.routing import APIRoute
 from starlette.middleware.cors import CORSMiddleware
@@ -34,12 +33,12 @@ def custom_generate_unique_id(route: APIRoute) -> str:
     return f"{tag}-{route.name}"
 
 
-if settings.SENTRY_DSN and settings.ENVIRONMENT != "local":
-    sentry_sdk.init(dsn=str(settings.SENTRY_DSN), enable_tracing=True)
+# if settings.SENTRY_DSN and settings.ENVIRONMENT != "local":
+#     sentry_sdk.init(dsn=str(settings.SENTRY_DSN), enable_tracing=True)
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:  # noqa: ARG001
+async def lifespan(app: FastAPI) -> AsyncGenerator[None]:  # noqa: ARG001
     """Manage application startup and shutdown events.
 
     On startup the data-import pipeline is triggered (subject to
