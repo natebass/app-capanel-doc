@@ -62,8 +62,10 @@ type KeyMap = Map<
 	  }
 >
 
-const buildKeyMap = (fields: FieldsConfig, initialMap?: KeyMap): KeyMap => {
-	const map = initialMap || new Map()
+const buildKeyMap = (fields: FieldsConfig, map?: KeyMap): KeyMap => {
+	if (!map) {
+		map = new Map()
+	}
 
 	for (const config of fields) {
 		if ('in' in config) {

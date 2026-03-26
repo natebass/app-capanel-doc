@@ -773,7 +773,15 @@ export const DashboardAggregationSchema = {
 			type: 'string',
 			title: 'Cds',
 		},
-		studentgroup: {
+		student_group_id: {
+			type: 'string',
+			title: 'Student Group Id',
+		},
+		test_year: {
+			type: 'string',
+			title: 'Test Year',
+		},
+		overall_met_and_above_pct: {
 			anyOf: [
 				{
 					type: 'string',
@@ -782,9 +790,9 @@ export const DashboardAggregationSchema = {
 					type: 'null',
 				},
 			],
-			title: 'Studentgroup',
+			title: 'Overall Met And Above Pct',
 		},
-		reportingyear: {
+		overall_mean_scale_score: {
 			anyOf: [
 				{
 					type: 'string',
@@ -793,25 +801,13 @@ export const DashboardAggregationSchema = {
 					type: 'null',
 				},
 			],
-			title: 'Reportingyear',
-		},
-		currstatus: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Currstatus',
+			title: 'Overall Mean Scale Score',
 		},
 	},
 	type: 'object',
-	required: ['cds'],
+	required: ['cds', 'student_group_id', 'test_year'],
 	title: 'DashboardAggregation',
-	description:
-		'Legacy response model, updated just enough to avoid breaking changes if used elsewhere.',
+	description: 'Aggegrated test data for a CDS code.',
 } as const
 
 export const DashboardSummaryResponseSchema = {
@@ -820,64 +816,9 @@ export const DashboardSummaryResponseSchema = {
 			type: 'string',
 			title: 'Cds',
 		},
-		rtype: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Rtype',
-		},
-		schoolname: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Schoolname',
-		},
-		districtname: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Districtname',
-		},
-		countyname: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Countyname',
-		},
-		charter_flag: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Charter Flag',
-		},
-		reportingyear: {
+		test_year: {
 			type: 'string',
-			title: 'Reportingyear',
+			title: 'Test Year',
 		},
 		indicators: {
 			items: {
@@ -888,7 +829,7 @@ export const DashboardSummaryResponseSchema = {
 		},
 	},
 	type: 'object',
-	required: ['cds', 'reportingyear', 'indicators'],
+	required: ['cds', 'test_year', 'indicators'],
 	title: 'DashboardSummaryResponse',
 	description: 'Response containing multiple tests for a school/district/county.',
 } as const
@@ -935,44 +876,12 @@ export const EquityReportResponseSchema = {
 			title: 'Cds',
 		},
 		test_id: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
+			type: 'string',
 			title: 'Test Id',
 		},
-		indicator: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Indicator',
-		},
-		reportingyear: {
+		test_year: {
 			type: 'string',
-			title: 'Reportingyear',
-		},
-		color_counts: {
-			anyOf: [
-				{
-					additionalProperties: {
-						type: 'integer',
-					},
-					type: 'object',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Color Counts',
+			title: 'Test Year',
 		},
 		groups: {
 			items: {
@@ -983,7 +892,7 @@ export const EquityReportResponseSchema = {
 		},
 	},
 	type: 'object',
-	required: ['cds', 'reportingyear', 'groups'],
+	required: ['cds', 'test_id', 'test_year', 'groups'],
 	title: 'EquityReportResponse',
 	description: 'Response containing student group breakdown for a test.',
 } as const
@@ -1025,146 +934,23 @@ export const HTTPValidationErrorSchema = {
 export const IndicatorSummarySchema = {
 	properties: {
 		test_id: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
+			type: 'string',
 			title: 'Test Id',
 		},
-		indicator: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Indicator',
-		},
-		currstatus: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Currstatus',
-		},
-		priorstatus: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Priorstatus',
-		},
-		change: {
-			anyOf: [
-				{
-					type: 'number',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Change',
-		},
-		statuslevel: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Statuslevel',
-		},
-		changelevel: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Changelevel',
-		},
-		color: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Color',
-		},
-		currdenom: {
-			anyOf: [
-				{
-					type: 'integer',
-				},
-				{
-					type: 'null',
-				},
-			],
-			title: 'Currdenom',
-		},
 		test_type: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
+			type: 'string',
 			title: 'Test Type',
 		},
 		grade: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
+			type: 'string',
 			title: 'Grade',
 		},
 		students_enrolled: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
+			type: 'string',
 			title: 'Students Enrolled',
 		},
 		students_tested: {
-			anyOf: [
-				{
-					type: 'string',
-				},
-				{
-					type: 'null',
-				},
-			],
+			type: 'string',
 			title: 'Students Tested',
 		},
 		overall_mean_scale_score: {
@@ -1191,8 +977,9 @@ export const IndicatorSummarySchema = {
 		},
 	},
 	type: 'object',
+	required: ['test_id', 'test_type', 'grade', 'students_enrolled', 'students_tested'],
 	title: 'IndicatorSummary',
-	description: 'Summary of CAASPP test results directly for the dashboard.',
+	description: 'Summary of a specific CAASPP test result.',
 } as const
 
 export const ItemCreateSchema = {
@@ -2360,6 +2147,13 @@ export const ValidationErrorSchema = {
 		type: {
 			type: 'string',
 			title: 'Error Type',
+		},
+		input: {
+			title: 'Input',
+		},
+		ctx: {
+			type: 'object',
+			title: 'Context',
 		},
 	},
 	type: 'object',

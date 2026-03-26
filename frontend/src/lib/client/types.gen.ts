@@ -384,6 +384,11 @@ export type CensusData = {
 	census_data_id?: string
 }
 
+/**
+ * DashboardAggregation
+ *
+ * Aggegrated test data for a CDS code.
+ */
 export type DashboardAggregation = {
 	/**
 	 * Cds
@@ -407,6 +412,11 @@ export type DashboardAggregation = {
 	overall_mean_scale_score?: string | null
 }
 
+/**
+ * DashboardSummaryResponse
+ *
+ * Response containing multiple tests for a school/district/county.
+ */
 export type DashboardSummaryResponse = {
 	/**
 	 * Cds
@@ -442,6 +452,11 @@ export type EquityGroupSummary = {
 	students_tested?: string | null
 }
 
+/**
+ * EquityReportResponse
+ *
+ * Response containing student group breakdown for a test.
+ */
 export type EquityReportResponse = {
 	/**
 	 * Cds
@@ -485,6 +500,11 @@ export type HttpValidationError = {
 	detail?: Array<ValidationError>
 }
 
+/**
+ * IndicatorSummary
+ *
+ * Summary of a specific CAASPP test result.
+ */
 export type IndicatorSummary = {
 	/**
 	 * Test Id
@@ -1092,6 +1112,16 @@ export type ValidationError = {
 	 * Error Type
 	 */
 	type: string
+	/**
+	 * Input
+	 */
+	input?: unknown
+	/**
+	 * Context
+	 */
+	ctx?: {
+		[key: string]: unknown
+	}
 }
 
 export type LoginLoginAccessTokenData = {
