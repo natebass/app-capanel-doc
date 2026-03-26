@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from sqlalchemy import delete, func
-from sqlmodel import Session, select
+from sqlmodel import Session, col, select
 
 from app.model.academic_indicator import AcademicIndicator
 
@@ -41,8 +41,8 @@ def count_existing_rows(
     result = session.exec(
         select(func.count())
         .select_from(AcademicIndicator)
-        .where(AcademicIndicator.indicator == indicator)
-        .where(AcademicIndicator.reportingyear == reporting_year)
+        .where(AcademicIndicator.test_id == indicator)
+        .where(AcademicIndicator.test_year == reporting_year)
     ).one()
     return int(result or 0)
 
@@ -53,10 +53,10 @@ def delete_category_rows(
     stmt = (
         delete(AcademicIndicator)
         .where(
-            AcademicIndicator.indicator == indicator  # type: ignore[arg-type]
+            col(AcademicIndicator.test_id) == indicator
         )
         .where(
-            AcademicIndicator.reportingyear == reporting_year  # type: ignore[arg-type]
+            col(AcademicIndicator.test_year) == reporting_year
         )
     )
     result = session.exec(stmt)

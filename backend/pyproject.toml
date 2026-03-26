@@ -30,7 +30,6 @@ dependencies = [
     "myst-parser",
     "sphinx-design",
     "sphinxcontrib-mermaid",
-    "psycopg2-binary",
     "fastapi[standard-no-fastapi-cloud-cli]",
 ]
 
@@ -41,7 +40,6 @@ dev = [
     "ruff",
     "prek",
     "coverage",
-    "types-psycopg2",
 ]
 
 [build-system]

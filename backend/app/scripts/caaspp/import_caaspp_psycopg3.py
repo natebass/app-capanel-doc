@@ -4,6 +4,7 @@ import os
 import pathlib
 import sys
 import time
+from typing import Any
 
 import psycopg
 from dotenv import load_dotenv
@@ -117,7 +118,7 @@ DB_COLUMNS = [
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
 
-def load_env() -> dict[str, str | int]:
+def load_env() -> dict[str, Any]:
     """Load .env and return db connection params."""
     load_dotenv(ENV_PATH)
     return {
@@ -129,7 +130,7 @@ def load_env() -> dict[str, str | int]:
     }
 
 
-def build_conninfo(params: dict) -> str:
+def build_conninfo(params: dict[str, Any]) -> str:
     """Build a psycopg conninfo string from a params dict."""
     return " ".join(f"{k}={v}" for k, v in params.items() if v is not None)
 
@@ -144,7 +145,9 @@ def normalize_header(header: str) -> str:
     )
 
 
-def parse_row(row: dict[str, str], domain_headers: list[str]) -> tuple:
+def parse_row(
+    row: dict[str, str], domain_headers: list[str]
+) -> tuple[Any, ...]:
     """Convert a single TSV row dict into a tuple matching DB_COLUMNS order."""
     values: dict[str, str | None] = {}
 
@@ -171,7 +174,7 @@ def parse_row(row: dict[str, str], domain_headers: list[str]) -> tuple:
 
     # Build final tuple in DB_COLUMNS order.
     # Wrap domain_data in Jsonb so psycopg3 sends it correctly via COPY.
-    result = []
+    result: list[Any] = []
     for col in DB_COLUMNS:
         if col == "domain_data":
             result.append(Jsonb(domain_data) if domain_data else None)
@@ -215,7 +218,7 @@ def import_file(
         else:
             print("  No domain-specific columns detected")
 
-        batch: list[tuple] = []
+        batch: list[tuple[Any, ...]] = []
 
         if dry_run:
             for i, row in enumerate(reader):
@@ -226,6 +229,7 @@ def import_file(
                 if total_rows % 10000 == 0:
                     print(f"  … {total_rows:>10,} rows processed", end="\r")
         else:
+            assert conn is not None
             with conn.cursor() as cursor:
                 with cursor.copy(copy_sql) as copy:
                     for row in reader:
@@ -244,6 +248,7 @@ def import_file(
                             copy.write_row(record)
                         total_rows += len(batch)
 
+            assert conn is not None
             conn.commit()
 
     elapsed = time.time() - start
@@ -255,7 +260,7 @@ def import_file(
 # ── Main ─────────────────────────────────────────────────────────────────────
 
 
-def main():
+def main() -> None:
     """
     Run with python import_caaspp.py (reads from script dir) or python import_caaspp.py /path/to/folder
     """

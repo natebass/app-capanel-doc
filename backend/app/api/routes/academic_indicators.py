@@ -198,7 +198,7 @@ def get_equity_report(
         AcademicIndicator.school_code == school,
         AcademicIndicator.test_id == indicator,
         AcademicIndicator.test_year == reportingyear,
-        AcademicIndicator.student_group_id.notin_(["ALL", "001"]),
+        col(AcademicIndicator.student_group_id).notin_(["ALL", "001"]),
     )
     indicators = session.exec(statement).all()
 

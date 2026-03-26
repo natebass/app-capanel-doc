@@ -9,7 +9,7 @@ BOLD = "\033[1m"
 END = "\033[0m"
 
 
-def main():
+def main() -> None:
     """
     Get a summary of the schema of CAASPP files.
     """
@@ -23,7 +23,7 @@ def main():
 
     paths_to_check = args.paths if args.paths else ["."]
     schema_map = defaultdict(list)
-    files_to_process = []
+    files_to_process: list[pathlib.Path] = []
 
     for path_str in paths_to_check:
         p = pathlib.Path(path_str)
