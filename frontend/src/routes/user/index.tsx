@@ -5,7 +5,7 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import useAuth from '@/lib/hooks/useAuth'
+import useAuth from '@/routes/-hooks/hooks/useAuth'
 
 export const Route = createFileRoute('/user/')({
 	component: Dashboard,

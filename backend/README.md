@@ -1,6 +1,6 @@
-# California Accountability Panel backend documentation
+# California Accountability Panel back-end documentation
 
-This project is a copy of the main application backend, but there are slight differences. The goals are:
+This project is a copy of the main application back-end, but there are slight differences. The goals are:
 
 - Use Sphinx to generate documentation with autodoc.
 - Test the project extensively, in more ways than with the main application.
@@ -12,9 +12,9 @@ This project is a copy of the main application backend, but there are slight dif
 
 - [uv](https://docs.astral.sh/uv/)
 
-## Quickstart
+## Quick start
 
-First, install the backend dependencies.
+First, install the back-end dependencies.
 - `cd backend`
 - `uv sync`
 
@@ -22,7 +22,7 @@ First, install the backend dependencies.
 > Before running anything, first create the required `.env` files. See [environment variable documentation](https://opensacorg.github.io/app-capanel-doc/developer-guide/environment-variables).
 
 > [!Note]
-> Python commands must be run from the backend folder. It is recommended to open the frontend and backend folders separately in VS Code. To run from the root of the project, it is recommended to use Make.  
+> Python commands must be run from the backend folder. It is recommended to open the backend folders separately in VS Code. To run from the root of the project, it is recommended to use Make.  
 
 ### Run the sphinx autoload
 

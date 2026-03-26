@@ -7,7 +7,7 @@ import {
 	RouterProvider,
 } from '@tanstack/react-router'
 
-import NavbarD52 from '@/components/layout/navbar/NavbarD52'
+import NavbarD52 from '@/components/common/navbar/navbar-D52'
 
 // Create a mock QueryClient
 const queryClient = new QueryClient({

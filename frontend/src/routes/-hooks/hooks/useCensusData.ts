@@ -4,7 +4,7 @@ import {
 	type CensusDataByIdResponse,
 	type CensusDataResponse,
 	CensusService,
-} from '../services/censusService'
+} from '../../../lib/services/censusService'
 
 export const CENSUS_QUERY_KEY = ['census', 'data'] as const
 export const CENSUS_BY_ID_QUERY_KEY = ['census', 'byId'] as const

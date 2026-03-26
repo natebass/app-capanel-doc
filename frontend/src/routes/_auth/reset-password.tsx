@@ -10,8 +10,8 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import { LoginService } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
-import { isLoggedIn } from '@/lib/hooks/useAuth'
-import useCustomToast from '@/lib/hooks/useCustomToast'
+import { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
+import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
 const searchSchema = z.object({
 	token: z.coerce.string().catch(''),

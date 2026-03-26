@@ -2,7 +2,7 @@ import { Home01Icon, Shield01Icon, SmartPhone01Icon } from '@hugeicons/core-free
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
-import { StatusCard } from '@/components/layout/status/StatusTemplate'
+import { StatusCard } from '@/components/common/status/StatusTemplate'
 import { Button } from '@/components/ui/button'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/ui/input-otp'
 import { Separator } from '@/components/ui/separator'

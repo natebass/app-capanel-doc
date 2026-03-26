@@ -9,9 +9,9 @@ import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { UsersService, type UserUpdateMe } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
-import useAuth from '@/lib/hooks/useAuth.ts'
-import useCustomToast from '@/lib/hooks/useCustomToast.ts'
 import { cn } from '@/lib/utils.ts'
+import useAuth from '@/routes/-hooks/hooks/useAuth.ts'
+import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
 const formSchema = z.object({
 	full_name: z.string().max(30).optional(),

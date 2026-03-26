@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { type ItemCreate, ItemsService } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
-import useCustomToast from '@/lib/hooks/useCustomToast'
+import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
 const formSchema = z.object({
 	title: z.string().min(1, { message: 'Title is required' }),

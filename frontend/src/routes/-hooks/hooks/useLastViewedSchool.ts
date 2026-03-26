@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
-import { AcademicIndicatorsService } from '../client'
-import { STATEWIDE_CDS } from '../constants/indicators'
+import { AcademicIndicatorsService } from '../../../lib/client'
+import { STATEWIDE_CDS } from '../../../lib/constants/indicators'
 
 const LOCAL_STORAGE_KEY = 'lastViewedSchool'
 

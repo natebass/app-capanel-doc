@@ -2,7 +2,7 @@ import { CreditCardIcon, Home01Icon, SparklesIcon, Cancel01Icon } from '@hugeico
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
-import { StatusCard } from '@/components/layout/status/StatusTemplate'
+import { StatusCard } from '@/components/common/status/StatusTemplate'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'

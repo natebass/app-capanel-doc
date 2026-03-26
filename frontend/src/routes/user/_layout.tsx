@@ -1,9 +1,9 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
+import AppSidebar from '@/components/common/AppSidebar'
 import { Footer } from '@/components/common/Footer'
-import AppSidebar from '@/components/layout/app-sidebar'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { isLoggedIn } from '@/lib/hooks/useAuth'
+import { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
 
 export const Route = createFileRoute('/user/_layout')({
 	component: Layout,

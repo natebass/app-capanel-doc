@@ -4,8 +4,8 @@ import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { Suspense, useCallback, useState } from 'react'
 import { z } from 'zod'
 
+import NavbarD52 from '@/components/common/navbar/navbar-D52'
 import { IndicatorDetailModal } from '@/components/dashboard/detail/IndicatorDetailModal'
-import NavbarD52 from '@/components/layout/navbar/NavbarD52'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import {
@@ -17,9 +17,9 @@ import {
 } from '@/components/ui/select'
 import type { IndicatorSummary } from '@/lib/client'
 import { STATEWIDE_CDS } from '@/lib/constants/indicators'
-import ScrollReset from '@/lib/hooks/ScrollReset'
-import { useDashboardSummarySuspense } from '@/lib/hooks/useDashboardData'
-import { useLastViewedSchool } from '@/lib/hooks/useLastViewedSchool'
+import ScrollReset from '@/routes/-hooks/hooks/ScrollReset'
+import { useDashboardSummarySuspense } from '@/routes/-hooks/hooks/useDashboardData'
+import { useLastViewedSchool } from '@/routes/-hooks/hooks/useLastViewedSchool'
 
 import styles from './index.module.css'
 

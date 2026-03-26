@@ -5,7 +5,7 @@ import {
 	type DashboardAggregation,
 	type DashboardSummaryResponse,
 	type EquityReportResponse,
-} from '../client'
+} from '../../../lib/client'
 
 export type { DashboardSummaryResponse, EquityReportResponse }
 

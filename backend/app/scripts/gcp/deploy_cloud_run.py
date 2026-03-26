@@ -412,7 +412,7 @@ def deploy_trigger_function(cfg: DeployConfig) -> str:
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Build and deploy CAPanel Cloud Run resources. "
+            "Build and deploy California Accountability Panel Cloud Run resources. "
             "Default deploys all resources."
         )
     )
@@ -646,7 +646,7 @@ def main() -> int:
                 cfg.ar_repository,
                 f"--location={cfg.region}",
                 "--repository-format=docker",
-                "--description=Container images for CAPanel services",
+                "--description=Container images for California Accountability Panel services",
             ]
         )
 

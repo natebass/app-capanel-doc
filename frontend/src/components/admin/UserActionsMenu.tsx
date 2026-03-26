@@ -9,7 +9,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import type { UserPublic } from '@/lib/client'
-import useAuth from '@/lib/hooks/useAuth'
+import useAuth from '@/routes/-hooks/hooks/useAuth'
 
 import DeleteUser from './DeleteUser'
 import EditUser from './EditUser'

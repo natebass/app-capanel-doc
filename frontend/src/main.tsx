@@ -3,8 +3,8 @@ import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
-import { DefaultError } from '@/components/layout/status/DefaultError'
-import { DefaultNotFound } from '@/components/layout/status/DefaultNotFound'
+import { DefaultError } from '@/components/common/status/DefaultError'
+import { DefaultNotFound } from '@/components/common/status/DefaultNotFound'
 
 import { ThemeProvider } from './components/theme-provider'
 

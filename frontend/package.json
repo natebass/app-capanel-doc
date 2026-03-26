@@ -20,6 +20,18 @@
 		"url": "git+https://github.com/opensacorg/app-capanel-doc.org.git"
 	},
 	"type": "module",
+	"imports": {
+		"#/*": "./*",
+		"#.storybook/*": "./.storybook/*",
+		"#vite.config.ts": "./vite.config.ts",
+		"#tsconfig.json": "./tsconfig.json",
+		"#.oxlintrc.jsonc": "./.oxlintrc.jsonc",
+		"#.oxfmtrc.jsonc": "./.oxfmtrc.jsonc",
+		"#playwright.config.ts": "./playwright.config.ts",
+		"#vitest.config.ts": "./vitest.config.ts",
+		"#components.json": "./components.json",
+		"#openapi-ts.config.ts": "./openapi-ts.config.ts"
+	},
 	"scripts": {
 		"dev": "vite",
 		"build": "tsgo && vite build",
@@ -93,6 +105,7 @@
 		"@storybook/addon-a11y": "^10.3.3",
 		"@storybook/addon-docs": "^10.3.3",
 		"@storybook/addon-vitest": "^10.3.3",
+		"@storybook/react": "^10.3.3",
 		"@storybook/react-vite": "^10.3.3",
 		"@tanstack/devtools-event-client": "^0.4.3",
 		"@tanstack/devtools-vite": "^0.6.0",
@@ -103,6 +116,7 @@
 		"@types/react-dom": "^19.2.3",
 		"@typescript/native-preview": "7.0.0-dev.20260324.1",
 		"@vitejs/plugin-react": "^6.0.1",
+		"@vitest/browser-playwright": "^4.1.1",
 		"babel-plugin-react-compiler": "^1.0.0",
 		"dotenv": "^17.3.1",
 		"oxfmt": "^0.42.0",

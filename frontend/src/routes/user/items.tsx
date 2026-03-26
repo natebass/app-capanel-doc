@@ -5,11 +5,11 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Suspense, useMemo } from 'react'
 
 import { DataTable } from '@/components/common/DataTable'
+import PendingItems from '@/components/common/pending/PendingItems'
 import AddItem from '@/components/items/AddItem'
 import { createItemColumns } from '@/components/items/columns'
-import PendingItems from '@/components/layout/pending/PendingItems'
 import { ItemsService } from '@/lib/client'
-import useAuth from '@/lib/hooks/useAuth'
+import useAuth from '@/routes/-hooks/hooks/useAuth'
 
 function getItemsQueryOptions() {
 	return {

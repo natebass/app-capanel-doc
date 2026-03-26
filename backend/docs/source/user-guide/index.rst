@@ -4,7 +4,7 @@
 Get Started
 ================================================================
 
-A dashboard that displays key school performance metrics. View our `website <https://lbsis.org>`_.
+A dashboard that displays key school performance metrics. View our `website <https://capanel-full-5418848943.us-west1.run.app>`_.
 
 For people who want real‑time, personalized performance data
   -  Guardians
@@ -19,6 +19,7 @@ Open source
    :caption: Get started
    :maxdepth: 2
 
+   about
    get-started
 
 .. toctree::

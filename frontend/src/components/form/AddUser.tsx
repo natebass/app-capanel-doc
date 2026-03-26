@@ -23,7 +23,7 @@ import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { type UserCreate, UsersService } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
-import useCustomToast from '@/lib/hooks/useCustomToast.ts'
+import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
 const formSchema = z
 	.object({

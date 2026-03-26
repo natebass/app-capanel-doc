@@ -2,7 +2,7 @@ import { Folder01Icon, Home01Icon, PlusSignIcon } from '@hugeicons/core-free-ico
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
-import { StatusCard } from '@/components/layout/status/StatusTemplate'
+import { StatusCard } from '@/components/common/status/StatusTemplate'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 

@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { DefaultError } from '@/components/layout/status/DefaultError'
-import { DefaultNotFound } from '@/components/layout/status/DefaultNotFound'
-import { DefaultPending } from '@/components/layout/status/DefaultPending'
-import { StatusTemplateLayout } from '@/components/layout/status/StatusTemplateLayout'
+import { DefaultError } from '@/components/common/status/DefaultError'
+import { DefaultNotFound } from '@/components/common/status/DefaultNotFound'
+import { DefaultPending } from '@/components/common/status/DefaultPending'
+import { StatusTemplateLayout } from '@/components/common/status/StatusTemplateLayout'
 
 export const Route = createFileRoute('/_status')({
 	component: StatusTemplateLayout,

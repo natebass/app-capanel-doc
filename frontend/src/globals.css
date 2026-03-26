@@ -6,9 +6,7 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 @import '@fontsource-variable/figtree';
-@import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
-@import '@fontsource-variable/figtree';
+@import './routes/-styles/main.css';
 
 /* body { */
 /* 	font-family: 'Helvetica Neue', sans-serif; */

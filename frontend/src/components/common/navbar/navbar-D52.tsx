@@ -2,11 +2,11 @@ import { Search01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@tanstack/react-router'
 
-import MobileButton from './MobileButton'
+import MobileButton from '../../button/MobileButton'
+import SettingsButton from '../../button/SettingsButton'
 import SearchBar from './SearchBar'
-import SettingsButton from './SettingsButton'
 
-import styles from './NavbarD52.module.css'
+import styles from './navbar-D52.module.css'
 
 /**
  * The default navigation bar. It is sticky because it provides access to search and settings.

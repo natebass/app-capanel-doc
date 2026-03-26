@@ -20,7 +20,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Spinner } from '@/components/ui/spinner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useCensusDataById, useTotalEnrollment } from '@/lib/hooks/useCensusData'
+import { useCensusDataById, useTotalEnrollment } from '@/routes/-hooks/hooks/useCensusData'
 
 export const Route = createFileRoute('/dashboard2/')({
 	component: Dashboard2Page,

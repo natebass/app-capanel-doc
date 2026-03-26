@@ -33,7 +33,7 @@ import {
 	useSidebar,
 } from '@/components/ui/sidebar'
 import { getInitials } from '@/lib/client-utils.ts'
-import useAuth from '@/lib/hooks/useAuth.ts'
+import useAuth from '@/routes/-hooks/hooks/useAuth.ts'
 
 interface UserInfoProps {
 	fullName?: string

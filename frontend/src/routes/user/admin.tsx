@@ -4,10 +4,10 @@ import { Suspense } from 'react'
 
 import { columns, type UserTableData } from '@/components/admin/columns'
 import { DataTable } from '@/components/common/DataTable'
+import PendingUsers from '@/components/common/pending/PendingUsers'
 import AddUser from '@/components/form/AddUser'
-import PendingUsers from '@/components/layout/pending/PendingUsers'
 import { type UserPublic, UsersService } from '@/lib/client'
-import useAuth from '@/lib/hooks/useAuth'
+import useAuth from '@/routes/-hooks/hooks/useAuth'
 
 function getUsersQueryOptions() {
 	return {

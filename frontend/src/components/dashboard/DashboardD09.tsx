@@ -10,11 +10,11 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Suspense } from 'react'
 
-import { Gauge, GaugeSkeleton } from '@/components/gauge'
+import { Gauge, GaugeSkeleton } from '@/components/dashboard/gauge'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { useDashboardDataSuspense } from '@/lib/hooks/useDashboardData'
+import { useDashboardDataSuspense } from '@/routes/-hooks/hooks/useDashboardData'
 
 import DashboardCardD655 from './card/DashboardCardD655'
 

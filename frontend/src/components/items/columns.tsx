@@ -4,8 +4,8 @@ import type { ColumnDef } from '@tanstack/react-table'
 
 import { Button } from '@/components/ui/button'
 import type { ItemPublic } from '@/lib/client'
-import { useCopyToClipboard } from '@/lib/hooks/useCopyToClipboard'
 import { cn } from '@/lib/utils'
+import { useCopyToClipboard } from '@/routes/-hooks/hooks/useCopyToClipboard'
 
 import { ItemActionsMenu } from './ItemActionsMenu'
 

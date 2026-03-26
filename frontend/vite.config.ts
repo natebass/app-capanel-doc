@@ -20,6 +20,7 @@ const normalizeApiBase = (value: string | undefined): string | undefined => {
 /**
  * base: './' is required for relative paths in single-container deployment
  * Add a delay to allow the Nitro server to boot in the container. This prevents the "fetch failed" immediately upon starting.
+ * Keep relative assets for production container builds, but use root base in dev so Vite's React refresh runtime is loaded correctly on routed URLs.
  */
 const config = defineConfig(({ command, mode }) => {
 	const env = loadEnv(mode, process.cwd(), '')
@@ -27,8 +28,6 @@ const config = defineConfig(({ command, mode }) => {
 		env.VITE_DEV_PROXY_TARGET || normalizeApiBase(env.VITE_API_URL) || 'http://localhost:8000'
 
 	return {
-		// Keep relative assets for production container builds, but use root base
-		// in dev so Vite's React refresh runtime is loaded correctly on routed URLs.
 		base: command === 'serve' ? '/' : './',
 		build: {
 			outDir: 'dist',

@@ -8,7 +8,7 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import { type UpdatePassword, UsersService } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
-import useCustomToast from '@/lib/hooks/useCustomToast.ts'
+import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
 const formSchema = z
 	.object({

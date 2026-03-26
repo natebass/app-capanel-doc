@@ -10,8 +10,8 @@ import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { LoginService } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
-import { isLoggedIn } from '@/lib/hooks/useAuth'
-import useCustomToast from '@/lib/hooks/useCustomToast'
+import { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
+import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
 const recoverSchema = z.object({
 	email: z.string().email({ message: 'Please enter a valid email address' }),

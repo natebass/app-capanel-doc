@@ -1,3 +1,6 @@
+.. meta::
+   :description lang=en: Developing with Pyhon on the California Accountability Panel project.
+
 Developer Guide
 ================================================================
 Learn how to build and run the application locally.
@@ -44,3 +47,9 @@ Learn how to build and run the application locally.
    readme-reference
    documentation-repository-sync
    AGENTS
+
+.. toctree::
+   :caption: Explore the API
+   :maxdepth: 2
+
+   all-modules

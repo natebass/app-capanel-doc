@@ -8,7 +8,7 @@ import {
 	DialogTitle,
 } from '@/components/ui/dialog'
 import type { IndicatorSummary } from '@/lib/client'
-import { useEquityReport } from '@/lib/hooks/useDashboardData'
+import { useEquityReport } from '@/routes/-hooks/hooks/useDashboardData'
 
 import { EquityReport, EquityReportSkeleton } from './EquityReport'
 

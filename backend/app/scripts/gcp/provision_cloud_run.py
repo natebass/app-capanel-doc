@@ -79,7 +79,7 @@ def main() -> int:
                 ar_repo,
                 f"--location={region}",
                 "--repository-format=docker",
-                "--description=Container images for CAPanel services",
+                "--description=Container images for California Accountability Panel services",
             ]
         )
 
@@ -91,7 +91,7 @@ def main() -> int:
                 "service-accounts",
                 "create",
                 run_service_account,
-                "--display-name=CAPanel Cloud Run runtime",
+                "--display-name=California Accountability Panel Cloud Run runtime",
             ]
         )
 

@@ -15,7 +15,7 @@ os.environ.setdefault("SECRET_KEY", "dummy-secret-key-for-docs")
 sys.path.insert(0, os.path.abspath("../.."))
 sys.path.insert(0, os.path.abspath("."))
 project = "California Accountability Panel"
-copyright = "2025, Open Sacramento"
+copyright = "2026, Open Sacramento"
 author = "Open Sacramento"
 extensions = [
     "sphinx.ext.autodoc",
@@ -36,7 +36,7 @@ html_show_sourcelink = False
 html_theme_options = {
     "use_edit_page_button": True,
     "navbar_align": "content",
-    "logo": {"text": "CAPanel Docs"},
+    "logo": {"text": "Accountability Panel Docs"},
     "navbar_center": ["navbar-nav"],
     "navbar_end": ["theme-switcher", "navbar-icon-links"],
     "navbar_persistent": ["search-button"],
@@ -45,7 +45,7 @@ html_theme_options = {
     "icon_links": [
         {
             "name": "Website",
-            "url": "https://lbsis.org",
+            "url": "https://capanel-full-5418848943.us-west1.run.app",
             "icon": "fas fa-globe",
             "type": "fontawesome",
         },

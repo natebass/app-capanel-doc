@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 
 import CardGrid from '@/components/CardGrid'
-import NavbarD52 from '@/components/layout/navbar/NavbarD52'
+import NavbarD52 from '@/components/common/navbar/navbar-D52'
 import { Button } from '@/components/ui/button'
 
 export const Route = createFileRoute('/deprecated/home')({

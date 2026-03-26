@@ -1,8 +1,8 @@
-import { Gauge } from '@/components/gauge'
+import { Gauge } from '@/components/dashboard/gauge'
 import type { IndicatorSummary } from '@/lib/client'
 import { COLOR_LEVELS, type IndicatorCode, INDICATORS } from '@/lib/constants/indicators'
-import { useEquityReport } from '@/lib/hooks/useDashboardData'
 import { cn } from '@/lib/utils'
+import { useEquityReport } from '@/routes/-hooks/hooks/useDashboardData'
 
 export type ColorKey = 'red' | 'orange' | 'yellow' | 'green' | 'blue'
 

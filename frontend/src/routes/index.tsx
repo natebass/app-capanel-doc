@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 
-import NavbarD52 from '@/components/layout/navbar/NavbarD52'
+import NavbarD52 from '@/components/common/navbar/navbar-D52'
 import { Button } from '@/components/ui/button'
 
 import styles from './index.module.css'

@@ -9,7 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import useAuth from '@/lib/hooks/useAuth.ts'
+import useAuth from '@/routes/-hooks/hooks/useAuth.ts'
 
 const tabsConfig = [
 	{ value: 'my-profile', title: 'My profile', component: UserInformation },

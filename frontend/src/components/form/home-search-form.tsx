@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 import { ComboBox } from '@/components/form/ComboBox'
-import { useDebounce } from '@/lib/hooks/useDebounce.ts'
+import { useDebounce } from '@/routes/-hooks/hooks/useDebounce.ts'
 
 interface SchoolSummary {
 	id: string
