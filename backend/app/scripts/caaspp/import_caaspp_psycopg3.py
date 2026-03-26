@@ -145,9 +145,7 @@ def normalize_header(header: str) -> str:
     )
 
 
-def parse_row(
-    row: dict[str, str], domain_headers: list[str]
-) -> tuple[Any, ...]:
+def parse_row(row: dict[str, str], domain_headers: list[str]) -> tuple[Any, ...]:
     """Convert a single TSV row dict into a tuple matching DB_COLUMNS order."""
     values: dict[str, str | None] = {}
 
