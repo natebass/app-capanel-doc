@@ -19,7 +19,7 @@ Documentation for the California Accountability Panel. https://github.com/opensa
 
 Run common commands from the root of the project using `make`.
 
-> [!Warning]
+> [!Important] 
 > Before running anything, first create the required `.env` files. See [environment variable documentation](https://opensacorg.github.io/app-capanel-doc/developer-guide/environment-variables).
 
 ### Backend documentation (Sphinx)
