@@ -22,6 +22,11 @@ Run common commands from the root of the project using `make`.
 > [!Warning]
 > Before running anything, first create the required `.env` files. See [environment variable documentation](https://opensacorg.github.io/app-capanel-doc/developer-guide/environment-variables).
 
+#### **TODO:** Improve environment variable documentation.
+
+- [ ] Add public/mock env files to the root and frontend folder.
+- [ ] Document in this README the commonly needed and missed environment variables that are required to first run.
+
 ### Backend documentation (Sphinx)
 
 `make reload`
