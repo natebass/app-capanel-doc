@@ -5,244 +5,6 @@ export type ClientOptions = {
 }
 
 /**
- * AcademicIndicatorCreate
- */
-export type AcademicIndicatorCreate = {
-	/**
-	 * County Code
-	 */
-	county_code?: string | null
-	/**
-	 * District Code
-	 */
-	district_code: string
-	/**
-	 * School Code
-	 */
-	school_code?: string | null
-	/**
-	 * Record Type Id
-	 */
-	record_type_id?: string | null
-	/**
-	 * Charter Number
-	 */
-	charter_number?: string | null
-	/**
-	 * Test Year
-	 */
-	test_year: string
-	/**
-	 * Test Type
-	 */
-	test_type: string
-	/**
-	 * Test Id
-	 */
-	test_id: string
-	/**
-	 * Student Group Id
-	 */
-	student_group_id: string
-	/**
-	 * Grade
-	 */
-	grade: string
-	/**
-	 * Students Enrolled
-	 */
-	students_enrolled: string
-	/**
-	 * Students Tested
-	 */
-	students_tested: string
-	/**
-	 * Students Tested With Scores
-	 */
-	students_tested_with_scores?: string | null
-	/**
-	 * Overall Mean Scale Score
-	 */
-	overall_mean_scale_score?: string | null
-	/**
-	 * Overall Total
-	 */
-	overall_total?: string | null
-	/**
-	 * Overall Level 1 Pct
-	 */
-	overall_level_1_pct?: string | null
-	/**
-	 * Overall Level 1 Count
-	 */
-	overall_level_1_count?: string | null
-	/**
-	 * Overall Level 2 Pct
-	 */
-	overall_level_2_pct?: string | null
-	/**
-	 * Overall Level 2 Count
-	 */
-	overall_level_2_count?: string | null
-	/**
-	 * Overall Level 3 Pct
-	 */
-	overall_level_3_pct?: string | null
-	/**
-	 * Overall Level 3 Count
-	 */
-	overall_level_3_count?: string | null
-	/**
-	 * Overall Level 4 Pct
-	 */
-	overall_level_4_pct?: string | null
-	/**
-	 * Overall Level 4 Count
-	 */
-	overall_level_4_count?: string | null
-	/**
-	 * Overall Met And Above Pct
-	 */
-	overall_met_and_above_pct?: string | null
-	/**
-	 * Overall Met And Above Count
-	 */
-	overall_met_and_above_count?: string | null
-	/**
-	 * Domain Data
-	 */
-	domain_data?: {
-		[key: string]: unknown
-	} | null
-}
-
-/**
- * AcademicIndicatorPublic
- */
-export type AcademicIndicatorPublic = {
-	/**
-	 * County Code
-	 */
-	county_code?: string | null
-	/**
-	 * District Code
-	 */
-	district_code: string
-	/**
-	 * School Code
-	 */
-	school_code?: string | null
-	/**
-	 * Record Type Id
-	 */
-	record_type_id?: string | null
-	/**
-	 * Charter Number
-	 */
-	charter_number?: string | null
-	/**
-	 * Test Year
-	 */
-	test_year: string
-	/**
-	 * Test Type
-	 */
-	test_type: string
-	/**
-	 * Test Id
-	 */
-	test_id: string
-	/**
-	 * Student Group Id
-	 */
-	student_group_id: string
-	/**
-	 * Grade
-	 */
-	grade: string
-	/**
-	 * Students Enrolled
-	 */
-	students_enrolled: string
-	/**
-	 * Students Tested
-	 */
-	students_tested: string
-	/**
-	 * Students Tested With Scores
-	 */
-	students_tested_with_scores?: string | null
-	/**
-	 * Overall Mean Scale Score
-	 */
-	overall_mean_scale_score?: string | null
-	/**
-	 * Overall Total
-	 */
-	overall_total?: string | null
-	/**
-	 * Overall Level 1 Pct
-	 */
-	overall_level_1_pct?: string | null
-	/**
-	 * Overall Level 1 Count
-	 */
-	overall_level_1_count?: string | null
-	/**
-	 * Overall Level 2 Pct
-	 */
-	overall_level_2_pct?: string | null
-	/**
-	 * Overall Level 2 Count
-	 */
-	overall_level_2_count?: string | null
-	/**
-	 * Overall Level 3 Pct
-	 */
-	overall_level_3_pct?: string | null
-	/**
-	 * Overall Level 3 Count
-	 */
-	overall_level_3_count?: string | null
-	/**
-	 * Overall Level 4 Pct
-	 */
-	overall_level_4_pct?: string | null
-	/**
-	 * Overall Level 4 Count
-	 */
-	overall_level_4_count?: string | null
-	/**
-	 * Overall Met And Above Pct
-	 */
-	overall_met_and_above_pct?: string | null
-	/**
-	 * Overall Met And Above Count
-	 */
-	overall_met_and_above_count?: string | null
-	/**
-	 * Domain Data
-	 */
-	domain_data?: {
-		[key: string]: unknown
-	} | null
-}
-
-/**
- * AcademicIndicatorsPublic
- */
-export type AcademicIndicatorsPublic = {
-	/**
-	 * Data
-	 */
-	data: Array<AcademicIndicatorPublic>
-	/**
-	 * Count
-	 */
-	count: number
-}
-
-/**
  * Body_login-login_access_token
  */
 export type BodyLoginLoginAccessToken = {
@@ -274,142 +36,92 @@ export type BodyLoginLoginAccessToken = {
 
 /**
  * CensusData
- *
- * A simple CensusData model following the same pattern as User.
  */
 export type CensusData = {
 	/**
-	 * Academic Year
+	 * Academicyear
 	 */
-	academic_year: number
+	academicYear: number
 	/**
-	 * Aggregation Level
+	 * Aggregationlevel
 	 */
-	aggregation_level: string
+	aggregationLevel: string
 	/**
-	 * County Code
+	 * Cdscode
 	 */
-	county_code: string
-	/**
-	 * District Code
-	 */
-	district_code: string
-	/**
-	 * School Code
-	 */
-	school_code: string
-	/**
-	 * County Name
-	 */
-	county_name: string
-	/**
-	 * District Name
-	 */
-	district_name: string
-	/**
-	 * School Name
-	 */
-	school_name: string
+	cdsCode: string
 	/**
 	 * Charter
 	 */
-	charter: string
+	charter?: string | null
 	/**
-	 * Reporting Category
+	 * Reportingcategory
 	 */
-	reporting_category: string
+	reportingCategory: string
 	/**
-	 * Total Enr
+	 * Totalenr
 	 */
-	total_enr?: number
+	totalEnr?: number
 	/**
-	 * Gr Tk
+	 * Grtk
 	 */
-	gr_tk?: number
+	grTk?: number
 	/**
-	 * Gr Kn
+	 * Grkn
 	 */
-	gr_kn?: number
+	grKn?: number
 	/**
-	 * Gr 1
+	 * Gr1
 	 */
-	gr_1?: number
+	gr1?: number
 	/**
-	 * Gr 2
+	 * Gr2
 	 */
-	gr_2?: number
+	gr2?: number
 	/**
-	 * Gr 3
+	 * Gr3
 	 */
-	gr_3?: number
+	gr3?: number
 	/**
-	 * Gr 4
+	 * Gr4
 	 */
-	gr_4?: number
+	gr4?: number
 	/**
-	 * Gr 5
+	 * Gr5
 	 */
-	gr_5?: number
+	gr5?: number
 	/**
-	 * Gr 6
+	 * Gr6
 	 */
-	gr_6?: number
+	gr6?: number
 	/**
-	 * Gr 7
+	 * Gr7
 	 */
-	gr_7?: number
+	gr7?: number
 	/**
-	 * Gr 8
+	 * Gr8
 	 */
-	gr_8?: number
+	gr8?: number
 	/**
-	 * Gr 9
+	 * Gr9
 	 */
-	gr_9?: number
+	gr9?: number
 	/**
-	 * Gr 10
+	 * Gr10
 	 */
-	gr_10?: number
+	gr10?: number
 	/**
-	 * Gr 11
+	 * Gr11
 	 */
-	gr_11?: number
+	gr11?: number
 	/**
-	 * Gr 12
+	 * Gr12
 	 */
-	gr_12?: number
+	gr12?: number
 	/**
-	 * Census Data Id
+	 * Id
 	 */
-	census_data_id?: string
-}
-
-/**
- * DashboardAggregation
- *
- * Aggegrated test data for a CDS code.
- */
-export type DashboardAggregation = {
-	/**
-	 * Cds
-	 */
-	cds: string
-	/**
-	 * Student Group Id
-	 */
-	student_group_id: string
-	/**
-	 * Test Year
-	 */
-	test_year: string
-	/**
-	 * Overall Met And Above Pct
-	 */
-	overall_met_and_above_pct?: string | null
-	/**
-	 * Overall Mean Scale Score
-	 */
-	overall_mean_scale_score?: string | null
+	id?: string
 }
 
 /**
@@ -423,9 +135,9 @@ export type DashboardSummaryResponse = {
 	 */
 	cds: string
 	/**
-	 * Test Year
+	 * Testyear
 	 */
-	test_year: string
+	testYear: string
 	/**
 	 * Indicators
 	 */
@@ -441,15 +153,15 @@ export type EquityGroupSummary = {
 	/**
 	 * Studentgroup
 	 */
-	studentgroup: string
+	studentGroup: string
 	/**
-	 * Overall Met And Above Pct
+	 * Overallmetandabovepct
 	 */
-	overall_met_and_above_pct?: string | null
+	overallMetAndAbovePct?: string | null
 	/**
-	 * Students Tested
+	 * Studentstested
 	 */
-	students_tested?: string | null
+	studentsTested?: string | null
 }
 
 /**
@@ -463,13 +175,13 @@ export type EquityReportResponse = {
 	 */
 	cds: string
 	/**
-	 * Test Id
+	 * Testid
 	 */
-	test_id: string
+	testId: string
 	/**
-	 * Test Year
+	 * Testyear
 	 */
-	test_year: string
+	testYear: string
 	/**
 	 * Groups
 	 */
@@ -485,9 +197,9 @@ export type ForcePasswordResetRequest = {
 	 */
 	emails?: Array<string>
 	/**
-	 * Include All Active Users
+	 * Includeallactiveusers
 	 */
-	include_all_active_users?: boolean
+	includeAllActiveUsers?: boolean
 }
 
 /**
@@ -503,37 +215,43 @@ export type HttpValidationError = {
 /**
  * IndicatorSummary
  *
- * Summary of a specific CAASPP test result.
+ * Summary of a specific CAASPP/ELPAC test result.
  */
 export type IndicatorSummary = {
 	/**
-	 * Test Id
+	 * Testid
 	 */
-	test_id: string
+	testId: string
 	/**
-	 * Test Type
+	 * Testtype
 	 */
-	test_type: string
+	testType: string
 	/**
 	 * Grade
 	 */
 	grade: string
 	/**
-	 * Students Enrolled
+	 * Studentsenrolled
 	 */
-	students_enrolled: string
+	studentsEnrolled: string
 	/**
-	 * Students Tested
+	 * Studentstested
 	 */
-	students_tested: string
+	studentsTested: string
 	/**
-	 * Overall Mean Scale Score
+	 * Overallmeanscalescore
 	 */
-	overall_mean_scale_score?: string | null
+	overallMeanScaleScore?: string | null
 	/**
-	 * Overall Met And Above Pct
+	 * Overallmetandabovepct
 	 */
-	overall_met_and_above_pct?: string | null
+	overallMetAndAbovePct?: string | null
+	/**
+	 * Levels
+	 */
+	levels?: {
+		[key: string]: number
+	} | null
 }
 
 /**
@@ -571,13 +289,13 @@ export type ItemPublic = {
 	 */
 	id: string
 	/**
-	 * Owner Id
+	 * Ownerid
 	 */
-	owner_id: string
+	ownerId: string
 	/**
-	 * Created At
+	 * Createdat
 	 */
-	created_at?: string | null
+	createdAt?: string | null
 }
 
 /**
@@ -631,9 +349,9 @@ export type NewPassword = {
 	 */
 	token: string
 	/**
-	 * New Password
+	 * Newpassword
 	 */
-	new_password: string
+	newPassword: string
 }
 
 /**
@@ -660,30 +378,28 @@ export type PrivateUserCreate = {
 
 /**
  * SchoolPublic
- *
- * Properties to return via API, id is always required
  */
 export type SchoolPublic = {
 	/**
-	 * Cds Code
+	 * Cdscode
 	 */
-	cds_code: string
+	cdsCode: string
 	/**
-	 * Nces Dist
+	 * Ncesdist
 	 */
-	nces_dist: string
+	ncesDist: string
 	/**
-	 * Nces School
+	 * Ncesschool
 	 */
-	nces_school: string
+	ncesSchool: string
 	/**
-	 * School Code
+	 * Schoolcode
 	 */
-	school_code: string
+	schoolCode: string
 	/**
-	 * Status Type
+	 * Statustype
 	 */
-	status_type?: string | null
+	statusType?: string | null
 	/**
 	 * County
 	 */
@@ -701,9 +417,9 @@ export type SchoolPublic = {
 	 */
 	street?: string | null
 	/**
-	 * Street Abr
+	 * Streetabr
 	 */
-	street_abr?: string | null
+	streetAbr?: string | null
 	/**
 	 * City
 	 */
@@ -717,25 +433,25 @@ export type SchoolPublic = {
 	 */
 	state?: string | null
 	/**
-	 * Mail Street
+	 * Mailstreet
 	 */
-	mail_street?: string | null
+	mailStreet?: string | null
 	/**
-	 * Mail Street Abr
+	 * Mailstreetabr
 	 */
-	mail_street_abr?: string | null
+	mailStreetAbr?: string | null
 	/**
-	 * Mail City
+	 * Mailcity
 	 */
-	mail_city?: string | null
+	mailCity?: string | null
 	/**
-	 * Mail Zip
+	 * Mailzip
 	 */
-	mail_zip?: string | null
+	mailZip?: string | null
 	/**
-	 * Mail State
+	 * Mailstate
 	 */
-	mail_state?: string | null
+	mailState?: string | null
 	/**
 	 * Phone
 	 */
@@ -745,73 +461,73 @@ export type SchoolPublic = {
 	 */
 	ext?: string | null
 	/**
-	 * Fax Number
+	 * Faxnumber
 	 */
-	fax_number?: string | null
+	faxNumber?: string | null
 	/**
 	 * Website
 	 */
 	website?: string | null
 	/**
-	 * Open Date
+	 * Opendate
 	 */
-	open_date?: string | null
+	openDate?: string | null
 	/**
-	 * Closed Date
+	 * Closeddate
 	 */
-	closed_date?: string | null
+	closedDate?: string | null
 	/**
 	 * Charter
 	 */
 	charter?: string | null
 	/**
-	 * Charter Num
+	 * Charternum
 	 */
-	charter_num?: string | null
+	charterNum?: string | null
 	/**
-	 * Funding Type
+	 * Fundingtype
 	 */
-	funding_type?: string | null
+	fundingType?: string | null
 	/**
 	 * Doc
 	 */
 	doc?: string | null
 	/**
-	 * Doc Type
+	 * Doctype
 	 */
-	doc_type?: string | null
+	docType?: string | null
 	/**
 	 * Soc
 	 */
 	soc?: string | null
 	/**
-	 * Soc Type
+	 * Soctype
 	 */
-	soc_type?: string | null
+	socType?: string | null
 	/**
-	 * Edops Code
+	 * Edopscode
 	 */
-	edops_code?: string | null
+	edopsCode?: string | null
 	/**
-	 * Edops Name
+	 * Edopsname
 	 */
-	edops_name?: string | null
+	edopsName?: string | null
 	/**
-	 * Eil Code
+	 * Eilcode
 	 */
-	eil_code?: string | null
+	eilCode?: string | null
 	/**
-	 * Eil Name
+	 * Eilname
 	 */
-	eil_name?: string | null
+	eilName?: string | null
 	/**
-	 * Gs Offered
+	 * Gsoffered
 	 */
-	gs_offered?: string | null
+	gsOffered?: string | null
 	/**
-	 * Gs Served
+	 * Gsserved
 	 */
-	gs_served?: string | null
+	gsServed?: string | null
 	/**
 	 * Virtual
 	 */
@@ -821,13 +537,13 @@ export type SchoolPublic = {
 	 */
 	magnet?: string | null
 	/**
-	 * Year Round Yn
+	 * Yearroundyn
 	 */
-	year_round_yn?: string | null
+	yearRoundYn?: string | null
 	/**
-	 * Federal Dfc District Id
+	 * Federaldfcdistrictid
 	 */
-	federal_dfc_district_id?: string | null
+	federalDfcDistrictId?: string | null
 	/**
 	 * Latitude
 	 */
@@ -837,17 +553,17 @@ export type SchoolPublic = {
 	 */
 	longitude?: number | null
 	/**
-	 * Adm Fname
+	 * Admfname
 	 */
-	adm_fname?: string | null
+	admFname?: string | null
 	/**
-	 * Adm Lname
+	 * Admlname
 	 */
-	adm_lname?: string | null
+	admLname?: string | null
 	/**
-	 * Last Up Date
+	 * Lastupdate
 	 */
-	last_up_date?: string | null
+	lastUpDate?: string | null
 	/**
 	 * Multilingual
 	 */
@@ -860,8 +576,6 @@ export type SchoolPublic = {
 
 /**
  * SchoolSummary
- *
- * Properties for a refined school view.
  */
 export type SchoolSummary = {
 	/**
@@ -881,13 +595,13 @@ export type SchoolSummary = {
 	 */
 	county?: string | null
 	/**
-	 * Cds Code
+	 * Cdscode
 	 */
-	cds_code?: string | null
+	cdsCode?: string | null
 	/**
-	 * School Code
+	 * Schoolcode
 	 */
-	school_code?: string | null
+	schoolCode?: string | null
 }
 
 /**
@@ -925,13 +639,13 @@ export type SchoolsSummary = {
  */
 export type Token = {
 	/**
-	 * Access Token
+	 * Accesstoken
 	 */
-	access_token: string
+	accessToken: string
 	/**
-	 * Token Type
+	 * Tokentype
 	 */
-	token_type?: string
+	tokenType?: string
 }
 
 /**
@@ -939,13 +653,13 @@ export type Token = {
  */
 export type UpdatePassword = {
 	/**
-	 * Current Password
+	 * Currentpassword
 	 */
-	current_password: string
+	currentPassword: string
 	/**
-	 * New Password
+	 * Newpassword
 	 */
-	new_password: string
+	newPassword: string
 }
 
 /**
@@ -957,17 +671,17 @@ export type UserCreate = {
 	 */
 	email: string
 	/**
-	 * Is Active
+	 * Isactive
 	 */
-	is_active?: boolean
+	isActive?: boolean
 	/**
-	 * Is Superuser
+	 * Issuperuser
 	 */
-	is_superuser?: boolean
+	isSuperuser?: boolean
 	/**
-	 * Full Name
+	 * Fullname
 	 */
-	full_name?: string | null
+	fullName?: string | null
 	/**
 	 * Password
 	 */
@@ -976,14 +690,12 @@ export type UserCreate = {
 
 /**
  * UserPreferencesUpdate
- *
- * Request model for updating user preferences.
  */
 export type UserPreferencesUpdate = {
 	/**
-	 * Last Viewed Cds
+	 * Lastviewedcds
 	 */
-	last_viewed_cds?: string | null
+	lastViewedCds?: string | null
 }
 
 /**
@@ -995,29 +707,29 @@ export type UserPublic = {
 	 */
 	email: string
 	/**
-	 * Is Active
+	 * Isactive
 	 */
-	is_active?: boolean
+	isActive?: boolean
 	/**
-	 * Is Superuser
+	 * Issuperuser
 	 */
-	is_superuser?: boolean
+	isSuperuser?: boolean
 	/**
-	 * Full Name
+	 * Fullname
 	 */
-	full_name?: string | null
+	fullName?: string | null
 	/**
 	 * Id
 	 */
 	id: string
 	/**
-	 * Created At
+	 * Createdat
 	 */
-	created_at?: string | null
+	createdAt?: string | null
 	/**
-	 * Force Password Reset
+	 * Forcepasswordreset
 	 */
-	force_password_reset?: boolean
+	forcePasswordReset?: boolean
 }
 
 /**
@@ -1033,9 +745,9 @@ export type UserRegister = {
 	 */
 	password: string
 	/**
-	 * Full Name
+	 * Fullname
 	 */
-	full_name?: string | null
+	fullName?: string | null
 }
 
 /**
@@ -1047,25 +759,25 @@ export type UserUpdate = {
 	 */
 	email?: string | null
 	/**
-	 * Is Active
+	 * Isactive
 	 */
-	is_active?: boolean
+	isActive?: boolean
 	/**
-	 * Is Superuser
+	 * Issuperuser
 	 */
-	is_superuser?: boolean
+	isSuperuser?: boolean
 	/**
-	 * Full Name
+	 * Fullname
 	 */
-	full_name?: string | null
+	fullName?: string | null
 	/**
 	 * Password
 	 */
 	password?: string | null
 	/**
-	 * Force Password Reset
+	 * Forcepasswordreset
 	 */
-	force_password_reset?: boolean | null
+	forcePasswordReset?: boolean | null
 }
 
 /**
@@ -1073,13 +785,17 @@ export type UserUpdate = {
  */
 export type UserUpdateMe = {
 	/**
-	 * Full Name
+	 * Fullname
 	 */
-	full_name?: string | null
+	fullName?: string | null
 	/**
 	 * Email
 	 */
 	email?: string | null
+	/**
+	 * Lastviewedcds
+	 */
+	lastViewedCds?: string | null
 }
 
 /**
@@ -1425,6 +1141,50 @@ export type UsersUpdatePasswordMeResponses = {
 
 export type UsersUpdatePasswordMeResponse =
 	UsersUpdatePasswordMeResponses[keyof UsersUpdatePasswordMeResponses]
+
+export type UsersGetUserPreferencesData = {
+	body?: never
+	path?: never
+	query?: never
+	url: '/api/v1/users/me/preferences'
+}
+
+export type UsersGetUserPreferencesResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: UserPreferencesUpdate
+}
+
+export type UsersGetUserPreferencesResponse =
+	UsersGetUserPreferencesResponses[keyof UsersGetUserPreferencesResponses]
+
+export type UsersUpdateUserPreferencesData = {
+	body: UserPreferencesUpdate
+	path?: never
+	query?: never
+	url: '/api/v1/users/me/preferences'
+}
+
+export type UsersUpdateUserPreferencesErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type UsersUpdateUserPreferencesError =
+	UsersUpdateUserPreferencesErrors[keyof UsersUpdateUserPreferencesErrors]
+
+export type UsersUpdateUserPreferencesResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: UserPublic
+}
+
+export type UsersUpdateUserPreferencesResponse =
+	UsersUpdateUserPreferencesResponses[keyof UsersUpdateUserPreferencesResponses]
 
 export type UsersRegisterUserData = {
 	body: UserRegister
@@ -1978,311 +1738,85 @@ export type SchoolsReadSchoolsSummaryResponses = {
 export type SchoolsReadSchoolsSummaryResponse =
 	SchoolsReadSchoolsSummaryResponses[keyof SchoolsReadSchoolsSummaryResponses]
 
-export type AcademicIndicatorsReadAcademicIndicatorsData = {
-	body?: never
-	path?: never
-	query?: {
-		/**
-		 * Skip
-		 */
-		skip?: number
-		/**
-		 * Limit
-		 */
-		limit?: number
-		/**
-		 * Cds
-		 *
-		 * Filter by CDS code
-		 */
-		cds?: string | null
-		/**
-		 * Studentgroup
-		 *
-		 * Filter by student group
-		 */
-		studentgroup?: string | null
-		/**
-		 * Reportingyear
-		 *
-		 * Filter by reporting year
-		 */
-		reportingyear?: string | null
-	}
-	url: '/api/v1/academic-indicators/'
-}
-
-export type AcademicIndicatorsReadAcademicIndicatorsErrors = {
-	/**
-	 * Validation Error
-	 */
-	422: HttpValidationError
-}
-
-export type AcademicIndicatorsReadAcademicIndicatorsError =
-	AcademicIndicatorsReadAcademicIndicatorsErrors[keyof AcademicIndicatorsReadAcademicIndicatorsErrors]
-
-export type AcademicIndicatorsReadAcademicIndicatorsResponses = {
-	/**
-	 * Successful Response
-	 */
-	200: AcademicIndicatorsPublic
-}
-
-export type AcademicIndicatorsReadAcademicIndicatorsResponse =
-	AcademicIndicatorsReadAcademicIndicatorsResponses[keyof AcademicIndicatorsReadAcademicIndicatorsResponses]
-
-export type AcademicIndicatorsCreateAcademicIndicatorData = {
-	body: AcademicIndicatorCreate
-	path?: never
-	query?: never
-	url: '/api/v1/academic-indicators/'
-}
-
-export type AcademicIndicatorsCreateAcademicIndicatorErrors = {
-	/**
-	 * Validation Error
-	 */
-	422: HttpValidationError
-}
-
-export type AcademicIndicatorsCreateAcademicIndicatorError =
-	AcademicIndicatorsCreateAcademicIndicatorErrors[keyof AcademicIndicatorsCreateAcademicIndicatorErrors]
-
-export type AcademicIndicatorsCreateAcademicIndicatorResponses = {
-	/**
-	 * Successful Response
-	 */
-	200: AcademicIndicatorPublic
-}
-
-export type AcademicIndicatorsCreateAcademicIndicatorResponse =
-	AcademicIndicatorsCreateAcademicIndicatorResponses[keyof AcademicIndicatorsCreateAcademicIndicatorResponses]
-
-export type AcademicIndicatorsGetDashboardDataData = {
-	body?: never
-	path?: never
-	query: {
-		/**
-		 * Q
-		 *
-		 * CDS code to query
-		 */
-		q: string
-	}
-	url: '/api/v1/academic-indicators/dashboard'
-}
-
-export type AcademicIndicatorsGetDashboardDataErrors = {
-	/**
-	 * Validation Error
-	 */
-	422: HttpValidationError
-}
-
-export type AcademicIndicatorsGetDashboardDataError =
-	AcademicIndicatorsGetDashboardDataErrors[keyof AcademicIndicatorsGetDashboardDataErrors]
-
-export type AcademicIndicatorsGetDashboardDataResponses = {
-	/**
-	 * Successful Response
-	 */
-	200: DashboardAggregation
-}
-
-export type AcademicIndicatorsGetDashboardDataResponse =
-	AcademicIndicatorsGetDashboardDataResponses[keyof AcademicIndicatorsGetDashboardDataResponses]
-
-export type AcademicIndicatorsGetDashboardSummaryData = {
+export type DashboardGetDashboardSummaryData = {
 	body?: never
 	path?: never
 	query: {
 		/**
 		 * Cds
-		 *
-		 * 14-char CDS code or '00000000000000' for statewide
 		 */
 		cds: string
 		/**
 		 * Reportingyear
-		 *
-		 * Reporting year
 		 */
-		reportingyear?: string
+		reportingYear?: string
 		/**
 		 * Studentgroup
-		 *
-		 * Student group code
 		 */
-		studentgroup?: string
+		studentGroup?: string
 	}
-	url: '/api/v1/academic-indicators/dashboard/summary'
+	url: '/api/v1/dashboard/summary'
 }
 
-export type AcademicIndicatorsGetDashboardSummaryErrors = {
+export type DashboardGetDashboardSummaryErrors = {
 	/**
 	 * Validation Error
 	 */
 	422: HttpValidationError
 }
 
-export type AcademicIndicatorsGetDashboardSummaryError =
-	AcademicIndicatorsGetDashboardSummaryErrors[keyof AcademicIndicatorsGetDashboardSummaryErrors]
+export type DashboardGetDashboardSummaryError =
+	DashboardGetDashboardSummaryErrors[keyof DashboardGetDashboardSummaryErrors]
 
-export type AcademicIndicatorsGetDashboardSummaryResponses = {
+export type DashboardGetDashboardSummaryResponses = {
 	/**
 	 * Successful Response
 	 */
 	200: DashboardSummaryResponse
 }
 
-export type AcademicIndicatorsGetDashboardSummaryResponse =
-	AcademicIndicatorsGetDashboardSummaryResponses[keyof AcademicIndicatorsGetDashboardSummaryResponses]
+export type DashboardGetDashboardSummaryResponse =
+	DashboardGetDashboardSummaryResponses[keyof DashboardGetDashboardSummaryResponses]
 
-export type AcademicIndicatorsGetEquityReportData = {
+export type DashboardGetEquityReportData = {
 	body?: never
 	path?: never
 	query: {
 		/**
 		 * Cds
-		 *
-		 * 14-char CDS code
 		 */
 		cds: string
 		/**
-		 * Indicator
-		 *
-		 * Test ID code (1 for ELA, 2 for MATH, etc.)
+		 * Testid
 		 */
-		indicator: string
+		testId: string
 		/**
 		 * Reportingyear
-		 *
-		 * Reporting year
 		 */
-		reportingyear?: string
+		reportingYear?: string
 	}
-	url: '/api/v1/academic-indicators/dashboard/equity'
+	url: '/api/v1/dashboard/equity'
 }
 
-export type AcademicIndicatorsGetEquityReportErrors = {
+export type DashboardGetEquityReportErrors = {
 	/**
 	 * Validation Error
 	 */
 	422: HttpValidationError
 }
 
-export type AcademicIndicatorsGetEquityReportError =
-	AcademicIndicatorsGetEquityReportErrors[keyof AcademicIndicatorsGetEquityReportErrors]
+export type DashboardGetEquityReportError =
+	DashboardGetEquityReportErrors[keyof DashboardGetEquityReportErrors]
 
-export type AcademicIndicatorsGetEquityReportResponses = {
+export type DashboardGetEquityReportResponses = {
 	/**
 	 * Successful Response
 	 */
 	200: EquityReportResponse
 }
 
-export type AcademicIndicatorsGetEquityReportResponse =
-	AcademicIndicatorsGetEquityReportResponses[keyof AcademicIndicatorsGetEquityReportResponses]
-
-export type AcademicIndicatorsUpdateUserPreferencesData = {
-	body: UserPreferencesUpdate
-	path?: never
-	query?: never
-	url: '/api/v1/academic-indicators/users/me/preferences'
-}
-
-export type AcademicIndicatorsUpdateUserPreferencesErrors = {
-	/**
-	 * Validation Error
-	 */
-	422: HttpValidationError
-}
-
-export type AcademicIndicatorsUpdateUserPreferencesError =
-	AcademicIndicatorsUpdateUserPreferencesErrors[keyof AcademicIndicatorsUpdateUserPreferencesErrors]
-
-export type AcademicIndicatorsUpdateUserPreferencesResponses = {
-	/**
-	 * Successful Response
-	 */
-	200: UserPublic
-}
-
-export type AcademicIndicatorsUpdateUserPreferencesResponse =
-	AcademicIndicatorsUpdateUserPreferencesResponses[keyof AcademicIndicatorsUpdateUserPreferencesResponses]
-
-export type AcademicIndicatorsGetLastViewedCdsData = {
-	body?: never
-	path?: never
-	query?: never
-	url: '/api/v1/academic-indicators/users/me/preferences/last-viewed-cds'
-}
-
-export type AcademicIndicatorsGetLastViewedCdsResponses = {
-	/**
-	 * Response Academic-Indicators-Get Last Viewed Cds
-	 *
-	 * Successful Response
-	 */
-	200: {
-		[key: string]: string | null
-	}
-}
-
-export type AcademicIndicatorsGetLastViewedCdsResponse =
-	AcademicIndicatorsGetLastViewedCdsResponses[keyof AcademicIndicatorsGetLastViewedCdsResponses]
-
-export type AcademicIndicatorsDeleteAcademicIndicatorData = {
-	body?: never
-	path?: never
-	query?: never
-	url: '/api/v1/academic-indicators/{id}'
-}
-
-export type AcademicIndicatorsDeleteAcademicIndicatorResponses = {
-	/**
-	 * Successful Response
-	 */
-	200: Message
-}
-
-export type AcademicIndicatorsDeleteAcademicIndicatorResponse =
-	AcademicIndicatorsDeleteAcademicIndicatorResponses[keyof AcademicIndicatorsDeleteAcademicIndicatorResponses]
-
-export type AcademicIndicatorsReadAcademicIndicatorData = {
-	body?: never
-	path?: never
-	query?: never
-	url: '/api/v1/academic-indicators/{id}'
-}
-
-export type AcademicIndicatorsReadAcademicIndicatorResponses = {
-	/**
-	 * Successful Response
-	 */
-	200: AcademicIndicatorPublic
-}
-
-export type AcademicIndicatorsReadAcademicIndicatorResponse =
-	AcademicIndicatorsReadAcademicIndicatorResponses[keyof AcademicIndicatorsReadAcademicIndicatorResponses]
-
-export type AcademicIndicatorsUpdateAcademicIndicatorData = {
-	body?: never
-	path?: never
-	query?: never
-	url: '/api/v1/academic-indicators/{id}'
-}
-
-export type AcademicIndicatorsUpdateAcademicIndicatorResponses = {
-	/**
-	 * Successful Response
-	 */
-	200: AcademicIndicatorPublic
-}
-
-export type AcademicIndicatorsUpdateAcademicIndicatorResponse =
-	AcademicIndicatorsUpdateAcademicIndicatorResponses[keyof AcademicIndicatorsUpdateAcademicIndicatorResponses]
+export type DashboardGetEquityReportResponse =
+	DashboardGetEquityReportResponses[keyof DashboardGetEquityReportResponses]
 
 export type PrivateCreateUserData = {
 	body: PrivateUserCreate

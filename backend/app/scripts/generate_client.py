@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from app.scripts.gcp.gcp_utils import ScriptError, compute_paths, run_command
+from app.scripts.gcp_utils import ScriptError, compute_paths, run_command
 
 
 def main() -> int:

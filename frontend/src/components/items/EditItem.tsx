@@ -24,7 +24,7 @@ import { handleError } from '@/lib/client-utils'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
 const formSchema = z.object({
-	title: z.string().min(1, { message: 'Title is required' }),
+	title: z.string().min(1, { error: 'Title is required' }),
 	description: z.string().optional(),
 })
 

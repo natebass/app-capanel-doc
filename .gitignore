@@ -69,3 +69,5 @@ dist/
 *.doctree
 *.pot
 *.mo
+
+.codex

@@ -26,8 +26,8 @@ def parse_cors(v: Any) -> list[str] | str:
 
 class Settings(BaseSettings):
     """
-    Use the top level .env file (one level above ./backend/).
-    Access not expires in 60 minutes * 24 hours * 8 days = 8 days
+    Use the .env file in the root of the repository.
+    Access token expires in  8 days (60 seconds * 24 seconds * 8 seconds).
     """
 
     model_config = SettingsConfigDict(
@@ -45,7 +45,7 @@ class Settings(BaseSettings):
         list[AnyUrl] | str, BeforeValidator(parse_cors)
     ] = []
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def all_cors_origins(self) -> list[str]:
         return [str(origin).rstrip("/") for origin in self.BACKEND_CORS_ORIGINS] + [
@@ -63,7 +63,7 @@ class Settings(BaseSettings):
     POSTGRES_DB: str | None = None
     CLOUD_SQL_INSTANCE_CONNECTION_NAME: str | None = None
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
         if not self.DATABASE_URL:
@@ -87,7 +87,7 @@ class Settings(BaseSettings):
 
     EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def emails_enabled(self) -> bool:
         return bool(self.SMTP_HOST and self.EMAILS_FROM_EMAIL)
@@ -113,7 +113,9 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def _enforce_non_default_secrets(self) -> Self:
         self._check_default_secret("SECRET_KEY", self.SECRET_KEY)
-        self._check_default_secret("FIRST_SUPERUSER_PASSWORD", self.SECRET_KEY)
+        self._check_default_secret(
+            "FIRST_SUPERUSER_PASSWORD", self.FIRST_SUPERUSER_PASSWORD
+        )
         return self
 
     @model_validator(mode="after")

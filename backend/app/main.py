@@ -14,7 +14,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.api.main import api_router
 from app.core.config import settings
-from app.data_import import startup_data_import
+from app.scripts.initial_data import main as init_data_main
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
@@ -50,7 +50,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:  # noqa: ARG001
     Yields:
         Control to the running application between startup and shutdown.
     """
-    startup_data_import()
+    init_data_main()
     yield
 
 

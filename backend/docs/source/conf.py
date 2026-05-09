@@ -30,13 +30,13 @@ templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**.ipynb_checkpoints"]
 html_theme = "pydata_sphinx_theme"
 html_static_path = ["_static"]
-html_favicon = "_static/image/favicon.ico"
-html_logo = "_static/image/logo.svg"
+html_favicon = "_static/image/favicon/favicon.ico"
+html_logo = "_static/image/favicon/favicon.svg"
 html_show_sourcelink = False
 html_theme_options = {
     "use_edit_page_button": True,
     "navbar_align": "content",
-    "logo": {"text": "Accountability Panel Docs"},
+    "logo": {"text": "Accountability Panel"},
     "navbar_center": ["navbar-nav"],
     "navbar_end": ["theme-switcher", "navbar-icon-links"],
     "navbar_persistent": ["search-button"],

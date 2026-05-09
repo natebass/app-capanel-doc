@@ -42,9 +42,9 @@ function ItemsTableContent() {
 		() =>
 			createItemColumns({
 				currentUserId: currentUser?.id,
-				isSuperuser: currentUser?.is_superuser,
+				isSuperuser: currentUser?.isSuperuser,
 			}),
-		[currentUser?.id, currentUser?.is_superuser],
+		[currentUser?.id, currentUser?.isSuperuser],
 	)
 
 	if (items.data.length === 0) {
@@ -54,12 +54,10 @@ function ItemsTableContent() {
 					<HugeiconsIcon icon={Search01Icon} className='h-8 w-8 text-muted-foreground' />
 				</div>
 				<h3 className='text-lg font-semibold'>
-					{currentUser?.is_superuser
-						? "There aren't any items yet"
-						: "You don't have any items yet"}
+					{currentUser?.isSuperuser ? "There aren't any items yet" : "You don't have any items yet"}
 				</h3>
 				<p className='text-muted-foreground'>
-					{currentUser?.is_superuser
+					{currentUser?.isSuperuser
 						? 'Create one or wait for users to add their items'
 						: 'Add a new item to get started'}
 				</p>

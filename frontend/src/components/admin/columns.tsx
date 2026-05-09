@@ -12,10 +12,10 @@ export type UserTableData = UserPublic & {
 
 export const columns: ColumnDef<UserTableData>[] = [
 	{
-		accessorKey: 'full_name',
+		accessorKey: 'fullName',
 		header: 'Full Name',
 		cell: ({ row }) => {
-			const fullName = row.original.full_name
+			const fullName = row.original.fullName
 			return (
 				<div className='flex items-center gap-2'>
 					<span className={cn('font-medium', !fullName && 'text-muted-foreground')}>
@@ -36,36 +36,36 @@ export const columns: ColumnDef<UserTableData>[] = [
 		cell: ({ row }) => <span className='text-muted-foreground'>{row.original.email}</span>,
 	},
 	{
-		accessorKey: 'is_superuser',
+		accessorKey: 'isSuperuser',
 		header: 'Role',
 		cell: ({ row }) => (
-			<Badge variant={row.original.is_superuser ? 'default' : 'secondary'}>
-				{row.original.is_superuser ? 'Superuser' : 'User'}
+			<Badge variant={row.original.isSuperuser ? 'default' : 'secondary'}>
+				{row.original.isSuperuser ? 'Superuser' : 'User'}
 			</Badge>
 		),
 	},
 	{
-		accessorKey: 'is_active',
+		accessorKey: 'isActive',
 		header: 'Status',
 		cell: ({ row }) => (
 			<div className='flex items-center gap-2'>
 				<span
 					className={cn(
 						'size-2 rounded-full',
-						row.original.is_active ? 'bg-green-500' : 'bg-gray-400',
+						row.original.isActive ? 'bg-green-500' : 'bg-gray-400',
 					)}
 				/>
-				<span className={row.original.is_active ? '' : 'text-muted-foreground'}>
-					{row.original.is_active ? 'Active' : 'Inactive'}
+				<span className={row.original.isActive ? '' : 'text-muted-foreground'}>
+					{row.original.isActive ? 'Active' : 'Inactive'}
 				</span>
 			</div>
 		),
 	},
 	{
-		accessorKey: 'force_password_reset',
+		accessorKey: 'forcePasswordReset',
 		header: 'Security',
 		cell: ({ row }) =>
-			row.original.force_password_reset ? (
+			row.original.forcePasswordReset ? (
 				<Badge variant='destructive'>Reset Required</Badge>
 			) : (
 				<span className='text-muted-foreground text-sm'>Normal</span>

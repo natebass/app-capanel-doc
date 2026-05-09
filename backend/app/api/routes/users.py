@@ -13,13 +13,14 @@ from app.core.config import settings
 from app.core.security import get_password_hash, verify_password
 from app.core.utils import generate_new_account_email, send_email
 from app.model.item import Item
-from app.model.models import (
+from app.model.other import (
     Message,
 )
 from app.model.user import (
     UpdatePassword,
     User,
     UserCreate,
+    UserPreferencesUpdate,
     UserPublic,
     UserRegister,
     UsersPublic,
@@ -48,8 +49,9 @@ def read_users(session: SessionDep, skip: int = 0, limit: int = 100) -> Any:
         select(User).order_by(col(User.created_at).desc()).offset(skip).limit(limit)
     )
     users = session.exec(statement).all()
-
-    return UsersPublic(data=users, count=count)
+    return UsersPublic(
+        data=[UserPublic.model_validate(user) for user in users], count=count
+    )
 
 
 @router.post(
@@ -68,13 +70,13 @@ def create_user(*, session: SessionDep, user_in: UserCreate) -> Any:
 
     user = crud.create_user(session=session, user_create=user_in)
     if settings.emails_enabled and user_in.email:
-        email_data = generate_new_account_email(
+        emailData = generate_new_account_email(
             email_to=user_in.email, username=user_in.email, password=user_in.password
         )
         send_email(
             email_to=user_in.email,
-            subject=email_data.subject,
-            html_content=email_data.html_content,
+            subject=emailData.subject,
+            html_content=emailData.html_content,
         )
     return user
 
@@ -93,8 +95,8 @@ def update_user_me(
             raise HTTPException(
                 status_code=409, detail="User with this email already exists"
             )
-    user_data = user_in.model_dump(exclude_unset=True)
-    current_user.sqlmodel_update(user_data)
+    userData = user_in.model_dump(exclude_unset=True)
+    current_user.sqlmodel_update(userData)
     session.add(current_user)
     session.commit()
     session.refresh(current_user)
@@ -145,6 +147,28 @@ def delete_user_me(session: SessionDep, current_user: CurrentUser) -> Any:
     return Message(message="User deleted successfully")
 
 
+@router.get("/me/preferences", response_model=UserPreferencesUpdate)
+def get_user_preferences(current_user: CurrentUser) -> Any:
+    """
+    Get current user's preferences.
+    """
+    return UserPreferencesUpdate(last_viewed_cds=current_user.last_viewed_cds)
+
+
+@router.patch("/me/preferences", response_model=UserPublic)
+def update_user_preferences(
+    *, session: SessionDep, user_in: UserPreferencesUpdate, current_user: CurrentUser
+) -> Any:
+    """
+    Update own user's preferences.
+    """
+    current_user.last_viewed_cds = user_in.last_viewed_cds
+    session.add(current_user)
+    session.commit()
+    session.refresh(current_user)
+    return current_user
+
+
 @router.post("/signup", response_model=UserPublic)
 def register_user(session: SessionDep, user_in: UserRegister) -> Any:
     """
@@ -156,8 +180,8 @@ def register_user(session: SessionDep, user_in: UserRegister) -> Any:
             status_code=400,
             detail="The user with this email already exists in the system",
         )
-    user_create = UserCreate.model_validate(user_in)
-    user = crud.create_user(session=session, user_create=user_create)
+    userCreate = UserCreate.model_validate(user_in)
+    user = crud.create_user(session=session, user_create=userCreate)
     return user
 
 
@@ -196,21 +220,21 @@ def update_user(
     Update a user.
     """
 
-    db_user = session.get(User, user_id)
-    if not db_user:
+    dbUser = session.get(User, user_id)
+    if not dbUser:
         raise HTTPException(
             status_code=404,
             detail="The user with this id does not exist in the system",
         )
     if user_in.email:
-        existing_user = crud.get_user_by_email(session=session, email=user_in.email)
-        if existing_user and existing_user.id != user_id:
+        existingUser = crud.get_user_by_email(session=session, email=user_in.email)
+        if existingUser and existingUser.id != user_id:
             raise HTTPException(
                 status_code=409, detail="User with this email already exists"
             )
 
-    db_user = crud.update_user(session=session, db_user=db_user, user_in=user_in)
-    return db_user
+    dbUser = crud.update_user(session=session, db_user=dbUser, user_in=user_in)
+    return dbUser
 
 
 @router.delete("/{user_id}", dependencies=[Depends(get_current_active_superuser)])

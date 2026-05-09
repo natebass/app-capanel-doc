@@ -5,7 +5,7 @@ from sqlmodel import Session, select
 from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
 
 from app.core.database import engine
-from app.scripts.gcp.gcp_utils import load_repo_env_if_present
+from app.scripts.gcp_utils import load_repo_env_if_present
 
 load_repo_env_if_present(__file__, scope="tests_pre_start")
 

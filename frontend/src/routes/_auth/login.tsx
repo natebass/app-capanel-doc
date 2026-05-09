@@ -12,11 +12,11 @@ import type { BodyLoginLoginAccessToken as AccessToken } from '@/lib/client'
 import useAuth, { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
 
 const loginSchema = z.object({
-	username: z.string().email({ message: 'Please enter a valid email' }),
+	username: z.string().email({ error: 'Please enter a valid email' }),
 	password: z
 		.string()
-		.min(1, { message: 'Password is required' })
-		.min(8, { message: 'Password must be at least 8 characters' }),
+		.min(1, { error: 'Password is required' })
+		.min(8, { error: 'Password must be at least 8 characters' }),
 }) satisfies z.ZodType<AccessToken>
 
 type LoginFormValues = z.infer<typeof loginSchema>

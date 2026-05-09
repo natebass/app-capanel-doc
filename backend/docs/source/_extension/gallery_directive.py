@@ -18,7 +18,7 @@ from docutils.statemachine import StringList
 from sphinx.application import Sphinx
 from sphinx.util import logging
 from sphinx.util.docutils import SphinxDirective
-from yaml import safe_load  # type: ignore[import-untyped]
+from yaml import safe_load
 
 logger = logging.getLogger(__name__)
 

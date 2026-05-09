@@ -1,22 +1,19 @@
 import uuid
 
-from sqlmodel import Field, Session, SQLModel, col
+from pydantic import ConfigDict
+from pydantic.alias_generators import to_camel
+from sqlmodel import Field, Session, SQLModel, col, select
 
 
 class CensusDataBase(SQLModel):
     """
-    Shared properties for CensusData
+    Shared properties for CensusData (Normalized)
     """
 
     academic_year: int = Field(index=True)
     aggregation_level: str = Field(index=True)
-    county_code: str = Field(index=True)
-    district_code: str = Field(index=True)
-    school_code: str = Field(index=True)
-    county_name: str = Field(max_length=255)
-    district_name: str = Field(max_length=255)
-    school_name: str = Field(max_length=255)
-    charter: str = Field(max_length=255)
+    cds_code: str = Field(index=True, max_length=14)
+    charter: str | None = Field(default=None, max_length=255)
     reporting_category: str = Field(max_length=255)
     total_enr: int = Field(default=0)
     gr_tk: int = Field(default=0)
@@ -34,15 +31,13 @@ class CensusDataBase(SQLModel):
     gr_11: int = Field(default=0)
     gr_12: int = Field(default=0)
 
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
 
 class CensusData(CensusDataBase, table=True):
-    """
-    A simple CensusData model following the same pattern as User.
-    """
+    __tablename__ = "census_data"
 
-    census_data_id: uuid.UUID = Field(
-        default_factory=uuid.uuid4, primary_key=True
-    )  # need to add timestamp
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
 
     @classmethod
     def get_total_students_in_school(
@@ -50,14 +45,13 @@ class CensusData(CensusDataBase, table=True):
     ) -> dict[str, int | None]:
         """
         Return a dictionary with key 'total-students' that is either row.total_enr or None.
-        0 is a valid value.
-        If no row is found, return {'total-students': None}.
         """
-        query = session.query(cls).filter(
-            col(cls.school_code) == school_code,
-            col(cls.reporting_category) == reporting_category,
-        )
-        row = query.first()
+        row = session.exec(
+            select(cls).where(
+                col(cls.cds_code) == school_code,
+                col(cls.reporting_category) == reporting_category,
+            )
+        ).first()
         if row:
             return {"total-students": row.total_enr}
         else:
@@ -69,16 +63,13 @@ class CensusData(CensusDataBase, table=True):
     ) -> dict[str, list[int]]:
         """
         Return a dictionary with key 'total_students_by_grade' and value as a list of student counts for grades TK through 12 for this row.
-        If no row is found, return {'total_students_by_grade': []}.
         """
-        found_row = (
-            session.query(cls)
-            .filter(
-                col(cls.school_code) == school_code,
+        found_row = session.exec(
+            select(cls).where(
+                col(cls.cds_code) == school_code,
                 col(cls.reporting_category) == reporting_category,
             )
-            .first()
-        )
+        ).first()
         if not found_row:
             return {"total_students_by_grade": []}
 
@@ -110,14 +101,12 @@ class CensusData(CensusDataBase, table=True):
         0 is a valid value.
         If no row is found, return {'total-students': None}.
         """
-        row = (
-            session.query(cls)
-            .filter(
-                col(cls.district_code) == district_code,
+        row = session.exec(
+            select(cls).where(
+                col(cls.cds_code) == district_code,
                 col(cls.reporting_category) == reporting_category,
             )
-            .first()
-        )
+        ).first()
         if row:
             return {"total-students": row.total_enr}
         else:
@@ -131,14 +120,12 @@ class CensusData(CensusDataBase, table=True):
         Return a dictionary with key 'total_students_by_grade' and value as a list of student counts for grades TK through 12 for this district.
         If no row is found, return {'total_students_by_grade': []}.
         """
-        found_row = (
-            session.query(cls)
-            .filter(
-                col(cls.district_code) == district_code,
+        found_row = session.exec(
+            select(cls).where(
+                col(cls.cds_code) == district_code,
                 col(cls.reporting_category) == reporting_category,
             )
-            .first()
-        )
+        ).first()
         if not found_row:
             return {"total_students_by_grade": []}
 
@@ -170,14 +157,12 @@ class CensusData(CensusDataBase, table=True):
         0 is a valid value.
         If no row is found, return {'total-students': None}.
         """
-        row = (
-            session.query(cls)
-            .filter(
-                col(cls.county_code) == county_code,
+        row = session.exec(
+            select(cls).where(
+                col(cls.cds_code) == county_code,
                 col(cls.reporting_category) == reporting_category,
             )
-            .first()
-        )
+        ).first()
         if row:
             return {"total-students": row.total_enr}
         else:
@@ -191,14 +176,12 @@ class CensusData(CensusDataBase, table=True):
         Return a dictionary with key 'total_students_by_grade' and value as a list of student counts for grades TK through 12 for this county.
         If no row is found, return {'total_students_by_grade': []}.
         """
-        found_row = (
-            session.query(cls)
-            .filter(
-                col(cls.county_code) == county_code,
+        found_row = session.exec(
+            select(cls).where(
+                col(cls.cds_code) == county_code,
                 col(cls.reporting_category) == reporting_category,
             )
-            .first()
-        )
+        ).first()
         if not found_row:
             return {"total_students_by_grade": []}
 
@@ -243,9 +226,11 @@ class CensusDataPublic(CensusDataBase):
     Properties to return via API, id is always required
     """
 
-    census_data_id: uuid.UUID
+    id: uuid.UUID
 
 
 class CensusDataPublicList(SQLModel):
     data: list[CensusDataPublic]
     count: int
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)

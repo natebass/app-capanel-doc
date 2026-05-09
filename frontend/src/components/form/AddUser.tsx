@@ -27,18 +27,18 @@ import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
 const formSchema = z
 	.object({
-		email: z.string().email({ message: 'Invalid email address' }),
-		full_name: z.string().optional(),
+		email: z.string().email({ error: 'Invalid email address' }),
+		fullName: z.string().optional(),
 		password: z
 			.string()
-			.min(1, { message: 'Password is required' })
-			.min(8, { message: 'Password must be at least 8 characters' }),
-		confirm_password: z.string().min(1, { message: 'Please confirm your password' }),
-		is_superuser: z.boolean(),
-		is_active: z.boolean(),
+			.min(1, { error: 'Password is required' })
+			.min(8, { error: 'Password must be at least 8 characters' }),
+		confirm_password: z.string().min(1, { error: 'Please confirm your password' }),
+		isSuperuser: z.boolean(),
+		isActive: z.boolean(),
 	})
 	.refine((data) => data.password === data.confirm_password, {
-		message: "The passwords don't match",
+		error: "The passwords don't match",
 		path: ['confirm_password'],
 	})
 
@@ -52,11 +52,11 @@ const AddUser = () => {
 	const form = useForm({
 		defaultValues: {
 			email: '',
-			full_name: '',
+			fullName: '',
 			password: '',
 			confirm_password: '',
-			is_superuser: false,
-			is_active: false,
+			isSuperuser: false,
+			isActive: false,
 		} as FormData,
 		validators: {
 			onChange: formSchema,
@@ -125,7 +125,7 @@ const AddUser = () => {
 							)}
 						</form.Field>
 
-						<form.Field name='full_name'>
+						<form.Field name='fullName'>
 							{(field) => (
 								<Field>
 									<FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
@@ -193,7 +193,7 @@ const AddUser = () => {
 							)}
 						</form.Field>
 
-						<form.Field name='is_superuser'>
+						<form.Field name='isSuperuser'>
 							{(field) => (
 								<Field className='flex items-center gap-3'>
 									<Checkbox
@@ -208,7 +208,7 @@ const AddUser = () => {
 							)}
 						</form.Field>
 
-						<form.Field name='is_active'>
+						<form.Field name='isActive'>
 							{(field) => (
 								<Field className='flex items-center gap-3'>
 									<Checkbox

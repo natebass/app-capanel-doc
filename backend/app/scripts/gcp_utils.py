@@ -4,6 +4,7 @@ import os
 import shlex
 import shutil
 import subprocess
+import sys
 from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -64,7 +65,7 @@ def timestamp() -> str:
 
 
 def log(scope: str, message: str) -> None:
-    print(f"[{timestamp()}] [{scope}] {message}", flush=True)
+    print(f"[{timestamp()}] [{scope}] {message}", file=sys.stderr, flush=True)
 
 
 def run_command(
@@ -81,7 +82,7 @@ def run_command(
         raise ScriptError(msg)
 
     resolved_cmd = [resolve_executable(cmd[0]), *cmd[1:]]
-    print(f"+ {shlex.join(cmd)}", flush=True)
+    print(f"+ {shlex.join(cmd)}", file=sys.stderr, flush=True)
     return subprocess.run(
         resolved_cmd,
         cwd=str(cwd) if cwd is not None else None,

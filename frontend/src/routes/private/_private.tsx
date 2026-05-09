@@ -20,7 +20,7 @@ export const Route = createFileRoute('/private/_private')({
 
 function PrivateLayout() {
 	const auth = useAuth()
-	const userLabel = auth.user?.full_name || auth.user?.email || 'User'
+	const userLabel = auth.user?.fullName || auth.user?.email || 'User'
 	return (
 		<>
 			<div>

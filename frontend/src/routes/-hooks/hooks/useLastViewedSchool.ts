@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
-import { AcademicIndicatorsService } from '../../../lib/client'
+import { UsersService } from '../../../lib/client'
 import { STATEWIDE_CDS } from '../../../lib/constants/indicators'
 
 const LOCAL_STORAGE_KEY = 'lastViewedSchool'
@@ -39,7 +39,7 @@ export function useLastViewedSchool({ isAuthenticated = false }: UseLastViewedSc
 	const serverQuery = useQuery({
 		queryKey: ['userPreferences', 'lastViewedCds'],
 		queryFn: async () => {
-			const response = await AcademicIndicatorsService.academicIndicatorsGetLastViewedCds()
+			const response = await UsersService.usersGetUserPreferences()
 			if (response.error) {
 				throw new Error('Failed to fetch user preferences')
 			}
@@ -52,7 +52,7 @@ export function useLastViewedSchool({ isAuthenticated = false }: UseLastViewedSc
 	// Server-side mutation for authenticated users
 	const serverMutation = useMutation({
 		mutationFn: async (cds: string) => {
-			const response = await AcademicIndicatorsService.academicIndicatorsUpdateUserPreferences({
+			const response = await UsersService.usersUpdateUserPreferences({
 				body: { last_viewed_cds: cds },
 			})
 			if (response.error) {

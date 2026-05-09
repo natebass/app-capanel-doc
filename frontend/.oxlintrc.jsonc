@@ -21,6 +21,7 @@
 		"**/dist/**/*",
 		"**/node_modules/**/*",
 		"**/src/client/**/*",
+		"**/src/lib/client/**/*",
 		"**/playwright-report",
 		"**/playwright.config.ts",
 	],

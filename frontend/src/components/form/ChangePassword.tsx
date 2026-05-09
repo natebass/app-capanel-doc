@@ -12,18 +12,18 @@ import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
 const formSchema = z
 	.object({
-		current_password: z
+		currentPassword: z
 			.string()
-			.min(1, { message: 'Password is required' })
-			.min(8, { message: 'Password must be at least 8 characters' }),
-		new_password: z
+			.min(1, { error: 'Password is required' })
+			.min(8, { error: 'Password must be at least 8 characters' }),
+		newPassword: z
 			.string()
-			.min(1, { message: 'Password is required' })
-			.min(8, { message: 'Password must be at least 8 characters' }),
-		confirm_password: z.string().min(1, { message: 'Password confirmation is required' }),
+			.min(1, { error: 'Password is required' })
+			.min(8, { error: 'Password must be at least 8 characters' }),
+		confirm_password: z.string().min(1, { error: 'Password confirmation is required' }),
 	})
-	.refine((data) => data.new_password === data.confirm_password, {
-		message: "The passwords don't match",
+	.refine((data) => data.newPassword === data.confirm_password, {
+		error: "The passwords don't match",
 		path: ['confirm_password'],
 	})
 
@@ -35,8 +35,8 @@ const ChangePassword = () => {
 
 	const form = useForm({
 		defaultValues: {
-			current_password: '',
-			new_password: '',
+			currentPassword: '',
+			newPassword: '',
 			confirm_password: '',
 		} as FormData,
 		validators: {
@@ -69,7 +69,7 @@ const ChangePassword = () => {
 				}}
 				className='flex flex-col gap-4'
 			>
-				<form.Field name='current_password'>
+				<form.Field name='currentPassword'>
 					{(field) => (
 						<Field>
 							<FieldLabel htmlFor={field.name}>Current Password</FieldLabel>
@@ -91,7 +91,7 @@ const ChangePassword = () => {
 					)}
 				</form.Field>
 
-				<form.Field name='new_password'>
+				<form.Field name='newPassword'>
 					{(field) => (
 						<Field>
 							<FieldLabel htmlFor={field.name}>New Password</FieldLabel>

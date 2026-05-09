@@ -10,12 +10,24 @@ function Sheet({ ...props }: SheetPrimitive.Root.Props) {
 	return <SheetPrimitive.Root data-slot='sheet' {...props} />
 }
 
-function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
-	return <SheetPrimitive.Trigger data-slot='sheet-trigger' {...props} />
+function SheetTrigger({ nativeButton, ...props }: SheetPrimitive.Trigger.Props) {
+	return (
+		<SheetPrimitive.Trigger
+			data-slot='sheet-trigger'
+			nativeButton={nativeButton ?? !props.render}
+			{...props}
+		/>
+	)
 }
 
-function SheetClose({ ...props }: SheetPrimitive.Close.Props) {
-	return <SheetPrimitive.Close data-slot='sheet-close' {...props} />
+function SheetClose({ nativeButton, ...props }: SheetPrimitive.Close.Props) {
+	return (
+		<SheetPrimitive.Close
+			data-slot='sheet-close'
+			nativeButton={nativeButton ?? !props.render}
+			{...props}
+		/>
+	)
 }
 
 function SheetPortal({ ...props }: SheetPrimitive.Portal.Props) {

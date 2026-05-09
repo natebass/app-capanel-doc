@@ -18,8 +18,8 @@ def test_get_users_superuser_me(
     r = client.get(f"{settings.API_V1_STR}/users/me", headers=superuser_token_headers)
     current_user = r.json()
     assert current_user
-    assert current_user["is_active"] is True
-    assert current_user["is_superuser"]
+    assert current_user["isActive"] is True
+    assert current_user["isSuperuser"]
     assert current_user["email"] == settings.FIRST_SUPERUSER
 
 
@@ -29,8 +29,8 @@ def test_get_users_normal_user_me(
     r = client.get(f"{settings.API_V1_STR}/users/me", headers=normal_user_token_headers)
     current_user = r.json()
     assert current_user
-    assert current_user["is_active"] is True
-    assert current_user["is_superuser"] is False
+    assert current_user["isActive"] is True
+    assert current_user["isSuperuser"] is False
     assert current_user["email"] == settings.EMAIL_TEST_USER
 
 
@@ -100,7 +100,7 @@ def test_get_existing_user_current_user(client: TestClient, db: Session) -> None
     }
     r = client.post(f"{settings.API_V1_STR}/login/access-token", data=login_data)
     tokens = r.json()
-    a_token = tokens["access_token"]
+    a_token = tokens["accessToken"]
     headers = {"Authorization": f"Bearer {a_token}"}
 
     r = client.get(
@@ -212,7 +212,7 @@ def test_update_user_me(
     assert r.status_code == 200
     updated_user = r.json()
     assert updated_user["email"] == email
-    assert updated_user["full_name"] == full_name
+    assert updated_user["fullName"] == full_name
 
     user_query = select(User).where(User.email == email)
     user_db = db.exec(user_query).first()
@@ -335,7 +335,7 @@ def test_register_user(client: TestClient, db: Session) -> None:
     assert r.status_code == 200
     created_user = r.json()
     assert created_user["email"] == username
-    assert created_user["full_name"] == full_name
+    assert created_user["fullName"] == full_name
 
     user_query = select(User).where(User.email == username)
     user_db = db.exec(user_query).first()
@@ -379,7 +379,7 @@ def test_update_user(
     assert r.status_code == 200
     updated_user = r.json()
 
-    assert updated_user["full_name"] == "Updated_full_name"
+    assert updated_user["fullName"] == "Updated_full_name"
 
     user_query = select(User).where(User.email == username)
     user_db = db.exec(user_query).first()
@@ -437,7 +437,7 @@ def test_delete_user_me(client: TestClient, db: Session) -> None:
     }
     r = client.post(f"{settings.API_V1_STR}/login/access-token", data=login_data)
     tokens = r.json()
-    a_token = tokens["access_token"]
+    a_token = tokens["accessToken"]
     headers = {"Authorization": f"Bearer {a_token}"}
 
     r = client.delete(
@@ -451,7 +451,7 @@ def test_delete_user_me(client: TestClient, db: Session) -> None:
     assert result is None
 
     user_query = select(User).where(User.id == user_id)
-    user_db = db.execute(user_query).first()
+    user_db = db.exec(user_query).first()
     assert user_db is None
 
 

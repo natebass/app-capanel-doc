@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
 from app.api.routes import (
-    academic_indicators,
     censusdata,
+    dashboard,
     items,
     login,
     private,
@@ -19,7 +19,7 @@ api_router.include_router(utils.router)
 api_router.include_router(items.router)
 api_router.include_router(censusdata.router)
 api_router.include_router(schools.router, prefix="/schools", tags=["schools"])
-api_router.include_router(academic_indicators.router)
+api_router.include_router(dashboard.router)
 
 
 if settings.ENVIRONMENT == "local":

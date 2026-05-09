@@ -14,8 +14,8 @@ import useAuth from '@/routes/-hooks/hooks/useAuth.ts'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
 const formSchema = z.object({
-	full_name: z.string().max(30).optional(),
-	email: z.string().email({ message: 'Invalid email address' }),
+	fullName: z.string().max(30).optional(),
+	email: z.string().email({ error: 'Invalid email address' }),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -28,7 +28,7 @@ const UserInformation = () => {
 
 	const form = useForm({
 		defaultValues: {
-			full_name: currentUser?.full_name ?? '',
+			fullName: currentUser?.fullName ?? '',
 			email: currentUser?.email ?? '',
 		} as FormData,
 		validators: {
@@ -37,8 +37,8 @@ const UserInformation = () => {
 		onSubmit: async ({ value }) => {
 			const updateData: UserUpdateMe = {}
 
-			if (value.full_name !== currentUser?.full_name) {
-				updateData.full_name = value.full_name
+			if (value.fullName !== currentUser?.fullName) {
+				updateData.fullName = value.fullName
 			}
 			if (value.email !== currentUser?.email) {
 				updateData.email = value.email
@@ -80,7 +80,7 @@ const UserInformation = () => {
 				}}
 				className='flex flex-col gap-4'
 			>
-				<form.Field name='full_name'>
+				<form.Field name='fullName'>
 					{(field) =>
 						editMode ? (
 							<Field>

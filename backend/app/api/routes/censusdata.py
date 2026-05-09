@@ -6,7 +6,7 @@ from sqlmodel import func, select
 
 from app.api.deps import CurrentUser, SessionDep
 from app.model.census_data import CensusData
-from app.model.models import Message  # noqa
+from app.model.other import Message  # noqa
 
 router = APIRouter(prefix="/censusdata", tags=["censusdata"])
 
@@ -55,7 +55,7 @@ def create_census_data(
     if not current_user.is_superuser:
         raise HTTPException(status_code=403, detail="Not enough permissions")
 
-    census_data = CensusData.from_orm(census_data_in)
+    census_data = CensusData.model_validate(census_data_in)
     session.add(census_data)
     session.commit()
     session.refresh(census_data)
@@ -81,7 +81,7 @@ def update_census_data(
     if not census_data:
         raise HTTPException(status_code=404, detail="Census data not found")
 
-    new_census_data = CensusData.from_orm(census_data_in)
+    new_census_data = CensusData.model_validate(census_data_in)
     session.add(new_census_data)
     session.commit()
     session.refresh(new_census_data)

@@ -3,9 +3,12 @@
     "biomejs.biome",
     "bradlc.vscode-tailwindcss",
     "ms-python.debugpy",
-    "ms-python.python",
     "mechatroner.rainbow-csv",
     "redhat.vscode-yaml",
-    "ms-python.isort"
+    "ms-python.isort",
+    "charliermarsh.ruff",
+    "ms-python.vscode-python-envs",
+    "astral-sh.ty",
+    "tombi-toml.tombi"
   ]
 }

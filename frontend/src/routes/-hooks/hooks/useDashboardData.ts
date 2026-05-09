@@ -1,15 +1,13 @@
 import { queryOptions, useQuery, useSuspenseQuery } from '@tanstack/react-query'
 
 import {
-	AcademicIndicatorsService,
-	type DashboardAggregation,
+	DashboardService,
 	type DashboardSummaryResponse,
 	type EquityReportResponse,
 } from '../../../lib/client'
 
 export type { DashboardSummaryResponse, EquityReportResponse }
 
-export const DASHBOARD_QUERY_KEY = ['dashboard', 'data'] as const
 export const DASHBOARD_SUMMARY_KEY = ['dashboard', 'summary'] as const
 export const EQUITY_REPORT_KEY = ['dashboard', 'equity'] as const
 
@@ -36,35 +34,7 @@ function getApiErrorMessage(error: unknown, fallback: string) {
 	return fallback
 }
 
-// ===== Legacy single-indicator hooks =====
-
-export function dashboardQueryOptions(cds: string | null) {
-	return queryOptions({
-		queryKey: [...DASHBOARD_QUERY_KEY, cds],
-		queryFn: async (): Promise<DashboardAggregation> => {
-			const response = await AcademicIndicatorsService.academicIndicatorsGetDashboardData({
-				query: { q: cds! },
-			})
-			if (response.error) {
-				throw new Error(getApiErrorMessage(response.error, 'Failed to fetch dashboard data'))
-			}
-			return response.data as DashboardAggregation
-		},
-		staleTime: 5 * 60 * 1000, // 5 minutes
-		gcTime: 10 * 60 * 1000, // 10 minutes
-		enabled: !!cds,
-	})
-}
-
-export function useDashboardData(cds: string | null) {
-	return useQuery(dashboardQueryOptions(cds))
-}
-
-export function useDashboardDataSuspense(cds: string) {
-	return useSuspenseQuery(dashboardQueryOptions(cds))
-}
-
-// ===== New dashboard summary hooks (all indicators) =====
+// ===== Dashboard summary hooks (all indicators) =====
 
 export function dashboardSummaryQueryOptions(
 	cds: string | null,
@@ -74,8 +44,8 @@ export function dashboardSummaryQueryOptions(
 	return queryOptions({
 		queryKey: [...DASHBOARD_SUMMARY_KEY, cds, reportingyear, studentgroup],
 		queryFn: async (): Promise<DashboardSummaryResponse> => {
-			const response = await AcademicIndicatorsService.academicIndicatorsGetDashboardSummary({
-				query: { cds: cds!, reportingyear, studentgroup },
+			const response = await DashboardService.dashboardGetDashboardSummary({
+				query: { cds: cds!, reportingYear: reportingyear, studentGroup: studentgroup },
 			})
 			if (response.error) {
 				throw new Error(getApiErrorMessage(response.error, 'Failed to fetch dashboard summary'))
@@ -114,8 +84,8 @@ export function equityReportQueryOptions(
 	return queryOptions({
 		queryKey: [...EQUITY_REPORT_KEY, cds, indicator, reportingyear],
 		queryFn: async (): Promise<EquityReportResponse> => {
-			const response = await AcademicIndicatorsService.academicIndicatorsGetEquityReport({
-				query: { cds: cds!, indicator: indicator!, reportingyear },
+			const response = await DashboardService.dashboardGetEquityReport({
+				query: { cds: cds!, testId: indicator!, reportingYear: reportingyear },
 			})
 			if (response.error) {
 				throw new Error(getApiErrorMessage(response.error, 'Failed to fetch equity report'))

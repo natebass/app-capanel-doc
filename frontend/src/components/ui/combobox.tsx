@@ -18,11 +18,17 @@ function ComboboxValue({ ...props }: ComboboxPrimitive.Value.Props) {
 	return <ComboboxPrimitive.Value data-slot='combobox-value' {...props} />
 }
 
-function ComboboxTrigger({ className, children, ...props }: ComboboxPrimitive.Trigger.Props) {
+function ComboboxTrigger({
+	className,
+	children,
+	nativeButton,
+	...props
+}: ComboboxPrimitive.Trigger.Props) {
 	return (
 		<ComboboxPrimitive.Trigger
 			data-slot='combobox-trigger'
 			className={cn("[&_svg:not([class*='size-'])]:size-4", className)}
+			nativeButton={nativeButton}
 			{...props}
 		>
 			{children}

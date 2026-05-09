@@ -67,9 +67,9 @@ export const LoggedIn: Story = {
 			queryClient.setQueryData(['currentUser'], {
 				id: '1',
 				email: 'jane.doe@example.com',
-				full_name: 'Jane Doe',
-				is_active: true,
-				is_superuser: false,
+				fullName: 'Jane Doe',
+				isActive: true,
+				isSuperuser: false,
 			})
 			return <Story />
 		},

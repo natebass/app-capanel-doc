@@ -1,4 +1,4 @@
-import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient } from '@tanstack/react-query'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
@@ -6,11 +6,7 @@ import ReactDOM from 'react-dom/client'
 import { DefaultError } from '@/components/common/status/DefaultError'
 import { DefaultNotFound } from '@/components/common/status/DefaultNotFound'
 
-import { ThemeProvider } from './components/theme-provider'
-
 import './globals.css'
-import { Toaster } from './components/ui/sonner'
-import * as TanstackQuery from './integrations/tanstack-query/root-provider'
 import { client } from './lib/client/client.gen'
 import { routeTree } from './routeTree.gen'
 
@@ -42,18 +38,7 @@ client.interceptors.error.use((_error, response) => {
 	return _error
 })
 
-const handleApiError = () => {
-	// Error handling is now done via client interceptors above
-}
-const queryClient = new QueryClient({
-	queryCache: new QueryCache({
-		onError: handleApiError,
-	}),
-	mutationCache: new MutationCache({
-		onError: handleApiError,
-	}),
-})
-const queryContext = TanstackQuery.getContext()
+const queryClient = new QueryClient()
 
 /**
  * Detect if value is a JSON string (starts with { [ " or is a number/boolean)
@@ -63,7 +48,7 @@ const router = createRouter({
 	routeTree,
 	scrollRestoration: true,
 	context: {
-		...queryContext,
+		queryClient,
 	},
 	defaultPreload: 'intent',
 	defaultPreloadStaleTime: 0,
@@ -105,11 +90,6 @@ declare module '@tanstack/react-router' {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
-			<QueryClientProvider client={queryClient}>
-				<RouterProvider router={router} />
-				<Toaster richColors closeButton />
-			</QueryClientProvider>
-		</ThemeProvider>
+		<RouterProvider router={router} />
 	</StrictMode>,
 )

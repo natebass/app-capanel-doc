@@ -21,7 +21,7 @@ def test_create_item(
     assert content["title"] == data["title"]
     assert content["description"] == data["description"]
     assert "id" in content
-    assert "owner_id" in content
+    assert "ownerId" in content
 
 
 def test_read_item(
@@ -37,7 +37,7 @@ def test_read_item(
     assert content["title"] == item.title
     assert content["description"] == item.description
     assert content["id"] == str(item.id)
-    assert content["owner_id"] == str(item.owner_id)
+    assert content["ownerId"] == str(item.owner_id)
 
 
 def test_read_item_not_found(
@@ -94,7 +94,7 @@ def test_update_item(
     assert content["title"] == data["title"]
     assert content["description"] == data["description"]
     assert content["id"] == str(item.id)
-    assert content["owner_id"] == str(item.owner_id)
+    assert content["ownerId"] == str(item.owner_id)
 
 
 def test_update_item_not_found(

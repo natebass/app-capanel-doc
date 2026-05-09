@@ -5,6 +5,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 
 import { DefaultPending } from '@/components/common/status/DefaultPending'
 import { ThemeProvider } from '@/components/theme-provider'
+import { Toaster } from '@/components/ui/sonner'
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import { Provider } from '../integrations/tanstack-query/root-provider'
@@ -21,12 +22,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 	component: RootComponent,
 })
 
-function RootComponent() {
+export function RootComponent() {
 	const { queryClient } = Route.useRouteContext()
 	return (
-		<ThemeProvider>
+		<ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
 			<Provider queryClient={queryClient}>
 				<Outlet />
+				<Toaster richColors closeButton />
 				<TanStackDevtools
 					config={{
 						position: 'bottom-right',

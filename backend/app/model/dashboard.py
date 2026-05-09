@@ -1,3 +1,5 @@
+from pydantic import ConfigDict
+from pydantic.alias_generators import to_camel
 from sqlmodel import SQLModel
 
 
@@ -12,10 +14,12 @@ class DashboardAggregation(SQLModel):
     overall_met_and_above_pct: str | None = None
     overall_mean_scale_score: str | None = None
 
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
 
 class IndicatorSummary(SQLModel):
     """
-    Summary of a specific CAASPP test result.
+    Summary of a specific CAASPP/ELPAC test result.
     """
 
     test_id: str
@@ -25,6 +29,9 @@ class IndicatorSummary(SQLModel):
     students_tested: str
     overall_mean_scale_score: str | None = None
     overall_met_and_above_pct: str | None = None
+    levels: dict[str, float] | None = None
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
 class DashboardSummaryResponse(SQLModel):
@@ -34,13 +41,17 @@ class DashboardSummaryResponse(SQLModel):
     test_year: str
     indicators: list[IndicatorSummary]
 
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
 
 class EquityGroupSummary(SQLModel):
     """Summary of a student group for the equity report."""
 
-    studentgroup: str
+    student_group: str
     overall_met_and_above_pct: str | None = None
     students_tested: str | None = None
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
 class EquityReportResponse(SQLModel):
@@ -50,3 +61,5 @@ class EquityReportResponse(SQLModel):
     test_id: str
     test_year: str
     groups: list[EquityGroupSummary]
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)

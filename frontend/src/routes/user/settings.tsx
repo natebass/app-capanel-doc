@@ -43,7 +43,7 @@ export const Route = createFileRoute('/user/settings')({
 function UserSettings() {
 	const { user: currentUser } = useAuth()
 	const finalTabs = tabsConfig
-	const defaultTab = currentUser?.force_password_reset ? 'password' : 'my-profile'
+	const defaultTab = currentUser?.forcePasswordReset ? 'password' : 'my-profile'
 
 	if (!currentUser) {
 		return null
@@ -54,25 +54,25 @@ function UserSettings() {
 			<div className='space-y-2'>
 				<div className='flex items-center gap-2'>
 					<h1 className='text-2xl font-bold tracking-tight'>User Settings</h1>
-					{currentUser.is_superuser && <Badge>Admin</Badge>}
+					{currentUser.isSuperuser && <Badge>Admin</Badge>}
 				</div>
 				<p className='text-muted-foreground'>
 					Manage your profile, security settings, and account controls.
 				</p>
 			</div>
 
-			{currentUser.force_password_reset && (
+			{currentUser.forcePasswordReset && (
 				<Alert variant='destructive'>
 					<HugeiconsIcon icon={AlertCircleIcon} className='size-4' />
 					<AlertTitle>Forced Password Reset Required</AlertTitle>
 					<AlertDescription>
-						Your account has <strong>force_password_reset</strong> enabled. Update your password now
+						Your account has <strong>forcePasswordReset</strong> enabled. Update your password now
 						to continue using all features.
 					</AlertDescription>
 				</Alert>
 			)}
 
-			{currentUser.is_superuser && (
+			{currentUser.isSuperuser && (
 				<div className='rounded-lg border p-4 flex flex-col gap-3'>
 					<div>
 						<h2 className='text-sm font-semibold'>Admin Controls</h2>

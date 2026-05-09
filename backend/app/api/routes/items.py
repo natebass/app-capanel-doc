@@ -6,7 +6,7 @@ from sqlmodel import col, func, select
 
 from app.api.deps import CurrentUser, SessionDep
 from app.model.item import Item, ItemCreate, ItemPublic, ItemsPublic, ItemUpdate
-from app.model.models import (
+from app.model.other import (
     Message,
 )
 
@@ -44,7 +44,9 @@ def read_items(
         )
         items = session.exec(statement).all()
 
-    return ItemsPublic(data=items, count=count)
+    return ItemsPublic(
+        data=[ItemPublic.model_validate(item) for item in items], count=count
+    )
 
 
 @router.get("/{id}", response_model=ItemPublic)

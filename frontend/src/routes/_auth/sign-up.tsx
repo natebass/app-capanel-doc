@@ -12,16 +12,16 @@ import useAuth, { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
 
 const signupSchema = z
 	.object({
-		email: z.string().email({ message: 'Please enter a valid email address' }),
-		full_name: z.string().min(1, { message: 'Full Name is required' }),
+		email: z.string().email({ error: 'Please enter a valid email address' }),
+		fullName: z.string().min(1, { error: 'Full Name is required' }),
 		password: z
 			.string()
-			.min(1, { message: 'Password is required' })
-			.min(8, { message: 'Password must be at least 8 characters' }),
-		confirm_password: z.string().min(1, { message: 'Password confirmation is required' }),
+			.min(1, { error: 'Password is required' })
+			.min(8, { error: 'Password must be at least 8 characters' }),
+		confirm_password: z.string().min(1, { error: 'Password confirmation is required' }),
 	})
 	.refine((data) => data.password === data.confirm_password, {
-		message: "The passwords don't match",
+		error: "The passwords don't match",
 		path: ['confirm_password'],
 	})
 
@@ -45,7 +45,7 @@ function SignUp() {
 	const form = useForm({
 		defaultValues: {
 			email: '',
-			full_name: '',
+			fullName: '',
 			password: '',
 			confirm_password: '',
 		} as SignupFormValues,
@@ -74,7 +74,7 @@ function SignUp() {
 				</div>
 
 				<div className='grid gap-4'>
-					<form.Field name='full_name'>
+					<form.Field name='fullName'>
 						{(field) => (
 							<Field>
 								<FieldLabel htmlFor={field.name}>Full Name</FieldLabel>

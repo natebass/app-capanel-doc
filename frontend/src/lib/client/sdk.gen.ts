@@ -8,32 +8,6 @@ import {
 } from './client'
 import { client } from './client.gen'
 import type {
-	AcademicIndicatorsCreateAcademicIndicatorData,
-	AcademicIndicatorsCreateAcademicIndicatorErrors,
-	AcademicIndicatorsCreateAcademicIndicatorResponses,
-	AcademicIndicatorsDeleteAcademicIndicatorData,
-	AcademicIndicatorsDeleteAcademicIndicatorResponses,
-	AcademicIndicatorsGetDashboardDataData,
-	AcademicIndicatorsGetDashboardDataErrors,
-	AcademicIndicatorsGetDashboardDataResponses,
-	AcademicIndicatorsGetDashboardSummaryData,
-	AcademicIndicatorsGetDashboardSummaryErrors,
-	AcademicIndicatorsGetDashboardSummaryResponses,
-	AcademicIndicatorsGetEquityReportData,
-	AcademicIndicatorsGetEquityReportErrors,
-	AcademicIndicatorsGetEquityReportResponses,
-	AcademicIndicatorsGetLastViewedCdsData,
-	AcademicIndicatorsGetLastViewedCdsResponses,
-	AcademicIndicatorsReadAcademicIndicatorData,
-	AcademicIndicatorsReadAcademicIndicatorResponses,
-	AcademicIndicatorsReadAcademicIndicatorsData,
-	AcademicIndicatorsReadAcademicIndicatorsErrors,
-	AcademicIndicatorsReadAcademicIndicatorsResponses,
-	AcademicIndicatorsUpdateAcademicIndicatorData,
-	AcademicIndicatorsUpdateAcademicIndicatorResponses,
-	AcademicIndicatorsUpdateUserPreferencesData,
-	AcademicIndicatorsUpdateUserPreferencesErrors,
-	AcademicIndicatorsUpdateUserPreferencesResponses,
 	CensusdataCountOfCensusDataData,
 	CensusdataCountOfCensusDataErrors,
 	CensusdataCountOfCensusDataResponses,
@@ -49,6 +23,12 @@ import type {
 	CensusdataUpdateCensusDataData,
 	CensusdataUpdateCensusDataErrors,
 	CensusdataUpdateCensusDataResponses,
+	DashboardGetDashboardSummaryData,
+	DashboardGetDashboardSummaryErrors,
+	DashboardGetDashboardSummaryResponses,
+	DashboardGetEquityReportData,
+	DashboardGetEquityReportErrors,
+	DashboardGetEquityReportResponses,
 	ItemsCreateItemData,
 	ItemsCreateItemErrors,
 	ItemsCreateItemResponses,
@@ -98,6 +78,8 @@ import type {
 	UsersDeleteUserMeData,
 	UsersDeleteUserMeResponses,
 	UsersDeleteUserResponses,
+	UsersGetUserPreferencesData,
+	UsersGetUserPreferencesResponses,
 	UsersReadUserByIdData,
 	UsersReadUserByIdErrors,
 	UsersReadUserByIdResponses,
@@ -117,6 +99,9 @@ import type {
 	UsersUpdateUserMeData,
 	UsersUpdateUserMeErrors,
 	UsersUpdateUserMeResponses,
+	UsersUpdateUserPreferencesData,
+	UsersUpdateUserPreferencesErrors,
+	UsersUpdateUserPreferencesResponses,
 	UsersUpdateUserResponses,
 	UtilsHealthCheckData,
 	UtilsHealthCheckResponses,
@@ -372,6 +357,46 @@ export class UsersService {
 		>({
 			security: [{ scheme: 'bearer', type: 'http' }],
 			url: '/api/v1/users/me/password',
+			...options,
+			headers: {
+				'Content-Type': 'application/json',
+				...options.headers,
+			},
+		})
+	}
+
+	/**
+	 * Get User Preferences
+	 *
+	 * Get current user's preferences.
+	 */
+	public static usersGetUserPreferences<ThrowOnError extends boolean = false>(
+		options?: Options<UsersGetUserPreferencesData, ThrowOnError>,
+	) {
+		return (options?.client ?? client).get<UsersGetUserPreferencesResponses, unknown, ThrowOnError>(
+			{
+				security: [{ scheme: 'bearer', type: 'http' }],
+				url: '/api/v1/users/me/preferences',
+				...options,
+			},
+		)
+	}
+
+	/**
+	 * Update User Preferences
+	 *
+	 * Update own user's preferences.
+	 */
+	public static usersUpdateUserPreferences<ThrowOnError extends boolean = false>(
+		options: Options<UsersUpdateUserPreferencesData, ThrowOnError>,
+	) {
+		return (options.client ?? client).patch<
+			UsersUpdateUserPreferencesResponses,
+			UsersUpdateUserPreferencesErrors,
+			ThrowOnError
+		>({
+			security: [{ scheme: 'bearer', type: 'http' }],
+			url: '/api/v1/users/me/preferences',
 			...options,
 			headers: {
 				'Content-Type': 'application/json',
@@ -739,163 +764,35 @@ export class SchoolsService {
 	}
 }
 
-export class AcademicIndicatorsService {
-	/**
-	 * Read Academic Indicators
-	 *
-	 * Retrieve academic indicators with optional filters.
-	 */
-	public static academicIndicatorsReadAcademicIndicators<ThrowOnError extends boolean = false>(
-		options?: Options<AcademicIndicatorsReadAcademicIndicatorsData, ThrowOnError>,
-	) {
-		return (options?.client ?? client).get<
-			AcademicIndicatorsReadAcademicIndicatorsResponses,
-			AcademicIndicatorsReadAcademicIndicatorsErrors,
-			ThrowOnError
-		>({ url: '/api/v1/academic-indicators/', ...options })
-	}
-
-	/**
-	 * Create Academic Indicator
-	 */
-	public static academicIndicatorsCreateAcademicIndicator<ThrowOnError extends boolean = false>(
-		options: Options<AcademicIndicatorsCreateAcademicIndicatorData, ThrowOnError>,
-	) {
-		return (options.client ?? client).post<
-			AcademicIndicatorsCreateAcademicIndicatorResponses,
-			AcademicIndicatorsCreateAcademicIndicatorErrors,
-			ThrowOnError
-		>({
-			security: [{ scheme: 'bearer', type: 'http' }],
-			url: '/api/v1/academic-indicators/',
-			...options,
-			headers: {
-				'Content-Type': 'application/json',
-				...options.headers,
-			},
-		})
-	}
-
-	/**
-	 * Get Dashboard Data
-	 *
-	 * Get aggregated dashboard data for a specific CDS code.
-	 */
-	public static academicIndicatorsGetDashboardData<ThrowOnError extends boolean = false>(
-		options: Options<AcademicIndicatorsGetDashboardDataData, ThrowOnError>,
-	) {
-		return (options.client ?? client).get<
-			AcademicIndicatorsGetDashboardDataResponses,
-			AcademicIndicatorsGetDashboardDataErrors,
-			ThrowOnError
-		>({ url: '/api/v1/academic-indicators/dashboard', ...options })
-	}
-
+export class DashboardService {
 	/**
 	 * Get Dashboard Summary
 	 *
-	 * Get all test summaries for a school/district/state.
+	 * Get all test summaries for a CDS code within a specific reporting year and student group.
 	 */
-	public static academicIndicatorsGetDashboardSummary<ThrowOnError extends boolean = false>(
-		options: Options<AcademicIndicatorsGetDashboardSummaryData, ThrowOnError>,
+	public static dashboardGetDashboardSummary<ThrowOnError extends boolean = false>(
+		options: Options<DashboardGetDashboardSummaryData, ThrowOnError>,
 	) {
 		return (options.client ?? client).get<
-			AcademicIndicatorsGetDashboardSummaryResponses,
-			AcademicIndicatorsGetDashboardSummaryErrors,
+			DashboardGetDashboardSummaryResponses,
+			DashboardGetDashboardSummaryErrors,
 			ThrowOnError
-		>({ url: '/api/v1/academic-indicators/dashboard/summary', ...options })
+		>({ url: '/api/v1/dashboard/summary', ...options })
 	}
 
 	/**
 	 * Get Equity Report
 	 *
-	 * Get student group breakdown for a test.
+	 * Get student group breakdown for a specific test and CDS code.
 	 */
-	public static academicIndicatorsGetEquityReport<ThrowOnError extends boolean = false>(
-		options: Options<AcademicIndicatorsGetEquityReportData, ThrowOnError>,
+	public static dashboardGetEquityReport<ThrowOnError extends boolean = false>(
+		options: Options<DashboardGetEquityReportData, ThrowOnError>,
 	) {
 		return (options.client ?? client).get<
-			AcademicIndicatorsGetEquityReportResponses,
-			AcademicIndicatorsGetEquityReportErrors,
+			DashboardGetEquityReportResponses,
+			DashboardGetEquityReportErrors,
 			ThrowOnError
-		>({ url: '/api/v1/academic-indicators/dashboard/equity', ...options })
-	}
-
-	/**
-	 * Update User Preferences
-	 */
-	public static academicIndicatorsUpdateUserPreferences<ThrowOnError extends boolean = false>(
-		options: Options<AcademicIndicatorsUpdateUserPreferencesData, ThrowOnError>,
-	) {
-		return (options.client ?? client).put<
-			AcademicIndicatorsUpdateUserPreferencesResponses,
-			AcademicIndicatorsUpdateUserPreferencesErrors,
-			ThrowOnError
-		>({
-			security: [{ scheme: 'bearer', type: 'http' }],
-			url: '/api/v1/academic-indicators/users/me/preferences',
-			...options,
-			headers: {
-				'Content-Type': 'application/json',
-				...options.headers,
-			},
-		})
-	}
-
-	/**
-	 * Get Last Viewed Cds
-	 */
-	public static academicIndicatorsGetLastViewedCds<ThrowOnError extends boolean = false>(
-		options?: Options<AcademicIndicatorsGetLastViewedCdsData, ThrowOnError>,
-	) {
-		return (options?.client ?? client).get<
-			AcademicIndicatorsGetLastViewedCdsResponses,
-			unknown,
-			ThrowOnError
-		>({
-			security: [{ scheme: 'bearer', type: 'http' }],
-			url: '/api/v1/academic-indicators/users/me/preferences/last-viewed-cds',
-			...options,
-		})
-	}
-
-	/**
-	 * Delete Academic Indicator
-	 */
-	public static academicIndicatorsDeleteAcademicIndicator<ThrowOnError extends boolean = false>(
-		options?: Options<AcademicIndicatorsDeleteAcademicIndicatorData, ThrowOnError>,
-	) {
-		return (options?.client ?? client).delete<
-			AcademicIndicatorsDeleteAcademicIndicatorResponses,
-			unknown,
-			ThrowOnError
-		>({ url: '/api/v1/academic-indicators/{id}', ...options })
-	}
-
-	/**
-	 * Read Academic Indicator
-	 */
-	public static academicIndicatorsReadAcademicIndicator<ThrowOnError extends boolean = false>(
-		options?: Options<AcademicIndicatorsReadAcademicIndicatorData, ThrowOnError>,
-	) {
-		return (options?.client ?? client).get<
-			AcademicIndicatorsReadAcademicIndicatorResponses,
-			unknown,
-			ThrowOnError
-		>({ url: '/api/v1/academic-indicators/{id}', ...options })
-	}
-
-	/**
-	 * Update Academic Indicator
-	 */
-	public static academicIndicatorsUpdateAcademicIndicator<ThrowOnError extends boolean = false>(
-		options?: Options<AcademicIndicatorsUpdateAcademicIndicatorData, ThrowOnError>,
-	) {
-		return (options?.client ?? client).put<
-			AcademicIndicatorsUpdateAcademicIndicatorResponses,
-			unknown,
-			ThrowOnError
-		>({ url: '/api/v1/academic-indicators/{id}', ...options })
+		>({ url: '/api/v1/dashboard/equity', ...options })
 	}
 }
 

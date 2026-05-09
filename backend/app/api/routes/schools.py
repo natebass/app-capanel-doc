@@ -4,7 +4,13 @@ from fastapi import APIRouter
 from sqlmodel import func, select
 
 from app.api.deps import SessionDep
-from app.model.school import School, SchoolsPublic, SchoolsSummary
+from app.model.school import (
+    School,
+    SchoolPublic,
+    SchoolsPublic,
+    SchoolsSummary,
+    SchoolSummary,
+)
 
 router = APIRouter()
 
@@ -33,7 +39,9 @@ def read_schools(
     schools = session.exec(statement).all()
     count = len(schools)
 
-    return SchoolsPublic(data=schools, count=count)
+    return SchoolsPublic(
+        data=[SchoolPublic.model_validate(school) for school in schools], count=count
+    )
 
 
 @router.get("/summary", response_model=SchoolsSummary)
@@ -60,4 +68,6 @@ def read_schools_summary(
     schools = session.exec(statement).all()
     count = len(schools)
 
-    return SchoolsSummary(data=schools, count=count)
+    return SchoolsSummary(
+        data=[SchoolSummary.model_validate(school) for school in schools], count=count
+    )

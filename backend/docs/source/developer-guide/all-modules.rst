@@ -75,7 +75,7 @@ Core
 Data models and CRUD
 --------------------
 
-.. automodule:: app.model.models
+.. automodule:: app.model.other
    :members:
    :undoc-members:
    :show-inheritance:

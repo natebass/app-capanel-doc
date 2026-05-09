@@ -1,28 +1,4 @@
 {
-	"compilerOptions": {
-		"target": "ESNext",
-		"jsx": "react-jsx",
-		"module": "ESNext",
-		"useDefineForClassFields": true,
-		"lib": ["ESNext", "DOM", "DOM.Iterable"],
-		"moduleResolution": "bundler",
-		"allowImportingTsExtensions": true,
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"noEmit": true,
-		"skipLibCheck": true,
-		"strict": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noFallthroughCasesInSwitch": true,
-		"paths": {
-			"@/*": ["./src/*"],
-			"#.storybook/*": ["./.storybook/*"]
-		},
-		"forceConsistentCasingInFileNames": true,
-		"allowJs": true,
-		"allowSyntheticDefaultImports": true
-	},
-	"include": ["src", "vite.config.ts"],
-	"exclude": ["src/lib/client"]
+	"files": [],
+	"references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
 }

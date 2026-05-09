@@ -11,7 +11,7 @@ from sqlmodel import Session
 from app.core import security
 from app.core.config import settings
 from app.core.database import engine
-from app.model.models import TokenPayload
+from app.model.other import TokenPayload
 from app.model.user import User
 
 reusable_oauth2 = OAuth2PasswordBearer(

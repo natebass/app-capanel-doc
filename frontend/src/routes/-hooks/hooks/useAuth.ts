@@ -50,12 +50,13 @@ const useAuth = () => {
 		if (response.error || !response.data) {
 			throw response.error ?? new Error('Login failed')
 		}
-		localStorage.setItem('access_token', response.data.access_token)
+		localStorage.setItem('access_token', response.data.accessToken)
 	}
 
 	const loginMutation = useMutation({
 		mutationFn: login,
-		onSuccess: () => {
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({ queryKey: ['currentUser'] })
 			navigate({ to: '/' })
 		},
 		onError: handleError.bind(showErrorToast),

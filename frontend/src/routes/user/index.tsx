@@ -30,19 +30,19 @@ function Dashboard() {
 			<div className='space-y-2'>
 				<div className='flex items-center gap-2'>
 					<h1 className='text-2xl truncate max-w-sm'>
-						Hi, {currentUser.full_name || currentUser.email}
+						Hi, {currentUser.fullName || currentUser.email}
 					</h1>
-					{currentUser.is_superuser && <Badge>Admin</Badge>}
+					{currentUser.isSuperuser && <Badge>Admin</Badge>}
 				</div>
 				<p className='text-muted-foreground'>Welcome back. Choose what you want to manage.</p>
 			</div>
 
-			{currentUser.force_password_reset && (
+			{currentUser.forcePasswordReset && (
 				<Alert variant='destructive'>
 					<HugeiconsIcon icon={AlertCircleIcon} className='size-4' />
 					<AlertTitle>Password reset required</AlertTitle>
 					<AlertDescription>
-						Your account has <strong>force_password_reset</strong> enabled. Please update your
+						Your account has <strong>forcePasswordReset</strong> enabled. Please update your
 						password in settings.
 					</AlertDescription>
 				</Alert>
@@ -52,7 +52,7 @@ function Dashboard() {
 				<div className='rounded-lg border p-4 space-y-3'>
 					<h2 className='font-semibold'>Items</h2>
 					<p className='text-sm text-muted-foreground'>
-						{currentUser.is_superuser
+						{currentUser.isSuperuser
 							? "View and edit all users' items."
 							: 'Create and manage your items.'}
 					</p>
@@ -71,7 +71,7 @@ function Dashboard() {
 					</Button>
 				</div>
 
-				{currentUser.is_superuser && (
+				{currentUser.isSuperuser && (
 					<div className='rounded-lg border p-4 space-y-3'>
 						<h2 className='font-semibold'>Admin</h2>
 						<p className='text-sm text-muted-foreground'>
