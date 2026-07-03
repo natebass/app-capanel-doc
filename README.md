@@ -38,3 +38,7 @@ Run common commands from the root of the project using `make`.
 ## Contribute
 
 You can get involved by joining our Meetup group and Slack channel. For more information on contributing to the project, see the [contribution guide](https://opensacorg.github.io/app-capanel-doc/contribute).
+
+```
+$env:IMPORT_RESOURCES_HOST_PATH="$HOME/Downloads/resources"; docker compose up -d db; docker compose run --rm prestart bash scripts/prestart-with-data.sh
+```
