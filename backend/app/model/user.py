@@ -2,10 +2,10 @@ import uuid
 from datetime import datetime
 from typing import TYPE_CHECKING, Annotated, Any, cast
 
-from pydantic import ConfigDict, EmailStr
 from pydantic.alias_generators import to_camel
 from sqlalchemy import DateTime
 from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel.main import EmailStr, SQLModelConfig
 
 from app.core.utils import get_datetime_utc
 
@@ -26,7 +26,7 @@ class UserBase(SQLModel):
     is_superuser: bool = False
     full_name: str | None = Field(default=None, max_length=255)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class UserCreate(UserBase):
@@ -38,7 +38,7 @@ class UserRegister(SQLModel):
     password: str = Field(min_length=8, max_length=128)
     full_name: str | None = Field(default=None, max_length=255)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class UserUpdate(UserBase):
@@ -52,14 +52,14 @@ class UserUpdateMe(SQLModel):
     email: EmailStr | None = Field(default=None, max_length=255)
     last_viewed_cds: str | None = Field(default=None, max_length=14)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class UpdatePassword(SQLModel):
     current_password: str = Field(min_length=8, max_length=128)
     new_password: str = Field(min_length=8, max_length=128)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class User(UserBase, table=True):
@@ -86,18 +86,18 @@ class UsersPublic(SQLModel):
 class UserPreferencesUpdate(SQLModel):
     last_viewed_cds: str | None = Field(default=None, max_length=14)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class NewPassword(SQLModel):
     token: str
     new_password: str = Field(min_length=8, max_length=128)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class ForcePasswordResetRequest(SQLModel):
     emails: list[EmailStr] = Field(default_factory=list)
     include_all_active_users: bool = False
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)

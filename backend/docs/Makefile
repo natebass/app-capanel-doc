@@ -2,6 +2,7 @@ Project_root := $(abspath ..)
 Venv_directory := $(Project_root)/.venv
 Uv ?= uv
 Sphinx_options ?=
+Sphinx_port ?= 8001
 Source_directory = source
 Build_directory = build
 ifeq ($(OS),Windows_NT)
@@ -42,7 +43,7 @@ else
 endif
 
 reload: docs-deps
-	$(Set_python_path) $(Sphinx_autobuild) "$(Source_directory)" "$(Build_directory)/html" $(Sphinx_options)
+	$(Set_python_path) $(Sphinx_autobuild) --port $(Sphinx_port) "$(Source_directory)" "$(Build_directory)/html" $(Sphinx_options)
 
 %: docs-deps
 	@$(Set_python_path) $(Python) -m sphinx -M $@ "$(Source_directory)" "$(Build_directory)" $(Sphinx_options) $(O)

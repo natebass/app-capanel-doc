@@ -1,7 +1,6 @@
 import uuid
 from decimal import Decimal
 
-from pydantic import ConfigDict
 from pydantic.alias_generators import to_camel
 from sqlalchemy import (
     Column,
@@ -13,6 +12,7 @@ from sqlalchemy import (
     UniqueConstraint,
 )
 from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel.main import SQLModelConfig
 
 
 class CaasppBase(SQLModel):
@@ -22,7 +22,7 @@ class CaasppBase(SQLModel):
     Specific database columns are defined in subclasses to avoid shared Column instance errors.
     """
 
-    model_config = ConfigDict(
+    model_config = SQLModelConfig(
         alias_generator=to_camel, populate_by_name=True, from_attributes=True
     )
 
@@ -34,7 +34,7 @@ class ElpacBase(SQLModel):
     Specific database columns are defined in subclasses to avoid shared Column instance errors.
     """
 
-    model_config = ConfigDict(
+    model_config = SQLModelConfig(
         alias_generator=to_camel, populate_by_name=True, from_attributes=True
     )
 
@@ -47,7 +47,7 @@ class CaasppTest(SQLModel, table=True):
     test_id_num: int | None = Field(default=None)
     test_name: str | None = Field(default=None, max_length=255)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class ElpacTest(SQLModel, table=True):
@@ -57,7 +57,7 @@ class ElpacTest(SQLModel, table=True):
     test_id: int = Field(primary_key=True)
     test_name: str | None = Field(default=None, max_length=255)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class CaasppStudentGroup(SQLModel, table=True):
@@ -69,7 +69,7 @@ class CaasppStudentGroup(SQLModel, table=True):
     demographic_name: str | None = Field(default=None, max_length=255)
     student_group: str | None = Field(default=None, max_length=255)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class ElpacStudentGroup(SQLModel, table=True):
@@ -79,7 +79,7 @@ class ElpacStudentGroup(SQLModel, table=True):
     student_group_id: str = Field(primary_key=True, max_length=10)
     student_group_name: str | None = Field(default=None, max_length=255)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class Entity(SQLModel, table=True):
@@ -106,7 +106,7 @@ class Entity(SQLModel, table=True):
     sa_elpac_results: list[SaElpacResult] = Relationship(back_populates="entity")
     altsa_elpac_results: list[AltsaElpacResult] = Relationship(back_populates="entity")
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class CaaResult(CaasppBase, table=True):
@@ -219,7 +219,7 @@ class CaaResult(CaasppBase, table=True):
         sa_column=Column("Percentage Level 3", Numeric(5, 2)),
     )
 
-    model_config = ConfigDict(
+    model_config = SQLModelConfig(
         alias_generator=to_camel, populate_by_name=True, from_attributes=True
     )
 
@@ -334,7 +334,7 @@ class CaasResult(CaasppBase, table=True):
         sa_column=Column("Percentage Level 3", Numeric(5, 2)),
     )
 
-    model_config = ConfigDict(
+    model_config = SQLModelConfig(
         alias_generator=to_camel, populate_by_name=True, from_attributes=True
     )
 
@@ -595,7 +595,7 @@ class CastResult(CaasppBase, table=True):
         sa_column=Column("Physical Sciences Domain Total", Integer),
     )
 
-    model_config = ConfigDict(
+    model_config = SQLModelConfig(
         alias_generator=to_camel, populate_by_name=True, from_attributes=True
     )
 
@@ -930,7 +930,7 @@ class CsaResult(CaasppBase, table=True):
         sa_column=Column("Writing Domain Total", Integer),
     )
 
-    model_config = ConfigDict(
+    model_config = SQLModelConfig(
         alias_generator=to_camel, populate_by_name=True, from_attributes=True
     )
 
@@ -1275,7 +1275,7 @@ class SbResult(CaasppBase, table=True):
         sa_column=Column("Composite Area 2 Total", Integer),
     )
 
-    model_config = ConfigDict(
+    model_config = SQLModelConfig(
         alias_generator=to_camel, populate_by_name=True, from_attributes=True
     )
 
@@ -1507,7 +1507,7 @@ class IaElpacResult(ElpacBase, table=True):
     writing_domain_developed_count: int | None = Field(default=None)
     writing_domain_total: int | None = Field(default=None)
 
-    model_config = ConfigDict(
+    model_config = SQLModelConfig(
         alias_generator=to_camel, populate_by_name=True, from_attributes=True
     )
 
@@ -1729,7 +1729,7 @@ class AltiaElpacResult(ElpacBase, table=True):
         sa_column=Column("WritLangTotal", Integer),
     )
 
-    model_config = ConfigDict(
+    model_config = SQLModelConfig(
         alias_generator=to_camel, populate_by_name=True, from_attributes=True
     )
 
@@ -1950,7 +1950,7 @@ class SaElpacResult(ElpacBase, table=True):
         sa_column=Column("WritLangTotal", Integer),
     )
 
-    model_config = ConfigDict(
+    model_config = SQLModelConfig(
         alias_generator=to_camel, populate_by_name=True, from_attributes=True
     )
     listening_domain_begin_pcnt: Decimal | None = Field(
@@ -2006,7 +2006,7 @@ class SaElpacResult(ElpacBase, table=True):
     writing_domain_developed_count: int | None = Field(default=None)
     writing_domain_total: int | None = Field(default=None)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class AltsaElpacResult(ElpacBase, table=True):
@@ -2112,6 +2112,6 @@ class AltsaElpacResult(ElpacBase, table=True):
         sa_column=Column("OverallPerfLvl3Count", Integer),
     )
 
-    model_config = ConfigDict(
+    model_config = SQLModelConfig(
         alias_generator=to_camel, populate_by_name=True, from_attributes=True
     )

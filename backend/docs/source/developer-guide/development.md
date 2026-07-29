@@ -89,7 +89,7 @@ In the guide about [deployment](deployment.md) you can read about Traefik, the c
 
 If you want to test that it's all working locally, you can edit the local `.env` file, and change:
 
-```env
+```text
 DOMAIN=localhost.tiangolo.com
 ```
 
@@ -139,7 +139,7 @@ When you install it, it runs right before making a commit in git. This way it en
 
 You can find a file `.pre-commit-config.yaml` with configurations at the root of the project.
 
-#### Install prek to run automatically
+### Install prek to run automatically
 
 `prek` is already part of the dependencies of the project.
 
@@ -164,7 +164,7 @@ git commit
 
 Then you can `git add` the modified/fixed files again and now you can commit.
 
-#### Running prek hooks manually
+### Running prek hooks manually
 
 you can also run `prek` manually on all the files, you can do it using `uv` with:
 

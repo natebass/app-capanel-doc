@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import Any
+from typing import Any, cast
 
 from fastapi import APIRouter, Query
 from sqlalchemy import case, func
@@ -21,6 +21,9 @@ from app.model.dashboard import (
 )
 
 router = APIRouter(prefix="/dashboard", tags=["dashboard"])
+SB_TABLE: Any = cast(Any, SbResult).__table__
+CAST_TABLE: Any = cast(Any, CastResult).__table__
+ELPAC_TABLE: Any = cast(Any, IaElpacResult).__table__
 
 STATEWIDE_CDS = "00000000000000"
 ALL_STUDENTS_GROUPS = {"ALL", "1"}
@@ -34,7 +37,9 @@ def _normalize_cds(cds: str) -> str:
 
 def _normalize_student_group(student_group: str) -> str:
     normalized_group = student_group.strip()
-    return "ALL" if normalized_group.upper() in ALL_STUDENTS_GROUPS else normalized_group
+    return (
+        "ALL" if normalized_group.upper() in ALL_STUDENTS_GROUPS else normalized_group
+    )
 
 
 def _stringify_number(value: Decimal | int | None) -> str | None:
@@ -63,7 +68,7 @@ def _resolve_caaspp_student_group_ids(
         )
     ).all()
 
-    candidate_ids = {row for row in rows if row}
+    candidate_ids = {cast(str, row) for row in rows if row}
     candidate_ids.add("1")
     return sorted(candidate_ids)
 
@@ -83,7 +88,7 @@ def _resolve_elpac_student_group_ids(
         )
     ).all()
 
-    candidate_ids = {row for row in rows if row}
+    candidate_ids = {cast(str, row) for row in rows if row}
     candidate_ids.add("1")
     return sorted(candidate_ids)
 
@@ -109,7 +114,10 @@ def get_dashboard_summary(
     # Build the CDS filter condition
     # If Statewide, also include records where cds_code is NULL (orphaned statewide data)
     if cds_code == STATEWIDE_CDS:
-        cds_filter = or_(SbResult.cds_code == cds_code, SbResult.cds_code == None)
+        cds_filter = or_(
+            SB_TABLE.c.cds_code == cds_code,
+            SB_TABLE.c.cds_code.is_(None),
+        )
     else:
         cds_filter = SbResult.cds_code == cds_code
 
@@ -118,7 +126,7 @@ def get_dashboard_summary(
         select(SbResult).where(
             cds_filter,
             SbResult.test_year == int(reporting_year),
-            SbResult.student_group_id.in_(caaspp_student_group_ids),
+            SB_TABLE.c.student_group_id.in_(caaspp_student_group_ids),
         )
     ).all()
     for sb_row in sb_results:
@@ -139,7 +147,9 @@ def get_dashboard_summary(
                 "Standard Nearly Met (Level 2)": _float_or_zero(
                     sb_row.percentage_standard_nearly_met
                 ),
-                "Standard Met (Level 3)": _float_or_zero(sb_row.percentage_standard_met),
+                "Standard Met (Level 3)": _float_or_zero(
+                    sb_row.percentage_standard_met
+                ),
                 "Standard Exceeded (Level 4)": _float_or_zero(
                     sb_row.percentage_standard_exceeded
                 ),
@@ -149,7 +159,10 @@ def get_dashboard_summary(
 
     # 2. Fetch Science (CAST) (usually testId = 3 or 4)
     if cds_code == STATEWIDE_CDS:
-        cast_filter = or_(CastResult.cds_code == cds_code, CastResult.cds_code == None)
+        cast_filter = or_(
+            CAST_TABLE.c.cds_code == cds_code,
+            CAST_TABLE.c.cds_code.is_(None),
+        )
     else:
         cast_filter = CastResult.cds_code == cds_code
 
@@ -157,7 +170,7 @@ def get_dashboard_summary(
         select(CastResult).where(
             cast_filter,
             CastResult.test_year == int(reporting_year),
-            CastResult.student_group_id.in_(caaspp_student_group_ids),
+            CAST_TABLE.c.student_group_id.in_(caaspp_student_group_ids),
         )
     ).all()
     for cast_row in cast_results:
@@ -178,7 +191,9 @@ def get_dashboard_summary(
                 "Standard Nearly Met (Level 2)": _float_or_zero(
                     cast_row.percentage_standard_nearly_met
                 ),
-                "Standard Met (Level 3)": _float_or_zero(cast_row.percentage_standard_met),
+                "Standard Met (Level 3)": _float_or_zero(
+                    cast_row.percentage_standard_met
+                ),
                 "Standard Exceeded (Level 4)": _float_or_zero(
                     cast_row.percentage_standard_exceeded
                 ),
@@ -188,7 +203,10 @@ def get_dashboard_summary(
 
     # 3. Fetch Initial ELPAC
     if cds_code == STATEWIDE_CDS:
-        elpac_filter = or_(IaElpacResult.cds_code == cds_code, IaElpacResult.cds_code == None)
+        elpac_filter = or_(
+            ELPAC_TABLE.c.cds_code == cds_code,
+            ELPAC_TABLE.c.cds_code.is_(None),
+        )
     else:
         elpac_filter = IaElpacResult.cds_code == cds_code
 
@@ -196,7 +214,7 @@ def get_dashboard_summary(
         select(IaElpacResult).where(
             elpac_filter,
             IaElpacResult.test_year == int(reporting_year),
-            IaElpacResult.student_group_id.in_(elpac_student_group_ids),
+            ELPAC_TABLE.c.student_group_id.in_(elpac_student_group_ids),
         )
     ).all()
     for elpac_row in elpac_results:
@@ -241,7 +259,9 @@ def get_equity_report(
 
     # Map student group IDs to names
     student_groups_map = {
-        row.demographic_id: row.student_group or row.demographic_name or row.demographic_id
+        row.demographic_id: row.student_group
+        or row.demographic_name
+        or row.demographic_id
         for row in session.exec(select(CaasppStudentGroup)).all()
     }
 
@@ -250,7 +270,7 @@ def get_equity_report(
 
     # Build the CDS filter condition
     if cds_code == STATEWIDE_CDS:
-        cds_filter = or_(SbResult.cds_code == cds_code, SbResult.cds_code == None)
+        cds_filter = or_(SB_TABLE.c.cds_code == cds_code, SB_TABLE.c.cds_code.is_(None))
     else:
         cds_filter = SbResult.cds_code == cds_code
 
@@ -258,38 +278,40 @@ def get_equity_report(
         weighted_students = func.sum(
             case(
                 (
-                    SbResult.percentage_standard_met_and_above.is_not(None),
+                    SB_TABLE.c.percentage_standard_met_and_above.is_not(None),
                     func.coalesce(SbResult.total_students_tested, 0),
                 ),
                 else_=0,
             )
         )
-        weighted_pct = (
-            func.sum(
-                func.coalesce(SbResult.percentage_standard_met_and_above, 0)
-                * func.coalesce(SbResult.total_students_tested, 0)
-            )
-            / func.nullif(weighted_students, 0)
-        )
+        weighted_pct = func.sum(
+            func.coalesce(SbResult.percentage_standard_met_and_above, 0)
+            * func.coalesce(SbResult.total_students_tested, 0)
+        ) / func.nullif(weighted_students, 0)
 
         aggregated_results = session.exec(
             select(
-                SbResult.student_group_id,
+                SB_TABLE.c.student_group_id,
                 func.sum(func.coalesce(SbResult.total_students_tested, 0)).label(
                     "students_tested"
                 ),
                 weighted_pct.label("overall_met_and_above_pct"),
-            ).where(
+            )
+            .where(
                 cds_filter,
-                SbResult.test_id == int(test_id),
-                SbResult.test_year == int(reporting_year),
-            ).group_by(SbResult.student_group_id)
+                SB_TABLE.c.test_id == int(test_id),
+                SB_TABLE.c.test_year == int(reporting_year),
+            )
+            .group_by(SB_TABLE.c.student_group_id)
         ).all()
 
-        for student_group_id, students_tested, overall_met_and_above_pct in aggregated_results:
+        for (
+            student_group_id,
+            students_tested,
+            overall_met_and_above_pct,
+        ) in aggregated_results:
             group_name = (
-                student_groups_map.get(student_group_id)
-                or f"Group {student_group_id}"
+                student_groups_map.get(student_group_id) or f"Group {student_group_id}"
             )
             groups.append(
                 EquityGroupSummary(

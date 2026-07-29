@@ -446,7 +446,7 @@ Common Error Messages and Solutions
     uv sync
 
 2. "ImportError: attempted relative import with no known parent package"
-----------------------------------------------------------
+------------------------------------------------------------------------
 
 **Problem**: Python can't find your modules.
 

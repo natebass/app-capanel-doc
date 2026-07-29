@@ -41,7 +41,7 @@ progress of these outcomes so they can participate in decisions to improve stude
 
 
 Problem we are solving
----------------------
+----------------------
 The section that we have seen that has that most technological need is the section that displays 
 the California School Dashboard color-coded system to indicate performance levels, ranging from red (lowest) to blue (highest).
 It based on multiple measures, including test scores, graduation rates, and suspension rates. 
@@ -96,7 +96,6 @@ How it works
 
        %% Connect the main nodes
        A --> B --> C --> D
-_____
 
 
 FAQs

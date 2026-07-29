@@ -1,8 +1,8 @@
 import uuid
 
-from pydantic import ConfigDict
 from pydantic.alias_generators import to_camel
 from sqlmodel import Field, SQLModel
+from sqlmodel.main import SQLModelConfig
 
 
 class SchoolBase(SQLModel):
@@ -80,7 +80,7 @@ class SchoolBase(SQLModel):
     last_up_date: str | None = Field(default=None, max_length=255)
     multilingual: str | None = Field(default=None, max_length=255)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class School(SchoolBase, table=True):
@@ -101,7 +101,7 @@ class SchoolsPublic(SQLModel):
     data: list[SchoolPublic]
     count: int
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class SchoolSummary(SQLModel):
@@ -112,11 +112,11 @@ class SchoolSummary(SQLModel):
     cds_code: str | None = None
     school_code: str | None = None
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class SchoolsSummary(SQLModel):
     data: list[SchoolSummary]
     count: int
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)

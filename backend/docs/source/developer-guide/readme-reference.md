@@ -43,7 +43,7 @@ This page contains detailed operational notes that were removed from repository 
 1. Set `VITE_API_URL` in `frontend/.env`.
 2. Example:
 
-   ```env
+   ```text
    VITE_API_URL=https://api.my-domain.example.com
    ```
 

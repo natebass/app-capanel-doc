@@ -1,8 +1,8 @@
 import uuid
 
-from pydantic import ConfigDict
 from pydantic.alias_generators import to_camel
 from sqlmodel import Field, Session, SQLModel, col, select
+from sqlmodel.main import SQLModelConfig
 
 
 class CensusDataBase(SQLModel):
@@ -31,7 +31,7 @@ class CensusDataBase(SQLModel):
     gr_11: int = Field(default=0)
     gr_12: int = Field(default=0)
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class CensusData(CensusDataBase, table=True):
@@ -233,4 +233,4 @@ class CensusDataPublicList(SQLModel):
     data: list[CensusDataPublic]
     count: int
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)

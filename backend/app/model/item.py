@@ -2,10 +2,10 @@ import uuid
 from datetime import datetime
 from typing import Annotated, Any, cast
 
-from pydantic import ConfigDict
 from pydantic.alias_generators import to_camel
 from sqlalchemy import DateTime
 from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel.main import SQLModelConfig
 
 from app.core.utils import get_datetime_utc
 from app.model.user import User
@@ -21,7 +21,7 @@ Timestamp = Annotated[
 class ItemBase(SQLModel):
     title: str = Field(min_length=1, max_length=255)
     description: str | None = Field(default=None, max_length=255)
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class ItemCreate(ItemBase):
@@ -56,4 +56,4 @@ class ItemPublic(ItemBase):
 class ItemsPublic(SQLModel):
     data: list[ItemPublic]
     count: int
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)

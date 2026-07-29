@@ -49,10 +49,6 @@ Routes
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: app.api.routes.academic_indicators
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Core
 ----

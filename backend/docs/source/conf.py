@@ -28,6 +28,7 @@ extensions = [
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**.ipynb_checkpoints"]
+suppress_warnings = ["sphinx_autodoc_typehints.forward_reference"]
 html_theme = "pydata_sphinx_theme"
 html_static_path = ["_static"]
 html_favicon = "_static/image/favicon/favicon.ico"

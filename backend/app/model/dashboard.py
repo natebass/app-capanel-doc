@@ -1,6 +1,6 @@
-from pydantic import ConfigDict
 from pydantic.alias_generators import to_camel
 from sqlmodel import SQLModel
+from sqlmodel.main import SQLModelConfig
 
 
 class DashboardAggregation(SQLModel):
@@ -14,7 +14,7 @@ class DashboardAggregation(SQLModel):
     overall_met_and_above_pct: str | None = None
     overall_mean_scale_score: str | None = None
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class IndicatorSummary(SQLModel):
@@ -31,7 +31,7 @@ class IndicatorSummary(SQLModel):
     overall_met_and_above_pct: str | None = None
     levels: dict[str, float] | None = None
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class DashboardSummaryResponse(SQLModel):
@@ -41,7 +41,7 @@ class DashboardSummaryResponse(SQLModel):
     test_year: str
     indicators: list[IndicatorSummary]
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class EquityGroupSummary(SQLModel):
@@ -51,7 +51,7 @@ class EquityGroupSummary(SQLModel):
     overall_met_and_above_pct: str | None = None
     students_tested: str | None = None
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class EquityReportResponse(SQLModel):
@@ -62,4 +62,4 @@ class EquityReportResponse(SQLModel):
     test_year: str
     groups: list[EquityGroupSummary]
 
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)

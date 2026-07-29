@@ -1,6 +1,6 @@
-from pydantic import ConfigDict
 from pydantic.alias_generators import to_camel
 from sqlmodel import SQLModel
+from sqlmodel.main import SQLModelConfig
 
 
 class Message(SQLModel):
@@ -12,7 +12,7 @@ class Message(SQLModel):
     success: bool = True
     status: str | None = None
     code: str | int | None = None
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = SQLModelConfig(alias_generator=to_camel, populate_by_name=True)
 
 
 class Token(SQLModel):
