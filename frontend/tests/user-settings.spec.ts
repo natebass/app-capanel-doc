@@ -108,7 +108,7 @@ test.describe('Edit user with invalid data', () => {
 		await page.getByLabel('Full name').fill(updatedName)
 		await page.getByRole('button', { name: 'Cancel' }).first().click()
 		await expect(
-			page.getByLabel('My profile').getByText(user.full_name as string, { exact: true }),
+			page.getByLabel('My profile').getByText(user.fullName as string, { exact: true }),
 		).toBeVisible()
 	})
 

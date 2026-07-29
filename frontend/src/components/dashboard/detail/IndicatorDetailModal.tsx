@@ -57,9 +57,9 @@ export function IndicatorDetailModal({
 		<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
 			<DialogContent className='sm:max-w-xl max-h-[90vh] overflow-y-auto'>
 				<DialogHeader>
-					<DialogTitle>Test Detail: {indicator.test_id}</DialogTitle>
+					<DialogTitle>Test Detail: {indicator.testId}</DialogTitle>
 					<DialogDescription>
-						{indicator.test_type} | Grade {indicator.grade}
+						{indicator.testType} | Grade {indicator.grade}
 					</DialogDescription>
 				</DialogHeader>
 
@@ -69,32 +69,32 @@ export function IndicatorDetailModal({
 							<p className='text-xs font-medium text-muted-foreground uppercase tracking-wider'>
 								Standard Met or Exceeded
 							</p>
-							<p className='text-2xl font-bold mt-1'>{indicator.overall_met_and_above_pct}%</p>
+							<p className='text-2xl font-bold mt-1'>{indicator.overallMetAndAbovePct}%</p>
 						</div>
 						<div className='rounded-lg bg-muted/30 p-4'>
 							<p className='text-xs font-medium text-muted-foreground uppercase tracking-wider'>
 								Mean Scale Score
 							</p>
-							<p className='text-2xl font-bold mt-1'>{indicator.overall_mean_scale_score}</p>
+							<p className='text-2xl font-bold mt-1'>{indicator.overallMeanScaleScore}</p>
 						</div>
 						<div className='rounded-lg bg-muted/30 p-4'>
 							<p className='text-xs font-medium text-muted-foreground uppercase tracking-wider'>
 								Students Enrolled
 							</p>
-							<p className='text-xl font-semibold mt-1'>{indicator.students_enrolled}</p>
+							<p className='text-xl font-semibold mt-1'>{indicator.studentsEnrolled}</p>
 						</div>
 						<div className='rounded-lg bg-muted/30 p-4'>
 							<p className='text-xs font-medium text-muted-foreground uppercase tracking-wider'>
 								Students Tested
 							</p>
-							<p className='text-xl font-semibold mt-1'>{indicator.students_tested}</p>
+							<p className='text-xl font-semibold mt-1'>{indicator.studentsTested}</p>
 						</div>
 					</div>
 
 					<div className='space-y-4'>
 						<h4 className='text-sm font-semibold border-b pb-2'>Student Group Breakdown</h4>
 						<Suspense fallback={<EquityReportSkeleton />}>
-							<EquityReportContent cds={cds} testId={indicator.test_id} testYear={testYear} />
+							<EquityReportContent cds={cds} testId={indicator.testId} testYear={testYear} />
 						</Suspense>
 					</div>
 				</div>

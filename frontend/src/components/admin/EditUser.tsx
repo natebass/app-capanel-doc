@@ -86,7 +86,7 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: ['users'] })
+			void queryClient.invalidateQueries({ queryKey: ['users'] })
 		},
 	})
 
@@ -101,7 +101,7 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 					onSubmit={(e) => {
 						e.preventDefault()
 						e.stopPropagation()
-						form.handleSubmit()
+						void form.handleSubmit()
 					}}
 				>
 					<DialogHeader>

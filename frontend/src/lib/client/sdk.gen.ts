@@ -2,7 +2,9 @@
 
 import {
 	type Client,
+	type ClientMeta,
 	type Options as Options2,
+	type RequestResult,
 	type TDataShape,
 	urlSearchParamsBodySerializer,
 } from './client'
@@ -113,7 +115,8 @@ import type {
 export type Options<
 	TData extends TDataShape = TDataShape,
 	ThrowOnError extends boolean = boolean,
-> = Options2<TData, ThrowOnError> & {
+	TResponse = unknown,
+> = Options2<TData, ThrowOnError, TResponse> & {
 	/**
 	 * You can provide a client instance returned by `createClient()` instead of
 	 * individual options. This might be also useful if you want to implement a
@@ -124,18 +127,18 @@ export type Options<
 	 * You can pass arbitrary values through the `meta` object. This can be
 	 * used to access values that aren't defined as part of the SDK function.
 	 */
-	meta?: Record<string, unknown>
+	meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta
 }
 
 export class LoginService {
 	/**
 	 * Login Access Token
 	 *
-	 * OAuth2 compatible token login, get an access token for future requests
+	 * OAuth2 compatible token login, get an access token for future requests.
 	 */
 	public static loginLoginAccessToken<ThrowOnError extends boolean = false>(
 		options: Options<LoginLoginAccessTokenData, ThrowOnError>,
-	) {
+	): RequestResult<LoginLoginAccessTokenResponses, LoginLoginAccessTokenErrors, ThrowOnError> {
 		return (options.client ?? client).post<
 			LoginLoginAccessTokenResponses,
 			LoginLoginAccessTokenErrors,
@@ -154,11 +157,11 @@ export class LoginService {
 	/**
 	 * Test Token
 	 *
-	 * Test access token
+	 * Test access token.
 	 */
 	public static loginTestToken<ThrowOnError extends boolean = false>(
 		options?: Options<LoginTestTokenData, ThrowOnError>,
-	) {
+	): RequestResult<LoginTestTokenResponses, unknown, ThrowOnError> {
 		return (options?.client ?? client).post<LoginTestTokenResponses, unknown, ThrowOnError>({
 			security: [{ scheme: 'bearer', type: 'http' }],
 			url: '/api/v1/login/test-token',
@@ -169,11 +172,11 @@ export class LoginService {
 	/**
 	 * Recover Password
 	 *
-	 * Password Recovery
+	 * Password recovery. Always return the same response to prevent email enumeration attacks. Only send email if user actually exists.
 	 */
 	public static loginRecoverPassword<ThrowOnError extends boolean = false>(
 		options: Options<LoginRecoverPasswordData, ThrowOnError>,
-	) {
+	): RequestResult<LoginRecoverPasswordResponses, LoginRecoverPasswordErrors, ThrowOnError> {
 		return (options.client ?? client).post<
 			LoginRecoverPasswordResponses,
 			LoginRecoverPasswordErrors,
@@ -184,11 +187,11 @@ export class LoginService {
 	/**
 	 * Reset Password
 	 *
-	 * Reset password
+	 * Reset password. Don't reveal that the user doesn't exist - use same error as invalid token.
 	 */
 	public static loginResetPassword<ThrowOnError extends boolean = false>(
 		options: Options<LoginResetPasswordData, ThrowOnError>,
-	) {
+	): RequestResult<LoginResetPasswordResponses, LoginResetPasswordErrors, ThrowOnError> {
 		return (options.client ?? client).post<
 			LoginResetPasswordResponses,
 			LoginResetPasswordErrors,
@@ -206,11 +209,15 @@ export class LoginService {
 	/**
 	 * Recover Password Html Content
 	 *
-	 * HTML Content for Password Recovery
+	 * HTML content for password recovery.
 	 */
 	public static loginRecoverPasswordHtmlContent<ThrowOnError extends boolean = false>(
 		options: Options<LoginRecoverPasswordHtmlContentData, ThrowOnError>,
-	) {
+	): RequestResult<
+		LoginRecoverPasswordHtmlContentResponses,
+		LoginRecoverPasswordHtmlContentErrors,
+		ThrowOnError
+	> {
 		return (options.client ?? client).post<
 			LoginRecoverPasswordHtmlContentResponses,
 			LoginRecoverPasswordHtmlContentErrors,
@@ -229,7 +236,11 @@ export class LoginService {
 	 */
 	public static loginForcePasswordResetForUsers<ThrowOnError extends boolean = false>(
 		options: Options<LoginForcePasswordResetForUsersData, ThrowOnError>,
-	) {
+	): RequestResult<
+		LoginForcePasswordResetForUsersResponses,
+		LoginForcePasswordResetForUsersErrors,
+		ThrowOnError
+	> {
 		return (options.client ?? client).post<
 			LoginForcePasswordResetForUsersResponses,
 			LoginForcePasswordResetForUsersErrors,
@@ -254,7 +265,7 @@ export class UsersService {
 	 */
 	public static usersReadUsers<ThrowOnError extends boolean = false>(
 		options?: Options<UsersReadUsersData, ThrowOnError>,
-	) {
+	): RequestResult<UsersReadUsersResponses, UsersReadUsersErrors, ThrowOnError> {
 		return (options?.client ?? client).get<
 			UsersReadUsersResponses,
 			UsersReadUsersErrors,
@@ -273,7 +284,7 @@ export class UsersService {
 	 */
 	public static usersCreateUser<ThrowOnError extends boolean = false>(
 		options: Options<UsersCreateUserData, ThrowOnError>,
-	) {
+	): RequestResult<UsersCreateUserResponses, UsersCreateUserErrors, ThrowOnError> {
 		return (options.client ?? client).post<
 			UsersCreateUserResponses,
 			UsersCreateUserErrors,
@@ -296,7 +307,7 @@ export class UsersService {
 	 */
 	public static usersDeleteUserMe<ThrowOnError extends boolean = false>(
 		options?: Options<UsersDeleteUserMeData, ThrowOnError>,
-	) {
+	): RequestResult<UsersDeleteUserMeResponses, unknown, ThrowOnError> {
 		return (options?.client ?? client).delete<UsersDeleteUserMeResponses, unknown, ThrowOnError>({
 			security: [{ scheme: 'bearer', type: 'http' }],
 			url: '/api/v1/users/me',
@@ -311,7 +322,7 @@ export class UsersService {
 	 */
 	public static usersReadUserMe<ThrowOnError extends boolean = false>(
 		options?: Options<UsersReadUserMeData, ThrowOnError>,
-	) {
+	): RequestResult<UsersReadUserMeResponses, unknown, ThrowOnError> {
 		return (options?.client ?? client).get<UsersReadUserMeResponses, unknown, ThrowOnError>({
 			security: [{ scheme: 'bearer', type: 'http' }],
 			url: '/api/v1/users/me',
@@ -326,7 +337,7 @@ export class UsersService {
 	 */
 	public static usersUpdateUserMe<ThrowOnError extends boolean = false>(
 		options: Options<UsersUpdateUserMeData, ThrowOnError>,
-	) {
+	): RequestResult<UsersUpdateUserMeResponses, UsersUpdateUserMeErrors, ThrowOnError> {
 		return (options.client ?? client).patch<
 			UsersUpdateUserMeResponses,
 			UsersUpdateUserMeErrors,
@@ -349,7 +360,7 @@ export class UsersService {
 	 */
 	public static usersUpdatePasswordMe<ThrowOnError extends boolean = false>(
 		options: Options<UsersUpdatePasswordMeData, ThrowOnError>,
-	) {
+	): RequestResult<UsersUpdatePasswordMeResponses, UsersUpdatePasswordMeErrors, ThrowOnError> {
 		return (options.client ?? client).patch<
 			UsersUpdatePasswordMeResponses,
 			UsersUpdatePasswordMeErrors,
@@ -372,7 +383,7 @@ export class UsersService {
 	 */
 	public static usersGetUserPreferences<ThrowOnError extends boolean = false>(
 		options?: Options<UsersGetUserPreferencesData, ThrowOnError>,
-	) {
+	): RequestResult<UsersGetUserPreferencesResponses, unknown, ThrowOnError> {
 		return (options?.client ?? client).get<UsersGetUserPreferencesResponses, unknown, ThrowOnError>(
 			{
 				security: [{ scheme: 'bearer', type: 'http' }],
@@ -389,7 +400,11 @@ export class UsersService {
 	 */
 	public static usersUpdateUserPreferences<ThrowOnError extends boolean = false>(
 		options: Options<UsersUpdateUserPreferencesData, ThrowOnError>,
-	) {
+	): RequestResult<
+		UsersUpdateUserPreferencesResponses,
+		UsersUpdateUserPreferencesErrors,
+		ThrowOnError
+	> {
 		return (options.client ?? client).patch<
 			UsersUpdateUserPreferencesResponses,
 			UsersUpdateUserPreferencesErrors,
@@ -412,7 +427,7 @@ export class UsersService {
 	 */
 	public static usersRegisterUser<ThrowOnError extends boolean = false>(
 		options: Options<UsersRegisterUserData, ThrowOnError>,
-	) {
+	): RequestResult<UsersRegisterUserResponses, UsersRegisterUserErrors, ThrowOnError> {
 		return (options.client ?? client).post<
 			UsersRegisterUserResponses,
 			UsersRegisterUserErrors,
@@ -434,7 +449,7 @@ export class UsersService {
 	 */
 	public static usersDeleteUser<ThrowOnError extends boolean = false>(
 		options: Options<UsersDeleteUserData, ThrowOnError>,
-	) {
+	): RequestResult<UsersDeleteUserResponses, UsersDeleteUserErrors, ThrowOnError> {
 		return (options.client ?? client).delete<
 			UsersDeleteUserResponses,
 			UsersDeleteUserErrors,
@@ -453,7 +468,7 @@ export class UsersService {
 	 */
 	public static usersReadUserById<ThrowOnError extends boolean = false>(
 		options: Options<UsersReadUserByIdData, ThrowOnError>,
-	) {
+	): RequestResult<UsersReadUserByIdResponses, UsersReadUserByIdErrors, ThrowOnError> {
 		return (options.client ?? client).get<
 			UsersReadUserByIdResponses,
 			UsersReadUserByIdErrors,
@@ -472,7 +487,7 @@ export class UsersService {
 	 */
 	public static usersUpdateUser<ThrowOnError extends boolean = false>(
 		options: Options<UsersUpdateUserData, ThrowOnError>,
-	) {
+	): RequestResult<UsersUpdateUserResponses, UsersUpdateUserErrors, ThrowOnError> {
 		return (options.client ?? client).patch<
 			UsersUpdateUserResponses,
 			UsersUpdateUserErrors,
@@ -497,7 +512,7 @@ export class UtilsService {
 	 */
 	public static utilsTestEmail<ThrowOnError extends boolean = false>(
 		options: Options<UtilsTestEmailData, ThrowOnError>,
-	) {
+	): RequestResult<UtilsTestEmailResponses, UtilsTestEmailErrors, ThrowOnError> {
 		return (options.client ?? client).post<
 			UtilsTestEmailResponses,
 			UtilsTestEmailErrors,
@@ -514,7 +529,7 @@ export class UtilsService {
 	 */
 	public static utilsHealthCheck<ThrowOnError extends boolean = false>(
 		options?: Options<UtilsHealthCheckData, ThrowOnError>,
-	) {
+	): RequestResult<UtilsHealthCheckResponses, unknown, ThrowOnError> {
 		return (options?.client ?? client).get<UtilsHealthCheckResponses, unknown, ThrowOnError>({
 			url: '/api/v1/utils/health-check/',
 			...options,
@@ -530,7 +545,7 @@ export class ItemsService {
 	 */
 	public static itemsReadItems<ThrowOnError extends boolean = false>(
 		options?: Options<ItemsReadItemsData, ThrowOnError>,
-	) {
+	): RequestResult<ItemsReadItemsResponses, ItemsReadItemsErrors, ThrowOnError> {
 		return (options?.client ?? client).get<
 			ItemsReadItemsResponses,
 			ItemsReadItemsErrors,
@@ -549,7 +564,7 @@ export class ItemsService {
 	 */
 	public static itemsCreateItem<ThrowOnError extends boolean = false>(
 		options: Options<ItemsCreateItemData, ThrowOnError>,
-	) {
+	): RequestResult<ItemsCreateItemResponses, ItemsCreateItemErrors, ThrowOnError> {
 		return (options.client ?? client).post<
 			ItemsCreateItemResponses,
 			ItemsCreateItemErrors,
@@ -572,7 +587,7 @@ export class ItemsService {
 	 */
 	public static itemsDeleteItem<ThrowOnError extends boolean = false>(
 		options: Options<ItemsDeleteItemData, ThrowOnError>,
-	) {
+	): RequestResult<ItemsDeleteItemResponses, ItemsDeleteItemErrors, ThrowOnError> {
 		return (options.client ?? client).delete<
 			ItemsDeleteItemResponses,
 			ItemsDeleteItemErrors,
@@ -591,7 +606,7 @@ export class ItemsService {
 	 */
 	public static itemsReadItem<ThrowOnError extends boolean = false>(
 		options: Options<ItemsReadItemData, ThrowOnError>,
-	) {
+	): RequestResult<ItemsReadItemResponses, ItemsReadItemErrors, ThrowOnError> {
 		return (options.client ?? client).get<
 			ItemsReadItemResponses,
 			ItemsReadItemErrors,
@@ -610,7 +625,7 @@ export class ItemsService {
 	 */
 	public static itemsUpdateItem<ThrowOnError extends boolean = false>(
 		options: Options<ItemsUpdateItemData, ThrowOnError>,
-	) {
+	): RequestResult<ItemsUpdateItemResponses, ItemsUpdateItemErrors, ThrowOnError> {
 		return (options.client ?? client).put<
 			ItemsUpdateItemResponses,
 			ItemsUpdateItemErrors,
@@ -635,7 +650,11 @@ export class CensusdataService {
 	 */
 	public static censusdataCountOfCensusData<ThrowOnError extends boolean = false>(
 		options?: Options<CensusdataCountOfCensusDataData, ThrowOnError>,
-	) {
+	): RequestResult<
+		CensusdataCountOfCensusDataResponses,
+		CensusdataCountOfCensusDataErrors,
+		ThrowOnError
+	> {
 		return (options?.client ?? client).get<
 			CensusdataCountOfCensusDataResponses,
 			CensusdataCountOfCensusDataErrors,
@@ -654,7 +673,11 @@ export class CensusdataService {
 	 */
 	public static censusdataCreateCensusData<ThrowOnError extends boolean = false>(
 		options: Options<CensusdataCreateCensusDataData, ThrowOnError>,
-	) {
+	): RequestResult<
+		CensusdataCreateCensusDataResponses,
+		CensusdataCreateCensusDataErrors,
+		ThrowOnError
+	> {
 		return (options.client ?? client).post<
 			CensusdataCreateCensusDataResponses,
 			CensusdataCreateCensusDataErrors,
@@ -677,7 +700,11 @@ export class CensusdataService {
 	 */
 	public static censusdataDeleteCensusData<ThrowOnError extends boolean = false>(
 		options: Options<CensusdataDeleteCensusDataData, ThrowOnError>,
-	) {
+	): RequestResult<
+		CensusdataDeleteCensusDataResponses,
+		CensusdataDeleteCensusDataErrors,
+		ThrowOnError
+	> {
 		return (options.client ?? client).delete<
 			CensusdataDeleteCensusDataResponses,
 			CensusdataDeleteCensusDataErrors,
@@ -696,7 +723,11 @@ export class CensusdataService {
 	 */
 	public static censusdataReadCensusData<ThrowOnError extends boolean = false>(
 		options: Options<CensusdataReadCensusDataData, ThrowOnError>,
-	) {
+	): RequestResult<
+		CensusdataReadCensusDataResponses,
+		CensusdataReadCensusDataErrors,
+		ThrowOnError
+	> {
 		return (options.client ?? client).get<
 			CensusdataReadCensusDataResponses,
 			CensusdataReadCensusDataErrors,
@@ -715,7 +746,11 @@ export class CensusdataService {
 	 */
 	public static censusdataUpdateCensusData<ThrowOnError extends boolean = false>(
 		options: Options<CensusdataUpdateCensusDataData, ThrowOnError>,
-	) {
+	): RequestResult<
+		CensusdataUpdateCensusDataResponses,
+		CensusdataUpdateCensusDataErrors,
+		ThrowOnError
+	> {
 		return (options.client ?? client).put<
 			CensusdataUpdateCensusDataResponses,
 			CensusdataUpdateCensusDataErrors,
@@ -740,7 +775,7 @@ export class SchoolsService {
 	 */
 	public static schoolsReadSchools<ThrowOnError extends boolean = false>(
 		options?: Options<SchoolsReadSchoolsData, ThrowOnError>,
-	) {
+	): RequestResult<SchoolsReadSchoolsResponses, SchoolsReadSchoolsErrors, ThrowOnError> {
 		return (options?.client ?? client).get<
 			SchoolsReadSchoolsResponses,
 			SchoolsReadSchoolsErrors,
@@ -755,7 +790,11 @@ export class SchoolsService {
 	 */
 	public static schoolsReadSchoolsSummary<ThrowOnError extends boolean = false>(
 		options?: Options<SchoolsReadSchoolsSummaryData, ThrowOnError>,
-	) {
+	): RequestResult<
+		SchoolsReadSchoolsSummaryResponses,
+		SchoolsReadSchoolsSummaryErrors,
+		ThrowOnError
+	> {
 		return (options?.client ?? client).get<
 			SchoolsReadSchoolsSummaryResponses,
 			SchoolsReadSchoolsSummaryErrors,
@@ -772,7 +811,11 @@ export class DashboardService {
 	 */
 	public static dashboardGetDashboardSummary<ThrowOnError extends boolean = false>(
 		options: Options<DashboardGetDashboardSummaryData, ThrowOnError>,
-	) {
+	): RequestResult<
+		DashboardGetDashboardSummaryResponses,
+		DashboardGetDashboardSummaryErrors,
+		ThrowOnError
+	> {
 		return (options.client ?? client).get<
 			DashboardGetDashboardSummaryResponses,
 			DashboardGetDashboardSummaryErrors,
@@ -787,7 +830,11 @@ export class DashboardService {
 	 */
 	public static dashboardGetEquityReport<ThrowOnError extends boolean = false>(
 		options: Options<DashboardGetEquityReportData, ThrowOnError>,
-	) {
+	): RequestResult<
+		DashboardGetEquityReportResponses,
+		DashboardGetEquityReportErrors,
+		ThrowOnError
+	> {
 		return (options.client ?? client).get<
 			DashboardGetEquityReportResponses,
 			DashboardGetEquityReportErrors,
@@ -804,7 +851,7 @@ export class PrivateService {
 	 */
 	public static privateCreateUser<ThrowOnError extends boolean = false>(
 		options: Options<PrivateCreateUserData, ThrowOnError>,
-	) {
+	): RequestResult<PrivateCreateUserResponses, PrivateCreateUserErrors, ThrowOnError> {
 		return (options.client ?? client).post<
 			PrivateCreateUserResponses,
 			PrivateCreateUserErrors,

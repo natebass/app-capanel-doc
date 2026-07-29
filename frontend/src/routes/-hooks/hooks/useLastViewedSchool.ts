@@ -43,7 +43,7 @@ export function useLastViewedSchool({ isAuthenticated = false }: UseLastViewedSc
 			if (response.error) {
 				throw new Error('Failed to fetch user preferences')
 			}
-			return response.data as { last_viewed_cds: string | null }
+			return response.data as { lastViewedCds: string | null }
 		},
 		enabled: isAuthenticated,
 		staleTime: 5 * 60 * 1000, // 5 minutes
@@ -53,7 +53,7 @@ export function useLastViewedSchool({ isAuthenticated = false }: UseLastViewedSc
 	const serverMutation = useMutation({
 		mutationFn: async (cds: string) => {
 			const response = await UsersService.usersUpdateUserPreferences({
-				body: { last_viewed_cds: cds },
+				body: { lastViewedCds: cds },
 			})
 			if (response.error) {
 				throw new Error('Failed to update user preferences')
@@ -61,13 +61,13 @@ export function useLastViewedSchool({ isAuthenticated = false }: UseLastViewedSc
 			return response.data
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['userPreferences', 'lastViewedCds'] })
+			void queryClient.invalidateQueries({ queryKey: ['userPreferences', 'lastViewedCds'] })
 		},
 	})
 
 	// Determine the effective CDS code
 	const effectiveCds = isAuthenticated
-		? (serverQuery.data?.last_viewed_cds ?? localSchool?.cds ?? STATEWIDE_CDS)
+		? (serverQuery.data?.lastViewedCds ?? localSchool?.cds ?? STATEWIDE_CDS)
 		: (localSchool?.cds ?? STATEWIDE_CDS)
 
 	// Set last viewed school

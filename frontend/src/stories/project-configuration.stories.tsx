@@ -1,22 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import oxfmtConfig from '#.oxfmtrc.jsonc?raw'
-import oxlintConfig from '#.oxlintrc.jsonc?raw'
-import componentsConfig from '#components.json?raw'
-import openapiTsConfig from '#openapi-ts.config.ts?raw'
-import playwrightConfig from '#playwright.config.ts?raw'
-import tsConfig from '#tsconfig.json?raw'
-import viteConfig from '#vite.config.ts?raw'
-import vitestConfig from '#vitest.config.ts?raw'
+import componentsConfig from '../../components.json?raw'
+import openapiTsConfig from '../../openapi-ts.config.ts?raw'
+import playwrightConfig from '../../playwright.config.ts?raw'
+import tsConfig from '../../tsconfig.json?raw'
+import viteConfig from '../../vite.config.ts?raw'
+import vitestConfig from '../../vitest.config.ts?raw'
 
 const viteConfigComments =
 	viteConfig.match(/\/\*[\s\S]*?\*\/|\/\/.*/g)?.join('\n\n') ?? 'No comments found.'
 const tsConfigComments =
 	tsConfig.match(/\/\*[\s\S]*?\*\/|\/\/.*/g)?.join('\n\n') ?? 'No comments found.'
-const oxlintConfigComments =
-	oxlintConfig.match(/\/\*[\s\S]*?\*\/|\/\/.*/g)?.join('\n\n') ?? 'No comments found.'
-const oxfmtConfigComments =
-	oxfmtConfig.match(/\/\*[\s\S]*?\*\/|\/\/.*/g)?.join('\n\n') ?? 'No comments found.'
 const playwrightConfigComments =
 	playwrightConfig.match(/\/\*[\s\S]*?\*\/|\/\/.*/g)?.join('\n\n') ?? 'No comments found.'
 const shadcnComponentsConfigComments =
@@ -79,47 +73,6 @@ export const TSConfig: Story = {
 	),
 }
 
-export const OXLintConfig: Story = {
-	name: 'oxlint.config.json',
-	render: () => (
-		<div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-			<h1 style={{ fontFamily: 'sans-serif' }}>TypeScript Config Documentation</h1>
-			<pre
-				style={{
-					background: '#1e1e1e',
-					color: '#d4d4d4',
-					padding: '1.5rem',
-					borderRadius: '8px',
-					whiteSpace: 'pre-wrap',
-					fontSize: '14px',
-				}}
-			>
-				<code>{oxlintConfigComments}</code>
-			</pre>
-		</div>
-	),
-}
-
-export const OXFmtConfig: Story = {
-	name: 'oxfmt.config.json',
-	render: () => (
-		<div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-			<h1 style={{ fontFamily: 'sans-serif' }}>TypeScript Config Documentation</h1>
-			<pre
-				style={{
-					background: '#1e1e1e',
-					color: '#d4d4d4',
-					padding: '1.5rem',
-					borderRadius: '8px',
-					whiteSpace: 'pre-wrap',
-					fontSize: '14px',
-				}}
-			>
-				<code>{oxfmtConfigComments}</code>
-			</pre>
-		</div>
-	),
-}
 
 export const PlaywrightConfig: Story = {
 	name: 'playwright.config.ts',

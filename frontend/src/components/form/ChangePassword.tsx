@@ -53,7 +53,7 @@ const ChangePassword = () => {
 		onSuccess: () => {
 			showSuccessToast('Password updated successfully')
 			form.reset()
-			queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+			void queryClient.invalidateQueries({ queryKey: ['currentUser'] })
 		},
 		onError: handleError.bind(showErrorToast),
 	})
@@ -65,7 +65,7 @@ const ChangePassword = () => {
 				onSubmit={(e) => {
 					e.preventDefault()
 					e.stopPropagation()
-					form.handleSubmit()
+					void form.handleSubmit()
 				}}
 				className='flex flex-col gap-4'
 			>

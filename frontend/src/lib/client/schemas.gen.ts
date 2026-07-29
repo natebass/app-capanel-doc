@@ -385,7 +385,6 @@ export const ItemCreateSchema = {
 	type: 'object',
 	required: ['title'],
 	title: 'ItemCreate',
-	description: 'Properties to receive on item creation',
 } as const
 
 export const ItemPublicSchema = {
@@ -434,7 +433,6 @@ export const ItemPublicSchema = {
 	type: 'object',
 	required: ['title', 'id', 'ownerId'],
 	title: 'ItemPublic',
-	description: 'Properties to return via API, id is always required',
 } as const
 
 export const ItemUpdateSchema = {
@@ -467,7 +465,6 @@ export const ItemUpdateSchema = {
 	},
 	type: 'object',
 	title: 'ItemUpdate',
-	description: 'Properties to receive on item update',
 } as const
 
 export const ItemsPublicSchema = {
@@ -495,11 +492,41 @@ export const MessageSchema = {
 			type: 'string',
 			title: 'Message',
 		},
+		success: {
+			type: 'boolean',
+			title: 'Success',
+			default: true,
+		},
+		status: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Status',
+		},
+		code: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Code',
+		},
 	},
 	type: 'object',
 	required: ['message'],
 	title: 'Message',
-	description: 'Generic message',
+	description: 'A message for an API response.',
 } as const
 
 export const NewPasswordSchema = {
@@ -1196,20 +1223,21 @@ export const SchoolsSummarySchema = {
 
 export const TokenSchema = {
 	properties: {
-		accessToken: {
+		access_token: {
 			type: 'string',
-			title: 'Accesstoken',
+			title: 'Access Token',
 		},
-		tokenType: {
+		token_type: {
 			type: 'string',
-			title: 'Tokentype',
+			title: 'Token Type',
 			default: 'bearer',
 		},
 	},
 	type: 'object',
-	required: ['accessToken'],
+	required: ['access_token'],
 	title: 'Token',
-	description: 'A JSON payload containing the access token.',
+	description:
+		'A JSON payload containing the access token. The names follow the JWT spec (RFC 7519).',
 } as const
 
 export const UpdatePasswordSchema = {

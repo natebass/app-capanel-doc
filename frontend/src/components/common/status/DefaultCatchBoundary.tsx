@@ -61,7 +61,7 @@ export function DefaultCatchBoundary({ error, reset, fullPage = true }: DefaultC
 		if (reset) {
 			reset()
 		} else {
-			router.invalidate()
+			void router.invalidate()
 		}
 	}
 

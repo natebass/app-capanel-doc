@@ -255,7 +255,7 @@ function DashboardPage() {
 			if (nextYear === effectiveYear) {
 				return
 			}
-			navigate({ search: (previous) => ({ ...previous, year: nextYear }) })
+			void navigate({ search: (previous) => ({ ...previous, year: nextYear }) })
 		},
 		[effectiveYear, navigate],
 	)
@@ -265,7 +265,7 @@ function DashboardPage() {
 			if (nextSubject === effectiveSubjectId) {
 				return
 			}
-			navigate({ search: (previous) => ({ ...previous, subject: nextSubject }) })
+			void navigate({ search: (previous) => ({ ...previous, subject: nextSubject }) })
 		},
 		[effectiveSubjectId, navigate],
 	)

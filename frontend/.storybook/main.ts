@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url'
 import type { StorybookConfig } from '@storybook/react-vite'
 
 const config: StorybookConfig = {
@@ -28,6 +29,17 @@ const config: StorybookConfig = {
 	},
 
 	staticDirs: ['../public'],
+
+	viteFinal: async (config) => ({
+		...config,
+		resolve: {
+			...config.resolve,
+			alias: {
+				...(config.resolve?.alias ?? {}),
+				'@': fileURLToPath(new URL('../src', import.meta.url)),
+			},
+		},
+	}),
 }
 
 export default config

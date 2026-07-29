@@ -112,19 +112,14 @@ export function ComboBox({
 					<div className='absolute z-10 mt-1 w-full rounded-sm border border-gray-200 bg-white shadow-lg'>
 						<ul className='max-h-60 overflow-auto rounded-sm text-base focus:outline-none sm:text-sm tracking-wide'>
 							{filteredOptions.map((option) => (
-								<li
-									key={option}
-									/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
-									tabIndex={0}
-									onClick={() => handleSelect(option)}
-									onKeyDown={(e) => {
-										if (e.key === 'Enter' || e.key === ' ') {
-											handleSelect(option)
-										}
-									}}
-									className='relative cursor-pointer select-none py-2 pl-3 pr-9 text-gray-900 hover:bg-cool4-500 '
-								>
-									{option}
+								<li key={option}>
+									<button
+										type='button'
+										onClick={() => handleSelect(option)}
+										className='relative w-full cursor-pointer select-none py-2 pl-3 pr-9 text-left text-gray-900 hover:bg-cool4-500'
+									>
+										{option}
+									</button>
 								</li>
 							))}
 						</ul>

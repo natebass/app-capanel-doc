@@ -60,7 +60,7 @@ const UserInformation = () => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+			void queryClient.invalidateQueries({ queryKey: ['currentUser'] })
 		},
 	})
 
@@ -76,7 +76,7 @@ const UserInformation = () => {
 				onSubmit={(e) => {
 					e.preventDefault()
 					e.stopPropagation()
-					form.handleSubmit()
+					void form.handleSubmit()
 				}}
 				className='flex flex-col gap-4'
 			>

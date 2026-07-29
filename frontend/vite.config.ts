@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { devtools } from '@tanstack/devtools-vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig, loadEnv, lazyPlugins } from 'vite-plus'
 
 const trimTrailingSlash = (value: string): string => value.replace(/\/+$/, '')
 
@@ -28,6 +28,74 @@ const config = defineConfig(({ command, mode }) => {
 		env.VITE_DEV_PROXY_TARGET || normalizeApiBase(env.VITE_API_URL) || 'http://localhost:8000'
 
 	return {
+		fmt: {
+			// Formatting options (from biome formatter + javascript.formatter)
+			useTabs: true,
+			singleQuote: true,
+			jsxSingleQuote: true,
+			semi: false,
+			// Ignore patterns (from biome files.includes negations)
+			ignorePatterns: [
+				'**/src/routeTree.gen.ts',
+				'**/src/styles.css',
+				'**/dist/**/*',
+				'**/node_modules/**/*',
+				'**/src/client/**/*',
+				'**/playwright-report',
+				'**/playwright.config.ts',
+			],
+			// Import sorting (from biome assist.actions.source.organizeImports)
+			experimentalSortImports: {},
+		},
+		lint: {
+			plugins: [
+				'eslint',
+				'react',
+				'unicorn',
+				'typescript',
+				'oxc',
+				'import',
+				'jsdoc',
+				'jest',
+				'vitest',
+				'jsx-a11y',
+				'react-perf',
+				'promise',
+			],
+			ignorePatterns: [
+				'**/src/routeTree.gen.ts',
+				'**/src/styles.css',
+				'**/dist/**/*',
+				'**/node_modules/**/*',
+				'**/src/client/**/*',
+				'**/src/lib/client/**/*',
+				'**/playwright-report',
+				'**/playwright.config.ts',
+			],
+			categories: {
+				correctness: 'warn',
+			},
+			rules: {
+				'eslint/no-unused-vars': 'error',
+				'typescript/no-explicit-any': 'off',
+				'react/no-array-index-key': 'off',
+				'typescript/no-non-null-assertion': 'off',
+				'eslint/no-param-reassign': 'error',
+				'react/self-closing-comp': 'error',
+				'eslint/no-else-return': 'error',
+				'vite-plus/prefer-vite-plus-imports': 'error',
+			},
+			options: {
+				typeAware: true,
+				typeCheck: true,
+			},
+			jsPlugins: [
+				{
+					name: 'vite-plus',
+					specifier: 'vite-plus/oxlint-plugin',
+				},
+			],
+		},
 		base: command === 'serve' ? '/' : './',
 		build: {
 			outDir: 'dist',
@@ -62,7 +130,7 @@ const config = defineConfig(({ command, mode }) => {
 				},
 			},
 		},
-		plugins: [
+		plugins: lazyPlugins(() => [
 			devtools(),
 			tailwindcss(),
 			tanstackRouter({ target: 'react', autoCodeSplitting: true }),
@@ -72,7 +140,7 @@ const config = defineConfig(({ command, mode }) => {
 					plugins: ['babel-plugin-react-compiler'],
 				},
 			}),
-		],
+		]),
 	}
 })
 

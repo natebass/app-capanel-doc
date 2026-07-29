@@ -128,19 +128,19 @@ function SuccessStatesPage() {
 						<pre>{`// After successful form submission
 const handleSubmit = async (data) => {
   await api.createUser(data)
-  navigate({ to: '/success' })
+  void navigate({ to: '/success' })
 }
 
 // After successful authentication action
 const handlePasswordChange = async () => {
   await api.changePassword(newPassword)
-  navigate({ to: '/password-changed' })
+  void navigate({ to: '/password-changed' })
 }
 
 // After successful payment
 const handleUpgrade = async () => {
   await api.upgradePlan('pro')
-  navigate({ to: '/upgrade-success' })
+  void navigate({ to: '/upgrade-success' })
 }`}</pre>
 					</div>
 					<div className='flex flex-wrap gap-2'>

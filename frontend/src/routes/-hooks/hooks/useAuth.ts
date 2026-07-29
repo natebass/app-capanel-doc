@@ -35,11 +35,11 @@ const useAuth = () => {
 	const signUpMutation = useMutation({
 		mutationFn: (data: UserRegister) => UsersService.usersRegisterUser({ body: data }),
 		onSuccess: () => {
-			navigate({ to: '/login' })
+			void navigate({ to: '/login' })
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: ['users'] })
+			void queryClient.invalidateQueries({ queryKey: ['users'] })
 		},
 	})
 
@@ -50,21 +50,21 @@ const useAuth = () => {
 		if (response.error || !response.data) {
 			throw response.error ?? new Error('Login failed')
 		}
-		localStorage.setItem('access_token', response.data.accessToken)
+		localStorage.setItem('access_token', response.data.access_token)
 	}
 
 	const loginMutation = useMutation({
 		mutationFn: login,
 		onSuccess: async () => {
-			await queryClient.invalidateQueries({ queryKey: ['currentUser'] })
-			navigate({ to: '/' })
+			void queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+			void navigate({ to: '/' })
 		},
 		onError: handleError.bind(showErrorToast),
 	})
 
 	const logout = () => {
 		localStorage.removeItem('access_token')
-		navigate({ to: '/login' })
+		void navigate({ to: '/login' })
 	}
 
 	return {

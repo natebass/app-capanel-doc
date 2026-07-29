@@ -8,28 +8,26 @@ interface EquityReportProps {
 function GroupList({ groups }: { groups: EquityGroupSummary[] }) {
 	// Sort groups by percent met descending
 	const sortedGroups = [...groups].sort((a, b) => {
-		const valA = a.overall_met_and_above_pct ? parseFloat(a.overall_met_and_above_pct) : 0
-		const valB = b.overall_met_and_above_pct ? parseFloat(b.overall_met_and_above_pct) : 0
+		const valA = a.overallMetAndAbovePct ? parseFloat(a.overallMetAndAbovePct) : 0
+		const valB = b.overallMetAndAbovePct ? parseFloat(b.overallMetAndAbovePct) : 0
 		return valB - valA
 	})
 
 	return (
 		<div className='space-y-4'>
 			{sortedGroups.map((group) => {
-				const percent = group.overall_met_and_above_pct
-					? parseFloat(group.overall_met_and_above_pct)
-					: 0
+				const percent = group.overallMetAndAbovePct ? parseFloat(group.overallMetAndAbovePct) : 0
 				return (
-					<div key={group.studentgroup} className='space-y-1'>
+					<div key={group.studentGroup} className='space-y-1'>
 						<div className='flex items-center justify-between text-sm'>
-							<span className='font-medium'>{getStudentGroupName(group.studentgroup)}</span>
+							<span className='font-medium'>{getStudentGroupName(group.studentGroup)}</span>
 							<span className='font-semibold'>{percent.toFixed(1)}%</span>
 						</div>
 						<div className='h-2 w-full overflow-hidden rounded-full bg-muted'>
 							<div className='h-full bg-primary transition-all' style={{ width: `${percent}%` }} />
 						</div>
 						<div className='text-[10px] text-muted-foreground'>
-							{group.students_tested?.toLocaleString() ?? '0'} students tested
+							{group.studentsTested?.toLocaleString() ?? '0'} students tested
 						</div>
 					</div>
 				)

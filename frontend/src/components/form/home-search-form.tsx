@@ -99,7 +99,7 @@ export default function SearchHomepageForm() {
 				onSubmit={(e) => {
 					e.preventDefault()
 					e.stopPropagation()
-					form.handleSubmit()
+					void form.handleSubmit()
 				}}
 				className='flex items-center gap-4 pb-8'
 			>

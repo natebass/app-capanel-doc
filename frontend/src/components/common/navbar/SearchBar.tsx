@@ -140,7 +140,7 @@ export default function SearchBar({
 		addRecentSearch(result)
 		setOpen(false)
 		setQuery('')
-		navigate({ to: '/dashboard', search: { q: result.cds } })
+		void navigate({ to: '/dashboard', search: { q: result.cds } })
 	}
 
 	const handleClearRecent = (e: React.MouseEvent) => {

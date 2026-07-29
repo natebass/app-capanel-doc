@@ -256,8 +256,6 @@ export type IndicatorSummary = {
 
 /**
  * ItemCreate
- *
- * Properties to receive on item creation
  */
 export type ItemCreate = {
 	/**
@@ -272,8 +270,6 @@ export type ItemCreate = {
 
 /**
  * ItemPublic
- *
- * Properties to return via API, id is always required
  */
 export type ItemPublic = {
 	/**
@@ -300,8 +296,6 @@ export type ItemPublic = {
 
 /**
  * ItemUpdate
- *
- * Properties to receive on item update
  */
 export type ItemUpdate = {
 	/**
@@ -331,13 +325,25 @@ export type ItemsPublic = {
 /**
  * Message
  *
- * Generic message
+ * A message for an API response.
  */
 export type Message = {
 	/**
 	 * Message
 	 */
 	message: string
+	/**
+	 * Success
+	 */
+	success?: boolean
+	/**
+	 * Status
+	 */
+	status?: string | null
+	/**
+	 * Code
+	 */
+	code?: string | number | null
 }
 
 /**
@@ -635,17 +641,17 @@ export type SchoolsSummary = {
 /**
  * Token
  *
- * A JSON payload containing the access token.
+ * A JSON payload containing the access token. The names follow the JWT spec (RFC 7519).
  */
 export type Token = {
 	/**
-	 * Accesstoken
+	 * Access Token
 	 */
-	accessToken: string
+	access_token: string
 	/**
-	 * Tokentype
+	 * Token Type
 	 */
-	tokenType?: string
+	token_type?: string
 }
 
 /**

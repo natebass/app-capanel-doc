@@ -30,7 +30,7 @@ const DeleteConfirmation = () => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+			void queryClient.invalidateQueries({ queryKey: ['currentUser'] })
 		},
 	})
 

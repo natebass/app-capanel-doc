@@ -74,11 +74,11 @@ export function createItemColumns({
 
 	if (isSuperuser) {
 		baseColumns.push({
-			accessorKey: 'owner_id',
+			accessorKey: 'ownerId',
 			header: 'Owner',
 			cell: ({ row }) => (
 				<span className='font-mono text-xs text-muted-foreground'>
-					{row.original.owner_id === currentUserId ? 'You' : row.original.owner_id}
+					{row.original.ownerId === currentUserId ? 'You' : row.original.ownerId}
 				</span>
 			),
 		})
@@ -88,7 +88,7 @@ export function createItemColumns({
 		id: 'actions',
 		header: () => <span className='sr-only'>Actions</span>,
 		cell: ({ row }) => {
-			const canManage = isSuperuser || row.original.owner_id === currentUserId
+			const canManage = isSuperuser || row.original.ownerId === currentUserId
 			return (
 				<div className='flex justify-end'>
 					<ItemActionsMenu item={row.original} canManage={canManage} />

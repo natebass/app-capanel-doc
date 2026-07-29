@@ -76,7 +76,7 @@ const AddUser = () => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: ['users'] })
+			void queryClient.invalidateQueries({ queryKey: ['users'] })
 		},
 	})
 
@@ -97,7 +97,7 @@ const AddUser = () => {
 					onSubmit={(e) => {
 						e.preventDefault()
 						e.stopPropagation()
-						form.handleSubmit()
+						void form.handleSubmit()
 					}}
 				>
 					<div className='grid gap-4 py-4'>

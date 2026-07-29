@@ -62,17 +62,17 @@ function ResetPassword() {
 			onChange: resetSchema,
 		},
 		onSubmit: async ({ value }) => {
-			mutation.mutate({ new_password: value.new_password, token })
+			mutation.mutate({ newPassword: value.new_password, token })
 		},
 	})
 
 	const mutation = useMutation({
-		mutationFn: (data: { new_password: string; token: string }) =>
+		mutationFn: (data: { newPassword: string; token: string }) =>
 			LoginService.loginResetPassword({ body: data }),
 		onSuccess: () => {
 			showSuccessToast('Password updated successfully')
 			form.reset()
-			navigate({ to: '/login' })
+			void navigate({ to: '/login' })
 		},
 		onError: handleError.bind(showErrorToast),
 	})
@@ -83,7 +83,7 @@ function ResetPassword() {
 				onSubmit={(e) => {
 					e.preventDefault()
 					e.stopPropagation()
-					form.handleSubmit()
+					void form.handleSubmit()
 				}}
 				className='flex flex-col gap-6'
 			>

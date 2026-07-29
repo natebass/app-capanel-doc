@@ -57,7 +57,7 @@ const AddItem = () => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: ['items'] })
+			void queryClient.invalidateQueries({ queryKey: ['items'] })
 		},
 	})
 
@@ -76,7 +76,7 @@ const AddItem = () => {
 					onSubmit={(e) => {
 						e.preventDefault()
 						e.stopPropagation()
-						form.handleSubmit()
+						void form.handleSubmit()
 					}}
 				>
 					<div className='grid gap-4 py-4'>

@@ -79,7 +79,7 @@ function CensusDataCard({ censusDataId, showGradeBreakdown = false }: CensusData
 		}
 
 		if (censusDataId) {
-			fetchCensusData()
+			void fetchCensusData()
 		}
 	}, [censusDataId])
 

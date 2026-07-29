@@ -63,7 +63,7 @@ const EditItem = ({ item, onSuccess }: EditItemProps) => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: ['items'] })
+			void queryClient.invalidateQueries({ queryKey: ['items'] })
 		},
 	})
 
@@ -78,7 +78,7 @@ const EditItem = ({ item, onSuccess }: EditItemProps) => {
 					onSubmit={(e) => {
 						e.preventDefault()
 						e.stopPropagation()
-						form.handleSubmit()
+						void form.handleSubmit()
 					}}
 				>
 					<DialogHeader>
