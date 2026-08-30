@@ -1,20 +1,11 @@
-# new 2025 assessment models
-from app.model.assessments import (
-    AltiaElpacResult,
-    AltsaElpacResult,
-    CaaResult,
-    CaasppStudentGroup,
-    CaasppTest,
-    CaasResult,
-    CastResult,
-    CsaResult,
-    ElpacStudentGroup,
-    ElpacTest,
-    Entity,
-    IaElpacResult,
-    SaElpacResult,
-    SbResult,
-)
+"""SQLModel table and schema exports.
+
+The assessment tables model the CAASPP and ELPAC research files directly: see
+:mod:`app.model.reference` for the lookups the state publishes alongside those
+files and :mod:`app.model.results` for the two fact tables that hold every
+reported figure.
+"""
+
 from app.model.census_data import (
     CensusCreate,
     CensusData,
@@ -22,13 +13,26 @@ from app.model.census_data import (
     CensusDataPublicList,
     CensusUpdate,
 )
-from app.model.dashboard import (
-    DashboardAggregation,
-    DashboardSummaryResponse,
-    IndicatorSummary,
-)
+from app.model.ingest import IngestFile, IngestRun, IngestStatus
 from app.model.item import Item, ItemCreate, ItemPublic, ItemsPublic, ItemUpdate
 from app.model.other import Message, Token, TokenPayload
+from app.model.reference import (
+    ApiModel,
+    Assessment,
+    AssessmentYear,
+    CharterFunding,
+    Entity,
+    EntityLevel,
+    GradeLevel,
+    MetOrAboveSource,
+    PerformanceLevel,
+    PerformanceLevelScheme,
+    Program,
+    StudentGroup,
+    SubscoreDefinition,
+    SubscoreKind,
+)
+from app.model.results import AssessmentResult, AssessmentSubscore
 from app.model.school import School, SchoolCreate, SchoolPublic, SchoolsPublic
 from app.model.user import (
     UpdatePassword,
@@ -41,45 +45,47 @@ from app.model.user import (
 )
 
 __all__ = [
-    "AltiaElpacResult",
-    "AltsaElpacResult",
-    "CaaResult",
-    "CaasppStudentGroup",
-    "CaasppTest",
-    "CaasResult",
-    "CastResult",
-    "CsaResult",
-    "ElpacStudentGroup",
-    "ElpacTest",
-    "Entity",
-    "IaElpacResult",
-    "SaElpacResult",
-    "SbResult",
+    "ApiModel",
+    "Assessment",
+    "AssessmentResult",
+    "AssessmentSubscore",
+    "AssessmentYear",
     "CensusCreate",
     "CensusData",
     "CensusDataPublic",
     "CensusDataPublicList",
     "CensusUpdate",
-    "DashboardAggregation",
-    "DashboardSummaryResponse",
-    "IndicatorSummary",
+    "CharterFunding",
+    "Entity",
+    "EntityLevel",
+    "GradeLevel",
+    "IngestFile",
+    "IngestRun",
+    "IngestStatus",
     "Item",
     "ItemCreate",
     "ItemPublic",
-    "ItemsPublic",
     "ItemUpdate",
+    "ItemsPublic",
     "Message",
-    "Token",
-    "TokenPayload",
+    "MetOrAboveSource",
+    "PerformanceLevel",
+    "PerformanceLevelScheme",
+    "Program",
     "School",
     "SchoolCreate",
     "SchoolPublic",
     "SchoolsPublic",
+    "StudentGroup",
+    "SubscoreDefinition",
+    "SubscoreKind",
+    "Token",
+    "TokenPayload",
     "UpdatePassword",
     "User",
     "UserCreate",
     "UserPublic",
     "UserRegister",
-    "UsersPublic",
     "UserUpdate",
+    "UsersPublic",
 ]

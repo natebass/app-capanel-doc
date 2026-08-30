@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Sequence
 
+from sqlalchemy import inspect
 from sqlalchemy.dialects.postgresql import insert
 from sqlmodel import Session, SQLModel
 
@@ -45,7 +46,6 @@ MAX_SEED_YEAR = 2030
 
 # Testing was suspended statewide because of COVID-19, so no results exist.
 SUSPENDED_YEARS = frozenset({2020})
-
 
 # --------------------------------------------------------------------------
 # Performance level schemes
@@ -243,7 +243,6 @@ _LEVELS: dict[str, tuple[tuple[int, str, str, str], ...]] = {
         (3, "Level 3", "Level 3", "Level 3"),
     ),
 }
-
 
 # --------------------------------------------------------------------------
 # Assessments (Table C of every record layout)
@@ -750,7 +749,6 @@ _CATEGORY_ORDER: tuple[str, ...] = (
     "Ethnicity for Not Socioeconomically Disadvantaged",
 )
 
-
 # --------------------------------------------------------------------------
 # Grades (Table B)
 # --------------------------------------------------------------------------
@@ -773,7 +771,6 @@ _GRADES: tuple[tuple[str, str, int, bool], ...] = (
     ("99", "High School Graduating Class", 95, True),
     ("13", "All Grades", 99, True),
 )
-
 
 # --------------------------------------------------------------------------
 # Counties
@@ -856,7 +853,7 @@ def _upsert(
     """Insert rows, updating any that already exist on the primary key."""
     if not rows:
         return
-    table = model.__table__  # type: ignore[attr-defined]
+    table = inspect(model).local_table
     key_columns = {column.name for column in table.primary_key.columns}
     statement = insert(table).values(list(rows))
     updatable = {

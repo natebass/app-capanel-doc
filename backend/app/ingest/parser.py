@@ -3,13 +3,11 @@
 The state encodes two different kinds of "no value" and they mean different
 things, so both survive the trip into the database:
 
-``*``
-    The figure exists but is withheld because the group is too small to report
-    without identifying students.  The row is flagged ``suppressed``.
-```` (empty)
-    The figure does not apply.  The most common case is the mean scale score
-    for the "all grades" aggregate, which the state deliberately leaves blank
-    because scale scores are not comparable between grades.
+An asterisk means the figure exists but is withheld, because the group is too
+small to report without identifying students; the row is flagged
+``suppressed``.  An empty field means the figure does not apply -- most often
+the mean scale score on an "all grades" row, which the state deliberately
+leaves blank because scale scores are not comparable between grades.
 
 Both land as ``NULL``; only the first sets the flag.
 """
@@ -190,6 +188,9 @@ class RowParser:
                 f"Layout {layout.key!r} expects columns that the file does not "
                 f"have: {', '.join(missing)}"
             )
+        # An entity's names repeat on every one of its rows, so each CDS code
+        # is turned into an entity record only the first time it is seen.
+        self._seen_entities: set[str] = set()
         self._level_positions = self._band_positions(layout.levels)
         self._met_position = (
             self._band_positions((layout.met_or_above,))[0]
@@ -216,7 +217,7 @@ class RowParser:
         return self.index.get(name) if name else None
 
     def _band_positions(
-        self, bands: Sequence[BandColumns]
+            self, bands: Sequence[BandColumns]
     ) -> list[tuple[int | None, int | None]]:
         return [
             (self._optional(band.pct), self._optional(band.count)) for band in bands
@@ -228,7 +229,7 @@ class RowParser:
         return row[position]
 
     def parse(
-        self, row: Sequence[str], *, default_year: int | None = None
+            self, row: Sequence[str], *, default_year: int | None = None
     ) -> ParsedRows:
         """Convert one row into its result, subscore and entity records."""
         layout = self.layout
@@ -312,10 +313,10 @@ class RowParser:
 
         subscores: list[SubscoreRecord] = []
         for (
-            code,
-            band_positions,
-            total_position,
-            mean_position,
+                code,
+                band_positions,
+                total_position,
+                mean_position,
         ) in self._subscore_positions:
             counts: list[int | None] = []
             pcts: list[Decimal | None] = []
@@ -343,34 +344,35 @@ class RowParser:
                 )
             )
 
-        return ParsedRows(
-            result=result,
-            subscores=subscores,
-            entity=self._entity(
+        entity: EntityRecord | None = None
+        if cds_code not in self._seen_entities:
+            self._seen_entities.add(cds_code)
+            entity = self._entity(
                 row, county, district, school, cds_code, type_id, test_year
-            ),
-        )
+            )
+
+        return ParsedRows(result=result, subscores=subscores, entity=entity)
 
     def _entity(
-        self,
-        row: Sequence[str],
-        county: str,
-        district: str,
-        school: str,
-        cds_code: str,
-        type_id: int,
-        test_year: int,
+            self,
+            row: Sequence[str],
+            county: str,
+            district: str,
+            school: str,
+            cds_code: str,
+            type_id: int,
+            test_year: int,
     ) -> EntityRecord:
         layout = self.layout
         level = entity_level_for(county, district, school)
         district_name = (
-            _clean(self._value(row, self._optional(layout.district_name))) or None
+                _clean(self._value(row, self._optional(layout.district_name))) or None
         )
         school_name = (
-            _clean(self._value(row, self._optional(layout.school_name))) or None
+                _clean(self._value(row, self._optional(layout.school_name))) or None
         )
         county_name = (
-            _clean(self._value(row, self._optional(layout.county_name))) or None
+                _clean(self._value(row, self._optional(layout.county_name))) or None
         )
         county_name = county_name or COUNTY_NAMES.get(county)
         zip_code = _clean(self._value(row, self._optional(layout.zip_code))) or None

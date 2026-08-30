@@ -24,11 +24,31 @@ subscore vocabulary hang off :class:`AssessmentYear` rather than
 from __future__ import annotations
 
 from enum import StrEnum
+from typing import cast
 
+import sqlalchemy as sa
 from pydantic.alias_generators import to_camel
 from sqlalchemy import ForeignKeyConstraint, Index
 from sqlmodel import Field, SQLModel
 from sqlmodel.main import SQLModelConfig
+
+
+def enum_type[E: StrEnum](enum: type[E]) -> type[sa.Enum]:
+    """A PostgreSQL enum whose labels are the members' values.
+
+    Without this SQLAlchemy stores member *names*, so a column would hold
+    ``SCHOOL`` while the API emits ``school``.  Storing the values keeps the
+    database readable with the same vocabulary the API uses.
+
+    The return is annotated as a *class* because ``Field(sa_type=...)`` is
+    declared that way, while SQLAlchemy's ``Column`` accepts a configured type
+    instance just as happily -- which is the only way to pass the value
+    callable.
+    """
+    return cast(
+        type[sa.Enum],
+        sa.Enum(enum, values_callable=lambda members: [m.value for m in members]),
+    )
 
 
 class ApiModel(SQLModel):
@@ -121,7 +141,7 @@ class Assessment(ApiModel, table=True):
 
     test_id: int = Field(primary_key=True)
     code: str = Field(max_length=40, unique=True)
-    program: Program = Field(max_length=10)
+    program: Program = Field(sa_type=enum_type(Program))
     test_type: str = Field(
         max_length=5,
         description="File-level test type code, e.g. 'B' for Smarter Balanced.",
@@ -170,7 +190,7 @@ class SubscoreDefinition(ApiModel, table=True):
     test_id: int = Field(primary_key=True)
     test_year: int = Field(primary_key=True)
     code: str = Field(primary_key=True, max_length=40)
-    kind: SubscoreKind = Field(max_length=20)
+    kind: SubscoreKind = Field(sa_type=enum_type(SubscoreKind))
     name: str = Field(max_length=120)
     band_scheme_code: str = Field(
         max_length=40, foreign_key="performance_level_schemes.code"
@@ -189,7 +209,7 @@ class StudentGroup(ApiModel, table=True):
 
     __tablename__ = "student_groups"
 
-    program: Program = Field(primary_key=True, max_length=10)
+    program: Program = Field(primary_key=True, sa_type=enum_type(Program))
     student_group_id: int = Field(primary_key=True)
     code: str = Field(max_length=3, description="Zero-padded identifier, e.g. '001'.")
     name: str = Field(max_length=200)
@@ -231,10 +251,12 @@ class Entity(ApiModel, table=True):
     county_code: str = Field(max_length=2)
     district_code: str = Field(max_length=5)
     school_code: str = Field(max_length=7)
-    entity_level: EntityLevel = Field(max_length=10)
+    entity_level: EntityLevel = Field(sa_type=enum_type(EntityLevel))
     type_id: int
     is_charter: bool = Field(default=False)
-    charter_funding: CharterFunding | None = Field(default=None, max_length=10)
+    charter_funding: CharterFunding | None = Field(
+        default=None, sa_type=enum_type(CharterFunding), nullable=True
+    )
     county_name: str | None = Field(default=None, max_length=120)
     district_name: str | None = Field(default=None, max_length=120)
     school_name: str | None = Field(default=None, max_length=200)

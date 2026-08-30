@@ -32,7 +32,7 @@ from contextlib import AbstractContextManager, contextmanager
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import IO, Protocol, runtime_checkable
+from typing import IO, Any, Protocol, cast, runtime_checkable
 from urllib.parse import urlparse
 
 # The state publishes research files in Windows code page 1252; district and
@@ -148,8 +148,10 @@ class LocalSource:
             with _open_archive_member(path) as lines:
                 yield lines
         elif suffix == ".gz":
-            with gzip.open(path, "rb") as binary, _decode(binary) as lines:
-                yield lines
+            with gzip.open(path, "rb") as gzipped:
+                # GzipFile reads like a binary file without declaring so.
+                with _decode(cast(IO[bytes], gzipped)) as lines:
+                    yield lines
         else:
             with path.open("rb") as binary, _decode(binary) as lines:
                 yield lines
@@ -159,7 +161,7 @@ class S3Source:
     """Reads research files from an S3 bucket prefix."""
 
     def __init__(
-        self, bucket: str, prefix: str = "", *, client: object | None = None
+        self, bucket: str, prefix: str = "", *, client: Any | None = None
     ) -> None:
         self.bucket = bucket
         self.prefix = prefix.lstrip("/")
@@ -167,7 +169,7 @@ class S3Source:
         self._client = client
 
     @property
-    def client(self) -> object:
+    def client(self) -> Any:
         if self._client is None:
             import boto3  # imported lazily so local runs need no AWS SDK
 
@@ -175,7 +177,7 @@ class S3Source:
         return self._client
 
     def list_objects(self) -> Iterator[SourceObject]:
-        paginator = self.client.get_paginator("list_objects_v2")  # type: ignore[attr-defined]
+        paginator = self.client.get_paginator("list_objects_v2")
         for page in paginator.paginate(Bucket=self.bucket, Prefix=self.prefix):
             for item in page.get("Contents", ()):
                 key = item["Key"]
@@ -193,7 +195,7 @@ class S3Source:
     @contextmanager
     def open_text(self, obj: SourceObject) -> Iterator[Iterator[str]]:
         suffix = Path(obj.name).suffix.lower()
-        response = self.client.get_object(Bucket=self.bucket, Key=obj.key)  # type: ignore[attr-defined]
+        response = self.client.get_object(Bucket=self.bucket, Key=obj.key)
         body = response["Body"]
         if suffix == ".zip":
             # ZipFile seeks, so the archive is staged locally first.
@@ -203,8 +205,9 @@ class S3Source:
                 with _open_archive_member(Path(staged.name)) as lines:
                     yield lines
         elif suffix == ".gz":
-            with gzip.GzipFile(fileobj=body) as binary, _decode(binary) as lines:
-                yield lines
+            with gzip.GzipFile(fileobj=body) as gzipped:
+                with _decode(cast(IO[bytes], gzipped)) as lines:
+                    yield lines
         else:
             with _decode(body) as lines:
                 yield lines

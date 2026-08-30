@@ -21,8 +21,8 @@ def test_get_access_token(client: TestClient) -> None:
     r = client.post(f"{settings.API_V1_STR}/login/access-token", data=login_data)
     tokens = r.json()
     assert r.status_code == 200
-    assert "accessToken" in tokens
-    assert tokens["accessToken"]
+    assert "access_token" in tokens
+    assert tokens["access_token"]
 
 
 def test_get_access_token_incorrect_password(client: TestClient) -> None:
@@ -61,7 +61,13 @@ def test_recovery_password(
         )
         assert r.status_code == 200
         assert r.json() == {
-            "message": "If that email is registered, we sent a password recovery link"
+            "message": (
+                "If an account exists for that email, a password recovery link has "
+                "been sent. Please check your inbox and spam folder."
+            ),
+            "success": True,
+            "status": "Success",
+            "code": 200,
         }
 
 
@@ -76,7 +82,13 @@ def test_recovery_password_user_not_exits(
     # Should return 200 with generic message to prevent email enumeration attacks
     assert r.status_code == 200
     assert r.json() == {
-        "message": "If that email is registered, we sent a password recovery link"
+        "message": (
+            "If an account exists for that email, a password recovery link has "
+            "been sent. Please check your inbox and spam folder."
+        ),
+        "success": True,
+        "status": "Success",
+        "code": 200,
     }
 
 
@@ -108,7 +120,12 @@ def test_reset_password(client: TestClient, db: Session) -> None:
     )
 
     assert r.status_code == 200
-    assert r.json() == {"message": "Password updated successfully"}
+    assert r.json() == {
+        "message": "Your password has been updated successfully. You can now log in.",
+        "success": True,
+        "status": "Success",
+        "code": 200,
+    }
 
     db.refresh(user)
     verified, _ = verify_password(new_password, user.hashed_password)
@@ -147,7 +164,7 @@ def test_force_password_reset_requires_scope(
         json={"emails": [], "include_all_active_users": False},
     )
     assert r.status_code == 400
-    assert r.json()["detail"] == "Provide emails or set include_all_active_users=true"
+    assert r.json()["detail"] == "Provide emails or set include_all_active_users=true."
 
 
 def test_reset_password_invalid_token(
@@ -163,7 +180,7 @@ def test_reset_password_invalid_token(
 
     assert "detail" in response
     assert r.status_code == 400
-    assert response["detail"] == "Invalid token"
+    assert response["detail"] == "The password reset token is invalid or has expired."
 
 
 def test_login_with_bcrypt_password_upgrades_to_argon2(
@@ -189,7 +206,7 @@ def test_login_with_bcrypt_password_upgrades_to_argon2(
     r = client.post(f"{settings.API_V1_STR}/login/access-token", data=login_data)
     assert r.status_code == 200
     tokens = r.json()
-    assert "accessToken" in tokens
+    assert "access_token" in tokens
 
     db.refresh(user)
 
@@ -223,7 +240,7 @@ def test_login_with_argon2_password_keeps_hash(client: TestClient, db: Session) 
     r = client.post(f"{settings.API_V1_STR}/login/access-token", data=login_data)
     assert r.status_code == 200
     tokens = r.json()
-    assert "accessToken" in tokens
+    assert "access_token" in tokens
 
     db.refresh(user)
 

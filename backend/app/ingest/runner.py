@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import logging
 import time
+import uuid
 from collections.abc import Iterator, Sequence
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
@@ -78,15 +79,13 @@ def detect_delimiter(header_line: str) -> str:
 
 
 def _parsed_rows(
-    lines: Iterator[str],
+    rows: Iterator[Sequence[str]],
     layout: ResearchFileLayout,
     header: Sequence[str],
     year: int | None,
 ) -> Iterator[ParsedRows]:
     parser = RowParser(layout, header)
-    delimiter = CARET if CARET in header[0] or len(header) > 1 else COMMA
-    del delimiter  # header already split; kept for readability of the call site
-    for index, row in enumerate(lines, start=2):
+    for index, row in enumerate(rows, start=2):
         try:
             yield parser.parse(row, default_year=year)
         except ParseError as error:
@@ -173,7 +172,7 @@ class ImportRunner:
         self,
         source: ResearchFileSource,
         obj: SourceObject,
-        run_id: object,
+        run_id: uuid.UUID,
         *,
         force: bool,
     ) -> FileOutcome:
@@ -248,7 +247,7 @@ class ImportRunner:
     def _record_file(
         self,
         session: Session,
-        run_id: object,
+        run_id: uuid.UUID,
         obj: SourceObject,
         status: IngestStatus,
         *,
@@ -261,7 +260,7 @@ class ImportRunner:
     ) -> None:
         session.add(
             IngestFile(
-                run_id=run_id,  # type: ignore[arg-type]
+                run_id=run_id,
                 source_key=obj.key,
                 etag=obj.etag,
                 size_bytes=obj.size_bytes,
@@ -280,7 +279,7 @@ class ImportRunner:
         session.commit()
 
     def _finish_run(
-        self, run_id: object, outcome: RunOutcome, *, error: str | None = None
+        self, run_id: uuid.UUID, outcome: RunOutcome, *, error: str | None = None
     ) -> None:
         with Session(self.engine) as session:
             run = session.get(IngestRun, run_id)

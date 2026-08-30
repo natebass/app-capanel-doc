@@ -14,10 +14,13 @@ overwritten, and the years an entity appears in are widened, never narrowed.
 
 from __future__ import annotations
 
+import csv
 import logging
+import tempfile
 from collections.abc import Iterable
 from dataclasses import dataclass
 from decimal import Decimal
+from functools import cache
 from typing import Any
 
 from psycopg import Cursor
@@ -30,8 +33,14 @@ from app.model.reference import MetOrAboveSource
 logger = logging.getLogger(__name__)
 
 # Rows are handed to COPY one at a time; this only bounds how often progress is
-# logged and how many entities are buffered before being flushed.
+# logged.
 LOG_EVERY_ROWS = 500_000
+
+# Subscore rows are spooled while the result stream is copying.  A statewide
+# Smarter Balanced file produces several million of them, so the spool falls
+# back to disk once it outgrows this.
+SPOOL_MAX_MEMORY_BYTES = 64 * 1024 * 1024
+SPOOL_CHUNK_CHARS = 1 << 20
 
 _RESULT_COLUMNS = (
     "cds_code",
@@ -113,6 +122,12 @@ def _pad(values: list[Any], width: int) -> list[Any]:
     return [*values, *([None] * (width - len(values)))][:width]
 
 
+@cache
+def _proficiency_cut(test_id: int, test_year: int) -> int | None:
+    """Memoised proficiency cut; a file holds at most a handful of pairs."""
+    return proficient_from_level(test_id, test_year)
+
+
 def _derive_met_or_above(record: ResultRecord) -> None:
     """Fill in "met or above" for tests whose files do not publish it.
 
@@ -122,7 +137,7 @@ def _derive_met_or_above(record: ResultRecord) -> None:
     """
     if record.met_or_above_source is not None:
         return
-    cut = proficient_from_level(record.test_id, record.test_year)
+    cut = _proficiency_cut(record.test_id, record.test_year)
     if cut is None:
         return
     counts = record.level_counts[cut - 1 :]
@@ -190,6 +205,11 @@ def _subscore_row(record: SubscoreRecord) -> tuple[Any, ...]:
     )
 
 
+def _csv_values(row: tuple[Any, ...]) -> list[str]:
+    """Render a row for a CSV-format COPY, where an empty field means NULL."""
+    return ["" if value is None else str(value) for value in row]
+
+
 def _entity_row(record: EntityRecord) -> tuple[Any, ...]:
     return (
         record.cds_code,
@@ -225,31 +245,36 @@ def _merge_entity(existing: EntityRecord, incoming: EntityRecord) -> None:
     existing.last_test_year = max(existing.last_test_year, incoming.last_test_year)
 
 
-_CREATE_STAGING = """
-CREATE UNLOGGED TABLE IF NOT EXISTS {staging} (LIKE {target} INCLUDING DEFAULTS);
-TRUNCATE {staging};
-"""
+# Temporary tables keep the staged copy out of the WAL, scope it to this
+# connection so two importers cannot collide, and drop it when the swap
+# commits.
+_CREATE_STAGING = (
+    "CREATE TEMP TABLE {staging} (LIKE {target} INCLUDING DEFAULTS) ON COMMIT DROP"
+)
 
 _MERGE_ENTITIES = """
-INSERT INTO entities AS target ({columns})
-SELECT {columns} FROM {staging}
-ON CONFLICT (cds_code) DO UPDATE SET
-    entity_level = EXCLUDED.entity_level,
-    type_id = EXCLUDED.type_id,
-    is_charter = target.is_charter OR EXCLUDED.is_charter,
-    charter_funding = COALESCE(EXCLUDED.charter_funding, target.charter_funding),
-    county_name = COALESCE(EXCLUDED.county_name, target.county_name),
-    district_name = COALESCE(EXCLUDED.district_name, target.district_name),
-    school_name = COALESCE(EXCLUDED.school_name, target.school_name),
-    zip_code = COALESCE(EXCLUDED.zip_code, target.zip_code),
-    display_name = CASE
-        WHEN target.display_name = target.cds_code THEN EXCLUDED.display_name
-        ELSE target.display_name
-    END,
+                  INSERT INTO entities AS target ({columns})
+                  SELECT {columns}
+                  FROM {staging}
+                  ON CONFLICT (cds_code) DO
+                  UPDATE SET
+                      entity_level = EXCLUDED.entity_level,
+                      type_id = EXCLUDED.type_id,
+                      is_charter = target.is_charter OR EXCLUDED.is_charter,
+                      charter_funding = COALESCE (EXCLUDED.charter_funding, target.charter_funding),
+                      county_name = COALESCE (EXCLUDED.county_name, target.county_name),
+                      district_name = COALESCE (EXCLUDED.district_name, target.district_name),
+                      school_name = COALESCE (EXCLUDED.school_name, target.school_name),
+                      zip_code = COALESCE (EXCLUDED.zip_code, target.zip_code),
+                      display_name = CASE
+                      WHEN target.display_name = target.cds_code THEN EXCLUDED.display_name
+                      ELSE target.display_name
+                  END
+                  ,
     parent_cds_code = COALESCE(EXCLUDED.parent_cds_code, target.parent_cds_code),
     first_test_year = LEAST(target.first_test_year, EXCLUDED.first_test_year),
-    last_test_year = GREATEST(target.last_test_year, EXCLUDED.last_test_year)
-"""
+    last_test_year = GREATEST(target.last_test_year, EXCLUDED.last_test_year) \
+                  """
 
 
 class ResearchFileLoader:
@@ -265,7 +290,9 @@ class ResearchFileLoader:
 
         with self.engine.begin() as connection:
             driver = connection.connection.driver_connection
-            with driver.cursor() as cursor:  # type: ignore[union-attr]
+            if driver is None:
+                raise RuntimeError("no DBAPI connection behind the engine")
+            with driver.cursor() as cursor:
                 self._prepare_staging(cursor)
                 self._copy(cursor, rows, counts, entities)
                 self._flush_entities(cursor, entities)
@@ -288,32 +315,51 @@ class ResearchFileLoader:
         counts: LoadCounts,
         entities: dict[str, EntityRecord],
     ) -> None:
+        """Stream results straight into COPY and spool subscores alongside.
+
+        A connection can only run one COPY at a time, and a research file row
+        produces both a result and up to six subscores.  Rather than read the
+        file twice, subscore rows are written to a spool as they are found --
+        in memory until it grows past `SPOOL_MAX_MEMORY_BYTES`, then on disk --
+        and copied in once the result stream has finished.
+        """
         result_sql = (
             f"COPY stg_assessment_results ({', '.join(_RESULT_COLUMNS)}) FROM STDIN"
         )
-        subscore_sql = (
-            f"COPY stg_assessment_subscores ({', '.join(_SUBSCORE_COLUMNS)}) FROM STDIN"
-        )
         assert counts.test_years is not None and counts.test_ids is not None
 
-        with cursor.copy(result_sql) as results, cursor.copy(subscore_sql) as subscores:
-            for parsed in rows:
-                record = parsed.result
-                counts.test_years.add(record.test_year)
-                counts.test_ids.add(record.test_id)
-                results.write_row(_result_row(record))
-                counts.results += 1
-                for subscore in parsed.subscores:
-                    subscores.write_row(_subscore_row(subscore))
-                    counts.subscores += 1
-                if parsed.entity is not None:
-                    known = entities.get(parsed.entity.cds_code)
-                    if known is None:
-                        entities[parsed.entity.cds_code] = parsed.entity
-                    else:
-                        _merge_entity(known, parsed.entity)
-                if counts.results % LOG_EVERY_ROWS == 0:
-                    logger.info("staged %s result rows", f"{counts.results:,}")
+        with tempfile.SpooledTemporaryFile(
+            max_size=SPOOL_MAX_MEMORY_BYTES, mode="w+", newline="", encoding="utf-8"
+        ) as spool:
+            writer = csv.writer(spool)
+            with cursor.copy(result_sql) as results:
+                for parsed in rows:
+                    record = parsed.result
+                    counts.test_years.add(record.test_year)
+                    counts.test_ids.add(record.test_id)
+                    results.write_row(_result_row(record))
+                    counts.results += 1
+                    for subscore in parsed.subscores:
+                        writer.writerow(_csv_values(_subscore_row(subscore)))
+                        counts.subscores += 1
+                    if parsed.entity is not None:
+                        known = entities.get(parsed.entity.cds_code)
+                        if known is None:
+                            entities[parsed.entity.cds_code] = parsed.entity
+                        else:
+                            _merge_entity(known, parsed.entity)
+                    if counts.results % LOG_EVERY_ROWS == 0:
+                        logger.info("staged %s result rows", f"{counts.results:,}")
+
+            if counts.subscores:
+                spool.seek(0)
+                subscore_sql = (
+                    f"COPY stg_assessment_subscores ({', '.join(_SUBSCORE_COLUMNS)}) "
+                    "FROM STDIN WITH (FORMAT csv)"
+                )
+                with cursor.copy(subscore_sql) as subscores:
+                    while chunk := spool.read(SPOOL_CHUNK_CHARS):
+                        subscores.write(chunk)
 
     def _flush_entities(
         self, cursor: Cursor[Any], entities: dict[str, EntityRecord]
@@ -345,12 +391,6 @@ class ResearchFileLoader:
             f"INSERT INTO assessment_subscores ({', '.join(_SUBSCORE_COLUMNS)}) "
             f"SELECT {', '.join(_SUBSCORE_COLUMNS)} FROM stg_assessment_subscores"
         )
-        for staging in (
-            "stg_assessment_results",
-            "stg_assessment_subscores",
-            "stg_entities",
-        ):
-            cursor.execute(f"DROP TABLE IF EXISTS {staging}")
 
 
 def analyze(engine: Engine) -> None:

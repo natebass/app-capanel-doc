@@ -63,6 +63,13 @@ class Settings(BaseSettings):
     POSTGRES_DB: str | None = None
     CLOUD_SQL_INSTANCE_CONNECTION_NAME: str | None = None
 
+    # Where CAASPP and ELPAC research files are read from.  A local directory
+    # for development, or an ``s3://bucket/prefix`` URI in a deployment so new
+    # administrations are picked up by uploading them to the bucket.
+    RESEARCH_FILE_SOURCE_URI: str | None = None
+    # Row limit applied to result listings that a client can page through.
+    MAX_PAGE_SIZE: int = 500
+
     @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:

@@ -26,7 +26,9 @@ each of which also publishes the caret-delimited column header for every field.
 from __future__ import annotations
 
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass, field
+from typing import TypedDict
 
 from app.model.reference import Program
 
@@ -272,7 +274,28 @@ _ELPAC_INITIAL_LEVELS = _bands(
     ("IFEPPerfLvlPcnt", "IFEPPerfLvlCount"),
 )
 
-_ELPAC_COMMON: dict[str, object] = {
+
+class _ElpacColumns(TypedDict):
+    """The column names ELPAC files share, spelled in their camel case."""
+
+    county_code: str
+    district_code: str
+    school_code: str
+    type_id: str
+    test_year: str
+    test_id: str
+    student_group_id: str
+    grade: str
+    district_name: str
+    school_name: str
+    students_enrolled: str
+    students_tested: str
+    students_tested_with_scores: str
+    mean_scale_score: str
+    overall_total: str
+
+
+_ELPAC_COMMON: _ElpacColumns = {
     "county_code": "CountyCode",
     "district_code": "DistrictCode",
     "school_code": "SchoolCode",
@@ -289,7 +312,6 @@ _ELPAC_COMMON: dict[str, object] = {
     "mean_scale_score": "OverallMeanSclScr",
     "overall_total": "OverallTotal",
 }
-
 
 LAYOUTS: tuple[ResearchFileLayout, ...] = (
     ResearchFileLayout(
@@ -389,7 +411,7 @@ LAYOUTS: tuple[ResearchFileLayout, ...] = (
             _elpac_domain("Reading", "READING"),
             _elpac_domain("Writing", "WRITING"),
         ),
-        **_ELPAC_COMMON,  # type: ignore[arg-type]
+        **_ELPAC_COMMON,
     ),
     ResearchFileLayout(
         key="elpac_ia",
@@ -401,7 +423,7 @@ LAYOUTS: tuple[ResearchFileLayout, ...] = (
             _elpac_initial_composite("OralLang", "ORAL_LANGUAGE"),
             _elpac_initial_composite("WritLang", "WRITTEN_LANGUAGE"),
         ),
-        **_ELPAC_COMMON,  # type: ignore[arg-type]
+        **_ELPAC_COMMON,
     ),
     ResearchFileLayout(
         key="elpac_altsa",
@@ -413,7 +435,7 @@ LAYOUTS: tuple[ResearchFileLayout, ...] = (
             ("OverallPerfLvl2Pcnt", "OverallPerfLvl2Count"),
             ("OverallPerfLvl3Pcnt", "OverallPerfLvl3Count"),
         ),
-        **_ELPAC_COMMON,  # type: ignore[arg-type]
+        **_ELPAC_COMMON,
     ),
     ResearchFileLayout(
         key="elpac_altia",
@@ -421,7 +443,7 @@ LAYOUTS: tuple[ResearchFileLayout, ...] = (
         test_type="ALTIA",
         test_ids=(24,),
         levels=_ELPAC_INITIAL_LEVELS,
-        **_ELPAC_COMMON,  # type: ignore[arg-type]
+        **_ELPAC_COMMON,
     ),
 )
 
@@ -446,6 +468,36 @@ _FILENAME_PREFIXES: tuple[tuple[str, str], ...] = (
 )
 
 
+def _read_identically(layouts: Sequence[ResearchFileLayout]) -> bool:
+    """Whether every layout would extract the same values from a row."""
+    signatures = {
+        (
+            layout.county_code,
+            layout.district_code,
+            layout.school_code,
+            layout.type_id,
+            layout.test_year,
+            layout.test_id,
+            layout.student_group_id,
+            layout.grade,
+            layout.district_name,
+            layout.school_name,
+            layout.county_name,
+            layout.zip_code,
+            layout.students_enrolled,
+            layout.students_tested,
+            layout.students_tested_with_scores,
+            layout.mean_scale_score,
+            layout.levels,
+            layout.met_or_above,
+            layout.overall_total,
+            layout.subscores,
+        )
+        for layout in layouts
+    }
+    return len(signatures) == 1
+
+
 class LayoutError(RuntimeError):
     """Raised when a file cannot be matched to a known research file layout."""
 
@@ -466,7 +518,7 @@ def candidate_keys(name: str) -> tuple[str, ...]:
 
 
 def resolve_layout(
-    name: str, header: list[str], *, test_year: int | None = None
+        name: str, header: list[str], *, test_year: int | None = None
 ) -> ResearchFileLayout:
     """Choose the layout that matches a file's name, header and year.
 
@@ -481,9 +533,9 @@ def resolve_layout(
         if not columns.issuperset(layout.required_columns):
             return False
         if layout.levels and not all(
-            (band.pct is None or band.pct in columns)
-            and (band.count is None or band.count in columns)
-            for band in layout.levels
+                (band.pct is None or band.pct in columns)
+                and (band.count is None or band.count in columns)
+                for band in layout.levels
         ):
             return False
         return year is None or layout.covers_year(year)
@@ -494,15 +546,19 @@ def resolve_layout(
             return layout
 
     found = [layout for layout in LAYOUTS if matches(layout)]
-    if len(found) == 1:
-        return found[0]
     if not found:
         raise LayoutError(
             f"No research file layout matches {name!r}. "
             f"First columns seen: {header[:12]}"
         )
+    if len(found) == 1 or _read_identically(found):
+        # Several tests share a column layout exactly -- the alternate
+        # assessments for ELA/mathematics and for science, for instance -- and
+        # the test is identified by a column in the data, so any of them reads
+        # the file correctly.
+        return found[0]
     raise LayoutError(
-        f"{name!r} matches more than one layout ({', '.join(match.key for match in found)}); "
-        "rename the file to its published research file name so the year and "
-        "test type can be resolved."
+        f"{name!r} matches more than one layout "
+        f"({', '.join(match.key for match in found)}); rename the file to its "
+        "published research file name so the year and test type can be resolved."
     )

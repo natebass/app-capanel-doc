@@ -22,14 +22,23 @@ stay ``NULL`` in both cases.  Mean scale scores are legitimately empty for the
 from __future__ import annotations
 
 from decimal import Decimal
+from typing import TypedDict
 
 from sqlalchemy import Index
 from sqlmodel import Field
 
-from app.model.reference import ApiModel, MetOrAboveSource
+from app.model.reference import ApiModel, MetOrAboveSource, enum_type
 
-_PCT = {"max_digits": 5, "decimal_places": 2}
-_SCORE = {"max_digits": 6, "decimal_places": 1}
+
+class _Precision(TypedDict):
+    """Column precision shared by the percentage and score fields."""
+
+    max_digits: int
+    decimal_places: int
+
+
+_PCT: _Precision = {"max_digits": 5, "decimal_places": 2}
+_SCORE: _Precision = {"max_digits": 6, "decimal_places": 1}
 
 
 class AssessmentResult(ApiModel, table=True):
@@ -40,6 +49,10 @@ class AssessmentResult(ApiModel, table=True):
     """
 
     __tablename__ = "assessment_results"
+    # The primary key already leads with ``cds_code, test_year``, which serves
+    # every entity-scoped report.  This index covers the opposite direction --
+    # one test and grade across many entities -- for the ranking and comparison
+    # reports.
     __table_args__ = (
         Index(
             "ix_results_lookup",
@@ -49,7 +62,6 @@ class AssessmentResult(ApiModel, table=True):
             "student_group_id",
             "cds_code",
         ),
-        Index("ix_results_entity_year", "cds_code", "test_year"),
     )
 
     cds_code: str = Field(
@@ -77,7 +89,9 @@ class AssessmentResult(ApiModel, table=True):
 
     met_or_above_count: int | None = Field(default=None)
     met_or_above_pct: Decimal | None = Field(default=None, **_PCT)
-    met_or_above_source: MetOrAboveSource | None = Field(default=None, max_length=10)
+    met_or_above_source: MetOrAboveSource | None = Field(
+        default=None, sa_type=enum_type(MetOrAboveSource), nullable=True
+    )
 
     overall_total: int | None = Field(default=None)
     suppressed: bool = Field(default=False)
@@ -94,17 +108,10 @@ class AssessmentSubscore(ApiModel, table=True):
     performance levels as the overall score.
     """
 
+    # Subscores are only ever read for a cell that has already been located by
+    # entity, so the primary key is the only index they need.  At roughly two
+    # rows per result row, a second index here costs more than a gigabyte.
     __tablename__ = "assessment_subscores"
-    __table_args__ = (
-        Index(
-            "ix_subscores_lookup",
-            "test_year",
-            "test_id",
-            "grade",
-            "student_group_id",
-            "cds_code",
-        ),
-    )
 
     cds_code: str = Field(
         primary_key=True, max_length=14, foreign_key="entities.cds_code"

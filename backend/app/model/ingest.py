@@ -16,7 +16,7 @@ from enum import StrEnum
 from sqlalchemy import Index
 from sqlmodel import Field
 
-from app.model.reference import ApiModel
+from app.model.reference import ApiModel, enum_type
 
 
 class IngestStatus(StrEnum):
@@ -35,7 +35,9 @@ class IngestRun(ApiModel, table=True):
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     source_uri: str = Field(max_length=500)
-    status: IngestStatus = Field(default=IngestStatus.RUNNING, max_length=20)
+    status: IngestStatus = Field(
+        default=IngestStatus.RUNNING, sa_type=enum_type(IngestStatus)
+    )
     started_at: datetime
     finished_at: datetime | None = Field(default=None)
     files_seen: int = Field(default=0)
@@ -61,7 +63,9 @@ class IngestFile(ApiModel, table=True):
     program: str | None = Field(default=None, max_length=10)
     test_type: str | None = Field(default=None, max_length=5)
     test_year: int | None = Field(default=None)
-    status: IngestStatus = Field(default=IngestStatus.RUNNING, max_length=20)
+    status: IngestStatus = Field(
+        default=IngestStatus.RUNNING, sa_type=enum_type(IngestStatus)
+    )
     result_rows: int = Field(default=0)
     subscore_rows: int = Field(default=0)
     duration_seconds: float | None = Field(default=None)
