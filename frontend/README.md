@@ -9,7 +9,8 @@ The test suite for React components using Storybook, Vitest, and Playwright.
 
 ### Prerequisites
 
-Before running anything, first create the required `.env` files. See [environment variable documentation](https://opensacorg.github.io/app-capanel-doc/developer-guide/environment-variables).
+Before running anything, first create the required `.env` files.
+See [environment variable documentation](https://opensacorg.github.io/app-capanel-doc/developer-guide/environment-variables).
 
 - Node.js (v24 or later)
 - Vite+
@@ -17,7 +18,8 @@ Before running anything, first create the required `.env` files. See [environmen
 
 ### Start Storybook
 
-Open [http://localhost:6006](http://localhost:6006) with your browser to see the result. Storybook hosts the component stories and all written documentation.
+Open [http://localhost:6006](http://localhost:6006) with your browser to see the result. Storybook hosts the component
+stories and all written documentation.
 
 ```sh
 vp run storybook
@@ -25,7 +27,8 @@ vp run storybook
 
 ### Start the website
 
-The full website is included so you can run and experiment with it locally on [http://localhost:3000](http://localhost:3000).
+The full website is included so you can run and experiment with it locally
+on [http://localhost:3000](http://localhost:3000).
 
 ```sh
 vp dev
@@ -34,15 +37,17 @@ vp dev
 ## Test
 
 This website primarily uses Storybook. It is also a home for a bigger test suite using Vitest and Playwright.
-For more information see the [testing guide](https://innovate-for-california-doc.vercel.app/?path=/docs/developer-guide--docs#install-pnpm).
+For more information see
+the [testing guide](https://innovate-for-california-doc.vercel.app/?path=/docs/developer-guide--docs#install-pnpm).
 
 > [!WARNING]
-> Critial Playwright tests should also be included in the main website repository.
+> Critical Playwright tests should also be included in the main website repository.
 
 ## VSCode support
 
 > [!Note]
-> PNPM commands must be run from the frontend folder. It is recommended to open the frontend folder directly in VSCode. To run from the root of the project, it is recommended to use Make.
+> PNPM commands must be run from the frontend folder. It is recommended to open the frontend folder directly in VSCode.
+> To run from the root of the project, it is recommended to use Make.
 
 This project comes with a .vscode/ folder to help get up and running with VSCode.
 

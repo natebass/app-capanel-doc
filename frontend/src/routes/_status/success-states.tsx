@@ -1,4 +1,5 @@
 import {
+	ChampionIcon as TrophyIcon,
 	CheckmarkCircle01Icon,
 	CrownIcon,
 	Database01Icon,
@@ -9,7 +10,6 @@ import {
 	Shield01Icon,
 	SparklesIcon,
 	Tick01Icon,
-	ChampionIcon as TrophyIcon,
 	WebhookIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'

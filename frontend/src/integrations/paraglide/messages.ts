@@ -1,4 +1,4 @@
-import { type Locale, getLocale } from './runtime'
+import { getLocale, type Locale } from './runtime'
 
 export const m = {
 	language_label: () => 'Language',

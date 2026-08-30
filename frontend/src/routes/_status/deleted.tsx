@@ -1,4 +1,4 @@
-import { Home01Icon, Delete02Icon, Undo02Icon } from '@hugeicons/core-free-icons'
+import { Delete02Icon, Home01Icon, Undo02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 

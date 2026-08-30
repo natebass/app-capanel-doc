@@ -4,8 +4,8 @@ import {
 	MapsLocation01Icon,
 	School01Icon,
 	Search01Icon,
-	SparklesIcon,
 	Sorting05Icon,
+	SparklesIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { useNavigate } from '@tanstack/react-router'

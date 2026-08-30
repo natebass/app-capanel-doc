@@ -73,7 +73,6 @@ export const TSConfig: Story = {
 	),
 }
 
-
 export const PlaywrightConfig: Story = {
 	name: 'playwright.config.ts',
 	render: () => (

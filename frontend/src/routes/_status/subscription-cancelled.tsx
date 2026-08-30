@@ -1,4 +1,4 @@
-import { CreditCardIcon, Home01Icon, SparklesIcon, Cancel01Icon } from '@hugeicons/core-free-icons'
+import { Cancel01Icon, CreditCardIcon, Home01Icon, SparklesIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 

@@ -1,8 +1,8 @@
 import {
 	Clock01Icon,
 	Home01Icon,
-	WorkflowSquare01Icon as ListOrdered,
 	UserGroupIcon as Users,
+	WorkflowSquare01Icon as ListOrdered,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'

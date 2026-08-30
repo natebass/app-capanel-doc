@@ -1,15 +1,15 @@
 import {
 	ActivityIcon,
 	Alert01Icon,
-	Notification01Icon,
-	Tick02Icon,
 	Clock01Icon,
+	CloudServerIcon as Server,
 	Database01Icon,
 	InternetIcon,
 	Loading01Icon,
-	SparklesIcon,
-	CloudServerIcon as Server,
+	Notification01Icon,
 	Shield01Icon,
+	SparklesIcon,
+	Tick02Icon,
 	ZapIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'

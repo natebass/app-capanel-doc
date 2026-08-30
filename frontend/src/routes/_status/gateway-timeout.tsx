@@ -1,4 +1,4 @@
-import { Clock01Icon, Home01Icon, RefreshIcon, CloudServerIcon } from '@hugeicons/core-free-icons'
+import { Clock01Icon, CloudServerIcon, Home01Icon, RefreshIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 

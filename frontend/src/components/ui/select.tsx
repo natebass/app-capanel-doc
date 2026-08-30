@@ -1,9 +1,9 @@
 import { Select as SelectPrimitive } from '@base-ui/react/select'
 import {
-	UnfoldMoreIcon,
-	Tick02Icon,
-	ArrowUp01Icon,
 	ArrowDown01Icon,
+	ArrowUp01Icon,
+	Tick02Icon,
+	UnfoldMoreIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import * as React from 'react'

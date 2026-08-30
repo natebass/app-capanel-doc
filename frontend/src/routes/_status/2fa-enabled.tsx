@@ -1,4 +1,4 @@
-import { Shield01Icon, Home01Icon, Tick02Icon, SmartPhone01Icon } from '@hugeicons/core-free-icons'
+import { Home01Icon, Shield01Icon, SmartPhone01Icon, Tick02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 

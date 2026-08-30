@@ -49,6 +49,7 @@ export type Item = {
 interface MainProps {
 	items: Item[]
 }
+
 const baseItems: Item[] = [
 	{ icon: Home01Icon, title: 'Dashboard', path: '/user/' },
 	{ icon: Briefcase01Icon, title: 'Items', path: '/user/items' },
