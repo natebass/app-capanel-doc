@@ -31,11 +31,11 @@ mcp-todos.json.output
 todos.json
 
 # Playwright / E2E
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
+frontend/test-results/
+frontend/playwright-report/
+frontend/blob-report/
+frontend/playwright/.cache/
+frontend/playwright/.auth/
 
 # Runtime / env
 nohup.out
@@ -71,3 +71,6 @@ dist/
 *.mo
 
 .codex
+.claude
+.junie
+
