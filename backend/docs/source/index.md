@@ -42,6 +42,16 @@ Learn how to use the website and more about the California Accountability System
 user-guide/index
 ```
 
+## Assessment data
+
+What California publishes for CAASPP and ELPAC, what the numbers mean, and how this application stores them.
+
+```{toctree}
+:maxdepth: 2
+
+data/index
+```
+
 ## Developer guide
 
 Information about developing this application and how you can contribute.

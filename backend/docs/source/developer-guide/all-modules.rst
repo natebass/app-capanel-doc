@@ -49,6 +49,25 @@ Routes
    :undoc-members:
    :show-inheritance:
 
+.. automodule:: app.api.routes.reference
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.api.routes.entities
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.api.routes.reports
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.api.routes.ingest
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Core
 ----
@@ -64,6 +83,75 @@ Core
    :show-inheritance:
 
 .. automodule:: app.core.security
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Assessment data model
+---------------------
+
+.. automodule:: app.model.reference
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.model.results
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.model.ingest
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Research file importer
+----------------------
+
+.. automodule:: app.ingest
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.ingest.sources
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.ingest.layouts
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.ingest.parser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.ingest.loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.ingest.runner
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.ingest.reference_data
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Reporting services
+------------------
+
+.. automodule:: app.service.reference
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: app.service.reports
    :members:
    :undoc-members:
    :show-inheritance:

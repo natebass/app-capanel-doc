@@ -6,7 +6,7 @@ This section explains how to initialize the database and run the data import pip
 Cloud Run Database Initialization
 ---------------------------------
 
-To initialize the database on Google Cloud Run, you can use the Manual Init Trigger Cloud Function. See :doc:`triggering-data-imports` for detailed usage examples.
+Once the schema exists, load the assessment data by running the research file importer. See :doc:`importing-research-files`.
 
 ### Using Fish Shell
 

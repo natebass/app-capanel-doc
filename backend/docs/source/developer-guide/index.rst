@@ -12,7 +12,7 @@ Learn how to build and run the application locally.
    install/index
    environment-variables
    database-setup
-   triggering-data-imports
+   importing-research-files
    database-troubleshooting
    http-500-troubleshooting
 
@@ -26,9 +26,10 @@ Learn how to build and run the application locally.
    testing
 
 .. toctree::
-   :caption: Deploy on Google Cloud
+   :caption: Deploy
    :maxdepth: 2
 
+   aws-deployment
    deployment
 
 .. toctree::

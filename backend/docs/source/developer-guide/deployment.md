@@ -91,7 +91,8 @@ Running without mode flags deploys/updates both service and initialization resou
 
 ## Database Initialization
 
-After initial deployment, initialize the database and run imports by invoking the Manual Init Trigger Cloud Function. See [Triggering Data Imports](triggering-data-imports.rst) for more examples.
+After the initial deployment, apply the migrations and load the assessment data with the research file importer.
+See [Importing Research Files](importing-research-files.rst).
 
 ```bash
 # Get the function URL from deployment output or gcloud

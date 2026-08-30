@@ -26,7 +26,8 @@ Open source
    :caption: Data sources
    :maxdepth: 2
 
-   csv-upload
+   data-sources
+   ../data/index
 
 .. toctree::
    :caption: Project management
