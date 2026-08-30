@@ -1,13 +1,6 @@
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import {
-	type ColumnDef,
-	type FilterFn,
-	flexRender,
-	getCoreRowModel,
-	getPaginationRowModel,
-	useReactTable,
-} from '@tanstack/react-table'
+import { flexRender, type TableState, useTable } from '@tanstack/react-table'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -26,20 +19,25 @@ import {
 	TableRow,
 } from '@/components/ui/table'
 
-interface DataTableProps<TData, TValue> {
-	columns: ColumnDef<TData, TValue>[]
+import {
+	type DataTableColumnDef,
+	dataTableFeatures,
+	type DataTableFeatures,
+} from './table-features'
+
+interface DataTableProps<TData extends Record<string, unknown>> {
+	columns: DataTableColumnDef<TData>[]
 	data: TData[]
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
-	const fuzzyFilter: FilterFn<TData> = () => true
-
-	const table = useReactTable({
+export function DataTable<TData extends Record<string, unknown>>({
+	columns,
+	data,
+}: DataTableProps<TData>) {
+	const table = useTable<DataTableFeatures, TData, TableState<DataTableFeatures>>({
+		features: dataTableFeatures,
 		data,
 		columns,
-		filterFns: { fuzzy: fuzzyFilter },
-		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
 	})
 
 	return (
@@ -64,7 +62,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 					{table.getRowModel().rows.length ? (
 						table.getRowModel().rows.map((row) => (
 							<TableRow key={row.id}>
-								{row.getVisibleCells().map((cell) => (
+								{row.getAllCells().map((cell) => (
 									<TableCell key={cell.id}>
 										{flexRender(cell.column.columnDef.cell, cell.getContext())}
 									</TableCell>
@@ -88,10 +86,9 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 				<div className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border-t bg-muted/20'>
 					<div className='flex flex-col sm:flex-row sm:items-center gap-4'>
 						<div className='text-sm text-muted-foreground'>
-							Showing{' '}
-							{table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{' '}
+							Showing {table.state.pagination.pageIndex * table.state.pagination.pageSize + 1} to{' '}
 							{Math.min(
-								(table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+								(table.state.pagination.pageIndex + 1) * table.state.pagination.pageSize,
 								data.length,
 							)}{' '}
 							of <span className='font-medium text-foreground'>{data.length}</span> entries
@@ -99,13 +96,13 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 						<div className='flex items-center gap-x-2'>
 							<p className='text-sm text-muted-foreground'>Rows per page</p>
 							<Select
-								value={`${table.getState().pagination.pageSize}`}
+								value={`${table.state.pagination.pageSize}`}
 								onValueChange={(value) => {
 									table.setPageSize(Number(value))
 								}}
 							>
 								<SelectTrigger className='h-8 w-[70px]'>
-									<SelectValue placeholder={table.getState().pagination.pageSize} />
+									<SelectValue placeholder={table.state.pagination.pageSize} />
 								</SelectTrigger>
 								<SelectContent side='top'>
 									{[5, 10, 25, 50].map((pageSize) => (
@@ -122,7 +119,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 						<div className='flex items-center gap-x-1 text-sm text-muted-foreground'>
 							<span>Page</span>
 							<span className='font-medium text-foreground'>
-								{table.getState().pagination.pageIndex + 1}
+								{table.state.pagination.pageIndex + 1}
 							</span>
 							<span>of</span>
 							<span className='font-medium text-foreground'>{table.getPageCount()}</span>

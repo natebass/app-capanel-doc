@@ -25,12 +25,24 @@ import type {
 	CensusdataUpdateCensusDataData,
 	CensusdataUpdateCensusDataErrors,
 	CensusdataUpdateCensusDataResponses,
-	DashboardGetDashboardSummaryData,
-	DashboardGetDashboardSummaryErrors,
-	DashboardGetDashboardSummaryResponses,
-	DashboardGetEquityReportData,
-	DashboardGetEquityReportErrors,
-	DashboardGetEquityReportResponses,
+	EntitiesReadChildrenData,
+	EntitiesReadChildrenErrors,
+	EntitiesReadChildrenResponses,
+	EntitiesReadEntityData,
+	EntitiesReadEntityErrors,
+	EntitiesReadEntityResponses,
+	EntitiesSearchEntitiesData,
+	EntitiesSearchEntitiesErrors,
+	EntitiesSearchEntitiesResponses,
+	IngestListRunsData,
+	IngestListRunsErrors,
+	IngestListRunsResponses,
+	IngestReadRunData,
+	IngestReadRunErrors,
+	IngestReadRunResponses,
+	IngestStartIngestData,
+	IngestStartIngestErrors,
+	IngestStartIngestResponses,
 	ItemsCreateItemData,
 	ItemsCreateItemErrors,
 	ItemsCreateItemResponses,
@@ -66,6 +78,30 @@ import type {
 	PrivateCreateUserData,
 	PrivateCreateUserErrors,
 	PrivateCreateUserResponses,
+	ReferenceReadCatalogData,
+	ReferenceReadCatalogErrors,
+	ReferenceReadCatalogResponses,
+	ReportsReadChildResultsData,
+	ReportsReadChildResultsErrors,
+	ReportsReadChildResultsResponses,
+	ReportsReadComparisonData,
+	ReportsReadComparisonErrors,
+	ReportsReadComparisonResponses,
+	ReportsReadGradesData,
+	ReportsReadGradesErrors,
+	ReportsReadGradesResponses,
+	ReportsReadOverviewData,
+	ReportsReadOverviewErrors,
+	ReportsReadOverviewResponses,
+	ReportsReadStudentGroupsData,
+	ReportsReadStudentGroupsErrors,
+	ReportsReadStudentGroupsResponses,
+	ReportsReadSubscoresData,
+	ReportsReadSubscoresErrors,
+	ReportsReadSubscoresResponses,
+	ReportsReadTrendData,
+	ReportsReadTrendErrors,
+	ReportsReadTrendResponses,
 	SchoolsReadSchoolsData,
 	SchoolsReadSchoolsErrors,
 	SchoolsReadSchoolsResponses,
@@ -803,43 +839,241 @@ export class SchoolsService {
 	}
 }
 
-export class DashboardService {
+export class ReferenceService {
 	/**
-	 * Get Dashboard Summary
+	 * Read Catalog
 	 *
-	 * Get all test summaries for a CDS code within a specific reporting year and student group.
+	 * Everything needed to populate the report filters for one year.
 	 */
-	public static dashboardGetDashboardSummary<ThrowOnError extends boolean = false>(
-		options: Options<DashboardGetDashboardSummaryData, ThrowOnError>,
-	): RequestResult<
-		DashboardGetDashboardSummaryResponses,
-		DashboardGetDashboardSummaryErrors,
-		ThrowOnError
-	> {
-		return (options.client ?? client).get<
-			DashboardGetDashboardSummaryResponses,
-			DashboardGetDashboardSummaryErrors,
+	public static referenceReadCatalog<ThrowOnError extends boolean = false>(
+		options?: Options<ReferenceReadCatalogData, ThrowOnError>,
+	): RequestResult<ReferenceReadCatalogResponses, ReferenceReadCatalogErrors, ThrowOnError> {
+		return (options?.client ?? client).get<
+			ReferenceReadCatalogResponses,
+			ReferenceReadCatalogErrors,
 			ThrowOnError
-		>({ url: '/api/v1/dashboard/summary', ...options })
+		>({ url: '/api/v1/reference/catalog', ...options })
+	}
+}
+
+export class EntitiesService {
+	/**
+	 * Search Entities
+	 *
+	 * Find entities by name or CDS code.
+	 */
+	public static entitiesSearchEntities<ThrowOnError extends boolean = false>(
+		options?: Options<EntitiesSearchEntitiesData, ThrowOnError>,
+	): RequestResult<EntitiesSearchEntitiesResponses, EntitiesSearchEntitiesErrors, ThrowOnError> {
+		return (options?.client ?? client).get<
+			EntitiesSearchEntitiesResponses,
+			EntitiesSearchEntitiesErrors,
+			ThrowOnError
+		>({ url: '/api/v1/entities/search', ...options })
 	}
 
 	/**
-	 * Get Equity Report
+	 * Read Entity
 	 *
-	 * Get student group breakdown for a specific test and CDS code.
+	 * One entity together with the entities it rolls up into.
 	 */
-	public static dashboardGetEquityReport<ThrowOnError extends boolean = false>(
-		options: Options<DashboardGetEquityReportData, ThrowOnError>,
+	public static entitiesReadEntity<ThrowOnError extends boolean = false>(
+		options: Options<EntitiesReadEntityData, ThrowOnError>,
+	): RequestResult<EntitiesReadEntityResponses, EntitiesReadEntityErrors, ThrowOnError> {
+		return (options.client ?? client).get<
+			EntitiesReadEntityResponses,
+			EntitiesReadEntityErrors,
+			ThrowOnError
+		>({ url: '/api/v1/entities/{cds_code}', ...options })
+	}
+
+	/**
+	 * Read Children
+	 *
+	 * The entities directly inside this one.
+	 */
+	public static entitiesReadChildren<ThrowOnError extends boolean = false>(
+		options: Options<EntitiesReadChildrenData, ThrowOnError>,
+	): RequestResult<EntitiesReadChildrenResponses, EntitiesReadChildrenErrors, ThrowOnError> {
+		return (options.client ?? client).get<
+			EntitiesReadChildrenResponses,
+			EntitiesReadChildrenErrors,
+			ThrowOnError
+		>({ url: '/api/v1/entities/{cds_code}/children', ...options })
+	}
+}
+
+export class ReportsService {
+	/**
+	 * Read Overview
+	 *
+	 * Overall results for one entity, year, student group and grade.
+	 */
+	public static reportsReadOverview<ThrowOnError extends boolean = false>(
+		options?: Options<ReportsReadOverviewData, ThrowOnError>,
+	): RequestResult<ReportsReadOverviewResponses, ReportsReadOverviewErrors, ThrowOnError> {
+		return (options?.client ?? client).get<
+			ReportsReadOverviewResponses,
+			ReportsReadOverviewErrors,
+			ThrowOnError
+		>({ url: '/api/v1/reports/overview', ...options })
+	}
+
+	/**
+	 * Read Subscores
+	 *
+	 * The areas, domains and composites reported beneath one test.
+	 */
+	public static reportsReadSubscores<ThrowOnError extends boolean = false>(
+		options: Options<ReportsReadSubscoresData, ThrowOnError>,
+	): RequestResult<ReportsReadSubscoresResponses, ReportsReadSubscoresErrors, ThrowOnError> {
+		return (options.client ?? client).get<
+			ReportsReadSubscoresResponses,
+			ReportsReadSubscoresErrors,
+			ThrowOnError
+		>({ url: '/api/v1/reports/subscores', ...options })
+	}
+
+	/**
+	 * Read Trend
+	 *
+	 * One cell's results across every year the state reported them.
+	 */
+	public static reportsReadTrend<ThrowOnError extends boolean = false>(
+		options: Options<ReportsReadTrendData, ThrowOnError>,
+	): RequestResult<ReportsReadTrendResponses, ReportsReadTrendErrors, ThrowOnError> {
+		return (options.client ?? client).get<
+			ReportsReadTrendResponses,
+			ReportsReadTrendErrors,
+			ThrowOnError
+		>({ url: '/api/v1/reports/trend', ...options })
+	}
+
+	/**
+	 * Read Student Groups
+	 *
+	 * Every student group's result for one entity, test and grade.
+	 */
+	public static reportsReadStudentGroups<ThrowOnError extends boolean = false>(
+		options: Options<ReportsReadStudentGroupsData, ThrowOnError>,
 	): RequestResult<
-		DashboardGetEquityReportResponses,
-		DashboardGetEquityReportErrors,
+		ReportsReadStudentGroupsResponses,
+		ReportsReadStudentGroupsErrors,
 		ThrowOnError
 	> {
 		return (options.client ?? client).get<
-			DashboardGetEquityReportResponses,
-			DashboardGetEquityReportErrors,
+			ReportsReadStudentGroupsResponses,
+			ReportsReadStudentGroupsErrors,
 			ThrowOnError
-		>({ url: '/api/v1/dashboard/equity', ...options })
+		>({ url: '/api/v1/reports/student-groups', ...options })
+	}
+
+	/**
+	 * Read Grades
+	 *
+	 * One entity's result for every grade a test reports.
+	 */
+	public static reportsReadGrades<ThrowOnError extends boolean = false>(
+		options: Options<ReportsReadGradesData, ThrowOnError>,
+	): RequestResult<ReportsReadGradesResponses, ReportsReadGradesErrors, ThrowOnError> {
+		return (options.client ?? client).get<
+			ReportsReadGradesResponses,
+			ReportsReadGradesErrors,
+			ThrowOnError
+		>({ url: '/api/v1/reports/grades', ...options })
+	}
+
+	/**
+	 * Read Child Results
+	 *
+	 * Results for the counties, districts or schools inside one entity.
+	 */
+	public static reportsReadChildResults<ThrowOnError extends boolean = false>(
+		options: Options<ReportsReadChildResultsData, ThrowOnError>,
+	): RequestResult<ReportsReadChildResultsResponses, ReportsReadChildResultsErrors, ThrowOnError> {
+		return (options.client ?? client).get<
+			ReportsReadChildResultsResponses,
+			ReportsReadChildResultsErrors,
+			ThrowOnError
+		>({ url: '/api/v1/reports/children', ...options })
+	}
+
+	/**
+	 * Read Comparison
+	 *
+	 * Side-by-side results for an explicit list of entities.
+	 */
+	public static reportsReadComparison<ThrowOnError extends boolean = false>(
+		options: Options<ReportsReadComparisonData, ThrowOnError>,
+	): RequestResult<ReportsReadComparisonResponses, ReportsReadComparisonErrors, ThrowOnError> {
+		return (options.client ?? client).get<
+			ReportsReadComparisonResponses,
+			ReportsReadComparisonErrors,
+			ThrowOnError
+		>({ url: '/api/v1/reports/compare', ...options })
+	}
+}
+
+export class IngestService {
+	/**
+	 * List Runs
+	 *
+	 * The most recent import runs, newest first.
+	 */
+	public static ingestListRuns<ThrowOnError extends boolean = false>(
+		options?: Options<IngestListRunsData, ThrowOnError>,
+	): RequestResult<IngestListRunsResponses, IngestListRunsErrors, ThrowOnError> {
+		return (options?.client ?? client).get<
+			IngestListRunsResponses,
+			IngestListRunsErrors,
+			ThrowOnError
+		>({
+			security: [{ scheme: 'bearer', type: 'http' }],
+			url: '/api/v1/ingest/runs',
+			...options,
+		})
+	}
+
+	/**
+	 * Start Ingest
+	 *
+	 * Start an import in the background.
+	 */
+	public static ingestStartIngest<ThrowOnError extends boolean = false>(
+		options: Options<IngestStartIngestData, ThrowOnError>,
+	): RequestResult<IngestStartIngestResponses, IngestStartIngestErrors, ThrowOnError> {
+		return (options.client ?? client).post<
+			IngestStartIngestResponses,
+			IngestStartIngestErrors,
+			ThrowOnError
+		>({
+			security: [{ scheme: 'bearer', type: 'http' }],
+			url: '/api/v1/ingest/runs',
+			...options,
+			headers: {
+				'Content-Type': 'application/json',
+				...options.headers,
+			},
+		})
+	}
+
+	/**
+	 * Read Run
+	 *
+	 * One run with the outcome of every file it touched.
+	 */
+	public static ingestReadRun<ThrowOnError extends boolean = false>(
+		options: Options<IngestReadRunData, ThrowOnError>,
+	): RequestResult<IngestReadRunResponses, IngestReadRunErrors, ThrowOnError> {
+		return (options.client ?? client).get<
+			IngestReadRunResponses,
+			IngestReadRunErrors,
+			ThrowOnError
+		>({
+			security: [{ scheme: 'bearer', type: 'http' }],
+			url: '/api/v1/ingest/runs/{run_id}',
+			...options,
+		})
 	}
 }
 

@@ -56,6 +56,69 @@ function TotalEnrollmentDisplay() {
 	return <p className='text-2xl font-bold'>{formattedTotalEnr}</p>
 }
 
+function CensusDataContent({
+	censusData,
+	isLoading,
+	isError,
+}: {
+	censusData: any
+	isLoading: boolean
+	isError: boolean
+}) {
+	if (isLoading) {
+		return (
+			<div className='flex flex-col gap-2'>
+				<p className='text-sm text-muted-foreground font-medium'>Census Data</p>
+				<Skeleton className='h-8 w-[120px]' />
+				<Skeleton className='h-4 w-[100px]' />
+			</div>
+		)
+	}
+
+	if (isError) {
+		return (
+			<div className='flex flex-col gap-2'>
+				<p className='text-sm text-muted-foreground font-medium'>Census Data</p>
+				<div className='text-red-600 text-sm bg-red-50 border border-red-200 rounded-md p-2 text-center'>
+					Failed to load census data
+				</div>
+			</div>
+		)
+	}
+
+	if (!censusData?.data) {
+		return (
+			<div className='flex flex-col gap-2'>
+				<p className='text-sm text-muted-foreground font-medium'>Census Data</p>
+				<p className='text-lg text-muted-foreground'>No data found</p>
+			</div>
+		)
+	}
+
+	const data = censusData.data
+
+	return (
+		<div className='flex flex-col gap-2'>
+			<div className='flex justify-between items-start'>
+				<div className='flex flex-col gap-0'>
+					<span className='text-xs text-muted-foreground'>
+						{data.school_name || 'Unknown School'}
+					</span>
+					<span className='text-sm text-muted-foreground font-medium'>Total Enrollment</span>
+				</div>
+				<HugeiconsIcon icon={Home01Icon} className='h-4 w-4 text-blue-500' />
+			</div>
+			<p className='text-2xl font-bold text-blue-500'>{data.total_enr?.toLocaleString() || '0'}</p>
+			<div className='flex items-center gap-2'>
+				<Badge variant={data.charter === 'Y' ? 'default' : 'secondary'} className='text-xs'>
+					{data.charter === 'Y' ? 'Charter' : 'Public'}
+				</Badge>
+				<span className='text-xs text-muted-foreground'>AY {data.academic_year}</span>
+			</div>
+		</div>
+	)
+}
+
 // Census Data Search Card Component with tabs
 function CensusDataSearchCard() {
 	// State to manage which census data ID to search for
@@ -66,72 +129,6 @@ function CensusDataSearchCard() {
 
 	// Fetch census data by ID when searchId is set
 	const { data: censusData, isLoading, isError } = useCensusDataById(searchId)
-
-	// Component to display census data content
-	function CensusDataContent({
-		censusData,
-		isLoading,
-		isError,
-	}: {
-		censusData: any
-		isLoading: boolean
-		isError: boolean
-	}) {
-		if (isLoading) {
-			return (
-				<div className='flex flex-col gap-2'>
-					<p className='text-sm text-muted-foreground font-medium'>Census Data</p>
-					<Skeleton className='h-8 w-[120px]' />
-					<Skeleton className='h-4 w-[100px]' />
-				</div>
-			)
-		}
-
-		if (isError) {
-			return (
-				<div className='flex flex-col gap-2'>
-					<p className='text-sm text-muted-foreground font-medium'>Census Data</p>
-					<div className='text-red-600 text-sm bg-red-50 border border-red-200 rounded-md p-2 text-center'>
-						Failed to load census data
-					</div>
-				</div>
-			)
-		}
-
-		if (!censusData?.data) {
-			return (
-				<div className='flex flex-col gap-2'>
-					<p className='text-sm text-muted-foreground font-medium'>Census Data</p>
-					<p className='text-lg text-muted-foreground'>No data found</p>
-				</div>
-			)
-		}
-
-		const data = censusData.data
-
-		return (
-			<div className='flex flex-col gap-2'>
-				<div className='flex justify-between items-start'>
-					<div className='flex flex-col gap-0'>
-						<span className='text-xs text-muted-foreground'>
-							{data.school_name || 'Unknown School'}
-						</span>
-						<span className='text-sm text-muted-foreground font-medium'>Total Enrollment</span>
-					</div>
-					<HugeiconsIcon icon={Home01Icon} className='h-4 w-4 text-blue-500' />
-				</div>
-				<p className='text-2xl font-bold text-blue-500'>
-					{data.total_enr?.toLocaleString() || '0'}
-				</p>
-				<div className='flex items-center gap-2'>
-					<Badge variant={data.charter === 'Y' ? 'default' : 'secondary'} className='text-xs'>
-						{data.charter === 'Y' ? 'Charter' : 'Public'}
-					</Badge>
-					<span className='text-xs text-muted-foreground'>AY {data.academic_year}</span>
-				</div>
-			</div>
-		)
-	}
 
 	return (
 		<Tabs defaultValue='found-id'>

@@ -5,6 +5,60 @@ export type ClientOptions = {
 }
 
 /**
+ * AssessmentPublic
+ *
+ * A test, described for one administration year.
+ */
+export type AssessmentPublic = {
+	/**
+	 * Testid
+	 */
+	testId: number
+	/**
+	 * Code
+	 */
+	code: string
+	program: Program
+	/**
+	 * Testtype
+	 */
+	testType: string
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Shortname
+	 */
+	shortName: string
+	/**
+	 * Subject
+	 */
+	subject: string
+	/**
+	 * Isalternate
+	 */
+	isAlternate: boolean
+	/**
+	 * Sortorder
+	 */
+	sortOrder: number
+	levelScheme: LevelSchemePublic
+	/**
+	 * Subscores
+	 */
+	subscores: Array<SubscorePublic>
+	/**
+	 * Grades
+	 */
+	grades: Array<string>
+	/**
+	 * Gradesnote
+	 */
+	gradesNote?: string | null
+}
+
+/**
  * Body_login-login_access_token
  */
 export type BodyLoginLoginAccessToken = {
@@ -32,6 +86,34 @@ export type BodyLoginLoginAccessToken = {
 	 * Client Secret
 	 */
 	client_secret?: string | null
+}
+
+/**
+ * Catalog
+ *
+ * Everything a client needs to build the report controls.
+ */
+export type Catalog = {
+	/**
+	 * Testyear
+	 */
+	testYear: number
+	/**
+	 * Years
+	 */
+	years: Array<number>
+	/**
+	 * Assessments
+	 */
+	assessments: Array<AssessmentPublic>
+	/**
+	 * Studentgroups
+	 */
+	studentGroups: Array<StudentGroupPublic>
+	/**
+	 * Grades
+	 */
+	grades: Array<GradePublic>
 }
 
 /**
@@ -125,67 +207,204 @@ export type CensusData = {
 }
 
 /**
- * DashboardSummaryResponse
+ * CharterFunding
  *
- * Response containing multiple tests for a school/district/county.
+ * How a charter school is funded, per the entity ``Type ID``.
  */
-export type DashboardSummaryResponse = {
-	/**
-	 * Cds
-	 */
-	cds: string
+export type CharterFunding = 'direct' | 'local'
+
+/**
+ * ChildEntityReport
+ */
+export type ChildEntityReport = {
+	entity: EntityPublic
 	/**
 	 * Testyear
 	 */
-	testYear: string
-	/**
-	 * Indicators
-	 */
-	indicators: Array<IndicatorSummary>
-}
-
-/**
- * EquityGroupSummary
- *
- * Summary of a student group for the equity report.
- */
-export type EquityGroupSummary = {
-	/**
-	 * Studentgroup
-	 */
-	studentGroup: string
-	/**
-	 * Overallmetandabovepct
-	 */
-	overallMetAndAbovePct?: string | null
-	/**
-	 * Studentstested
-	 */
-	studentsTested?: string | null
-}
-
-/**
- * EquityReportResponse
- *
- * Response containing student group breakdown for a test.
- */
-export type EquityReportResponse = {
-	/**
-	 * Cds
-	 */
-	cds: string
+	testYear: number
 	/**
 	 * Testid
 	 */
-	testId: string
+	testId: number
+	/**
+	 * Studentgroupid
+	 */
+	studentGroupId: number
+	/**
+	 * Grade
+	 */
+	grade: string
+	childLevel: EntityLevel
+	/**
+	 * Count
+	 */
+	count: number
+	/**
+	 * Data
+	 */
+	data: Array<ChildEntityResult>
+}
+
+/**
+ * ChildEntityResult
+ *
+ * One county, district or school inside the requested entity.
+ */
+export type ChildEntityResult = {
+	entity: EntityPublic
+	/**
+	 * Studentstested
+	 */
+	studentsTested?: number | null
+	/**
+	 * Meanscalescore
+	 */
+	meanScaleScore?: string | null
+	/**
+	 * Metorabovepct
+	 */
+	metOrAbovePct?: string | null
+	/**
+	 * Suppressed
+	 */
+	suppressed?: boolean
+}
+
+/**
+ * CompareReport
+ *
+ * Side-by-side results for an explicit list of entities.
+ */
+export type CompareReport = {
 	/**
 	 * Testyear
 	 */
-	testYear: string
+	testYear: number
 	/**
-	 * Groups
+	 * Testid
 	 */
-	groups: Array<EquityGroupSummary>
+	testId: number
+	/**
+	 * Studentgroupid
+	 */
+	studentGroupId: number
+	/**
+	 * Grade
+	 */
+	grade: string
+	/**
+	 * Entries
+	 */
+	entries: Array<EntityResults>
+}
+
+/**
+ * EntityAncestry
+ *
+ * An entity together with the entities it rolls up into.
+ */
+export type EntityAncestry = {
+	entity: EntityPublic
+	/**
+	 * Ancestors
+	 */
+	ancestors: Array<EntityPublic>
+}
+
+/**
+ * EntityLevel
+ *
+ * Reporting level of an entity in a research file.
+ */
+export type EntityLevel = 'state' | 'county' | 'district' | 'school'
+
+/**
+ * EntityList
+ */
+export type EntityList = {
+	/**
+	 * Data
+	 */
+	data: Array<EntityPublic>
+	/**
+	 * Count
+	 */
+	count: number
+}
+
+/**
+ * EntityPublic
+ *
+ * An entity as the API presents it.
+ */
+export type EntityPublic = {
+	/**
+	 * Cdscode
+	 */
+	cdsCode: string
+	/**
+	 * Displayname
+	 */
+	displayName: string
+	entityLevel: EntityLevel
+	/**
+	 * Countycode
+	 */
+	countyCode: string
+	/**
+	 * Districtcode
+	 */
+	districtCode: string
+	/**
+	 * Schoolcode
+	 */
+	schoolCode: string
+	/**
+	 * Countyname
+	 */
+	countyName?: string | null
+	/**
+	 * Districtname
+	 */
+	districtName?: string | null
+	/**
+	 * Schoolname
+	 */
+	schoolName?: string | null
+	/**
+	 * Zipcode
+	 */
+	zipCode?: string | null
+	/**
+	 * Ischarter
+	 */
+	isCharter?: boolean
+	charterFunding?: CharterFunding | null
+	/**
+	 * Parentcdscode
+	 */
+	parentCdsCode?: string | null
+	/**
+	 * Firsttestyear
+	 */
+	firstTestYear?: number | null
+	/**
+	 * Lasttestyear
+	 */
+	lastTestYear?: number | null
+}
+
+/**
+ * EntityResults
+ *
+ * An entity's results for one or more tests.
+ */
+export type EntityResults = {
+	entity: EntityPublic
+	/**
+	 * Results
+	 */
+	results: Array<ResultSummary>
 }
 
 /**
@@ -203,6 +422,91 @@ export type ForcePasswordResetRequest = {
 }
 
 /**
+ * GradePublic
+ */
+export type GradePublic = {
+	/**
+	 * Code
+	 */
+	code: string
+	/**
+	 * Label
+	 */
+	label: string
+	/**
+	 * Sortorder
+	 */
+	sortOrder: number
+	/**
+	 * Isaggregate
+	 */
+	isAggregate: boolean
+}
+
+/**
+ * GradeReport
+ */
+export type GradeReport = {
+	entity: EntityPublic
+	/**
+	 * Testyear
+	 */
+	testYear: number
+	/**
+	 * Testid
+	 */
+	testId: number
+	/**
+	 * Studentgroupid
+	 */
+	studentGroupId: number
+	/**
+	 * Grades
+	 */
+	grades: Array<GradeResult>
+}
+
+/**
+ * GradeResult
+ *
+ * One grade's result, for the by-grade report.
+ */
+export type GradeResult = {
+	/**
+	 * Grade
+	 */
+	grade: string
+	/**
+	 * Label
+	 */
+	label: string
+	/**
+	 * Sortorder
+	 */
+	sortOrder: number
+	/**
+	 * Studentstested
+	 */
+	studentsTested?: number | null
+	/**
+	 * Meanscalescore
+	 */
+	meanScaleScore?: string | null
+	/**
+	 * Metorabovepct
+	 */
+	metOrAbovePct?: string | null
+	/**
+	 * Suppressed
+	 */
+	suppressed?: boolean
+	/**
+	 * Levels
+	 */
+	levels: Array<LevelResult>
+}
+
+/**
  * HTTPValidationError
  */
 export type HttpValidationError = {
@@ -213,46 +517,150 @@ export type HttpValidationError = {
 }
 
 /**
- * IndicatorSummary
- *
- * Summary of a specific CAASPP/ELPAC test result.
+ * IngestFilePublic
  */
-export type IndicatorSummary = {
+export type IngestFilePublic = {
 	/**
-	 * Testid
+	 * Sourcekey
 	 */
-	testId: string
+	sourceKey: string
+	/**
+	 * Program
+	 */
+	program?: string | null
 	/**
 	 * Testtype
 	 */
-	testType: string
+	testType?: string | null
 	/**
-	 * Grade
+	 * Testyear
 	 */
-	grade: string
+	testYear?: number | null
+	status: IngestStatus
 	/**
-	 * Studentsenrolled
+	 * Resultrows
 	 */
-	studentsEnrolled: string
+	resultRows: number
 	/**
-	 * Studentstested
+	 * Subscorerows
 	 */
-	studentsTested: string
+	subscoreRows: number
 	/**
-	 * Overallmeanscalescore
+	 * Durationseconds
 	 */
-	overallMeanScaleScore?: string | null
+	durationSeconds?: number | null
 	/**
-	 * Overallmetandabovepct
+	 * Error
 	 */
-	overallMetAndAbovePct?: string | null
+	error?: string | null
 	/**
-	 * Levels
+	 * Loadedat
 	 */
-	levels?: {
-		[key: string]: number
-	} | null
+	loadedAt?: string | null
 }
+
+/**
+ * IngestRequest
+ *
+ * What to import.
+ */
+export type IngestRequest = {
+	/**
+	 * Sourceuri
+	 */
+	sourceUri?: string | null
+	/**
+	 * Force
+	 */
+	force?: boolean
+	/**
+	 * Only
+	 */
+	only?: Array<string> | null
+	/**
+	 * Years
+	 */
+	years?: Array<number> | null
+}
+
+/**
+ * IngestRunDetail
+ */
+export type IngestRunDetail = {
+	run: IngestRunPublic
+	/**
+	 * Files
+	 */
+	files: Array<IngestFilePublic>
+}
+
+/**
+ * IngestRunList
+ */
+export type IngestRunList = {
+	/**
+	 * Data
+	 */
+	data: Array<IngestRunPublic>
+	/**
+	 * Count
+	 */
+	count: number
+}
+
+/**
+ * IngestRunPublic
+ */
+export type IngestRunPublic = {
+	/**
+	 * Id
+	 */
+	id: string
+	/**
+	 * Sourceuri
+	 */
+	sourceUri: string
+	status: IngestStatus
+	/**
+	 * Startedat
+	 */
+	startedAt: string
+	/**
+	 * Finishedat
+	 */
+	finishedAt?: string | null
+	/**
+	 * Filesseen
+	 */
+	filesSeen: number
+	/**
+	 * Filesloaded
+	 */
+	filesLoaded: number
+	/**
+	 * Filesskipped
+	 */
+	filesSkipped: number
+	/**
+	 * Resultrows
+	 */
+	resultRows: number
+	/**
+	 * Subscorerows
+	 */
+	subscoreRows: number
+	/**
+	 * Error
+	 */
+	error?: string | null
+}
+
+/**
+ * IngestStatus
+ *
+ * Lifecycle of an ingest run or of one file within it.
+ */
+export type IngestStatus = 'running' | 'succeeded' | 'failed' | 'skipped'
 
 /**
  * ItemCreate
@@ -323,6 +731,88 @@ export type ItemsPublic = {
 }
 
 /**
+ * LevelPublic
+ *
+ * One achievement level of a scheme.
+ */
+export type LevelPublic = {
+	/**
+	 * Levelnumber
+	 */
+	levelNumber: number
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Shortname
+	 */
+	shortName: string
+	/**
+	 * Description
+	 */
+	description?: string | null
+}
+
+/**
+ * LevelResult
+ *
+ * A labelled slice of a distribution.
+ */
+export type LevelResult = {
+	/**
+	 * Levelnumber
+	 */
+	levelNumber: number
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Shortname
+	 */
+	shortName: string
+	/**
+	 * Count
+	 */
+	count?: number | null
+	/**
+	 * Pct
+	 */
+	pct?: string | null
+}
+
+/**
+ * LevelSchemePublic
+ */
+export type LevelSchemePublic = {
+	/**
+	 * Code
+	 */
+	code: string
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Levelcount
+	 */
+	levelCount: number
+	/**
+	 * Proficientfromlevel
+	 */
+	proficientFromLevel?: number | null
+	/**
+	 * Description
+	 */
+	description?: string | null
+	/**
+	 * Levels
+	 */
+	levels: Array<LevelPublic>
+}
+
+/**
  * Message
  *
  * A message for an API response.
@@ -347,6 +837,13 @@ export type Message = {
 }
 
 /**
+ * MetOrAboveSource
+ *
+ * Where the "met or above" figure on a result row came from.
+ */
+export type MetOrAboveSource = 'published' | 'derived'
+
+/**
  * NewPassword
  */
 export type NewPassword = {
@@ -358,6 +855,39 @@ export type NewPassword = {
 	 * Newpassword
 	 */
 	newPassword: string
+}
+
+/**
+ * OverviewReport
+ *
+ * The equivalent of the state's "Test Results" landing report.
+ */
+export type OverviewReport = {
+	entity: EntityPublic
+	/**
+	 * Testyear
+	 */
+	testYear: number
+	/**
+	 * Studentgroupid
+	 */
+	studentGroupId: number
+	/**
+	 * Grade
+	 */
+	grade: string
+	/**
+	 * Schooltype
+	 */
+	schoolType: string
+	/**
+	 * Results
+	 */
+	results: Array<ResultSummary>
+	/**
+	 * Comparisons
+	 */
+	comparisons: Array<EntityResults>
 }
 
 /**
@@ -380,6 +910,100 @@ export type PrivateUserCreate = {
 	 * Is Verified
 	 */
 	is_verified?: boolean
+}
+
+/**
+ * Program
+ *
+ * The two assessment programs reported by the state's public site.
+ */
+export type Program = 'CAASPP' | 'ELPAC'
+
+/**
+ * ResultSummary
+ *
+ * One test's overall result for the requested cell.
+ *
+ * ``suppressed`` means the state withheld the figures because too few
+ * students were tested.  Values can also be absent without suppression: the
+ * mean scale score is not reported for the "all grades" aggregate, because
+ * scale scores are not comparable between grades.
+ */
+export type ResultSummary = {
+	/**
+	 * Testid
+	 */
+	testId: number
+	/**
+	 * Testcode
+	 */
+	testCode: string
+	/**
+	 * Testname
+	 */
+	testName: string
+	/**
+	 * Shortname
+	 */
+	shortName: string
+	program: Program
+	/**
+	 * Subject
+	 */
+	subject: string
+	/**
+	 * Grade
+	 */
+	grade: string
+	/**
+	 * Studentsenrolled
+	 */
+	studentsEnrolled?: number | null
+	/**
+	 * Studentstested
+	 */
+	studentsTested?: number | null
+	/**
+	 * Studentstestedwithscores
+	 */
+	studentsTestedWithScores?: number | null
+	/**
+	 * Participationrate
+	 */
+	participationRate?: string | null
+	/**
+	 * Meanscalescore
+	 */
+	meanScaleScore?: string | null
+	/**
+	 * Metorabovecount
+	 */
+	metOrAboveCount?: number | null
+	/**
+	 * Metorabovepct
+	 */
+	metOrAbovePct?: string | null
+	metOrAboveSource?: MetOrAboveSource | null
+	/**
+	 * Overalltotal
+	 */
+	overallTotal?: number | null
+	/**
+	 * Suppressed
+	 */
+	suppressed?: boolean
+	/**
+	 * Levelschemecode
+	 */
+	levelSchemeCode: string
+	/**
+	 * Levels
+	 */
+	levels: Array<LevelResult>
+	/**
+	 * Derivedfromchildren
+	 */
+	derivedFromChildren?: boolean
 }
 
 /**
@@ -611,6 +1235,13 @@ export type SchoolSummary = {
 }
 
 /**
+ * SchoolType
+ *
+ * The state's charter filter on aggregate reports.
+ */
+export type SchoolType = 'all' | 'charter' | 'non-charter'
+
+/**
  * SchoolsPublic
  */
 export type SchoolsPublic = {
@@ -639,6 +1270,206 @@ export type SchoolsSummary = {
 }
 
 /**
+ * StudentGroupPublic
+ */
+export type StudentGroupPublic = {
+	program: Program
+	/**
+	 * Studentgroupid
+	 */
+	studentGroupId: number
+	/**
+	 * Code
+	 */
+	code: string
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Category
+	 */
+	category: string
+	/**
+	 * Sortorder
+	 */
+	sortOrder: number
+}
+
+/**
+ * StudentGroupReport
+ */
+export type StudentGroupReport = {
+	entity: EntityPublic
+	/**
+	 * Testyear
+	 */
+	testYear: number
+	/**
+	 * Testid
+	 */
+	testId: number
+	/**
+	 * Grade
+	 */
+	grade: string
+	allStudents?: StudentGroupResult | null
+	/**
+	 * Groups
+	 */
+	groups: Array<StudentGroupResult>
+}
+
+/**
+ * StudentGroupResult
+ *
+ * One student group's result, for the student group comparison report.
+ */
+export type StudentGroupResult = {
+	/**
+	 * Studentgroupid
+	 */
+	studentGroupId: number
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Category
+	 */
+	category: string
+	/**
+	 * Sortorder
+	 */
+	sortOrder: number
+	/**
+	 * Studentsenrolled
+	 */
+	studentsEnrolled?: number | null
+	/**
+	 * Studentstested
+	 */
+	studentsTested?: number | null
+	/**
+	 * Meanscalescore
+	 */
+	meanScaleScore?: string | null
+	/**
+	 * Metorabovepct
+	 */
+	metOrAbovePct?: string | null
+	/**
+	 * Suppressed
+	 */
+	suppressed?: boolean
+	/**
+	 * Levels
+	 */
+	levels: Array<LevelResult>
+}
+
+/**
+ * SubscoreKind
+ *
+ * Kind of reported subscore.
+ *
+ * ``AREA`` and ``COMPOSITE_AREA`` are Smarter Balanced claim reporting
+ * categories; ``DOMAIN`` is used by CAST, CSA and ELPAC; ``COMPOSITE`` is an
+ * ELPAC/CSA composite that carries its own mean scale score.
+ */
+export type SubscoreKind = 'area' | 'composite_area' | 'domain' | 'composite'
+
+/**
+ * SubscorePublic
+ *
+ * An area, domain or composite a test reports in a given year.
+ */
+export type SubscorePublic = {
+	/**
+	 * Code
+	 */
+	code: string
+	kind: SubscoreKind
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Reportsmeanscalescore
+	 */
+	reportsMeanScaleScore: boolean
+	bandScheme: LevelSchemePublic
+	/**
+	 * Sortorder
+	 */
+	sortOrder: number
+}
+
+/**
+ * SubscoreReport
+ */
+export type SubscoreReport = {
+	entity: EntityPublic
+	/**
+	 * Testyear
+	 */
+	testYear: number
+	/**
+	 * Testid
+	 */
+	testId: number
+	/**
+	 * Studentgroupid
+	 */
+	studentGroupId: number
+	/**
+	 * Grade
+	 */
+	grade: string
+	/**
+	 * Subscores
+	 */
+	subscores: Array<SubscoreResult>
+}
+
+/**
+ * SubscoreResult
+ *
+ * One area, domain or composite for the requested cell.
+ */
+export type SubscoreResult = {
+	/**
+	 * Code
+	 */
+	code: string
+	kind: SubscoreKind
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Sortorder
+	 */
+	sortOrder: number
+	/**
+	 * Meanscalescore
+	 */
+	meanScaleScore?: string | null
+	/**
+	 * Total
+	 */
+	total?: number | null
+	/**
+	 * Bandschemecode
+	 */
+	bandSchemeCode: string
+	/**
+	 * Bands
+	 */
+	bands: Array<LevelResult>
+}
+
+/**
  * Token
  *
  * A JSON payload containing the access token. The names follow the JWT spec (RFC 7519).
@@ -652,6 +1483,65 @@ export type Token = {
 	 * Token Type
 	 */
 	token_type?: string
+}
+
+/**
+ * TrendPoint
+ *
+ * One year of a change-over-time series.
+ */
+export type TrendPoint = {
+	/**
+	 * Testyear
+	 */
+	testYear: number
+	/**
+	 * Studentstested
+	 */
+	studentsTested?: number | null
+	/**
+	 * Meanscalescore
+	 */
+	meanScaleScore?: string | null
+	/**
+	 * Metorabovepct
+	 */
+	metOrAbovePct?: string | null
+	/**
+	 * Suppressed
+	 */
+	suppressed?: boolean
+	/**
+	 * Levels
+	 */
+	levels: Array<LevelResult>
+}
+
+/**
+ * TrendReport
+ */
+export type TrendReport = {
+	entity: EntityPublic
+	/**
+	 * Testid
+	 */
+	testId: number
+	/**
+	 * Studentgroupid
+	 */
+	studentGroupId: number
+	/**
+	 * Grade
+	 */
+	grade: string
+	/**
+	 * Points
+	 */
+	points: Array<TrendPoint>
+	/**
+	 * Scalebreaknote
+	 */
+	scaleBreakNote?: string | null
 }
 
 /**
@@ -1744,85 +2634,620 @@ export type SchoolsReadSchoolsSummaryResponses = {
 export type SchoolsReadSchoolsSummaryResponse =
 	SchoolsReadSchoolsSummaryResponses[keyof SchoolsReadSchoolsSummaryResponses]
 
-export type DashboardGetDashboardSummaryData = {
+export type ReferenceReadCatalogData = {
 	body?: never
 	path?: never
-	query: {
+	query?: {
+		/**
+		 * Year
+		 *
+		 * Administration year; defaults to the most recent.
+		 */
+		year?: number | null
+	}
+	url: '/api/v1/reference/catalog'
+}
+
+export type ReferenceReadCatalogErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type ReferenceReadCatalogError = ReferenceReadCatalogErrors[keyof ReferenceReadCatalogErrors]
+
+export type ReferenceReadCatalogResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: Catalog
+}
+
+export type ReferenceReadCatalogResponse =
+	ReferenceReadCatalogResponses[keyof ReferenceReadCatalogResponses]
+
+export type EntitiesSearchEntitiesData = {
+	body?: never
+	path?: never
+	query?: {
+		/**
+		 * Q
+		 *
+		 * Name or CDS code fragment.
+		 */
+		q?: string | null
+		/**
+		 * Level
+		 */
+		level?: EntityLevel | null
+		/**
+		 * Countycode
+		 */
+		countyCode?: string | null
+		/**
+		 * Districtcode
+		 */
+		districtCode?: string | null
+		/**
+		 * Charter
+		 */
+		charter?: boolean | null
+		/**
+		 * Limit
+		 */
+		limit?: number
+		/**
+		 * Offset
+		 */
+		offset?: number
+	}
+	url: '/api/v1/entities/search'
+}
+
+export type EntitiesSearchEntitiesErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type EntitiesSearchEntitiesError =
+	EntitiesSearchEntitiesErrors[keyof EntitiesSearchEntitiesErrors]
+
+export type EntitiesSearchEntitiesResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: EntityList
+}
+
+export type EntitiesSearchEntitiesResponse =
+	EntitiesSearchEntitiesResponses[keyof EntitiesSearchEntitiesResponses]
+
+export type EntitiesReadEntityData = {
+	body?: never
+	path: {
+		/**
+		 * Cds Code
+		 */
+		cds_code: string
+	}
+	query?: never
+	url: '/api/v1/entities/{cds_code}'
+}
+
+export type EntitiesReadEntityErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type EntitiesReadEntityError = EntitiesReadEntityErrors[keyof EntitiesReadEntityErrors]
+
+export type EntitiesReadEntityResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: EntityAncestry
+}
+
+export type EntitiesReadEntityResponse =
+	EntitiesReadEntityResponses[keyof EntitiesReadEntityResponses]
+
+export type EntitiesReadChildrenData = {
+	body?: never
+	path: {
+		/**
+		 * Cds Code
+		 */
+		cds_code: string
+	}
+	query?: {
+		/**
+		 * Q
+		 */
+		q?: string | null
+		/**
+		 * Charter
+		 */
+		charter?: boolean | null
+		/**
+		 * Limit
+		 */
+		limit?: number
+		/**
+		 * Offset
+		 */
+		offset?: number
+	}
+	url: '/api/v1/entities/{cds_code}/children'
+}
+
+export type EntitiesReadChildrenErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type EntitiesReadChildrenError = EntitiesReadChildrenErrors[keyof EntitiesReadChildrenErrors]
+
+export type EntitiesReadChildrenResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: EntityList
+}
+
+export type EntitiesReadChildrenResponse =
+	EntitiesReadChildrenResponses[keyof EntitiesReadChildrenResponses]
+
+export type ReportsReadOverviewData = {
+	body?: never
+	path?: never
+	query?: {
 		/**
 		 * Cds
+		 *
+		 * 14-character CDS code.
 		 */
-		cds: string
+		cds?: string
 		/**
-		 * Reportingyear
+		 * Year
 		 */
-		reportingYear?: string
+		year?: number | null
 		/**
 		 * Studentgroup
 		 */
-		studentGroup?: string
+		studentGroup?: number
+		/**
+		 * Grade
+		 */
+		grade?: string
+		/**
+		 * Tests
+		 *
+		 * Comma-separated test ids; defaults to all.
+		 */
+		tests?: string | null
+		schoolType?: SchoolType
+		/**
+		 * Compare
+		 *
+		 * Include the district, county and state alongside.
+		 */
+		compare?: boolean
 	}
-	url: '/api/v1/dashboard/summary'
+	url: '/api/v1/reports/overview'
 }
 
-export type DashboardGetDashboardSummaryErrors = {
+export type ReportsReadOverviewErrors = {
 	/**
 	 * Validation Error
 	 */
 	422: HttpValidationError
 }
 
-export type DashboardGetDashboardSummaryError =
-	DashboardGetDashboardSummaryErrors[keyof DashboardGetDashboardSummaryErrors]
+export type ReportsReadOverviewError = ReportsReadOverviewErrors[keyof ReportsReadOverviewErrors]
 
-export type DashboardGetDashboardSummaryResponses = {
+export type ReportsReadOverviewResponses = {
 	/**
 	 * Successful Response
 	 */
-	200: DashboardSummaryResponse
+	200: OverviewReport
 }
 
-export type DashboardGetDashboardSummaryResponse =
-	DashboardGetDashboardSummaryResponses[keyof DashboardGetDashboardSummaryResponses]
+export type ReportsReadOverviewResponse =
+	ReportsReadOverviewResponses[keyof ReportsReadOverviewResponses]
 
-export type DashboardGetEquityReportData = {
+export type ReportsReadSubscoresData = {
 	body?: never
 	path?: never
 	query: {
 		/**
-		 * Cds
-		 */
-		cds: string
-		/**
 		 * Testid
 		 */
-		testId: string
+		testId: number
 		/**
-		 * Reportingyear
+		 * Cds
 		 */
-		reportingYear?: string
+		cds?: string
+		/**
+		 * Year
+		 */
+		year?: number | null
+		/**
+		 * Studentgroup
+		 */
+		studentGroup?: number
+		/**
+		 * Grade
+		 */
+		grade?: string
 	}
-	url: '/api/v1/dashboard/equity'
+	url: '/api/v1/reports/subscores'
 }
 
-export type DashboardGetEquityReportErrors = {
+export type ReportsReadSubscoresErrors = {
 	/**
 	 * Validation Error
 	 */
 	422: HttpValidationError
 }
 
-export type DashboardGetEquityReportError =
-	DashboardGetEquityReportErrors[keyof DashboardGetEquityReportErrors]
+export type ReportsReadSubscoresError = ReportsReadSubscoresErrors[keyof ReportsReadSubscoresErrors]
 
-export type DashboardGetEquityReportResponses = {
+export type ReportsReadSubscoresResponses = {
 	/**
 	 * Successful Response
 	 */
-	200: EquityReportResponse
+	200: SubscoreReport
 }
 
-export type DashboardGetEquityReportResponse =
-	DashboardGetEquityReportResponses[keyof DashboardGetEquityReportResponses]
+export type ReportsReadSubscoresResponse =
+	ReportsReadSubscoresResponses[keyof ReportsReadSubscoresResponses]
+
+export type ReportsReadTrendData = {
+	body?: never
+	path?: never
+	query: {
+		/**
+		 * Testid
+		 */
+		testId: number
+		/**
+		 * Cds
+		 */
+		cds?: string
+		/**
+		 * Studentgroup
+		 */
+		studentGroup?: number
+		/**
+		 * Grade
+		 */
+		grade?: string
+		/**
+		 * Fromyear
+		 */
+		fromYear?: number | null
+		/**
+		 * Toyear
+		 */
+		toYear?: number | null
+	}
+	url: '/api/v1/reports/trend'
+}
+
+export type ReportsReadTrendErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type ReportsReadTrendError = ReportsReadTrendErrors[keyof ReportsReadTrendErrors]
+
+export type ReportsReadTrendResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: TrendReport
+}
+
+export type ReportsReadTrendResponse = ReportsReadTrendResponses[keyof ReportsReadTrendResponses]
+
+export type ReportsReadStudentGroupsData = {
+	body?: never
+	path?: never
+	query: {
+		/**
+		 * Testid
+		 */
+		testId: number
+		/**
+		 * Cds
+		 */
+		cds?: string
+		/**
+		 * Year
+		 */
+		year?: number | null
+		/**
+		 * Grade
+		 */
+		grade?: string
+		/**
+		 * Category
+		 */
+		category?: Array<string> | null
+	}
+	url: '/api/v1/reports/student-groups'
+}
+
+export type ReportsReadStudentGroupsErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type ReportsReadStudentGroupsError =
+	ReportsReadStudentGroupsErrors[keyof ReportsReadStudentGroupsErrors]
+
+export type ReportsReadStudentGroupsResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: StudentGroupReport
+}
+
+export type ReportsReadStudentGroupsResponse =
+	ReportsReadStudentGroupsResponses[keyof ReportsReadStudentGroupsResponses]
+
+export type ReportsReadGradesData = {
+	body?: never
+	path?: never
+	query: {
+		/**
+		 * Testid
+		 */
+		testId: number
+		/**
+		 * Cds
+		 */
+		cds?: string
+		/**
+		 * Year
+		 */
+		year?: number | null
+		/**
+		 * Studentgroup
+		 */
+		studentGroup?: number
+	}
+	url: '/api/v1/reports/grades'
+}
+
+export type ReportsReadGradesErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type ReportsReadGradesError = ReportsReadGradesErrors[keyof ReportsReadGradesErrors]
+
+export type ReportsReadGradesResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: GradeReport
+}
+
+export type ReportsReadGradesResponse = ReportsReadGradesResponses[keyof ReportsReadGradesResponses]
+
+export type ReportsReadChildResultsData = {
+	body?: never
+	path?: never
+	query: {
+		/**
+		 * Testid
+		 */
+		testId: number
+		/**
+		 * Cds
+		 */
+		cds?: string
+		/**
+		 * Year
+		 */
+		year?: number | null
+		/**
+		 * Studentgroup
+		 */
+		studentGroup?: number
+		/**
+		 * Grade
+		 */
+		grade?: string
+		schoolType?: SchoolType
+		/**
+		 * Orderby
+		 */
+		orderBy?: string
+		/**
+		 * Descending
+		 */
+		descending?: boolean
+		/**
+		 * Limit
+		 */
+		limit?: number
+		/**
+		 * Offset
+		 */
+		offset?: number
+	}
+	url: '/api/v1/reports/children'
+}
+
+export type ReportsReadChildResultsErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type ReportsReadChildResultsError =
+	ReportsReadChildResultsErrors[keyof ReportsReadChildResultsErrors]
+
+export type ReportsReadChildResultsResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: ChildEntityReport
+}
+
+export type ReportsReadChildResultsResponse =
+	ReportsReadChildResultsResponses[keyof ReportsReadChildResultsResponses]
+
+export type ReportsReadComparisonData = {
+	body?: never
+	path?: never
+	query: {
+		/**
+		 * Cdscodes
+		 *
+		 * Comma-separated CDS codes, at most 10.
+		 */
+		cdsCodes: string
+		/**
+		 * Testid
+		 */
+		testId?: number | null
+		/**
+		 * Year
+		 */
+		year?: number | null
+		/**
+		 * Studentgroup
+		 */
+		studentGroup?: number
+		/**
+		 * Grade
+		 */
+		grade?: string
+	}
+	url: '/api/v1/reports/compare'
+}
+
+export type ReportsReadComparisonErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type ReportsReadComparisonError =
+	ReportsReadComparisonErrors[keyof ReportsReadComparisonErrors]
+
+export type ReportsReadComparisonResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: CompareReport
+}
+
+export type ReportsReadComparisonResponse =
+	ReportsReadComparisonResponses[keyof ReportsReadComparisonResponses]
+
+export type IngestListRunsData = {
+	body?: never
+	path?: never
+	query?: {
+		/**
+		 * Limit
+		 */
+		limit?: number
+	}
+	url: '/api/v1/ingest/runs'
+}
+
+export type IngestListRunsErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type IngestListRunsError = IngestListRunsErrors[keyof IngestListRunsErrors]
+
+export type IngestListRunsResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: IngestRunList
+}
+
+export type IngestListRunsResponse = IngestListRunsResponses[keyof IngestListRunsResponses]
+
+export type IngestStartIngestData = {
+	body: IngestRequest
+	path?: never
+	query?: never
+	url: '/api/v1/ingest/runs'
+}
+
+export type IngestStartIngestErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type IngestStartIngestError = IngestStartIngestErrors[keyof IngestStartIngestErrors]
+
+export type IngestStartIngestResponses = {
+	/**
+	 * Successful Response
+	 */
+	202: IngestRunPublic
+}
+
+export type IngestStartIngestResponse = IngestStartIngestResponses[keyof IngestStartIngestResponses]
+
+export type IngestReadRunData = {
+	body?: never
+	path: {
+		/**
+		 * Run Id
+		 */
+		run_id: string
+	}
+	query?: never
+	url: '/api/v1/ingest/runs/{run_id}'
+}
+
+export type IngestReadRunErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type IngestReadRunError = IngestReadRunErrors[keyof IngestReadRunErrors]
+
+export type IngestReadRunResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: IngestRunDetail
+}
+
+export type IngestReadRunResponse = IngestReadRunResponses[keyof IngestReadRunResponses]
 
 export type PrivateCreateUserData = {
 	body: PrivateUserCreate

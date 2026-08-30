@@ -1,5 +1,4 @@
-import type { ColumnDef } from '@tanstack/react-table'
-
+import type { DataTableColumnDef } from '@/components/common/table-features'
 import { Badge } from '@/components/ui/badge'
 import type { UserPublic } from '@/lib/client'
 import { cn } from '@/lib/utils'
@@ -10,7 +9,7 @@ export type UserTableData = UserPublic & {
 	isCurrentUser: boolean
 }
 
-export const columns: ColumnDef<UserTableData>[] = [
+export const columns: DataTableColumnDef<UserTableData>[] = [
 	{
 		accessorKey: 'fullName',
 		header: 'Full Name',

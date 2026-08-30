@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { UsersService } from '../../../lib/client'
 import { STATEWIDE_CDS } from '../../../lib/constants/indicators'
@@ -88,19 +88,6 @@ export function useLastViewedSchool({ isAuthenticated = false }: UseLastViewedSc
 		},
 		[isAuthenticated, serverMutation],
 	)
-
-	// Sync localStorage to state on mount
-	useEffect(() => {
-		if (typeof window === 'undefined') return
-		try {
-			const stored = localStorage.getItem(LOCAL_STORAGE_KEY)
-			if (stored) {
-				setLocalSchool(JSON.parse(stored))
-			}
-		} catch {
-			// Ignore localStorage errors
-		}
-	}, [])
 
 	return {
 		cds: effectiveCds,

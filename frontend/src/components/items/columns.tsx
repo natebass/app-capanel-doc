@@ -1,7 +1,7 @@
 import { Copy01Icon, Tick02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import type { ColumnDef } from '@tanstack/react-table'
 
+import type { DataTableColumnDef } from '@/components/common/table-features'
 import { Button } from '@/components/ui/button'
 import type { ItemPublic } from '@/lib/client'
 import { cn } from '@/lib/utils'
@@ -41,8 +41,8 @@ interface CreateItemColumnsOptions {
 export function createItemColumns({
 	currentUserId,
 	isSuperuser = false,
-}: CreateItemColumnsOptions): ColumnDef<ItemPublic>[] {
-	const baseColumns: ColumnDef<ItemPublic>[] = [
+}: CreateItemColumnsOptions): DataTableColumnDef<ItemPublic>[] {
+	const baseColumns: DataTableColumnDef<ItemPublic>[] = [
 		{
 			accessorKey: 'id',
 			header: 'ID',

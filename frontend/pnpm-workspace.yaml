@@ -12,6 +12,11 @@ catalog:
 overrides:
   vite: 'catalog:'
   vitest: 'catalog:'
+  # The OpenAPI client generator crashes on TypeScript 7, whose new ESM shape
+  # leaves `ts.SyntaxKind` undefined. Pin the copy it resolves so
+  # `backend/app/scripts/generate_client.py` keeps working; the application
+  # itself still builds and type-checks on TypeScript 7.
+  '@hey-api/openapi-ts>typescript': 5.9.3
 peerDependencyRules:
   allowAny:
     - vite

@@ -31,16 +31,23 @@ const config: StorybookConfig = {
 
 	staticDirs: ['../public'],
 
-	viteFinal: async (config) => ({
-		...config,
-		resolve: {
-			...config.resolve,
-			alias: {
-				...(config.resolve?.alias ?? {}),
-				'@': fileURLToPath(new URL('../src', import.meta.url)),
+	viteFinal: async (config) => {
+		const sourceAlias = {
+			find: '@',
+			replacement: fileURLToPath(new URL('../src', import.meta.url)),
+		}
+		const aliases = config.resolve?.alias
+
+		return {
+			...config,
+			resolve: {
+				...config.resolve,
+				alias: Array.isArray(aliases)
+					? [...aliases, sourceAlias]
+					: Object.assign({}, aliases, { '@': sourceAlias.replacement }),
 			},
-		},
-	}),
+		}
+	},
 }
 
 export default config
