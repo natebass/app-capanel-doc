@@ -31,7 +31,7 @@ _FRONTEND_CANDIDATES = (
 
 
 def resolve_frontend_dir() -> Path | None:
-    """Locate the built frontend to serve, if one is present.
+    """Locate the built frontend to serve if one is present.
 
     Returns:
         The first existing directory in :data:`_FRONTEND_CANDIDATES`, or
@@ -71,7 +71,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:  # noqa: ARG001
         app: The :class:`FastAPI` application instance.
 
     Yields:
-        Control to the running application between startup and shutdown.
+        Control the running application between startup and shutdown.
     """
     init_data_main()
     yield
