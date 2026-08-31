@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from app.api.routes import (
     censusdata,
+    dashboard,
     entities,
     ingest,
     items,
@@ -25,6 +26,7 @@ api_router.include_router(schools.router, prefix="/schools", tags=["schools"])
 api_router.include_router(reference.router)
 api_router.include_router(entities.router)
 api_router.include_router(reports.router)
+api_router.include_router(dashboard.router)
 api_router.include_router(ingest.router)
 
 

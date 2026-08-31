@@ -1,0 +1,265 @@
+cds	rtype	schoolname	districtname	countyname	charter_flag	coe_flag	dass_flag	type	studentgroup	currnumer	currdenom	currstatus	priornumer	priordenom	priorstatus	change	statuslevel	changelevel	color	box	smalldenom	currnsizemet	priornsizemet	accountabilitymet	certifyflag	priorcertifyflag	indicator	reportingyear
+00000000000000	X	State of California	State of California					UD	AA	22808	296802	7.7	25441	303232	8.4	-0.7	2	4	3	190		Y	Y	Y			SUSP	2099
+00000000000000	X	State of California	State of California					UD	ALL	170274	5961200	2.9	193100	6021915	3.2	-0.4	3	4	4	140		Y	Y	Y			SUSP	2099
+00000000000000	X	State of California	State of California					UD	AS	6162	605500	1.0	6132	595552	1.0	0.0	5	3	5	30		Y	Y	Y			SUSP	2099
+00000000000000	X	State of California	State of California					UD	EL	34538	1088254	3.2	39829	1184673	3.4	-0.2	3	3	3	130		Y	Y	Y			SUSP	2099
+00000000000000	X	State of California	State of California					UD	FI	1397	130292	1.1	1550	132528	1.2	-0.1	4	3	4	80		Y	Y	Y			SUSP	2099
+00000000000000	X	State of California	State of California					UD	FOS	4765	36622	13.0	5181	39269	13.2	-0.2	1	3	1	230		Y	Y	Y			SUSP	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		UD	AA	6	194	3.1	0	209	0.0	3.1	3	1	2	110		Y	Y	Y			SUSP	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		UD	AI		5			5			0	0	0	0	Y						SUSP	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		UD	ALL	10	508	2.0	1	523	0.2	1.8	4	2	3	70		Y	Y	Y			SUSP	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		UD	AS	0	13	0.0	1	15	6.7	-6.7	5	4	0	0	Y						SUSP	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		UD	EL	1	138	0.7	1	122	0.8	-0.1	5	3	5	30	Y	Y	Y	Y			SUSP	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		UD	FOS	1	81	1.2	0	86	0.0	1.2	4	2	3	70	Y	Y	Y	Y			SUSP	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		UD	HI	2	234	0.9	0	230	0.0	0.9	5	2	4	20		Y	Y	Y			SUSP	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		UD	HOM	2	67	3.0	0	30	0.0	3.0	3	2	2	120	Y	Y	Y	Y			SUSP	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		UD	LTEL	1	83	1.2	1	85	1.2	0.0	4	3	4	80	Y	Y	Y	Y			SUSP	2099
+01100170112607	S	Envision Academy for Arts & Technology	Alameda County Office of Education	Alameda	Y			UD	AA	37	106	34.9	29	96	30.2	4.7	1	2	1	220	Y	Y	Y	Y			SUSP	2099
+01100170112607	S	Envision Academy for Arts & Technology	Alameda County Office of Education	Alameda	Y			UD	ALL	54	228	23.7	47	252	18.7	5.0	1	1	1	210		Y	Y	Y			SUSP	2099
+01100170112607	S	Envision Academy for Arts & Technology	Alameda County Office of Education	Alameda	Y			UD	MR	5	17	29.4	8	22	36.4	-7.0	1	4	0	0	Y						SUSP	2099
+01100170112607	S	Envision Academy for Arts & Technology	Alameda County Office of Education	Alameda	Y			UD	WH	1	14	7.1	1	13	7.7	-0.5	2	4	0	0	Y						SUSP	2099
+01100170123968	S	Community School for Creative Education	Alameda County Office of Education	Alameda	Y			ES	AA	1	34	2.9	3	36	8.3	-5.4	3	4	4	140	Y	Y	Y	Y			SUSP	2099
+01100170123968	S	Community School for Creative Education	Alameda County Office of Education	Alameda	Y			ES	AI		3			6			0	0	0	0	Y						SUSP	2099
+01100170123968	S	Community School for Creative Education	Alameda County Office of Education	Alameda	Y			ES	ALL	5	197	2.5	4	230	1.7	0.8	3	2	2	120		Y	Y	Y			SUSP	2099
+01100170123968	S	Community School for Creative Education	Alameda County Office of Education	Alameda	Y			ES	EL	1	108	0.9	1	126	0.8	0.1	4	3	4	80	Y	Y	Y	Y			SUSP	2099
+01100170123968	S	Community School for Creative Education	Alameda County Office of Education	Alameda	Y			ES	LTEL	1	14	7.1	1	18	5.6	1.6	1	2	0	0	Y						SUSP	2099
+01100170123968	S	Community School for Creative Education	Alameda County Office of Education	Alameda	Y			ES	SWD	2	37	5.4	1	36	2.8	2.6	2	2	2	170	Y	Y	Y	Y			SUSP	2099
+01100170124172	S	Yu Ming Charter	Alameda County Office of Education	Alameda	Y			ES	AA	0	79	0.0	0	70	0.0	0.0	5	3	5	30	Y	Y	Y	Y			SUSP	2099
+01100170124172	S	Yu Ming Charter	Alameda County Office of Education	Alameda	Y			ES	ALL	2	963	0.2	1	877	0.1	0.1	5	3	5	30		Y	Y	Y			SUSP	2099
+01100170124172	S	Yu Ming Charter	Alameda County Office of Education	Alameda	Y			ES	HI	1	84	1.2	0	72	0.0	1.2	3	2	2	120	Y	Y	Y	Y			SUSP	2099
+01100170124172	S	Yu Ming Charter	Alameda County Office of Education	Alameda	Y			ES	MR	1	218	0.5	0	198	0.0	0.5	5	2	4	20		Y	Y	Y			SUSP	2099
+01100170124172	S	Yu Ming Charter	Alameda County Office of Education	Alameda	Y			ES	SED	2	332	0.6	1	293	0.3	0.3	4	2	3	70		Y	Y	Y			SUSP	2099
+01100170125567	S	Urban Montessori Charter	Alameda County Office of Education	Alameda	Y			ES	AA	2	72	2.8	2	70	2.9	-0.1	3	3	3	130	Y	Y	Y	Y			SUSP	2099
+01100170125567	S	Urban Montessori Charter	Alameda County Office of Education	Alameda	Y			ES	SED	6	150	4.0	4	144	2.8	1.2	2	2	2	170		Y	Y	Y			SUSP	2099
+01100170130401	S	Alameda County Juvenile Hall/Court	Alameda County Office of Education	Alameda			Y	HS	AA	4	177	2.3	0	195	0.0	2.3	3	2	2	120		Y	Y	Y			SUSP	2099
+01100170130401	S	Alameda County Juvenile Hall/Court	Alameda County Office of Education	Alameda			Y	HS	AI		4			3			0	0	0	0	Y						SUSP	2099
+01100170130401	S	Alameda County Juvenile Hall/Court	Alameda County Office of Education	Alameda			Y	HS	ALL	4	384	1.0	0	410	0.0	1.0	4	2	3	70		Y	Y	Y			SUSP	2099
+01100170130401	S	Alameda County Juvenile Hall/Court	Alameda County Office of Education	Alameda			Y	HS	EL	0	77	0.0	0	72	0.0	0.0	5	3	5	30	Y	Y	Y	Y			SUSP	2099
+01100170130401	S	Alameda County Juvenile Hall/Court	Alameda County Office of Education	Alameda			Y	HS	FOS	1	78	1.3	0	84	0.0	1.3	4	2	3	70	Y	Y	Y	Y			SUSP	2099
+01100170130401	S	Alameda County Juvenile Hall/Court	Alameda County Office of Education	Alameda			Y	HS	HOM	1	47	2.1	0	28	0.0	2.1	3	2	0	0	Y	Y					SUSP	2099
+01100170130419	S	Alameda County Community	Alameda County Office of Education	Alameda			Y	HS	AA	2	26	7.7	0	21	0.0	7.7	2	2	0	0	Y						SUSP	2099
+01100170130419	S	Alameda County Community	Alameda County Office of Education	Alameda			Y	HS	EL	1	69	1.4	1	54	1.9	-0.4	4	4	4	90	Y	Y	Y	Y			SUSP	2099
+01100170130419	S	Alameda County Community	Alameda County Office of Education	Alameda			Y	HS	HOM	1	19	5.3					3	0	0	0	Y						SUSP	2099
+01100170130419	S	Alameda County Community	Alameda County Office of Education	Alameda			Y	HS	LTEL	1	37	2.7	1	34	2.9	-0.2	3	3	3	130	Y	Y	Y	Y			SUSP	2099
+01100170130625	S	Alternatives in Action	Alameda County Office of Education	Alameda	Y			HS	AA	1	11	9.1	1	11	9.1	0.0	2	3	0	0	Y						SUSP	2099
+01100170130625	S	Alternatives in Action	Alameda County Office of Education	Alameda	Y			HS	ALL	5	124	4.0	19	141	13.5	-9.4	3	4	4	140	Y	Y	Y	Y			SUSP	2099
+01100170130625	S	Alternatives in Action	Alameda County Office of Education	Alameda	Y			HS	LTEL	3	42	7.1	9	58	15.5	-8.4	2	4	3	190	Y	Y	Y	Y			SUSP	2099
+01100170130625	S	Alternatives in Action	Alameda County Office of Education	Alameda	Y			HS	MR	0	11	0.0					5	0	0	0	Y						SUSP	2099
+01100170130625	S	Alternatives in Action	Alameda County Office of Education	Alameda	Y			HS	SWD	3	27	11.1	2	26	7.7	3.4	1	2	0	0	Y						SUSP	2099
+01100170131581	S	Oakland Unity Middle	Alameda County Office of Education	Alameda	Y			MS	AA	0	12	0.0	0	16	0.0	0.0	5	3	0	0	Y						SUSP	2099
+01100170131581	S	Oakland Unity Middle	Alameda County Office of Education	Alameda	Y			MS	ALL	0	136	0.0	2	128	1.6	-1.6	5	4	5	40	Y	Y	Y	Y			SUSP	2099
+01100170131581	S	Oakland Unity Middle	Alameda County Office of Education	Alameda	Y			MS	AS		1			1			0	0	0	0	Y						SUSP	2099
+01100170131581	S	Oakland Unity Middle	Alameda County Office of Education	Alameda	Y			MS	WH	0	12	0.0		2			5	0	0	0	Y						SUSP	2099
+01100170136226	S	Opportunity Academy	Alameda County Office of Education	Alameda	Y		Y	HS	AA	0	152	0.0	0	147	0.0	0.0	5	3	5	30		Y	Y	Y			SUSP	2099
+01100170137448	S	Aurum Preparatory Academy	Alameda County Office of Education	Alameda	Y			MS	AA	4	44	9.1	4	54	7.4	1.7	2	2	2	170	Y	Y	Y	Y			SUSP	2099
+01100170137448	S	Aurum Preparatory Academy	Alameda County Office of Education	Alameda	Y			MS	ALL	5	94	5.3	10	137	7.3	-2.0	3	4	4	140	Y	Y	Y	Y			SUSP	2099
+01100170138867	S	Hayward Collegiate Charter	Alameda County Office of Education	Alameda	Y			ES	ALL	3	260	1.2	2	215	0.9	0.2	3	3	3	130		Y	Y	Y			SUSP	2099
+01100176001788	S	Cox Academy	Alameda County Office of Education	Alameda	Y			ES	AA	4	70	5.7	7	83	8.4	-2.7	2	4	3	190	Y	Y	Y	Y			SUSP	2099
+01100176001788	S	Cox Academy	Alameda County Office of Education	Alameda	Y			ES	ALL	6	465	1.3	10	490	2.0	-0.8	3	4	4	140		Y	Y	Y			SUSP	2099
+01100176001788	S	Cox Academy	Alameda County Office of Education	Alameda	Y			ES	EL	1	237	0.4	2	271	0.7	-0.3	5	4	5	40		Y	Y	Y			SUSP	2099
+01100176001788	S	Cox Academy	Alameda County Office of Education	Alameda	Y			ES	HI	2	361	0.6	3	367	0.8	-0.3	4	4	4	90		Y	Y	Y			SUSP	2099
+01100176001788	S	Cox Academy	Alameda County Office of Education	Alameda	Y			ES	HOM	0	48	0.0		1			5	0	0	0	Y	Y					SUSP	2099
+01100176001788	S	Cox Academy	Alameda County Office of Education	Alameda	Y			ES	SWD	0	56	0.0	3	50	6.0	-6.0	5	4	5	40	Y	Y	Y	Y			SUSP	2099
+01100176002000	S	Lazear Charter Academy	Alameda County Office of Education	Alameda	Y			ES	EL	2	201	1.0	5	232	2.2	-1.2	4	5	5	100		Y	Y	Y			SUSP	2099
+01316090131755	S	California School for the Blind	California School for the Blind (State Special Schl)	Alameda				UD	EL	0	13	0.0		10			5	0	0	0	Y						SUSP	2099
+01611190000000	D		Alameda Unified	Alameda				UD	AA	36	561	6.4	37	557	6.6	-0.2	2	3	2	180		Y	Y	Y			SUSP	2099
+01611190000000	D		Alameda Unified	Alameda				UD	HOM	7	100	7.0	6	99	6.1	0.9	2	2	2	170	Y	Y	Y	Y			SUSP	2099
+01611190000000	D		Alameda Unified	Alameda				UD	PI	2	49	4.1	3	46	6.5	-2.4	3	4	4	140	Y	Y	Y	Y			SUSP	2099
+01611190119222	S	Nea Community Learning Center	Alameda Unified	Alameda	Y			UD	ALL	22	499	4.4	13	510	2.5	1.9	3	2	2	120		Y	Y	Y			SUSP	2099
+01611190119222	S	Nea Community Learning Center	Alameda Unified	Alameda	Y			UD	AS	2	72	2.8	2	67	3.0	-0.2	3	3	3	130	Y	Y	Y	Y			SUSP	2099
+01611190119222	S	Nea Community Learning Center	Alameda Unified	Alameda	Y			UD	SED	12	184	6.5	8	192	4.2	2.4	2	1	1	160		Y	Y	Y			SUSP	2099
+01611190122085	S	The Academy of Alameda	Alameda Unified	Alameda	Y			ES	AA	12	135	8.9	13	130	10.0	-1.1	1	4	2	240	Y	Y	Y	Y			SUSP	2099
+01611190130229	S	Alameda High	Alameda Unified	Alameda				HS	ALL	15	1902	0.8	32	1903	1.7	-0.9	4	4	4	90		Y	Y	Y			SUSP	2099
+01611190130229	S	Alameda High	Alameda Unified	Alameda				HS	AS	2	553	0.4	7	535	1.3	-0.9	5	4	5	40		Y	Y	Y			SUSP	2099
+01611190130229	S	Alameda High	Alameda Unified	Alameda				HS	HI	6	317	1.9	8	326	2.5	-0.6	3	4	4	140		Y	Y	Y			SUSP	2099
+01611190132142	S	Encinal Junior/Senior High	Alameda Unified	Alameda				UD	AS	4	279	1.4	7	273	2.6	-1.1	4	4	4	90		Y	Y	Y			SUSP	2099
+01611190132142	S	Encinal Junior/Senior High	Alameda Unified	Alameda				UD	HI	9	271	3.3	24	269	8.9	-5.6	3	5	4	150		Y	Y	Y			SUSP	2099
+01611190132142	S	Encinal Junior/Senior High	Alameda Unified	Alameda				UD	MR	11	187	5.9	9	169	5.3	0.6	2	2	2	170		Y	Y	Y			SUSP	2099
+01611190132142	S	Encinal Junior/Senior High	Alameda Unified	Alameda				UD	SED	41	683	6.0	61	663	9.2	-3.2	2	5	3	200		Y	Y	Y			SUSP	2099
+01611190134304	S	Island High (Continuation)	Alameda Unified	Alameda			Y	HS	AA	0	18	0.0	3	17	17.6	-17.6	5	4	0	0	Y						SUSP	2099
+01611190139220	S	Maya Lin	Alameda Unified	Alameda				ES	SED	0	204	0.0	3	214	1.4	-1.4	5	5	5	50		Y	Y	Y			SUSP	2099
+01611196090021	S	Frank Otis Elementary	Alameda Unified	Alameda				ES	MR	1	130	0.8	0	127	0.0	0.8	4	2	3	70	Y	Y	Y	Y			SUSP	2099
+01611196090054	S	Lincoln Middle	Alameda Unified	Alameda				MS	AA	2	25	8.0	1	25	4.0	4.0	3	2	0	0	Y						SUSP	2099
+01611196090054	S	Lincoln Middle	Alameda Unified	Alameda				MS	ALL	41	984	4.2	14	943	1.5	2.7	3	2	2	120		Y	Y	Y			SUSP	2099
+01611196090054	S	Lincoln Middle	Alameda Unified	Alameda				MS	EL	3	24	12.5	0	29	0.0	12.5	1	2	0	0	Y						SUSP	2099
+01611196090054	S	Lincoln Middle	Alameda Unified	Alameda				MS	SED	15	225	6.7	6	243	2.5	4.2	3	1	2	110		Y	Y	Y			SUSP	2099
+01611196090112	S	Will C. Wood Middle	Alameda Unified	Alameda				MS	AS	1	156	0.6	1	171	0.6	0.1	4	3	4	80		Y	Y	Y			SUSP	2099
+01611196090112	S	Will C. Wood Middle	Alameda Unified	Alameda				MS	MR	5	124	4.0	4	101	4.0	0.1	3	3	3	130	Y	Y	Y	Y			SUSP	2099
+01611270130450	S	Albany High	Albany City Unified	Alameda				HS	WH	5	330	1.5	5	342	1.5	0.1	4	3	4	80		Y	Y	Y			SUSP	2099
+01611276090146	S	Cornell Elementary	Albany City Unified	Alameda				ES	MR	5	170	2.9	0	160	0.0	2.9	3	1	2	110		Y	Y	Y			SUSP	2099
+01611276090146	S	Cornell Elementary	Albany City Unified	Alameda				ES	SED	5	160	3.1	1	104	1.0	2.2	2	1	1	160		Y	Y	Y			SUSP	2099
+01611276090161	S	Albany Middle	Albany City Unified	Alameda				MS	ALL	22	931	2.4	18	845	2.1	0.2	3	3	3	130		Y	Y	Y			SUSP	2099
+01611276090161	S	Albany Middle	Albany City Unified	Alameda				MS	AS	5	294	1.7	1	261	0.4	1.3	4	2	3	70		Y	Y	Y			SUSP	2099
+01611276090161	S	Albany Middle	Albany City Unified	Alameda				MS	MR	3	199	1.5	5	169	3.0	-1.5	4	4	4	90		Y	Y	Y			SUSP	2099
+01611430000000	D		Berkeley Unified	Alameda				UD	MR	13	1494	0.9	21	1437	1.5	-0.6	5	4	5	40		Y	Y	Y			SUSP	2099
+01611430131177	S	Berkeley High	Berkeley Unified	Alameda				HS	AA	29	387	7.5	31	399	7.8	-0.3	2	4	3	190		Y	Y	Y			SUSP	2099
+01611430131177	S	Berkeley High	Berkeley Unified	Alameda				HS	ALL	74	3303	2.2	73	3322	2.2	0.0	3	3	3	130		Y	Y	Y			SUSP	2099
+01611430131177	S	Berkeley High	Berkeley Unified	Alameda				HS	EL	12	160	7.5	4	144	2.8	4.7	2	1	1	160		Y	Y	Y			SUSP	2099
+01611430131177	S	Berkeley High	Berkeley Unified	Alameda				HS	FOS	3	15	20.0		10			1	0	0	0	Y						SUSP	2099
+01611430131177	S	Berkeley High	Berkeley Unified	Alameda				HS	SWD	29	387	7.5	31	408	7.6	-0.1	2	3	2	180		Y	Y	Y			SUSP	2099
+01611436056857	S	Martin Luther King Middle	Berkeley Unified	Alameda				MS	AA	10	94	10.6	18	101	17.8	-7.2	2	4	3	190	Y	Y	Y	Y			SUSP	2099
+01611436056857	S	Martin Luther King Middle	Berkeley Unified	Alameda				MS	ALL	24	881	2.7	40	891	4.5	-1.8	3	4	4	140		Y	Y	Y			SUSP	2099
+01611436056857	S	Martin Luther King Middle	Berkeley Unified	Alameda				MS	HOM	5	25	20.0	3	15	20.0	0.0	1	3	0	0	Y						SUSP	2099
+01611436056857	S	Martin Luther King Middle	Berkeley Unified	Alameda				MS	MR	1	137	0.7	4	124	3.2	-2.5	4	4	4	90	Y	Y	Y	Y			SUSP	2099
+01611436056857	S	Martin Luther King Middle	Berkeley Unified	Alameda				MS	SED	16	311	5.1	31	269	11.5	-6.4	3	5	4	150		Y	Y	Y			SUSP	2099
+01611436056865	S	Willard Middle	Berkeley Unified	Alameda				MS	AA	9	64	14.1	11	66	16.7	-2.6	1	4	2	240	Y	Y	Y	Y			SUSP	2099
+01611436056865	S	Willard Middle	Berkeley Unified	Alameda				MS	AS	1	58	1.7	1	59	1.7	0.0	4	3	4	80	Y	Y	Y	Y			SUSP	2099
+01611436056865	S	Willard Middle	Berkeley Unified	Alameda				MS	HOM	3	18	16.7		10			1	0	0	0	Y						SUSP	2099
+01611436056865	S	Willard Middle	Berkeley Unified	Alameda				MS	MR	1	88	1.1	0	89	0.0	1.1	4	2	3	70	Y	Y	Y	Y			SUSP	2099
+01611436056865	S	Willard Middle	Berkeley Unified	Alameda				MS	SED	15	179	8.4	15	161	9.3	-0.9	2	4	3	190		Y	Y	Y			SUSP	2099
+01611436090187	S	Rosa Parks Environmental Science	Berkeley Unified	Alameda				ES	HOM	1	12	8.3		5			1	0	0	0	Y						SUSP	2099
+01611436090286	S	Malcolm X Elementary	Berkeley Unified	Alameda				ES	SED	1	181	0.6	1	178	0.6	0.0	4	3	4	80		Y	Y	Y			SUSP	2099
+01611436090294	S	Longfellow Arts and Technology Middle	Berkeley Unified	Alameda				MS	HI	0	157	0.0	7	176	4.0	-4.0	5	5	5	50		Y	Y	Y			SUSP	2099
+01611500132225	S	Castro Valley High	Castro Valley Unified	Alameda				HS	AA	5	151	3.3	10	139	7.2	-3.9	3	5	4	150		Y	Y	Y			SUSP	2099
+01611500132225	S	Castro Valley High	Castro Valley Unified	Alameda				HS	EL	12	195	6.2	8	205	3.9	2.3	2	2	2	170		Y	Y	Y			SUSP	2099
+01611506097653	S	Canyon Middle	Castro Valley Unified	Alameda				MS	SWD	18	168	10.7	7	159	4.4	6.3	2	1	1	160		Y	Y	Y			SUSP	2099
+01611686090492	S	Anna Yates Elementary	Emery Unified	Alameda				ES	AA	9	182	4.9	17	217	7.8	-2.9	2	5	3	200		Y	Y	Y			SUSP	2099
+01611686090492	S	Anna Yates Elementary	Emery Unified	Alameda				ES	SWD	6	75	8.0	5	62	8.1	-0.1	1	3	1	230	Y	Y	Y	Y			SUSP	2099
+01611760000000	D		Fremont Unified	Alameda				UD	FOS	3	33	9.1	4	44	9.1	0.0	1	3	1	230	Y	Y	Y	Y			SUSP	2099
+01611760130062	S	American High	Fremont Unified	Alameda				HS	FI	1	149	0.7	1	170	0.6	0.1	4	3	4	80	Y	Y	Y	Y			SUSP	2099
+01611760130138	S	Robertson High (Continuation)	Fremont Unified	Alameda			Y	HS	AA	2	18	11.1	7	18	38.9	-27.8	1	4	0	0	Y						SUSP	2099
+01611760130138	S	Robertson High (Continuation)	Fremont Unified	Alameda			Y	HS	ALL	31	268	11.6	50	289	17.3	-5.7	1	5	3	250		Y	Y	Y			SUSP	2099
+01611760134270	S	Irvington High	Fremont Unified	Alameda				HS	SWD	2	177	1.1	12	181	6.6	-5.5	4	5	5	100		Y	Y	Y			SUSP	2099
+01611760134452	S	John F. Kennedy High	Fremont Unified	Alameda				HS	SWD	24	222	10.8	19	213	8.9	1.9	1	2	1	220		Y	Y	Y			SUSP	2099
+01611766000558	S	Brier Elementary	Fremont Unified	Alameda				ES	HI	3	199	1.5	7	178	3.9	-2.4	3	5	4	150		Y	Y	Y			SUSP	2099
+01611766000756	S	Niles Elementary	Fremont Unified	Alameda				ES	ALL	15	491	3.1	16	510	3.1	-0.1	2	3	2	180		Y	Y	Y			SUSP	2099
+01611766056873	S	Centerville Middle	Fremont Unified	Alameda				MS	EL	49	311	15.8	13	302	4.3	11.5	1	1	1	210		Y	Y	Y			SUSP	2099
+01611766056881	S	G. M. Walters Middle	Fremont Unified	Alameda				MS	EL	32	310	10.3	29	302	9.6	0.7	2	2	2	170		Y	Y	Y			SUSP	2099
+01611766056907	S	John M. Horner Middle	Fremont Unified	Alameda				MS	HI	18	160	11.3	36	158	22.8	-11.5	2	5	3	200		Y	Y	Y			SUSP	2099
+01611766056915	S	Thornton Middle	Fremont Unified	Alameda				MS	EL	44	229	19.2	36	185	19.5	-0.2	1	3	1	230		Y	Y	Y			SUSP	2099
+01611766056915	S	Thornton Middle	Fremont Unified	Alameda				MS	HI	38	237	16.0	42	221	19.0	-3.0	1	5	3	250		Y	Y	Y			SUSP	2099
+01611766056915	S	Thornton Middle	Fremont Unified	Alameda				MS	SED	77	528	14.6	72	434	16.6	-2.0	1	4	2	240		Y	Y	Y			SUSP	2099
+01611920000000	D		Hayward Unified	Alameda				UD	AA	131	1302	10.1	165	1364	12.1	-2.0	1	5	3	250		Y	Y	Y			SUSP	2099
+01611920000000	D		Hayward Unified	Alameda				UD	HOM	43	431	10.0	77	699	11.0	-1.0	1	4	2	240		Y	Y	Y			SUSP	2099
+01611920108670	S	Leadership Public Schools - Hayward	Hayward Unified	Alameda	Y			HS	WH	2	18	11.1	2	18	11.1	0.0	1	3	0	0	Y						SUSP	2099
+01611920133629	S	Hayward High	Hayward Unified	Alameda				HS	AA	19	204	9.3	32	214	15.0	-5.6	2	5	3	200		Y	Y	Y			SUSP	2099
+01611920138339	S	Tennyson High	Hayward Unified	Alameda				HS	SWD	38	221	17.2	18	213	8.5	8.7	1	1	1	210		Y	Y	Y			SUSP	2099
+01611926000921	S	East Avenue Elementary	Hayward Unified	Alameda				ES	EL	4	115	3.5	4	118	3.4	0.1	2	3	2	180	Y	Y	Y	Y			SUSP	2099
+01611926000996	S	Harder Elementary	Hayward Unified	Alameda				ES	ALL	45	736	6.1	41	734	5.6	0.5	1	2	1	220		Y	Y	Y			SUSP	2099
+01611926000996	S	Harder Elementary	Hayward Unified	Alameda				ES	EL	15	327	4.6	19	347	5.5	-0.9	2	4	3	190		Y	Y	Y			SUSP	2099
+01611926001192	S	Treeview Elementary	Hayward Unified	Alameda				ES	HI	17	276	6.2	10	296	3.4	2.8	1	1	1	210		Y	Y	Y			SUSP	2099
+01611926056931	S	Bret Harte Middle	Hayward Unified	Alameda				MS	HI	43	276	15.6	39	309	12.6	3.0	1	2	1	220		Y	Y	Y			SUSP	2099
+01611926066476	S	Martin Luther King, Jr. Middle	Hayward Unified	Alameda				MS	HI	56	468	12.0	60	497	12.1	-0.1	2	3	2	180		Y	Y	Y			SUSP	2099
+01612006001234	S	Junction K-8	Livermore Valley Joint Unified	Alameda				ES	SWD	1	141	0.7	5	147	3.4	-2.7	4	4	4	90	Y	Y	Y	Y			SUSP	2099
+01612006001341	S	William Mendenhall Middle	Livermore Valley Joint Unified	Alameda				MS	AS	1	192	0.5	2	188	1.1	-0.5	5	4	5	40		Y	Y	Y			SUSP	2099
+01612590111856	S	AIMS College Prep High	Oakland Unified	Alameda	Y			HS	AA	0	182	0.0	6	161	3.7	-3.7	5	5	5	50		Y	Y	Y			SUSP	2099
+01612590112797	S	Coliseum College Prep Academy	Oakland Unified	Alameda				UD	HOM	1	40	2.5	1	28	3.6	-1.1	4	4	0	0	Y	Y					SUSP	2099
+01612590115626	S	West Oakland Middle	Oakland Unified	Alameda				MS	HI	7	59	11.9	5	43	11.6	0.2	2	3	2	180	Y	Y	Y	Y			SUSP	2099
+01612590125161	S	Castlemont High	Oakland Unified	Alameda				HS	SWD	29	152	19.1	29	149	19.5	-0.4	1	4	2	240		Y	Y	Y			SUSP	2099
+01612590125716	S	Fremont High	Oakland Unified	Alameda				HS	SWD	22	170	12.9	24	185	13.0	0.0	1	3	1	230		Y	Y	Y			SUSP	2099
+01612590129635	S	Downtown Charter Academy	Oakland Unified	Alameda	Y			MS	AS	1	229	0.4	0	203	0.0	0.4	5	2	4	20		Y	Y	Y			SUSP	2099
+01612590129932	S	East Bay Innovation Academy	Oakland Unified	Alameda	Y			UD	HI	4	204	2.0	10	210	4.8	-2.8	4	5	5	100		Y	Y	Y			SUSP	2099
+01612590130617	S	Oakland Military Institute, College Preparatory Academy	Oakland Unified	Alameda	Y			UD	MR	2	29	6.9	1	15	6.7	0.2	2	3	0	0	Y						SUSP	2099
+01612590130666	S	Aspire Lionel Wilson College Preparatory Academy	Oakland Unified	Alameda	Y			UD	HOM	3	23	13.0		7			1	0	0	0	Y						SUSP	2099
+01612590149187	S	MetWest High	Oakland Unified	Alameda				HS	ALL	33	229	14.4					1	0	0	0		Y					SUSP	2099
+01612590149187	S	MetWest High	Oakland Unified	Alameda				HS	HI	10	106	9.4					2	0	0	0	Y	Y					SUSP	2099
+01612593030772	S	Oakland School for the Arts	Oakland Unified	Alameda	Y			UD	MR	0	152	0.0	4	146	2.7	-2.7	5	5	5	50		Y	Y	Y			SUSP	2099
+01612596066450	S	Madison Park Academy 6-12	Oakland Unified	Alameda				UD	ALL	89	738	12.1	83	732	11.3	0.7	1	2	1	220		Y	Y	Y			SUSP	2099
+01612750000000	D		Piedmont City Unified	Alameda				UD	SED	1	127	0.8	0	105	0.0	0.8	5	2	4	20	Y	Y	Y	Y			SUSP	2099
+01612916066518	S	John Muir Middle	San Leandro Unified	Alameda				MS	HI	7	483	1.4	26	468	5.6	-4.1	4	5	5	100		Y	Y	Y			SUSP	2099
+01613090114421	S	KIPP King Collegiate High	San Lorenzo Unified	Alameda	Y			HS	AS	1	222	0.5	0	199	0.0	0.5	5	2	4	20		Y	Y	Y			SUSP	2099
+01613096002562	S	Edendale Middle	San Lorenzo Unified	Alameda				MS	WH	1	11	9.1		8			2	0	0	0	Y						SUSP	2099
+01751016108971	S	Pleasanton Middle	Pleasanton Unified	Alameda				MS	HOM	1	21	4.8		5			3	0	0	0	Y						SUSP	2099
+03739816002828	S	Jackson Elementary	Amador County Unified	Amador				ES	ALL	33	514	6.4	32	459	7.0	-0.6	1	4	2	240		Y	Y	Y			SUSP	2099
+03739816002828	S	Jackson Elementary	Amador County Unified	Amador				ES	SED	23	284	8.1	25	251	10.0	-1.9	1	5	3	250		Y	Y	Y			SUSP	2099
+04615070000000	D		Oroville City Elementary	Butte				ED	AA	11	84	13.1	29	101	28.7	-15.6	1	4	2	240	Y	Y	Y	Y			SUSP	2099
+04615070000000	D		Oroville City Elementary	Butte				ED	AI	3	54	5.6	10	58	17.2	-11.7	2	4	3	190	Y	Y	Y	Y			SUSP	2099
+04615070000000	D		Oroville City Elementary	Butte				ED	ALL	185	2193	8.4	288	2287	12.6	-4.2	1	5	3	250		Y	Y	Y			SUSP	2099
+04615070000000	D		Oroville City Elementary	Butte				ED	AS	2	200	1.0	4	210	1.9	-0.9	4	4	4	90		Y	Y	Y			SUSP	2099
+04615070000000	D		Oroville City Elementary	Butte				ED	EL	5	161	3.1	7	177	4.0	-0.8	2	4	3	190		Y	Y	Y			SUSP	2099
+04615070000000	D		Oroville City Elementary	Butte				ED	FI		8			9			0	0	0	0	Y						SUSP	2099
+04615070000000	D		Oroville City Elementary	Butte				ED	HI	29	495	5.9	49	509	9.6	-3.8	2	5	3	200		Y	Y	Y			SUSP	2099
+04615070000000	D		Oroville City Elementary	Butte				ED	SWD	77	526	14.6	73	473	15.4	-0.8	1	4	2	240		Y	Y	Y			SUSP	2099
+04615076003255	S	Oakdale Heights Elementary	Oroville City Elementary	Butte				ES	SED	17	267	6.4	19	304	6.3	0.1	1	3	1	230		Y	Y	Y			SUSP	2099
+04615150000000	D		Oroville Union High	Butte				HD	AA	6	90	6.7	12	74	16.2	-9.5	2	4	3	190	Y	Y	Y	Y			SUSP	2099
+04615150000000	D		Oroville Union High	Butte				HD	AI	12	123	9.8	8	137	5.8	3.9	1	2	1	220	Y	Y	Y	Y			SUSP	2099
+04615150000000	D		Oroville Union High	Butte				HD	ALL	134	2366	5.7	171	2384	7.2	-1.5	3	4	4	140		Y	Y	Y			SUSP	2099
+04615150000000	D		Oroville Union High	Butte				HD	AS	1	292	0.3	6	295	2.0	-1.7	5	4	5	40		Y	Y	Y			SUSP	2099
+04615150000000	D		Oroville Union High	Butte				HD	EL	2	131	1.5	6	130	4.6	-3.1	5	4	5	40	Y	Y	Y	Y			SUSP	2099
+04615150000000	D		Oroville Union High	Butte				HD	FOS	1	20	5.0	7	35	20.0	-15.0	3	4	4	140	Y	Y	Y	Y			SUSP	2099
+04615150000000	D		Oroville Union High	Butte				HD	HI	33	533	6.2	38	531	7.2	-1.0	2	4	3	190		Y	Y	Y			SUSP	2099
+04615150000000	D		Oroville Union High	Butte				HD	HOM	17	136	12.5	20	146	13.7	-1.2	1	4	2	240	Y	Y	Y	Y			SUSP	2099
+04615150000000	D		Oroville Union High	Butte				HD	LTEL	2	102	2.0	6	103	5.8	-3.9	4	4	4	90	Y	Y	Y	Y			SUSP	2099
+04615150000000	D		Oroville Union High	Butte				HD	PI	1	15	6.7	0	21	0.0	6.7	2	2	0	0	Y						SUSP	2099
+04615230000000	D		Palermo Union Elementary	Butte				ED	AI	2	40	5.0	2	40	5.0	0.0	2	3	2	180	Y	Y	Y	Y			SUSP	2099
+04615230000000	D		Palermo Union Elementary	Butte				ED	ALL	69	1450	4.8	60	1424	4.2	0.5	2	2	2	170		Y	Y	Y			SUSP	2099
+04615230000000	D		Palermo Union Elementary	Butte				ED	EL	4	160	2.5	3	181	1.7	0.8	3	2	2	120		Y	Y	Y			SUSP	2099
+04615230000000	D		Palermo Union Elementary	Butte				ED	FOS	0	18	0.0	2	19	10.5	-10.5	5	4	5	40	Y	Y	Y	Y			SUSP	2099
+04615230000000	D		Palermo Union Elementary	Butte				ED	HI	12	525	2.3	11	515	2.1	0.1	3	3	3	130		Y	Y	Y			SUSP	2099
+04615230000000	D		Palermo Union Elementary	Butte				ED	HOM	3	106	2.8	6	111	5.4	-2.6	3	4	4	140	Y	Y	Y	Y			SUSP	2099
+04615230000000	D		Palermo Union Elementary	Butte				ED	LTEL	1	15	6.7	2	29	6.9	-0.2	1	3	1	230	Y	Y	Y	Y			SUSP	2099
+04615230000000	D		Palermo Union Elementary	Butte				ED	MR	16	221	7.2	9	190	4.7	2.5	1	1	1	210		Y	Y	Y			SUSP	2099
+04615230000000	D		Palermo Union Elementary	Butte				ED	WH	36	590	6.1	35	603	5.8	0.3	1	2	1	220		Y	Y	Y			SUSP	2099
+04615310000000	D		Paradise Unified	Butte				UD	LTEL	1	13	7.7		10			2	0	0	0	Y						SUSP	2099
+04615490000000	D		Thermalito Union Elementary	Butte				ED	AA	2	32	6.3	2	35	5.7	0.5	1	2	1	220	Y	Y	Y	Y			SUSP	2099
+04615490000000	D		Thermalito Union Elementary	Butte				ED	AS	2	521	0.4	3	506	0.6	-0.2	5	3	5	30		Y	Y	Y			SUSP	2099
+04615490000000	D		Thermalito Union Elementary	Butte				ED	EL	1	202	0.5	3	228	1.3	-0.8	5	4	5	40		Y	Y	Y			SUSP	2099
+04615490000000	D		Thermalito Union Elementary	Butte				ED	FI	0	12	0.0	0	12	0.0	0.0	5	3	0	0	Y						SUSP	2099
+05615560000000	D		Bret Harte Union High	Calaveras				HD	AA		2			3			0	0	0	0	Y						SUSP	2099
+05615560000000	D		Bret Harte Union High	Calaveras				HD	HI	10	159	6.3	15	161	9.3	-3.0	2	5	3	200		Y	Y	Y			SUSP	2099
+05615560000000	D		Bret Harte Union High	Calaveras				HD	SED	38	291	13.1	50	381	13.1	-0.1	1	3	1	230		Y	Y	Y			SUSP	2099
+05615560000000	D		Bret Harte Union High	Calaveras				HD	WH	36	401	9.0	37	431	8.6	0.4	2	3	2	180		Y	Y	Y			SUSP	2099
+05615720000000	D		Mark Twain Union Elementary	Calaveras				ED	HI	2	175	1.1	6	183	3.3	-2.1	4	5	5	100		Y	Y	Y			SUSP	2099
+07616300000000	D		Acalanes Union High	Contra Costa				HD	ALL	107	5485	2.0	80	5474	1.5	0.5	4	2	3	70		Y	Y	Y			SUSP	2099
+07616300000000	D		Acalanes Union High	Contra Costa				HD	AS	10	840	1.2	6	817	0.7	0.5	5	2	4	20		Y	Y	Y			SUSP	2099
+07616300000000	D		Acalanes Union High	Contra Costa				HD	EL	13	202	6.4	3	170	1.8	4.7	2	1	1	160		Y	Y	Y			SUSP	2099
+07616300000000	D		Acalanes Union High	Contra Costa				HD	FI	4	108	3.7	0	100	0.0	3.7	3	2	2	120	Y	Y	Y	Y			SUSP	2099
+07616300000000	D		Acalanes Union High	Contra Costa				HD	HI	26	676	3.8	8	638	1.3	2.6	3	2	2	120		Y	Y	Y			SUSP	2099
+07616300000000	D		Acalanes Union High	Contra Costa				HD	HOM	0	11	0.0	0	18	0.0	0.0	5	3	0	0	Y		Y				SUSP	2099
+07616300000000	D		Acalanes Union High	Contra Costa				HD	PI	1	13	7.7		9			2	0	0	0	Y						SUSP	2099
+07616300000000	D		Acalanes Union High	Contra Costa				HD	WH	47	3080	1.5	48	3246	1.5	0.0	5	3	5	30		Y	Y	Y			SUSP	2099
+07616300730283	S	Acalanes High	Acalanes Union High	Contra Costa				HS	HI	7	154	4.5	1	141	0.7	3.8	3	1	2	110		Y	Y	Y			SUSP	2099
+07616550000000	D		Brentwood Union	Contra Costa				ED	HI	120	3457	3.5	116	3300	3.5	0.0	2	3	2	180		Y	Y	Y			SUSP	2099
+07616550000000	D		Brentwood Union	Contra Costa				ED	PI	1	51	2.0	1	58	1.7	0.2	3	3	3	130	Y	Y	Y	Y			SUSP	2099
+07616550142331	S	Isaac R. Montañez Elementary	Brentwood Union	Contra Costa				ES	ALL	11	479	2.3					3	0	0	0		Y					SUSP	2099
+07616550142331	S	Isaac R. Montañez Elementary	Brentwood Union	Contra Costa				ES	AS	1	102	1.0					4	0	0	0	Y	Y					SUSP	2099
+07616550142331	S	Isaac R. Montañez Elementary	Brentwood Union	Contra Costa				ES	FI	1	44	2.3					3	0	0	0	Y	Y					SUSP	2099
+07616550142331	S	Isaac R. Montañez Elementary	Brentwood Union	Contra Costa				ES	SED	6	168	3.6					2	0	0	0		Y					SUSP	2099
+07616550142331	S	Isaac R. Montañez Elementary	Brentwood Union	Contra Costa				ES	SWD	3	59	5.1					2	0	0	0	Y	Y					SUSP	2099
+07616630000000	D		Byron Union Elementary	Contra Costa				ED	AS	1	69	1.4	3	69	4.3	-2.9	4	4	4	90	Y	Y	Y	Y			SUSP	2099
+07617050000000	D		Knightsen Elementary	Contra Costa				ED	AA	1	15	6.7		10			1	0	0	0	Y						SUSP	2099
+07617050000000	D		Knightsen Elementary	Contra Costa				ED	EL	3	87	3.4	1	84	1.2	2.3	2	2	2	170	Y	Y	Y	Y			SUSP	2099
+07617050000000	D		Knightsen Elementary	Contra Costa				ED	SED	3	210	1.4	1	208	0.5	0.9	4	2	3	70		Y	Y	Y			SUSP	2099
+07617050000000	D		Knightsen Elementary	Contra Costa				ED	SWD	1	72	1.4	1	67	1.5	-0.1	4	3	4	80	Y	Y	Y	Y			SUSP	2099
+07617130000000	D		Lafayette Elementary	Contra Costa				ED	ALL	20	3280	0.6	24	3255	0.7	-0.1	4	3	4	80		Y	Y	Y			SUSP	2099
+07617130000000	D		Lafayette Elementary	Contra Costa				ED	EL	1	122	0.8	0	130	0.0	0.8	4	2	3	70	Y	Y	Y	Y			SUSP	2099
+07617210000000	D		Liberty Union High	Contra Costa				HD	AA	93	886	10.5	99	860	11.5	-1.0	1	4	2	240		Y	Y	Y			SUSP	2099
+07617210000000	D		Liberty Union High	Contra Costa				HD	LTEL	18	433	4.2	37	511	7.2	-3.1	3	5	4	150		Y	Y	Y			SUSP	2099
+07617210000000	D		Liberty Union High	Contra Costa				HD	MR	18	529	3.4	37	630	5.9	-2.5	4	4	4	90		Y	Y	Y			SUSP	2099
+07617210000000	D		Liberty Union High	Contra Costa				HD	PI	3	44	6.8	3	47	6.4	0.4	2	3	2	180	Y	Y	Y	Y			SUSP	2099
+07617470000000	D		Moraga Elementary	Contra Costa				ED	AS	1	333	0.3	0	316	0.0	0.3	5	2	4	20		Y	Y	Y			SUSP	2099
+07617620000000	D		Oakley Union Elementary	Contra Costa				ED	SED	180	2516	7.2	180	2489	7.2	-0.1	1	3	1	230		Y	Y	Y			SUSP	2099
+07618046117451	S	Diablo Vista Middle	San Ramon Valley Unified	Contra Costa				MS	AS	1	423	0.2	2	429	0.5	-0.2	5	3	5	30		Y	Y	Y			SUSP	2099
+07618120000000	D		Walnut Creek Elementary	Contra Costa				ED	SED	12	760	1.6	18	951	1.9	-0.3	3	4	4	140		Y	Y	Y			SUSP	2099
+09618530000000	D		El Dorado Union High	El Dorado				HD	EL	21	187	11.2	16	184	8.7	2.5	1	2	1	220		Y	Y	Y			SUSP	2099
+09618530000000	D		El Dorado Union High	El Dorado				HD	FI	2	106	1.9	0	114	0.0	1.9	4	2	3	70	Y	Y	Y	Y			SUSP	2099
+09619600000000	D		Pollock Pines Elementary	El Dorado				ED	AI	0	13	0.0		10			5	0	0	0	Y						SUSP	2099
+09619780000000	D		Rescue Union Elementary	El Dorado				ED	EL	3	112	2.7	1	161	0.6	2.1	3	2	2	120	Y	Y	Y	Y			SUSP	2099
+10622400000000	D		Kingsburg Elementary Charter	Fresno				ED	EL	5	211	2.4	15	276	5.4	-3.1	3	5	4	150		Y	Y	Y			SUSP	2099
+10622570000000	D		Kingsburg Joint Union High	Fresno				HD	MR	1	29	3.4	1	31	3.2	0.2	4	3	0	0	Y		Y				SUSP	2099
+12626870000000	D		Northern Humboldt Union High	Humboldt				HD	ALL	83	1707	4.9	82	1740	4.7	0.1	3	3	3	130		Y	Y	Y			SUSP	2099
+12628100000000	D		Fortuna Union High	Humboldt				HD	SWD	25	217	11.5	33	216	15.3	-3.8	1	5	3	250		Y	Y	Y			SUSP	2099
+12630320000000	D		South Bay Union Elementary	Humboldt				ED	WH	0	166	0.0	8	172	4.7	-4.7	5	5	5	50		Y	Y	Y			SUSP	2099
+13630730142414	S	Padilla-Pace Middle	Brawley Elementary	Imperial				MS	ALL	43	472	9.1					2	0	0	0		Y					SUSP	2099
+13630730142414	S	Padilla-Pace Middle	Brawley Elementary	Imperial				MS	EL	24	154	15.6					1	0	0	0		Y					SUSP	2099
+13630810000000	D		Brawley Union High	Imperial				HD	MR	4	26	15.4		7			1	0	0	0	Y						SUSP	2099
+13631310000000	D		Heber Elementary	Imperial				ED	SWD	10	176	5.7	5	177	2.8	2.9	2	1	1	160		Y	Y	Y			SUSP	2099
+15634120000000	D		Delano Joint Union High	Kern				HD	ALL	71	4124	1.7	71	4217	1.7	0.0	4	3	4	80		Y	Y	Y			SUSP	2099
+15634380000000	D		Edison Elementary	Kern				ED	EL	9	323	2.8	2	330	0.6	2.2	3	1	2	110		Y	Y	Y			SUSP	2099
+15635290000000	D		Kern High	Kern				HD	MR	238	2048	11.6	67	877	7.6	4.0	1	1	1	210		Y	Y	Y			SUSP	2099
+15637500000000	D		Rosedale Union Elementary	Kern				ED	HOM	4	88	4.5		8			2	0	0	0	Y	Y					SUSP	2099
+15638180000000	D		Taft Union High	Kern				HD	SWD	13	160	8.1	10	159	6.3	1.8	2	2	2	170		Y	Y	Y			SUSP	2099
+19643116011753	S	El Rodeo Elementary	Beverly Hills Unified	Los Angeles				ES	SED	1	157	0.6					4	0	0	0		Y					SUSP	2099
+19643520000000	D		Centinela Valley Union High	Los Angeles				HD	ALL	92	5666	1.6	293	6024	4.9	-3.2	4	5	5	100		Y	Y	Y			SUSP	2099
+19643520000000	D		Centinela Valley Union High	Los Angeles				HD	EL	14	988	1.4	61	1159	5.3	-3.8	5	5	5	50		Y	Y	Y			SUSP	2099
+19648650000000	D		Palos Verdes Peninsula Unified	Los Angeles				UD	HOM	4	185	2.2	0	40	0.0	2.2	4	1	2	60		Y	Y	Y			SUSP	2099
+19651516023790	S	Wilsona Elementary	Wilsona Elementary	Los Angeles				ES	EL	0	173	0.0					5	0	0	0		Y					SUSP	2099
+27661590000000	D		Salinas Union High	Monterey				HD	AA	8	85	9.4	7	77	9.1	0.3	1	3	1	230	Y	Y	Y	Y			SUSP	2099
+29663570000000	D		Nevada Joint Union High	Nevada				HD	FI	0	14	0.0		10			5	0	0	0	Y						SUSP	2099
+35675380000000	D		San Benito High	San Benito				HD	AS	1	66	1.5	0	52	0.0	1.5	5	2	4	20	Y	Y	Y	Y			SUSP	2099
+36103630142547	S	Inland Empire Springs Charter	San Bernardino County Office of Education	San Bernardino	Y			UD	AA	2	44	4.5					3	0	0	0	Y	Y					SUSP	2099
+36103630142547	S	Inland Empire Springs Charter	San Bernardino County Office of Education	San Bernardino	Y			UD	ALL	8	353	2.3					4	0	0	0		Y					SUSP	2099
+36103630142547	S	Inland Empire Springs Charter	San Bernardino County Office of Education	San Bernardino	Y			UD	SED	7	222	3.2					3	0	0	0		Y					SUSP	2099
+36676520000000	D		Chaffey Joint Union High	San Bernardino				HD	PI	4	90	4.4	4	98	4.1	0.4	3	3	3	130	Y	Y	Y	Y			SUSP	2099
+36676780142273	S	Legacy Academy	Chino Valley Unified	San Bernardino				ES	AA	40	240	16.7					1	0	0	0		Y					SUSP	2099
+00000000000000	X	State of California	State of California					UD	AI	1564	25598	6.1	1860	26529	7.0	-0.9	2	4	3	190		Y	Y	Y			SUSP	2099

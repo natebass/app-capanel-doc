@@ -15,7 +15,12 @@ assessments for students with the most significant cognitive disabilities.
 **ELPAC** — the English Language Proficiency Assessments for California, taken
 by students whose primary language is other than English.
 
-Both are reported publicly at `caaspp-elpac.ets.org
+A third publication, the **California School Dashboard**, sits on top of both.
+It is what ``caschooldashboard.org`` shows: not what students scored, but how
+the state judged a school, across seven indicators — five of which have no
+assessment source at all.  See :doc:`dashboard`.
+
+Both assessment programs are reported publicly at `caaspp-elpac.ets.org
 <https://caaspp-elpac.ets.org/caaspp/Default>`_, with the ELPAC on its own
 `companion site <https://caaspp-elpac.ets.org/elpac/>`_, and both publish the
 same figures as downloadable research files.  This section documents what those
@@ -32,6 +37,7 @@ database.
    student-groups
    grades
    achievement-levels
+   dashboard
 
 .. toctree::
    :caption: Using the data

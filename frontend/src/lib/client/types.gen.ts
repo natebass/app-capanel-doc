@@ -271,6 +271,45 @@ export type ChildEntityResult = {
 }
 
 /**
+ * ChildIndicatorReport
+ *
+ * The entities inside a district or county, ranked on one indicator.
+ */
+export type ChildIndicatorReport = {
+	entity: EntityPublic
+	/**
+	 * Reportingyear
+	 */
+	reportingYear: number
+	/**
+	 * Indicatorcode
+	 */
+	indicatorCode: string
+	/**
+	 * Studentgroupcode
+	 */
+	studentGroupCode: string
+	/**
+	 * Children
+	 */
+	children: Array<ChildIndicatorResult>
+	/**
+	 * Count
+	 */
+	count: number
+}
+
+/**
+ * ChildIndicatorResult
+ *
+ * One child entity's result, for ranking within a district or county.
+ */
+export type ChildIndicatorResult = {
+	entity: EntityPublic
+	result: IndicatorResult
+}
+
+/**
  * CompareReport
  *
  * Side-by-side results for an explicit list of entities.
@@ -296,6 +335,36 @@ export type CompareReport = {
 	 * Entries
 	 */
 	entries: Array<EntityResults>
+}
+
+/**
+ * DashboardCatalog
+ *
+ * Everything needed to populate the accountability filters.
+ */
+export type DashboardCatalog = {
+	/**
+	 * Reportingyear
+	 */
+	reportingYear: number
+	/**
+	 * Years
+	 */
+	years: Array<number>
+	/**
+	 * Indicators
+	 */
+	indicators: Array<IndicatorPublic>
+	/**
+	 * Studentgroups
+	 */
+	studentGroups: Array<StudentGroupCodePublic>
+	/**
+	 * Colors
+	 */
+	colors?: {
+		[key: string]: string
+	}
 }
 
 /**
@@ -514,6 +583,254 @@ export type HttpValidationError = {
 	 * Detail
 	 */
 	detail?: Array<ValidationError>
+}
+
+/**
+ * IndicatorGroupReport
+ *
+ * One indicator, broken out by student group.
+ */
+export type IndicatorGroupReport = {
+	entity: EntityPublic
+	/**
+	 * Reportingyear
+	 */
+	reportingYear: number
+	/**
+	 * Indicatorcode
+	 */
+	indicatorCode: string
+	/**
+	 * Indicatorname
+	 */
+	indicatorName: string
+	allStudents?: IndicatorResult | null
+	/**
+	 * Groups
+	 */
+	groups: Array<IndicatorResult>
+}
+
+/**
+ * IndicatorPublic
+ *
+ * One of the seven state indicators.
+ */
+export type IndicatorPublic = {
+	/**
+	 * Code
+	 */
+	code: string
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Shortname
+	 */
+	shortName: string
+	/**
+	 * Lowerisbetter
+	 */
+	lowerIsBetter: boolean
+	/**
+	 * Unit
+	 */
+	unit: string
+	/**
+	 * Sortorder
+	 */
+	sortOrder: number
+}
+
+/**
+ * IndicatorReport
+ *
+ * Every indicator for one entity and year.
+ */
+export type IndicatorReport = {
+	entity: EntityPublic
+	/**
+	 * Reportingyear
+	 */
+	reportingYear: number
+	/**
+	 * Studentgroupcode
+	 */
+	studentGroupCode: string
+	/**
+	 * Results
+	 */
+	results: Array<IndicatorResult>
+	/**
+	 * Availableyears
+	 */
+	availableYears: Array<number>
+	/**
+	 * Includesprojections
+	 */
+	includesProjections?: boolean
+}
+
+/**
+ * IndicatorResult
+ *
+ * One indicator's result for one entity.
+ */
+export type IndicatorResult = {
+	/**
+	 * Indicatorcode
+	 */
+	indicatorCode: string
+	/**
+	 * Indicatorname
+	 */
+	indicatorName: string
+	/**
+	 * Studentgroupcode
+	 */
+	studentGroupCode: string
+	/**
+	 * Variant
+	 */
+	variant: string
+	/**
+	 * Currnumerator
+	 */
+	currNumerator?: number | null
+	/**
+	 * Currdenominator
+	 */
+	currDenominator?: number | null
+	/**
+	 * Currstatus
+	 */
+	currStatus?: string | null
+	/**
+	 * Priorstatus
+	 */
+	priorStatus?: string | null
+	/**
+	 * Change
+	 */
+	change?: string | null
+	/**
+	 * Statuslevel
+	 */
+	statusLevel?: number | null
+	/**
+	 * Statuslabel
+	 */
+	statusLabel?: string | null
+	/**
+	 * Changelevel
+	 */
+	changeLevel?: number | null
+	/**
+	 * Changelabel
+	 */
+	changeLabel?: string | null
+	/**
+	 * Color
+	 */
+	color?: number | null
+	/**
+	 * Colorname
+	 */
+	colorName?: string | null
+	/**
+	 * Box
+	 */
+	box?: number | null
+	/**
+	 * Accountabilitymet
+	 */
+	accountabilityMet?: boolean
+	/**
+	 * Smalldenominator
+	 */
+	smallDenominator?: boolean
+	/**
+	 * Dassflag
+	 */
+	dassFlag?: boolean
+	/**
+	 * Isprojected
+	 */
+	isProjected?: boolean
+	/**
+	 * Projectionbasis
+	 */
+	projectionBasis?: string | null
+}
+
+/**
+ * IndicatorTrendPoint
+ *
+ * One year of an indicator's history.
+ */
+export type IndicatorTrendPoint = {
+	/**
+	 * Reportingyear
+	 */
+	reportingYear: number
+	/**
+	 * Currstatus
+	 */
+	currStatus?: string | null
+	/**
+	 * Change
+	 */
+	change?: string | null
+	/**
+	 * Statuslevel
+	 */
+	statusLevel?: number | null
+	/**
+	 * Changelevel
+	 */
+	changeLevel?: number | null
+	/**
+	 * Color
+	 */
+	color?: number | null
+	/**
+	 * Colorname
+	 */
+	colorName?: string | null
+	/**
+	 * Isprojected
+	 */
+	isProjected?: boolean
+}
+
+/**
+ * IndicatorTrendReport
+ *
+ * One indicator over time for one entity.
+ */
+export type IndicatorTrendReport = {
+	entity: EntityPublic
+	/**
+	 * Indicatorcode
+	 */
+	indicatorCode: string
+	/**
+	 * Indicatorname
+	 */
+	indicatorName: string
+	/**
+	 * Studentgroupcode
+	 */
+	studentGroupCode: string
+	/**
+	 * Points
+	 */
+	points: Array<IndicatorTrendPoint>
+	/**
+	 * Missingyears
+	 */
+	missingYears: Array<number>
 }
 
 /**
@@ -1275,6 +1592,25 @@ export type SchoolsSummary = {
 	 * Count
 	 */
 	count: number
+}
+
+/**
+ * StudentGroupCodePublic
+ *
+ * A Dashboard student group.
+ *
+ * These are the state's short codes, which are not the numeric CAASPP and
+ * ELPAC group ids used by the assessment reports.
+ */
+export type StudentGroupCodePublic = {
+	/**
+	 * Code
+	 */
+	code: string
+	/**
+	 * Name
+	 */
+	name: string
 }
 
 /**
@@ -3171,6 +3507,236 @@ export type ReportsReadComparisonResponses = {
 
 export type ReportsReadComparisonResponse =
 	ReportsReadComparisonResponses[keyof ReportsReadComparisonResponses]
+
+export type DashboardReadCatalogData = {
+	body?: never
+	path?: never
+	query?: {
+		/**
+		 * Year
+		 */
+		year?: number | null
+	}
+	url: '/api/v1/dashboard/catalog'
+}
+
+export type DashboardReadCatalogErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type DashboardReadCatalogError = DashboardReadCatalogErrors[keyof DashboardReadCatalogErrors]
+
+export type DashboardReadCatalogResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: DashboardCatalog
+}
+
+export type DashboardReadCatalogResponse =
+	DashboardReadCatalogResponses[keyof DashboardReadCatalogResponses]
+
+export type DashboardReadIndicatorsData = {
+	body?: never
+	path?: never
+	query?: {
+		/**
+		 * Cds
+		 *
+		 * 14-character CDS code.
+		 */
+		cds?: string
+		/**
+		 * Year
+		 */
+		year?: number | null
+		/**
+		 * Studentgroup
+		 */
+		studentGroup?: string
+		/**
+		 * Includeprojected
+		 */
+		includeProjected?: boolean
+	}
+	url: '/api/v1/dashboard/indicators'
+}
+
+export type DashboardReadIndicatorsErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type DashboardReadIndicatorsError =
+	DashboardReadIndicatorsErrors[keyof DashboardReadIndicatorsErrors]
+
+export type DashboardReadIndicatorsResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: IndicatorReport
+}
+
+export type DashboardReadIndicatorsResponse =
+	DashboardReadIndicatorsResponses[keyof DashboardReadIndicatorsResponses]
+
+export type DashboardReadIndicatorData = {
+	body?: never
+	path?: never
+	query: {
+		/**
+		 * Indicator
+		 *
+		 * Indicator code, e.g. CHRO.
+		 */
+		indicator: string
+		/**
+		 * Cds
+		 */
+		cds?: string
+		/**
+		 * Year
+		 */
+		year?: number | null
+	}
+	url: '/api/v1/dashboard/indicator'
+}
+
+export type DashboardReadIndicatorErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type DashboardReadIndicatorError =
+	DashboardReadIndicatorErrors[keyof DashboardReadIndicatorErrors]
+
+export type DashboardReadIndicatorResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: IndicatorGroupReport
+}
+
+export type DashboardReadIndicatorResponse =
+	DashboardReadIndicatorResponses[keyof DashboardReadIndicatorResponses]
+
+export type DashboardReadTrendData = {
+	body?: never
+	path?: never
+	query: {
+		/**
+		 * Indicator
+		 *
+		 * Indicator code, e.g. CHRO.
+		 */
+		indicator: string
+		/**
+		 * Cds
+		 */
+		cds?: string
+		/**
+		 * Studentgroup
+		 */
+		studentGroup?: string
+		/**
+		 * Fromyear
+		 */
+		fromYear?: number | null
+		/**
+		 * Toyear
+		 */
+		toYear?: number | null
+	}
+	url: '/api/v1/dashboard/trend'
+}
+
+export type DashboardReadTrendErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type DashboardReadTrendError = DashboardReadTrendErrors[keyof DashboardReadTrendErrors]
+
+export type DashboardReadTrendResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: IndicatorTrendReport
+}
+
+export type DashboardReadTrendResponse =
+	DashboardReadTrendResponses[keyof DashboardReadTrendResponses]
+
+export type DashboardReadChildrenData = {
+	body?: never
+	path?: never
+	query: {
+		/**
+		 * Indicator
+		 *
+		 * Indicator code, e.g. CHRO.
+		 */
+		indicator: string
+		/**
+		 * Cds
+		 */
+		cds?: string
+		/**
+		 * Year
+		 */
+		year?: number | null
+		/**
+		 * Studentgroup
+		 */
+		studentGroup?: string
+		/**
+		 * Orderby
+		 */
+		orderBy?: string
+		/**
+		 * Descending
+		 */
+		descending?: boolean
+		/**
+		 * Limit
+		 */
+		limit?: number
+		/**
+		 * Offset
+		 */
+		offset?: number
+	}
+	url: '/api/v1/dashboard/children'
+}
+
+export type DashboardReadChildrenErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type DashboardReadChildrenError =
+	DashboardReadChildrenErrors[keyof DashboardReadChildrenErrors]
+
+export type DashboardReadChildrenResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: ChildIndicatorReport
+}
+
+export type DashboardReadChildrenResponse =
+	DashboardReadChildrenResponses[keyof DashboardReadChildrenResponses]
 
 export type IngestListRunsData = {
 	body?: never

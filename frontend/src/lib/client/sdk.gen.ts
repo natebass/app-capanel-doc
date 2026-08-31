@@ -25,6 +25,21 @@ import type {
 	CensusdataUpdateCensusDataData,
 	CensusdataUpdateCensusDataErrors,
 	CensusdataUpdateCensusDataResponses,
+	DashboardReadCatalogData,
+	DashboardReadCatalogErrors,
+	DashboardReadCatalogResponses,
+	DashboardReadChildrenData,
+	DashboardReadChildrenErrors,
+	DashboardReadChildrenResponses,
+	DashboardReadIndicatorData,
+	DashboardReadIndicatorErrors,
+	DashboardReadIndicatorResponses,
+	DashboardReadIndicatorsData,
+	DashboardReadIndicatorsErrors,
+	DashboardReadIndicatorsResponses,
+	DashboardReadTrendData,
+	DashboardReadTrendErrors,
+	DashboardReadTrendResponses,
 	EntitiesReadChildrenData,
 	EntitiesReadChildrenErrors,
 	EntitiesReadChildrenResponses,
@@ -1011,6 +1026,83 @@ export class ReportsService {
 			ReportsReadComparisonErrors,
 			ThrowOnError
 		>({ url: '/api/v1/reports/compare', ...options })
+	}
+}
+
+export class DashboardService {
+	/**
+	 * Read Catalog
+	 *
+	 * Everything needed to populate the accountability filters.
+	 */
+	public static dashboardReadCatalog<ThrowOnError extends boolean = false>(
+		options?: Options<DashboardReadCatalogData, ThrowOnError>,
+	): RequestResult<DashboardReadCatalogResponses, DashboardReadCatalogErrors, ThrowOnError> {
+		return (options?.client ?? client).get<
+			DashboardReadCatalogResponses,
+			DashboardReadCatalogErrors,
+			ThrowOnError
+		>({ url: '/api/v1/dashboard/catalog', ...options })
+	}
+
+	/**
+	 * Read Indicators
+	 *
+	 * Every indicator for one entity -- the Dashboard landing view.
+	 */
+	public static dashboardReadIndicators<ThrowOnError extends boolean = false>(
+		options?: Options<DashboardReadIndicatorsData, ThrowOnError>,
+	): RequestResult<DashboardReadIndicatorsResponses, DashboardReadIndicatorsErrors, ThrowOnError> {
+		return (options?.client ?? client).get<
+			DashboardReadIndicatorsResponses,
+			DashboardReadIndicatorsErrors,
+			ThrowOnError
+		>({ url: '/api/v1/dashboard/indicators', ...options })
+	}
+
+	/**
+	 * Read Indicator
+	 *
+	 * One indicator for one entity, broken out by student group.
+	 */
+	public static dashboardReadIndicator<ThrowOnError extends boolean = false>(
+		options: Options<DashboardReadIndicatorData, ThrowOnError>,
+	): RequestResult<DashboardReadIndicatorResponses, DashboardReadIndicatorErrors, ThrowOnError> {
+		return (options.client ?? client).get<
+			DashboardReadIndicatorResponses,
+			DashboardReadIndicatorErrors,
+			ThrowOnError
+		>({ url: '/api/v1/dashboard/indicator', ...options })
+	}
+
+	/**
+	 * Read Trend
+	 *
+	 * One indicator over time for one entity.
+	 */
+	public static dashboardReadTrend<ThrowOnError extends boolean = false>(
+		options: Options<DashboardReadTrendData, ThrowOnError>,
+	): RequestResult<DashboardReadTrendResponses, DashboardReadTrendErrors, ThrowOnError> {
+		return (options.client ?? client).get<
+			DashboardReadTrendResponses,
+			DashboardReadTrendErrors,
+			ThrowOnError
+		>({ url: '/api/v1/dashboard/trend', ...options })
+	}
+
+	/**
+	 * Read Children
+	 *
+	 * The entities inside a district or county, ranked on one indicator.
+	 */
+	public static dashboardReadChildren<ThrowOnError extends boolean = false>(
+		options: Options<DashboardReadChildrenData, ThrowOnError>,
+	): RequestResult<DashboardReadChildrenResponses, DashboardReadChildrenErrors, ThrowOnError> {
+		return (options.client ?? client).get<
+			DashboardReadChildrenResponses,
+			DashboardReadChildrenErrors,
+			ThrowOnError
+		>({ url: '/api/v1/dashboard/children', ...options })
 	}
 }
 

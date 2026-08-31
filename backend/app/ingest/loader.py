@@ -17,7 +17,7 @@ from __future__ import annotations
 import csv
 import logging
 import tempfile
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from decimal import Decimal
 from functools import cache
@@ -231,6 +231,17 @@ def _entity_row(record: EntityRecord) -> tuple[Any, ...]:
     )
 
 
+def _narrower(
+    pick: Callable[[int, int], int], left: int | None, right: int | None
+) -> int | None:
+    """Combine two test years, either of which may be absent."""
+    if left is None:
+        return right
+    if right is None:
+        return left
+    return pick(left, right)
+
+
 def _merge_entity(existing: EntityRecord, incoming: EntityRecord) -> None:
     """Widen an entity with anything the incoming row knows and it does not."""
     existing.county_name = existing.county_name or incoming.county_name
@@ -241,8 +252,12 @@ def _merge_entity(existing: EntityRecord, incoming: EntityRecord) -> None:
         existing.display_name = incoming.display_name
     existing.is_charter = existing.is_charter or incoming.is_charter
     existing.charter_funding = existing.charter_funding or incoming.charter_funding
-    existing.first_test_year = min(existing.first_test_year, incoming.first_test_year)
-    existing.last_test_year = max(existing.last_test_year, incoming.last_test_year)
+    existing.first_test_year = _narrower(
+        min, existing.first_test_year, incoming.first_test_year
+    )
+    existing.last_test_year = _narrower(
+        max, existing.last_test_year, incoming.last_test_year
+    )
 
 
 # Temporary tables keep the staged copy out of the WAL, scope it to this

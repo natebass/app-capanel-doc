@@ -61,7 +61,7 @@ class IngestFile(ApiModel, table=True):
     size_bytes: int | None = Field(default=None)
     last_modified: datetime | None = Field(default=None)
     program: str | None = Field(default=None, max_length=10)
-    test_type: str | None = Field(default=None, max_length=5)
+    test_type: str | None = Field(default=None, max_length=10)
     test_year: int | None = Field(default=None)
     status: IngestStatus = Field(
         default=IngestStatus.RUNNING, sa_type=enum_type(IngestStatus)

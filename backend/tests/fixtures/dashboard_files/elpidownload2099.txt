@@ -1,0 +1,32 @@
+cds	rtype	schoolname	districtname	countyname	charter_flag	coe_flag	dass_flag	studentgroup	currprogressed	currmaintainPL4	currmaintainOth	currdeclined	currprogressed_Alternate	currmaintainPL3_Alternate	currnotprognotmain_Alternate	curr95	currnumer	currdenom	currstatus	priorprogressed	priormaintainPL4	priormaintainOth	priordeclined	priorprogressed_Alternate	priormaintainPL3_Alternate	priornotprognotmain_Alternate	prior95	priornumer	priordenom	priorstatus	change	statuslevel	changelevel	color	box	currnsizemet	priornsizemet	accountabilitymet	indicator	reportingyear
+00000000000000	X	State of California	State of California					EL	346922	10081	276293	133603	3114	695	6829	0	360812	777537	46.4	343920	15274	273719	152378	3210	1146	6529	0	363550	796176	45.7	0.7	3	3	3	130	Y	Y	Y	ELPI	2099
+00000000000000	X	State of California	State of California					LTEL	99975	5180	61147	46866	890	405	2389	0	106450	216852	49.1	97960	7928	66996	58161	1146	715	2556	0	107749	235462	45.8	3.3	3	4	4	140	Y	Y	Y	ELPI	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		EL	10	1	20	3	0	0	0	6	11	40	27.5	5	0	19	10	0	0	0	10	5	44	11.4	16.1	1	5	3	250	Y	Y	Y	ELPI	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		LTEL	10	1	6	2	0	0	0	2	11	21	52.4	5	0	10	9	0	0	0	8	5	32	15.6	36.8	3	5	4	150	Y	Y	Y	ELPI	2099
+01100170112607	S	Envision Academy for Arts & Technology	Alameda County Office of Education	Alameda	Y			EL	7	0	6	3	0	0	0	0	7	16	43.8	11	0	6	8	0	0	0	7	11	32	34.4	9.4	2	4	0	0	N	Y		ELPI	2099
+01100170112607	S	Envision Academy for Arts & Technology	Alameda County Office of Education	Alameda	Y			LTEL	5	0	5	3	0	0	0	0	5	13	38.5	10	0	3	7	0	0	0	6	10	26	38.5	0.0	2	3	0	0	N	N		ELPI	2099
+01100170123968	S	Community School for Creative Education	Alameda County Office of Education	Alameda	Y			LTEL	7	0	5	0	0	0	0	0	7	12	58.3	9	0	3	3	0	0	0	0	9	15	60.0	-1.7	4	3	0	0	N	N		ELPI	2099
+01100170124172	S	Yu Ming Charter	Alameda County Office of Education	Alameda	Y			EL	41	1	35	23	0	0	0	0	42	100	42.0	39	3	25	15	0	0	0	0	42	82	51.2	-9.2	2	2	2	170	Y	Y	Y	ELPI	2099
+01100170125567	S	Urban Montessori Charter	Alameda County Office of Education	Alameda	Y			EL	6	0	8	2	0	0	0	0	6	16	37.5	20	1	2	2	0	0	0	0	21	25	84.0	-46.5	2	1	0	0	N	N		ELPI	2099
+01100170125567	S	Urban Montessori Charter	Alameda County Office of Education	Alameda	Y			LTEL								0		5									0		9			0	0	0	0	N	N		ELPI	2099
+01100170130419	S	Alameda County Community	Alameda County Office of Education	Alameda			Y	LTEL	8	1	4	1	0	0	0	0	9	14	64.3	5	0	7	5	0	0	0	0	5	17	29.4	34.9	4	5	0	0	N	N		ELPI	2099
+01100170131581	S	Oakland Unity Middle	Alameda County Office of Education	Alameda	Y			LTEL	12	0	5	5	0	0	0	0	12	22	54.5	9	0	3	2	0	0	0	0	9	14	64.3	-9.7	3	2	0	0	N	N		ELPI	2099
+01100170136226	S	Opportunity Academy	Alameda County Office of Education	Alameda	Y		Y	EL	6	0	6	5	0	0	0	7	6	24	25.0	3	0	4	4	0	0	0	7	3	18	16.7	8.3	1	4	0	0	N	N		ELPI	2099
+01100170136226	S	Opportunity Academy	Alameda County Office of Education	Alameda	Y		Y	LTEL	3	0	4	5	0	0	0	8	3	20	15.0	3	0	2	3	0	0	0	5	3	13	23.1	-8.1	1	2	0	0	N	N		ELPI	2099
+01100170137448	S	Aurum Preparatory Academy	Alameda County Office of Education	Alameda	Y			LTEL	10	0	3	2	0	0	0	0	10	15	66.7	4	0	5	7	0	0	0	0	4	16	25.0	41.7	5	5	0	0	N	N		ELPI	2099
+01611190000000	D		Alameda Unified	Alameda				EL	286	1	148	56	1	1	6	0	289	499	57.9	254	2	155	64	2	0	6	0	258	483	53.4	4.5	4	4	4	90	Y	Y	Y	ELPI	2099
+01611190122085	S	The Academy of Alameda	Alameda Unified	Alameda	Y			LTEL	5	0	4	7	0	0	0	0	5	16	31.3	13	0	3	2	0	0	0	0	13	18	72.2	-41.0	1	1	0	0	N	N		ELPI	2099
+01611190139220	S	Maya Lin	Alameda Unified	Alameda				EL	13	0	12	5	0	1	0	0	14	31	45.2	16	0	11	1	0	0	0	0	16	28	57.1	-12.0	3	1	0	0	Y	N		ELPI	2099
+01611196090054	S	Lincoln Middle	Alameda Unified	Alameda				EL	11	0	5	1	0	0	1	0	11	18	61.1	14	1	2	1	0	0	1	0	15	19	78.9	-17.8	4	1	0	0	N	N		ELPI	2099
+01611196090112	S	Will C. Wood Middle	Alameda Unified	Alameda				EL	30	1	19	6	0	0	0	0	31	56	55.4	31	1	20	1	0	0	0	0	32	53	60.4	-5.0	4	2	3	70	Y	Y	Y	ELPI	2099
+01611196090120	S	William G. Paden Elementary	Alameda Unified	Alameda				EL	23	0	7	3	0	0	0	0	23	33	69.7	16	0	7	0	0	0	0	3	16	26	61.5	8.2	5	4	0	0	Y	N		ELPI	2099
+01611196100374	S	Amelia Earhart Elementary	Alameda Unified	Alameda				EL	12	0	3	1	0	0	0	0	12	16	75.0	16	0	3	3	1	0	0	0	17	23	73.9	1.1	5	3	0	0	N	N		ELPI	2099
+01611270000000	D		Albany City Unified	Alameda				EL	141	28	63	25	0	0	0	0	169	257	65.8	151	29	59	25	0	0	0	0	180	264	68.2	-2.4	5	2	4	20	Y	Y	Y	ELPI	2099
+01611276090161	S	Albany Middle	Albany City Unified	Alameda				LTEL	2	6	7	2	0	0	1	0	8	18	44.4								0		10			2	0	0	0	N	N		ELPI	2099
+01611436090187	S	Rosa Parks Environmental Science	Berkeley Unified	Alameda				EL	8	2	3	1	0	0	0	0	10	14	71.4	10	1	0	0	0	0	0	0	11	11	100.0	-28.6	5	1	0	0	N	N		ELPI	2099
+01611500135533	S	Redwood Continuation High	Castro Valley Unified	Alameda			Y	EL	6	0	3	3	0	0	0	0	6	12	50.0								0		9			3	0	0	0	N	N		ELPI	2099
+01611506090419	S	Palomares Elementary	Castro Valley Unified	Alameda				EL	3	1	6	2	0	0	0	0	4	12	33.3								0		9			1	0	0	0	N	N		ELPI	2099
+01611920133629	S	Hayward High	Hayward Unified	Alameda				EL	45	0	41	46	0	0	0	1	45	133	33.8	43	0	44	31	0	0	0	12	43	130	33.1	0.8	1	3	1	230	Y	Y	Y	ELPI	2099
+01612006085773	S	Andrew N. Christensen Middle	Livermore Valley Joint Unified	Alameda				LTEL	9	0	6	8	0	0	0	0	9	23	39.1	3	0	11	2	0	0	0	0	3	16	18.8	20.4	2	5	0	0	N	N		ELPI	2099
+01612596002109	S	Peralta Elementary	Oakland Unified	Alameda				EL	9	1	2	2	0	0	0	0	10	14	71.4								0		10			5	0	0	0	N	N		ELPI	2099
+07616550142331	S	Isaac R. Montañez Elementary	Brentwood Union	Contra Costa				EL	14	0	4	5	0	0	0	0	14	23	60.9								0		0			4	0	0	0	N	N		ELPI	2099

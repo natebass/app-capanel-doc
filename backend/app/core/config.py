@@ -30,6 +30,11 @@ class Settings(BaseSettings):
     SENTRY_DSN: HttpUrl | None = None
     DATABASE_URL: PostgresDsn
     RESEARCH_FILE_SOURCE_URI: str
+    # Where the California School Dashboard indicator files are read from.
+    # Defaults to the state's own web server, so no local copy is needed.
+    DASHBOARD_FILE_SOURCE_URI: str = (
+        "https://www3.cde.ca.gov/researchfiles/cadashboard/"
+    )
 
     @field_validator("DATABASE_URL", mode="before")
     @classmethod

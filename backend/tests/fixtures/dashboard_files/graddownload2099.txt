@@ -1,0 +1,58 @@
+cds	rtype	schoolname	districtname	countyname	charter_flag	coe_flag	dass_flag	studentgroup	currnumer	currdenom	currstatus	priornumer	priordenom	priorstatus	change	statuslevel	changelevel	color	box	smalldenom	fiveyrnumer	currnsizemet	priornsizemet	accountabilitymet	indicator	reportingyear
+00000000000000	X	State of California	State of California					AA	21614	26160	82.6	21363	27002	79.1	3.5	3	4	4	140	N	926	Y	Y	Y	GRAD	2099
+00000000000000	X	State of California	State of California					AI	1975	2450	80.6	2006	2504	80.1	0.5	3	3	3	130	N	70	Y	Y	Y	GRAD	2099
+00000000000000	X	State of California	State of California					AS	44570	48118	92.6	44511	48266	92.2	0.4	4	3	4	80	N	526	Y	Y	Y	GRAD	2099
+00000000000000	X	State of California	State of California					EL	68359	85815	79.7	61999	79620	77.9	1.8	2	4	3	190	N	3390	Y	Y	Y	GRAD	2099
+00000000000000	X	State of California	State of California					FI	11670	12231	95.4	12426	13046	95.2	0.2	5	3	5	30	N	95	Y	Y	Y	GRAD	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		AA	7	20	35.0	8	25	32.0	3.0	1	4	0	0	Y	1	N	N	N	GRAD	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		ALL	24	69	34.8	15	71	21.1	13.7	1	5	1	240	Y	10	Y	Y	Y	GRAD	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		AS		2			1			0	0	0	0	Y	0	N	N	N	GRAD	2099
+01100170000000	D		Alameda County Office of Education	Alameda		Y		HOM	4	18	22.2	6	19	31.6	-9.4	1	1	1	220	Y	0	Y	Y	Y	GRAD	2099
+01100170112607	S	Envision Academy for Arts & Technology	Alameda County Office of Education	Alameda	Y			AA	18	19	94.7		10			4	0	0	0	Y	0	N	N	N	GRAD	2099
+01100170112607	S	Envision Academy for Arts & Technology	Alameda County Office of Education	Alameda	Y			ALL	43	50	86.0	46	50	92.0	-6.0	3	1	2	120	Y	0	Y	Y	Y	GRAD	2099
+01100170112607	S	Envision Academy for Arts & Technology	Alameda County Office of Education	Alameda	Y			SWD	11	11	100.0		5			5	0	0	0	Y	0	N	N	N	GRAD	2099
+01100170130401	S	Alameda County Juvenile Hall/Court	Alameda County Office of Education	Alameda			Y	EL	3	11	27.3		6			1	0	0	0	Y	0	N	N	N	GRAD	2099
+01100170130419	S	Alameda County Community	Alameda County Office of Education	Alameda			Y	ALL	9	26	34.6	10	28	35.7	-1.1	1	2	0	0	Y	7	N	N	N	GRAD	2099
+01100170130625	S	Alternatives in Action	Alameda County Office of Education	Alameda	Y			ALL	32	44	72.7	26	38	68.4	4.3	2	4	3	190	Y	0	Y	Y	Y	GRAD	2099
+01100170130625	S	Alternatives in Action	Alameda County Office of Education	Alameda	Y			SED	32	44	72.7	24	36	66.7	6.1	2	5	3	190	Y	0	Y	Y	Y	GRAD	2099
+01100170136101	S	Connecting Waters Charter - East Bay	Alameda County Office of Education	Alameda	Y			ALL	40	44	90.9	29	31	93.5	-2.6	4	2	3	70	Y	0	Y	Y	Y	GRAD	2099
+01100170136101	S	Connecting Waters Charter - East Bay	Alameda County Office of Education	Alameda	Y			AS	17	19	89.5		8			3	0	0	0	Y	0	N	N	N	GRAD	2099
+01100170136101	S	Connecting Waters Charter - East Bay	Alameda County Office of Education	Alameda	Y			SED	16	18	88.9	12	14	85.7	3.2	3	4	0	0	Y	0	N	N	N	GRAD	2099
+01100170136226	S	Opportunity Academy	Alameda County Office of Education	Alameda	Y		Y	ALL	94	164	57.3	125	194	64.4	-7.1	1	1	1	210	N	41	Y	Y	Y	GRAD	2099
+01316170131763	S	California School for the Deaf-Fremont	California School for the Deaf-Fremont (State Special Schl)	Alameda				ALL	24	40	60.0	31	51	60.8	-0.8	1	3	1	230	Y	4	Y	Y	Y	GRAD	2099
+01611190000000	D		Alameda Unified	Alameda				AA	52	54	96.3	49	58	84.5	11.8	5	5	5	40	Y	3	Y	Y	Y	GRAD	2099
+01611190000000	D		Alameda Unified	Alameda				ALL	768	819	93.8	708	775	91.4	2.4	4	4	4	90	N	18	Y	Y	Y	GRAD	2099
+01611190000000	D		Alameda Unified	Alameda				FI	42	42	100.0	48	49	98.0	2.0	5	4	5	40	Y	1	Y	Y	Y	GRAD	2099
+01611190000000	D		Alameda Unified	Alameda				HI	129	140	92.1	136	156	87.2	5.0	4	5	4	90	Y	4	Y	Y	Y	GRAD	2099
+01611190000000	D		Alameda Unified	Alameda				MR	84	93	90.3	75	83	90.4	0.0	3	3	3	130	Y	2	Y	Y	Y	GRAD	2099
+01611190106401	S	Alameda Science and Technology Institute	Alameda Unified	Alameda				ALL	46	47	97.9	29	29	100.0	-2.1	5	2	0	0	Y	0	Y	N	N	GRAD	2099
+01611190130229	S	Alameda High	Alameda Unified	Alameda				AA	19	19	100.0	17	17	100.0	0.0	5	3	0	0	Y	0	N	N	N	GRAD	2099
+01611190130229	S	Alameda High	Alameda Unified	Alameda				EL	47	55	85.5	26	33	78.8	6.7	3	5	4	140	Y	2	Y	Y	Y	GRAD	2099
+01611190130229	S	Alameda High	Alameda Unified	Alameda				MR	49	53	92.5	51	56	91.1	1.4	4	4	4	90	Y	1	Y	Y	Y	GRAD	2099
+01611190130609	S	Alameda Community Learning Center	Alameda Unified	Alameda	Y			WH	13	15	86.7	10	11	90.9	-4.2	3	2	0	0	Y	1	N	N	N	GRAD	2099
+01611190132142	S	Encinal Junior/Senior High	Alameda Unified	Alameda				ALL	224	226	99.1	208	215	96.7	2.4	5	4	5	40	N	2	Y	Y	Y	GRAD	2099
+01611430000000	D		Berkeley Unified	Alameda				HI	198	217	91.2	176	184	95.7	-4.4	4	2	3	70	N	2	Y	Y	Y	GRAD	2099
+01611430134924	S	Berkeley Technology Academy	Berkeley Unified	Alameda			Y	AA	18	19	94.7	22	23	95.7	-0.9	4	3	0	0	Y	1	N	N	N	GRAD	2099
+01611500000000	D		Castro Valley Unified	Alameda				HOM	12	16	75.0	18	22	81.8	-6.8	2	1	2	170	Y	1	Y	Y	Y	GRAD	2099
+01611500000000	D		Castro Valley Unified	Alameda				WH	163	168	97.0	187	189	98.9	-1.9	5	2	5	20	N	0	Y	Y	Y	GRAD	2099
+01611760000000	D		Fremont Unified	Alameda				EL	225	301	74.8	187	249	75.1	-0.3	2	3	2	180	N	16	Y	Y	Y	GRAD	2099
+01611760130062	S	American High	Fremont Unified	Alameda				SWD	39	49	79.6	42	51	82.4	-2.8	2	2	2	170	Y	2	Y	Y	Y	GRAD	2099
+01611760134270	S	Irvington High	Fremont Unified	Alameda				LTEL	10	11	90.9	21	21	100.0	-9.1	4	1	0	0	Y	0	N	N	N	GRAD	2099
+01611760134270	S	Irvington High	Fremont Unified	Alameda				SED	164	186	88.2	130	138	94.2	-6.0	3	1	2	110	N	1	Y	Y	Y	GRAD	2099
+01611760134452	S	John F. Kennedy High	Fremont Unified	Alameda				ALL	310	345	89.9	312	333	93.7	-3.8	3	2	2	120	N	8	Y	Y	Y	GRAD	2099
+01611760134452	S	John F. Kennedy High	Fremont Unified	Alameda				HOM	9	12	75.0		9			2	0	0	0	Y	2	N	N	N	GRAD	2099
+01611920000000	D		Hayward Unified	Alameda				EL	221	359	61.6	275	453	60.7	0.9	1	3	1	230	N	29	Y	Y	Y	GRAD	2099
+01611920000000	D		Hayward Unified	Alameda				LTEL	116	175	66.3	152	225	67.6	-1.3	1	2	1	220	N	4	Y	Y	Y	GRAD	2099
+01611920000000	D		Hayward Unified	Alameda				SWD	139	190	73.2	132	195	67.7	5.5	2	5	3	200	N	10	Y	Y	Y	GRAD	2099
+01611920135319	S	Mt. Eden High	Hayward Unified	Alameda				LTEL	37	50	74.0	39	53	73.6	0.4	2	3	2	180	Y	0	Y	Y	Y	GRAD	2099
+01611920138339	S	Tennyson High	Hayward Unified	Alameda				HI	213	322	66.1	222	360	61.7	4.5	1	4	1	240	N	25	Y	Y	Y	GRAD	2099
+01612340000000	D		Newark Unified	Alameda				HI	193	221	87.3	192	234	82.1	5.3	3	5	4	150	N	2	Y	Y	Y	GRAD	2099
+01612420000000	D		New Haven Unified	Alameda				AS	261	278	93.9	205	231	88.7	5.1	4	5	5	100	N	12	Y	Y	Y	GRAD	2099
+01612420134668	S	James Logan High	New Haven Unified	Alameda				HI	252	261	96.6	237	268	88.4	8.1	5	5	5	50	N	5	Y	Y	Y	GRAD	2099
+01612590000000	D		Oakland Unified	Alameda				ALL	2102	2800	75.1	2106	2613	80.6	-5.5	2	1	1	160	N	100	Y	Y	Y	GRAD	2099
+01612590125161	S	Castlemont High	Oakland Unified	Alameda				SED	147	215	68.4	98	139	70.5	-2.1	2	2	2	170	N	2	Y	Y	Y	GRAD	2099
+10101080109991	S	Crescent View West Public Charter	Fresno County Office of Education	Fresno	Y		Y	HI	112	332	33.7	136	577	23.6	10.2	1	5	1	250	N	60	Y	Y	Y	GRAD	2099
+15635290141101	S	Del Oro High	Kern High	Kern				ALL	350	397	88.2					3	0	0	0	N	0	Y	N	N	GRAD	2099
+19648570140889	S	Palmdale Academy Charter	Palmdale Elementary	Los Angeles	Y			ALL	211	221	95.5					5	0	0	0	N	2	Y	N	N	GRAD	2099
+57726780000000	D		Davis Joint Unified	Yolo				WH	272	299	91.0	282	293	96.2	-5.3	4	1	2	60	N	5	Y	Y	Y	GRAD	2099
+00000000000000	X	State of California	State of California					ALL	445720	507889	87.8	448696	517434	86.7	1.0	3	4	4	140	N	11093	Y	Y	Y	GRAD	2099

@@ -13,6 +13,14 @@ from app.model.census_data import (
     CensusDataPublicList,
     CensusUpdate,
 )
+from app.model.dashboard import (
+    DEFAULT_VARIANT,
+    DashboardColorCell,
+    DashboardCutpoint,
+    DashboardIndicator,
+    DashboardIndicatorResult,
+    DashboardStudentGroup,
+)
 from app.model.ingest import IngestFile, IngestRun, IngestStatus
 from app.model.item import Item, ItemCreate, ItemPublic, ItemsPublic, ItemUpdate
 from app.model.other import Message, Token, TokenPayload
@@ -55,7 +63,13 @@ __all__ = [
     "CensusDataPublic",
     "CensusDataPublicList",
     "CensusUpdate",
+    "DEFAULT_VARIANT",
     "CharterFunding",
+    "DashboardColorCell",
+    "DashboardCutpoint",
+    "DashboardIndicator",
+    "DashboardIndicatorResult",
+    "DashboardStudentGroup",
     "Entity",
     "EntityLevel",
     "GradeLevel",

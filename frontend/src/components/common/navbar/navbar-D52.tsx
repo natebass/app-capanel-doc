@@ -48,6 +48,15 @@ export default function NavbarD52({ shadow = false }: { shadow?: boolean }) {
 							Dashboard
 						</Link>
 						<Link
+							to='/accountability'
+							className={styles.link}
+							activeProps={{
+								className: styles.linkSelected,
+							}}
+						>
+							Accountability
+						</Link>
+						<Link
 							to='/report'
 							className={styles.link}
 							activeProps={{

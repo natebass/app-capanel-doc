@@ -51,8 +51,10 @@ class EntityRecord:
     zip_code: str | None
     display_name: str
     parent_cds_code: str | None
-    first_test_year: int
-    last_test_year: int
+    # None when the entity was discovered somewhere other than a test
+    # administration -- a Dashboard indicator file, for instance.
+    first_test_year: int | None
+    last_test_year: int | None
 
 
 @dataclass(slots=True)

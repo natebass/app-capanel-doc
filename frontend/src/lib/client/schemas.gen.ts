@@ -410,6 +410,56 @@ export const ChildEntityResultSchema = {
 	description: 'One county, district or school inside the requested entity.',
 } as const
 
+export const ChildIndicatorReportSchema = {
+	properties: {
+		entity: {
+			$ref: '#/components/schemas/EntityPublic',
+		},
+		reportingYear: {
+			type: 'integer',
+			title: 'Reportingyear',
+		},
+		indicatorCode: {
+			type: 'string',
+			title: 'Indicatorcode',
+		},
+		studentGroupCode: {
+			type: 'string',
+			title: 'Studentgroupcode',
+		},
+		children: {
+			items: {
+				$ref: '#/components/schemas/ChildIndicatorResult',
+			},
+			type: 'array',
+			title: 'Children',
+		},
+		count: {
+			type: 'integer',
+			title: 'Count',
+		},
+	},
+	type: 'object',
+	required: ['entity', 'reportingYear', 'indicatorCode', 'studentGroupCode', 'children', 'count'],
+	title: 'ChildIndicatorReport',
+	description: 'The entities inside a district or county, ranked on one indicator.',
+} as const
+
+export const ChildIndicatorResultSchema = {
+	properties: {
+		entity: {
+			$ref: '#/components/schemas/EntityPublic',
+		},
+		result: {
+			$ref: '#/components/schemas/IndicatorResult',
+		},
+	},
+	type: 'object',
+	required: ['entity', 'result'],
+	title: 'ChildIndicatorResult',
+	description: "One child entity's result, for ranking within a district or county.",
+} as const
+
 export const CompareReportSchema = {
 	properties: {
 		testYear: {
@@ -440,6 +490,54 @@ export const CompareReportSchema = {
 	required: ['testYear', 'testId', 'studentGroupId', 'grade', 'entries'],
 	title: 'CompareReport',
 	description: 'Side-by-side results for an explicit list of entities.',
+} as const
+
+export const DashboardCatalogSchema = {
+	properties: {
+		reportingYear: {
+			type: 'integer',
+			title: 'Reportingyear',
+		},
+		years: {
+			items: {
+				type: 'integer',
+			},
+			type: 'array',
+			title: 'Years',
+		},
+		indicators: {
+			items: {
+				$ref: '#/components/schemas/IndicatorPublic',
+			},
+			type: 'array',
+			title: 'Indicators',
+		},
+		studentGroups: {
+			items: {
+				$ref: '#/components/schemas/StudentGroupCodePublic',
+			},
+			type: 'array',
+			title: 'Studentgroups',
+		},
+		colors: {
+			additionalProperties: {
+				type: 'string',
+			},
+			type: 'object',
+			title: 'Colors',
+			default: {
+				1: 'Red',
+				2: 'Orange',
+				3: 'Yellow',
+				4: 'Green',
+				5: 'Blue',
+			},
+		},
+	},
+	type: 'object',
+	required: ['reportingYear', 'years', 'indicators', 'studentGroups'],
+	title: 'DashboardCatalog',
+	description: 'Everything needed to populate the accountability filters.',
 } as const
 
 export const EntityAncestrySchema = {
@@ -784,6 +882,441 @@ export const HTTPValidationErrorSchema = {
 	},
 	type: 'object',
 	title: 'HTTPValidationError',
+} as const
+
+export const IndicatorGroupReportSchema = {
+	properties: {
+		entity: {
+			$ref: '#/components/schemas/EntityPublic',
+		},
+		reportingYear: {
+			type: 'integer',
+			title: 'Reportingyear',
+		},
+		indicatorCode: {
+			type: 'string',
+			title: 'Indicatorcode',
+		},
+		indicatorName: {
+			type: 'string',
+			title: 'Indicatorname',
+		},
+		allStudents: {
+			anyOf: [
+				{
+					$ref: '#/components/schemas/IndicatorResult',
+				},
+				{
+					type: 'null',
+				},
+			],
+		},
+		groups: {
+			items: {
+				$ref: '#/components/schemas/IndicatorResult',
+			},
+			type: 'array',
+			title: 'Groups',
+		},
+	},
+	type: 'object',
+	required: ['entity', 'reportingYear', 'indicatorCode', 'indicatorName', 'groups'],
+	title: 'IndicatorGroupReport',
+	description: 'One indicator, broken out by student group.',
+} as const
+
+export const IndicatorPublicSchema = {
+	properties: {
+		code: {
+			type: 'string',
+			title: 'Code',
+		},
+		name: {
+			type: 'string',
+			title: 'Name',
+		},
+		shortName: {
+			type: 'string',
+			title: 'Shortname',
+		},
+		lowerIsBetter: {
+			type: 'boolean',
+			title: 'Lowerisbetter',
+		},
+		unit: {
+			type: 'string',
+			title: 'Unit',
+		},
+		sortOrder: {
+			type: 'integer',
+			title: 'Sortorder',
+		},
+	},
+	type: 'object',
+	required: ['code', 'name', 'shortName', 'lowerIsBetter', 'unit', 'sortOrder'],
+	title: 'IndicatorPublic',
+	description: 'One of the seven state indicators.',
+} as const
+
+export const IndicatorReportSchema = {
+	properties: {
+		entity: {
+			$ref: '#/components/schemas/EntityPublic',
+		},
+		reportingYear: {
+			type: 'integer',
+			title: 'Reportingyear',
+		},
+		studentGroupCode: {
+			type: 'string',
+			title: 'Studentgroupcode',
+		},
+		results: {
+			items: {
+				$ref: '#/components/schemas/IndicatorResult',
+			},
+			type: 'array',
+			title: 'Results',
+		},
+		availableYears: {
+			items: {
+				type: 'integer',
+			},
+			type: 'array',
+			title: 'Availableyears',
+		},
+		includesProjections: {
+			type: 'boolean',
+			title: 'Includesprojections',
+			default: false,
+		},
+	},
+	type: 'object',
+	required: ['entity', 'reportingYear', 'studentGroupCode', 'results', 'availableYears'],
+	title: 'IndicatorReport',
+	description: 'Every indicator for one entity and year.',
+} as const
+
+export const IndicatorResultSchema = {
+	properties: {
+		indicatorCode: {
+			type: 'string',
+			title: 'Indicatorcode',
+		},
+		indicatorName: {
+			type: 'string',
+			title: 'Indicatorname',
+		},
+		studentGroupCode: {
+			type: 'string',
+			title: 'Studentgroupcode',
+		},
+		variant: {
+			type: 'string',
+			title: 'Variant',
+		},
+		currNumerator: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Currnumerator',
+		},
+		currDenominator: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Currdenominator',
+		},
+		currStatus: {
+			anyOf: [
+				{
+					type: 'string',
+					pattern: '^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Currstatus',
+		},
+		priorStatus: {
+			anyOf: [
+				{
+					type: 'string',
+					pattern: '^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Priorstatus',
+		},
+		change: {
+			anyOf: [
+				{
+					type: 'string',
+					pattern: '^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Change',
+		},
+		statusLevel: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Statuslevel',
+		},
+		statusLabel: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Statuslabel',
+		},
+		changeLevel: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Changelevel',
+		},
+		changeLabel: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Changelabel',
+		},
+		color: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Color',
+		},
+		colorName: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Colorname',
+		},
+		box: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Box',
+		},
+		accountabilityMet: {
+			type: 'boolean',
+			title: 'Accountabilitymet',
+			default: false,
+		},
+		smallDenominator: {
+			type: 'boolean',
+			title: 'Smalldenominator',
+			default: false,
+		},
+		dassFlag: {
+			type: 'boolean',
+			title: 'Dassflag',
+			default: false,
+		},
+		isProjected: {
+			type: 'boolean',
+			title: 'Isprojected',
+			default: false,
+		},
+		projectionBasis: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Projectionbasis',
+		},
+	},
+	type: 'object',
+	required: ['indicatorCode', 'indicatorName', 'studentGroupCode', 'variant'],
+	title: 'IndicatorResult',
+	description: "One indicator's result for one entity.",
+} as const
+
+export const IndicatorTrendPointSchema = {
+	properties: {
+		reportingYear: {
+			type: 'integer',
+			title: 'Reportingyear',
+		},
+		currStatus: {
+			anyOf: [
+				{
+					type: 'string',
+					pattern: '^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Currstatus',
+		},
+		change: {
+			anyOf: [
+				{
+					type: 'string',
+					pattern: '^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Change',
+		},
+		statusLevel: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Statuslevel',
+		},
+		changeLevel: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Changelevel',
+		},
+		color: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Color',
+		},
+		colorName: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Colorname',
+		},
+		isProjected: {
+			type: 'boolean',
+			title: 'Isprojected',
+			default: false,
+		},
+	},
+	type: 'object',
+	required: ['reportingYear'],
+	title: 'IndicatorTrendPoint',
+	description: "One year of an indicator's history.",
+} as const
+
+export const IndicatorTrendReportSchema = {
+	properties: {
+		entity: {
+			$ref: '#/components/schemas/EntityPublic',
+		},
+		indicatorCode: {
+			type: 'string',
+			title: 'Indicatorcode',
+		},
+		indicatorName: {
+			type: 'string',
+			title: 'Indicatorname',
+		},
+		studentGroupCode: {
+			type: 'string',
+			title: 'Studentgroupcode',
+		},
+		points: {
+			items: {
+				$ref: '#/components/schemas/IndicatorTrendPoint',
+			},
+			type: 'array',
+			title: 'Points',
+		},
+		missingYears: {
+			items: {
+				type: 'integer',
+			},
+			type: 'array',
+			title: 'Missingyears',
+		},
+	},
+	type: 'object',
+	required: [
+		'entity',
+		'indicatorCode',
+		'indicatorName',
+		'studentGroupCode',
+		'points',
+		'missingYears',
+	],
+	title: 'IndicatorTrendReport',
+	description: 'One indicator over time for one entity.',
 } as const
 
 export const IngestFilePublicSchema = {
@@ -2277,6 +2810,24 @@ export const SchoolsSummarySchema = {
 	type: 'object',
 	required: ['data', 'count'],
 	title: 'SchoolsSummary',
+} as const
+
+export const StudentGroupCodePublicSchema = {
+	properties: {
+		code: {
+			type: 'string',
+			title: 'Code',
+		},
+		name: {
+			type: 'string',
+			title: 'Name',
+		},
+	},
+	type: 'object',
+	required: ['code', 'name'],
+	title: 'StudentGroupCodePublic',
+	description:
+		"A Dashboard student group.\n\nThese are the state's short codes, which are not the numeric CAASPP and\nELPAC group ids used by the assessment reports.",
 } as const
 
 export const StudentGroupPublicSchema = {

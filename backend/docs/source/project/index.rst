@@ -29,3 +29,9 @@ Learn how to build and run the application locally.
    :maxdepth: 2
 
    security
+
+.. toctree::
+   :caption: Updates
+   :maxdepth: 2
+
+   update_august

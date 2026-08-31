@@ -66,6 +66,7 @@ import { Route as StatusUpgradeSuccessRouteImport } from './routes/_status/upgra
 import { Route as StatusVerifyEmailRouteImport } from './routes/_status/verify-email'
 import { Route as StatusWebhookConfiguredRouteImport } from './routes/_status/webhook-configured'
 import { Route as StatusWelcomeRouteImport } from './routes/_status/welcome'
+import { Route as AccountabilityIndexRouteImport } from './routes/accountability/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as Dashboard2IndexRouteImport } from './routes/dashboard2/index'
 import { Route as DeprecatedHomeRouteImport } from './routes/deprecated/home'
@@ -362,6 +363,11 @@ const StatusWelcomeRoute = StatusWelcomeRouteImport.update({
   path: '/welcome',
   getParentRoute: () => StatusRoute,
 } as any)
+const AccountabilityIndexRoute = AccountabilityIndexRouteImport.update({
+  id: '/accountability/',
+  path: '/accountability/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
@@ -476,6 +482,7 @@ export interface FileRoutesByFullPath {
   '/user/admin': typeof UserAdminRoute
   '/user/items': typeof UserItemsRoute
   '/user/settings': typeof UserSettingsRoute
+  '/accountability/': typeof AccountabilityIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard2/': typeof Dashboard2IndexRoute
   '/report/': typeof ReportIndexRoute
@@ -544,6 +551,7 @@ export interface FileRoutesByTo {
   '/user/admin': typeof UserAdminRoute
   '/user/items': typeof UserItemsRoute
   '/user/settings': typeof UserSettingsRoute
+  '/accountability': typeof AccountabilityIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard2': typeof Dashboard2IndexRoute
   '/report': typeof ReportIndexRoute
@@ -613,6 +621,7 @@ export interface FileRoutesById {
   '/user/admin': typeof UserAdminRoute
   '/user/items': typeof UserItemsRoute
   '/user/settings': typeof UserSettingsRoute
+  '/accountability/': typeof AccountabilityIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard2/': typeof Dashboard2IndexRoute
   '/report/': typeof ReportIndexRoute
@@ -683,6 +692,7 @@ export interface FileRouteTypes {
     | '/user/admin'
     | '/user/items'
     | '/user/settings'
+    | '/accountability/'
     | '/dashboard/'
     | '/dashboard2/'
     | '/report/'
@@ -751,6 +761,7 @@ export interface FileRouteTypes {
     | '/user/admin'
     | '/user/items'
     | '/user/settings'
+    | '/accountability'
     | '/dashboard'
     | '/dashboard2'
     | '/report'
@@ -819,6 +830,7 @@ export interface FileRouteTypes {
     | '/user/admin'
     | '/user/items'
     | '/user/settings'
+    | '/accountability/'
     | '/dashboard/'
     | '/dashboard2/'
     | '/report/'
@@ -838,6 +850,7 @@ export interface RootRouteChildren {
   UserAdminRoute: typeof UserAdminRoute
   UserItemsRoute: typeof UserItemsRoute
   UserSettingsRoute: typeof UserSettingsRoute
+  AccountabilityIndexRoute: typeof AccountabilityIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   Dashboard2IndexRoute: typeof Dashboard2IndexRoute
   ReportIndexRoute: typeof ReportIndexRoute
@@ -1245,6 +1258,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StatusWelcomeRouteImport
       parentRoute: typeof StatusRoute
     }
+    '/accountability/': {
+      id: '/accountability/'
+      path: '/accountability'
+      fullPath: '/accountability/'
+      preLoaderRoute: typeof AccountabilityIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/dashboard'
@@ -1442,6 +1462,7 @@ const rootRouteChildren: RootRouteChildren = {
   UserAdminRoute: UserAdminRoute,
   UserItemsRoute: UserItemsRoute,
   UserSettingsRoute: UserSettingsRoute,
+  AccountabilityIndexRoute: AccountabilityIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   Dashboard2IndexRoute: Dashboard2IndexRoute,
   ReportIndexRoute: ReportIndexRoute,
