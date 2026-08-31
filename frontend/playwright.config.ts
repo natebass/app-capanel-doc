@@ -54,7 +54,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-  		command: "vp dev",
+    command: "vp dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },

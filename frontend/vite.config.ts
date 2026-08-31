@@ -116,15 +116,7 @@ const config = defineConfig(({ command, mode }) => {
 					target: apiTarget,
 					changeOrigin: true,
 				},
-				'/docs/oauth2-redirect': {
-					target: apiTarget,
-					changeOrigin: true,
-				},
 				'/redoc': {
-					target: apiTarget,
-					changeOrigin: true,
-				},
-				'/openapi.json': {
 					target: apiTarget,
 					changeOrigin: true,
 				},

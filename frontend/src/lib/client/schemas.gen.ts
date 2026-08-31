@@ -874,6 +874,7 @@ export const IngestFilePublicSchema = {
 	type: 'object',
 	required: ['sourceKey', 'status', 'resultRows', 'subscoreRows'],
 	title: 'IngestFilePublic',
+	description: 'The outcome of one file within a run.',
 } as const
 
 export const IngestRequestSchema = {
@@ -944,6 +945,7 @@ export const IngestRunDetailSchema = {
 	type: 'object',
 	required: ['run', 'files'],
 	title: 'IngestRunDetail',
+	description: 'A run together with every file it touched.',
 } as const
 
 export const IngestRunListSchema = {
@@ -963,6 +965,7 @@ export const IngestRunListSchema = {
 	type: 'object',
 	required: ['data', 'count'],
 	title: 'IngestRunList',
+	description: 'A page of import runs.',
 } as const
 
 export const IngestRunPublicSchema = {
@@ -1041,6 +1044,7 @@ export const IngestRunPublicSchema = {
 		'subscoreRows',
 	],
 	title: 'IngestRunPublic',
+	description: 'One import run.',
 } as const
 
 export const IngestStatusSchema = {

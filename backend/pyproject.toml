@@ -32,6 +32,7 @@ dependencies = [
     "sphinx-design==0.7.0",
     "sphinxcontrib-mermaid==2.1.0",
     "fastapi[standard-no-fastapi-cloud-cli]==0.141.1",
+    "sentry-sdk>=2.68.1",
 ]
 
 [dependency-groups]

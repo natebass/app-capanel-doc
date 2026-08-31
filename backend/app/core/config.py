@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str
     SENTRY_DSN: HttpUrl | None = None
     DATABASE_URL: PostgresDsn
+    RESEARCH_FILE_SOURCE_URI: str
 
     @field_validator("DATABASE_URL", mode="before")
     @classmethod
@@ -88,4 +89,4 @@ class Settings(BaseSettings):
         return self
 
 
-settings = Settings()  # type: ignore
+settings = Settings()

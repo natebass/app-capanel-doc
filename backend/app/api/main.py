@@ -28,5 +28,5 @@ api_router.include_router(reports.router)
 api_router.include_router(ingest.router)
 
 
-if settings.ENVIRONMENT == "local":
+if settings.FASTAPI_ENV == "development":
     api_router.include_router(private.router)

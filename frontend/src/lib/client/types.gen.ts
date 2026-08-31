@@ -518,6 +518,8 @@ export type HttpValidationError = {
 
 /**
  * IngestFilePublic
+ *
+ * The outcome of one file within a run.
  */
 export type IngestFilePublic = {
 	/**
@@ -585,6 +587,8 @@ export type IngestRequest = {
 
 /**
  * IngestRunDetail
+ *
+ * A run together with every file it touched.
  */
 export type IngestRunDetail = {
 	run: IngestRunPublic
@@ -596,6 +600,8 @@ export type IngestRunDetail = {
 
 /**
  * IngestRunList
+ *
+ * A page of import runs.
  */
 export type IngestRunList = {
 	/**
@@ -610,6 +616,8 @@ export type IngestRunList = {
 
 /**
  * IngestRunPublic
+ *
+ * One import run.
  */
 export type IngestRunPublic = {
 	/**
