@@ -31,6 +31,9 @@ import type {
 	DashboardReadChildrenData,
 	DashboardReadChildrenErrors,
 	DashboardReadChildrenResponses,
+	DashboardReadGrowthData,
+	DashboardReadGrowthErrors,
+	DashboardReadGrowthResponses,
 	DashboardReadIndicatorData,
 	DashboardReadIndicatorErrors,
 	DashboardReadIndicatorResponses,
@@ -1115,6 +1118,24 @@ export class DashboardService {
 			DashboardReadChildrenErrors,
 			ThrowOnError
 		>({ url: '/api/v1/dashboard/children', ...options })
+	}
+
+	/**
+	 * Read Growth
+	 *
+	 * Growth in ELA and mathematics -- how far students moved.
+	 *
+	 * Reported for information only.  Growth is not an accountability result and
+	 * carries no performance colour.
+	 */
+	public static dashboardReadGrowth<ThrowOnError extends boolean = false>(
+		options?: Options<DashboardReadGrowthData, ThrowOnError>,
+	): RequestResult<DashboardReadGrowthResponses, DashboardReadGrowthErrors, ThrowOnError> {
+		return (options?.client ?? client).get<
+			DashboardReadGrowthResponses,
+			DashboardReadGrowthErrors,
+			ThrowOnError
+		>({ url: '/api/v1/dashboard/growth', ...options })
 	}
 }
 

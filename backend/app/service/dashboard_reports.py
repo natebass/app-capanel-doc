@@ -18,6 +18,7 @@ from app.model.dashboard import (
     DashboardStudentGroup,
 )
 from app.model.dashboard_reports import COLOR_NAMES, IndicatorResult
+from app.model.growth import GrowthResult
 from app.model.reference import Entity, EntityLevel
 
 STATE_CDS = "00000000000000"
@@ -251,3 +252,28 @@ def sort_key(reference: DashboardReference, result: IndicatorResult) -> int:
 def is_aggregate(entity: Entity) -> bool:
     """Whether an entity has children worth ranking."""
     return entity.entity_level is not EntityLevel.SCHOOL
+
+
+def growth_years(session: Session) -> list[int]:
+    """Every reporting year with growth data, newest first."""
+    years = session.exec(select(GrowthResult.reporting_year).distinct()).all()
+    return sorted(years, reverse=True)
+
+
+def fetch_growth(
+    session: Session,
+    *,
+    cds_code: str,
+    reporting_year: int,
+    student_group_code: str = ALL_STUDENTS,
+) -> list[GrowthResult]:
+    """Growth for one entity, year and student group, ELA then mathematics."""
+    return list(
+        session.exec(
+            select(GrowthResult)
+            .where(GrowthResult.cds_code == cds_code)
+            .where(GrowthResult.reporting_year == reporting_year)
+            .where(GrowthResult.student_group_code == student_group_code)
+            .order_by(col(GrowthResult.subject))
+        ).all()
+    )

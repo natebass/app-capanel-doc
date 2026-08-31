@@ -870,6 +870,149 @@ export const GradeResultSchema = {
 	description: "One grade's result, for the by-grade report.",
 } as const
 
+export const GrowthReportSchema = {
+	properties: {
+		entity: {
+			$ref: '#/components/schemas/EntityPublic',
+		},
+		reportingYear: {
+			type: 'integer',
+			title: 'Reportingyear',
+		},
+		studentGroupCode: {
+			type: 'string',
+			title: 'Studentgroupcode',
+		},
+		results: {
+			items: {
+				$ref: '#/components/schemas/GrowthResultPublic',
+			},
+			type: 'array',
+			title: 'Results',
+		},
+		availableYears: {
+			items: {
+				type: 'integer',
+			},
+			type: 'array',
+			title: 'Availableyears',
+		},
+		isInformational: {
+			type: 'boolean',
+			title: 'Isinformational',
+			default: true,
+		},
+	},
+	type: 'object',
+	required: ['entity', 'reportingYear', 'studentGroupCode', 'results', 'availableYears'],
+	title: 'GrowthReport',
+	description:
+		'Growth in ELA and mathematics for one entity and year.\n\nGrowth is published for information only: the State Board adopted it in\nJuly 2025 and it is not used for Local Control Funding Formula\neligibility.  ``isInformational`` is always true and clients must say so.',
+} as const
+
+export const GrowthResultPublicSchema = {
+	properties: {
+		subject: {
+			type: 'string',
+			title: 'Subject',
+		},
+		denominator: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Denominator',
+		},
+		growth: {
+			anyOf: [
+				{
+					type: 'string',
+					pattern: '^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Growth',
+		},
+		estimateMethod: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Estimatemethod',
+		},
+		estimateMethodName: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Estimatemethodname',
+		},
+		performanceCategory: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Performancecategory',
+		},
+		performanceCategoryName: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Performancecategoryname',
+		},
+		numberImproved: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Numberimproved',
+		},
+		percentImproved: {
+			anyOf: [
+				{
+					type: 'string',
+					pattern: '^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Percentimproved',
+		},
+	},
+	type: 'object',
+	required: ['subject'],
+	title: 'GrowthResultPublic',
+	description: "One subject's growth figure for one entity.",
+} as const
+
 export const HTTPValidationErrorSchema = {
 	properties: {
 		detail: {

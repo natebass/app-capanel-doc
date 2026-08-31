@@ -149,3 +149,33 @@ class DashboardCatalog(ApiModel):
     indicators: list[IndicatorPublic]
     student_groups: list[StudentGroupCodePublic]
     colors: dict[int, str] = COLOR_NAMES
+
+
+class GrowthResultPublic(ApiModel):
+    """One subject's growth figure for one entity."""
+
+    subject: str
+    denominator: int | None = None
+    growth: Decimal | None = None
+    estimate_method: str | None = None
+    estimate_method_name: str | None = None
+    performance_category: int | None = None
+    performance_category_name: str | None = None
+    number_improved: int | None = None
+    percent_improved: Decimal | None = None
+
+
+class GrowthReport(ApiModel):
+    """Growth in ELA and mathematics for one entity and year.
+
+    Growth is published for information only: the State Board adopted it in
+    July 2025 and it is not used for Local Control Funding Formula
+    eligibility.  ``isInformational`` is always true and clients must say so.
+    """
+
+    entity: EntityPublic
+    reporting_year: int
+    student_group_code: str
+    results: list[GrowthResultPublic]
+    available_years: list[int]
+    is_informational: bool = True

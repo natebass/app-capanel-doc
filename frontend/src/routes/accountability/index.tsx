@@ -16,6 +16,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { z } from 'zod'
 
+import { GrowthPanel } from '@/components/accountability/GrowthPanel'
 import { IndicatorCard } from '@/components/accountability/IndicatorCard'
 import { IndicatorTrend } from '@/components/accountability/IndicatorTrend'
 import { StudentGroupBreakdown } from '@/components/accountability/StudentGroupBreakdown'
@@ -311,6 +312,14 @@ function AccountabilityPage() {
 							</Tabs>
 						</CardContent>
 					</Card>
+				) : null}
+
+				{selection ? (
+					<GrowthPanel
+						cds={selection.cds}
+						year={selection.year}
+						studentGroup={selection.studentGroup}
+					/>
 				) : null}
 
 				{selection ? <LocalMeasures cds={selection.cds} year={selection.year} /> : null}

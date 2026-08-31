@@ -21,6 +21,7 @@ from app.model.dashboard import (
     DashboardIndicatorResult,
     DashboardStudentGroup,
 )
+from app.model.growth import GrowthResult
 from app.model.ingest import IngestFile, IngestRun, IngestStatus
 from app.model.item import Item, ItemCreate, ItemPublic, ItemsPublic, ItemUpdate
 from app.model.local_indicators import (
@@ -77,6 +78,7 @@ __all__ = [
     "Entity",
     "EntityLevel",
     "GradeLevel",
+    "GrowthResult",
     "IngestFile",
     "IngestRun",
     "IngestStatus",

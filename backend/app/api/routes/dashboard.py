@@ -21,12 +21,18 @@ from app.model.dashboard_reports import (
     ChildIndicatorReport,
     ChildIndicatorResult,
     DashboardCatalog,
+    GrowthReport,
+    GrowthResultPublic,
     IndicatorGroupReport,
     IndicatorPublic,
     IndicatorReport,
     IndicatorTrendPoint,
     IndicatorTrendReport,
     StudentGroupCodePublic,
+)
+from app.model.growth import (
+    ESTIMATE_METHODS,
+    GROWTH_CATEGORY_NAMES,
 )
 from app.service import dashboard_reports as service
 from app.service.dashboard_reports import ALL_STUDENTS, STATE_CDS
@@ -254,4 +260,56 @@ def read_children(
             for child, result in rows
         ],
         count=total,
+    )
+
+
+@router.get("/growth")
+def read_growth(
+    session: SessionDep,
+    response: Response,
+    cds: str = Query(default=STATE_CDS),
+    year: int | None = None,
+    student_group: str = Query(default=ALL_STUDENTS, alias="studentGroup"),
+) -> GrowthReport:
+    """Growth in ELA and mathematics -- how far students moved.
+
+    Reported for information only.  Growth is not an accountability result and
+    carries no performance colour.
+    """
+    response.headers["Cache-Control"] = CACHE_CONTROL
+    entity = load_entity(session, cds)
+    years = service.growth_years(session)
+    if not years:
+        raise HTTPException(
+            status_code=404, detail="No growth data has been imported yet."
+        )
+    reporting_year = year if year in years else years[0]
+
+    rows = service.fetch_growth(
+        session,
+        cds_code=entity.cds_code,
+        reporting_year=reporting_year,
+        student_group_code=student_group.upper(),
+    )
+    return GrowthReport(
+        entity=entity_public(entity),
+        reporting_year=reporting_year,
+        student_group_code=student_group.upper(),
+        results=[
+            GrowthResultPublic(
+                subject=row.subject,
+                denominator=row.denominator,
+                growth=row.growth,
+                estimate_method=row.estimate_method,
+                estimate_method_name=ESTIMATE_METHODS.get(row.estimate_method or ""),
+                performance_category=row.performance_category,
+                performance_category_name=GROWTH_CATEGORY_NAMES.get(
+                    row.performance_category or 0
+                ),
+                number_improved=row.number_improved,
+                percent_improved=row.percent_improved,
+            )
+            for row in rows
+        ],
+        available_years=years,
     )

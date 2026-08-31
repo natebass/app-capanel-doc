@@ -576,6 +576,83 @@ export type GradeResult = {
 }
 
 /**
+ * GrowthReport
+ *
+ * Growth in ELA and mathematics for one entity and year.
+ *
+ * Growth is published for information only: the State Board adopted it in
+ * July 2025 and it is not used for Local Control Funding Formula
+ * eligibility.  ``isInformational`` is always true and clients must say so.
+ */
+export type GrowthReport = {
+	entity: EntityPublic
+	/**
+	 * Reportingyear
+	 */
+	reportingYear: number
+	/**
+	 * Studentgroupcode
+	 */
+	studentGroupCode: string
+	/**
+	 * Results
+	 */
+	results: Array<GrowthResultPublic>
+	/**
+	 * Availableyears
+	 */
+	availableYears: Array<number>
+	/**
+	 * Isinformational
+	 */
+	isInformational?: boolean
+}
+
+/**
+ * GrowthResultPublic
+ *
+ * One subject's growth figure for one entity.
+ */
+export type GrowthResultPublic = {
+	/**
+	 * Subject
+	 */
+	subject: string
+	/**
+	 * Denominator
+	 */
+	denominator?: number | null
+	/**
+	 * Growth
+	 */
+	growth?: string | null
+	/**
+	 * Estimatemethod
+	 */
+	estimateMethod?: string | null
+	/**
+	 * Estimatemethodname
+	 */
+	estimateMethodName?: string | null
+	/**
+	 * Performancecategory
+	 */
+	performanceCategory?: number | null
+	/**
+	 * Performancecategoryname
+	 */
+	performanceCategoryName?: string | null
+	/**
+	 * Numberimproved
+	 */
+	numberImproved?: number | null
+	/**
+	 * Percentimproved
+	 */
+	percentImproved?: string | null
+}
+
+/**
  * HTTPValidationError
  */
 export type HttpValidationError = {
@@ -3947,6 +4024,45 @@ export type DashboardReadChildrenResponses = {
 
 export type DashboardReadChildrenResponse =
 	DashboardReadChildrenResponses[keyof DashboardReadChildrenResponses]
+
+export type DashboardReadGrowthData = {
+	body?: never
+	path?: never
+	query?: {
+		/**
+		 * Cds
+		 */
+		cds?: string
+		/**
+		 * Year
+		 */
+		year?: number | null
+		/**
+		 * Studentgroup
+		 */
+		studentGroup?: string
+	}
+	url: '/api/v1/dashboard/growth'
+}
+
+export type DashboardReadGrowthErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type DashboardReadGrowthError = DashboardReadGrowthErrors[keyof DashboardReadGrowthErrors]
+
+export type DashboardReadGrowthResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: GrowthReport
+}
+
+export type DashboardReadGrowthResponse =
+	DashboardReadGrowthResponses[keyof DashboardReadGrowthResponses]
 
 export type LocalIndicatorsReadCatalogData = {
 	body?: never
