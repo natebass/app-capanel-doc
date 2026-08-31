@@ -31,6 +31,9 @@ import type {
 	DashboardReadChildrenData,
 	DashboardReadChildrenErrors,
 	DashboardReadChildrenResponses,
+	DashboardReadEnrollmentData,
+	DashboardReadEnrollmentErrors,
+	DashboardReadEnrollmentResponses,
 	DashboardReadGrowthData,
 	DashboardReadGrowthErrors,
 	DashboardReadGrowthResponses,
@@ -1136,6 +1139,21 @@ export class DashboardService {
 			DashboardReadGrowthErrors,
 			ThrowOnError
 		>({ url: '/api/v1/dashboard/growth', ...options })
+	}
+
+	/**
+	 * Read Enrollment
+	 *
+	 * Who attends: every student group's share of Census Day enrolment.
+	 */
+	public static dashboardReadEnrollment<ThrowOnError extends boolean = false>(
+		options?: Options<DashboardReadEnrollmentData, ThrowOnError>,
+	): RequestResult<DashboardReadEnrollmentResponses, DashboardReadEnrollmentErrors, ThrowOnError> {
+		return (options?.client ?? client).get<
+			DashboardReadEnrollmentResponses,
+			DashboardReadEnrollmentErrors,
+			ThrowOnError
+		>({ url: '/api/v1/dashboard/enrollment', ...options })
 	}
 }
 

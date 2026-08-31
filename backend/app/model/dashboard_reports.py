@@ -179,3 +179,28 @@ class GrowthReport(ApiModel):
     results: list[GrowthResultPublic]
     available_years: list[int]
     is_informational: bool = True
+
+
+class EnrollmentGroupPublic(ApiModel):
+    """One student group's share of an entity's enrolment."""
+
+    student_group_code: str
+    name: str
+    subgroup_total: int | None = None
+    rate: Decimal | None = None
+
+
+class EnrollmentReport(ApiModel):
+    """Who attends, on the state's Census Day count.
+
+    Census Day is the first Wednesday in October, so this is a snapshot rather
+    than an average over the year.  Groups overlap -- a student can be counted
+    as Hispanic, an English learner and socioeconomically disadvantaged -- so
+    the rates do not sum to 100.
+    """
+
+    entity: EntityPublic
+    reporting_year: int
+    total_enrollment: int | None = None
+    groups: list[EnrollmentGroupPublic]
+    available_years: list[int]

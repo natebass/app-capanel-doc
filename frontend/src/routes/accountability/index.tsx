@@ -16,6 +16,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { z } from 'zod'
 
+import { CompositionPanel } from '@/components/accountability/CompositionPanel'
 import { GrowthPanel } from '@/components/accountability/GrowthPanel'
 import { IndicatorCard } from '@/components/accountability/IndicatorCard'
 import { IndicatorTrend } from '@/components/accountability/IndicatorTrend'
@@ -313,6 +314,8 @@ function AccountabilityPage() {
 						</CardContent>
 					</Card>
 				) : null}
+
+				{selection ? <CompositionPanel cds={selection.cds} year={selection.year} /> : null}
 
 				{selection ? (
 					<GrowthPanel

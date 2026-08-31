@@ -18,6 +18,7 @@ from app.model.dashboard import (
     DashboardStudentGroup,
 )
 from app.model.dashboard_reports import COLOR_NAMES, IndicatorResult
+from app.model.enrollment import EnrollmentRate
 from app.model.growth import GrowthResult
 from app.model.reference import Entity, EntityLevel
 
@@ -275,5 +276,25 @@ def fetch_growth(
             .where(GrowthResult.reporting_year == reporting_year)
             .where(GrowthResult.student_group_code == student_group_code)
             .order_by(col(GrowthResult.subject))
+        ).all()
+    )
+
+
+def enrollment_years(session: Session) -> list[int]:
+    """Every reporting year with enrolment data, newest first."""
+    years = session.exec(select(EnrollmentRate.reporting_year).distinct()).all()
+    return sorted(years, reverse=True)
+
+
+def fetch_enrollment(
+    session: Session, *, cds_code: str, reporting_year: int
+) -> list[EnrollmentRate]:
+    """Every student group's size at one entity, largest first."""
+    return list(
+        session.exec(
+            select(EnrollmentRate)
+            .where(EnrollmentRate.cds_code == cds_code)
+            .where(EnrollmentRate.reporting_year == reporting_year)
+            .order_by(col(EnrollmentRate.subgroup_total).desc().nullslast())
         ).all()
     )

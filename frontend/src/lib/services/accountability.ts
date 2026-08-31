@@ -11,6 +11,7 @@ import { queryOptions } from '@tanstack/react-query'
 
 import {
 	type ChildIndicatorReport,
+	type EnrollmentReport,
 	type GrowthReport,
 	type DashboardCatalog,
 	DashboardService,
@@ -183,6 +184,18 @@ export function explainMissingColor(result: {
 		return 'Too few students for the state to assign a performance colour.'
 	}
 	return 'The state assigned no colour to this combination.'
+}
+
+export function enrollmentQuery(cds: string, year: number) {
+	return queryOptions({
+		queryKey: ['accountability', 'enrollment', cds, year] as const,
+		queryFn: async (): Promise<EnrollmentReport> =>
+			unwrap(
+				await DashboardService.dashboardReadEnrollment({ query: { cds, year } }),
+				'Could not load enrolment.',
+			),
+		staleTime: REPORT_STALE_TIME,
+	})
 }
 
 export function growthQuery(cds: string, year: number, studentGroup: string) {

@@ -540,6 +540,88 @@ export const DashboardCatalogSchema = {
 	description: 'Everything needed to populate the accountability filters.',
 } as const
 
+export const EnrollmentGroupPublicSchema = {
+	properties: {
+		studentGroupCode: {
+			type: 'string',
+			title: 'Studentgroupcode',
+		},
+		name: {
+			type: 'string',
+			title: 'Name',
+		},
+		subgroupTotal: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Subgrouptotal',
+		},
+		rate: {
+			anyOf: [
+				{
+					type: 'string',
+					pattern: '^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Rate',
+		},
+	},
+	type: 'object',
+	required: ['studentGroupCode', 'name'],
+	title: 'EnrollmentGroupPublic',
+	description: "One student group's share of an entity's enrolment.",
+} as const
+
+export const EnrollmentReportSchema = {
+	properties: {
+		entity: {
+			$ref: '#/components/schemas/EntityPublic',
+		},
+		reportingYear: {
+			type: 'integer',
+			title: 'Reportingyear',
+		},
+		totalEnrollment: {
+			anyOf: [
+				{
+					type: 'integer',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Totalenrollment',
+		},
+		groups: {
+			items: {
+				$ref: '#/components/schemas/EnrollmentGroupPublic',
+			},
+			type: 'array',
+			title: 'Groups',
+		},
+		availableYears: {
+			items: {
+				type: 'integer',
+			},
+			type: 'array',
+			title: 'Availableyears',
+		},
+	},
+	type: 'object',
+	required: ['entity', 'reportingYear', 'groups', 'availableYears'],
+	title: 'EnrollmentReport',
+	description:
+		"Who attends, on the state's Census Day count.\n\nCensus Day is the first Wednesday in October, so this is a snapshot rather\nthan an average over the year.  Groups overlap -- a student can be counted\nas Hispanic, an English learner and socioeconomically disadvantaged -- so\nthe rates do not sum to 100.",
+} as const
+
 export const EntityAncestrySchema = {
 	properties: {
 		entity: {

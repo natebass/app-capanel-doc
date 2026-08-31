@@ -368,6 +368,60 @@ export type DashboardCatalog = {
 }
 
 /**
+ * EnrollmentGroupPublic
+ *
+ * One student group's share of an entity's enrolment.
+ */
+export type EnrollmentGroupPublic = {
+	/**
+	 * Studentgroupcode
+	 */
+	studentGroupCode: string
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Subgrouptotal
+	 */
+	subgroupTotal?: number | null
+	/**
+	 * Rate
+	 */
+	rate?: string | null
+}
+
+/**
+ * EnrollmentReport
+ *
+ * Who attends, on the state's Census Day count.
+ *
+ * Census Day is the first Wednesday in October, so this is a snapshot rather
+ * than an average over the year.  Groups overlap -- a student can be counted
+ * as Hispanic, an English learner and socioeconomically disadvantaged -- so
+ * the rates do not sum to 100.
+ */
+export type EnrollmentReport = {
+	entity: EntityPublic
+	/**
+	 * Reportingyear
+	 */
+	reportingYear: number
+	/**
+	 * Totalenrollment
+	 */
+	totalEnrollment?: number | null
+	/**
+	 * Groups
+	 */
+	groups: Array<EnrollmentGroupPublic>
+	/**
+	 * Availableyears
+	 */
+	availableYears: Array<number>
+}
+
+/**
  * EntityAncestry
  *
  * An entity together with the entities it rolls up into.
@@ -4063,6 +4117,42 @@ export type DashboardReadGrowthResponses = {
 
 export type DashboardReadGrowthResponse =
 	DashboardReadGrowthResponses[keyof DashboardReadGrowthResponses]
+
+export type DashboardReadEnrollmentData = {
+	body?: never
+	path?: never
+	query?: {
+		/**
+		 * Cds
+		 */
+		cds?: string
+		/**
+		 * Year
+		 */
+		year?: number | null
+	}
+	url: '/api/v1/dashboard/enrollment'
+}
+
+export type DashboardReadEnrollmentErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type DashboardReadEnrollmentError =
+	DashboardReadEnrollmentErrors[keyof DashboardReadEnrollmentErrors]
+
+export type DashboardReadEnrollmentResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: EnrollmentReport
+}
+
+export type DashboardReadEnrollmentResponse =
+	DashboardReadEnrollmentResponses[keyof DashboardReadEnrollmentResponses]
 
 export type LocalIndicatorsReadCatalogData = {
 	body?: never

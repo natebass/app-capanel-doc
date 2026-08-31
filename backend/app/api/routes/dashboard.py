@@ -21,6 +21,8 @@ from app.model.dashboard_reports import (
     ChildIndicatorReport,
     ChildIndicatorResult,
     DashboardCatalog,
+    EnrollmentGroupPublic,
+    EnrollmentReport,
     GrowthReport,
     GrowthResultPublic,
     IndicatorGroupReport,
@@ -308,6 +310,48 @@ def read_growth(
                 ),
                 number_improved=row.number_improved,
                 percent_improved=row.percent_improved,
+            )
+            for row in rows
+        ],
+        available_years=years,
+    )
+
+
+@router.get("/enrollment")
+def read_enrollment(
+    session: SessionDep,
+    response: Response,
+    cds: str = Query(default=STATE_CDS),
+    year: int | None = None,
+) -> EnrollmentReport:
+    """Who attends: every student group's share of Census Day enrolment."""
+    response.headers["Cache-Control"] = CACHE_CONTROL
+    entity = load_entity(session, cds)
+    years = service.enrollment_years(session)
+    if not years:
+        raise HTTPException(
+            status_code=404, detail="No enrolment data has been imported yet."
+        )
+    reporting_year = year if year in years else years[0]
+
+    reference = service.dashboard_reference(session)
+    names = {group.code: group.name for group in reference.student_groups}
+    rows = service.fetch_enrollment(
+        session, cds_code=entity.cds_code, reporting_year=reporting_year
+    )
+    total = next(
+        (row.total_enrollment for row in rows if row.total_enrollment is not None), None
+    )
+    return EnrollmentReport(
+        entity=entity_public(entity),
+        reporting_year=reporting_year,
+        total_enrollment=total,
+        groups=[
+            EnrollmentGroupPublic(
+                student_group_code=row.student_group_code,
+                name=names.get(row.student_group_code, row.student_group_code),
+                subgroup_total=row.subgroup_total,
+                rate=row.rate,
             )
             for row in rows
         ],
