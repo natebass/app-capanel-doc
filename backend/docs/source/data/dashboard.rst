@@ -97,6 +97,43 @@ Two quirks are worth knowing:
   progress files had no ``studentgroup`` column before 2024 because every row
   is English learners.  Both are recovered from the file name.
 
+The rest of the family
+----------------------------------------------------------------
+
+Four datasets published beside the seven indicators, none of which is an
+accountability result:
+
+**Growth** (``growthmodeldownload``) says how far students moved rather than
+where they landed, for ELA and mathematics.  A high-poverty school can sit Red
+on the academic indicator and Exceptional on growth, and both are true.  It has
+its own table, because colour, change and every prior figure are meaningless
+for it.  Science has no growth score -- the science test is not taken in
+consecutive grades -- and the files carry district and school rows only, so
+there is no statewide growth figure.
+
+**Census Day enrolment** (``censusenrollratesdownload``) gives each entity's
+total enrolment and the size of every student group in it, counted on the
+first Wednesday in October.  The groups overlap -- a student can be Hispanic,
+an English learner and socioeconomically disadvantaged at once -- so the rates
+do not sum to 100 and must never be stacked.
+
+**ELPAC participation** (``elpacpart``) is the 95% testing rule behind the
+participation penalties on the academic indicators.  Its columns are named
+after the year (``enrolled25``, ``prate25``, and ``enrolled24`` for the prior
+year), so they change annually and are resolved from the reporting year.  The
+first file, for 2019, named them outright and carried no prior year.
+
+**The alternative-school graduation rate** (``dass1yeargraduationrate``) is a
+one-year rate for schools with Dashboard Alternative School Status.  It is
+stored as ``GRAD`` under the variant ``DASS1YR`` rather than overwriting the
+four-year rate, and it carries no colour.  The file is published with a byte
+order mark on its first column.
+
+Participation and growth are flagged ``is_informational`` so an interface can
+keep them out of the accountability grid.  The State Board adopted growth for
+information only in July 2025; it is not used for Local Control Funding
+Formula eligibility.
+
 .. _dashboard-rules:
 
 How a colour is decided

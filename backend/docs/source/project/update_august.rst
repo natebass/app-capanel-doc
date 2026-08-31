@@ -304,27 +304,59 @@ school inherits its district's answers and every response carries
 its own LEA and reports directly -- a case a test caught by picking one and
 finding it reported for itself.
 
-Still to do from that archive
+The rest of the archive
 ----------------------------------------------------------------
 
-Three numeric datasets were found alongside the local indicators and are not
-yet ingested.  All three extend the existing pipeline rather than needing a new
-one:
+The three numeric datasets found alongside the local indicators are now
+ingested too.  All three reuse the existing pipeline.
 
-**Growth Model** (``growthmodeldownload``, 249,095 rows a year) is the
-valuable one.  Its grain is entity x subject x student group, with a
-performance category of 1--5, and it answers a question status cannot: a
-high-poverty school can sit Red on status and high on growth.  It has no
-statewide row, and the state has not published its five-by-five categories yet
-(due December 2026), so it must stay visibly informational until it does.
+.. list-table::
+   :header-rows: 1
+   :widths: 40 20 40
 
-**Census enrolment rates** (``censusenrollratesdownload``, 119,961 rows) gives
-total enrolment, subgroup size and rate.  It is the context the accountability
-pages lack: it turns "Not rated" into "Not rated -- 18 students".
+   * - Dataset
+     - Rows
+     - Where it went
+   * - Growth Model
+     - 249,095
+     - Its own table
+   * - Census Day enrolment
+     - 963,973
+     - Its own table
+   * - ELPAC participation
+     - 56,648
+     - ``dashboard_indicator_results``
+   * - Alternative-school graduation
+     - 15,382
+     - ``dashboard_indicator_results``, variant ``DASS1YR``
 
-**Participation and DASS** (``elpacpart``, ``dass1yeargraduationrate``) are
-small and explanatory -- the 95% testing rule behind participation penalties,
-and the one-year graduation rate used for alternative schools.
+**Growth was the valuable one**, and it earns a separate table.  Three of the
+indicator table's core columns -- colour, change and every prior figure --
+are meaningless for it; its ``performance_category`` is published rather than
+derived from cut points, so it is not the same kind of thing as a
+``status_level``; and the State Board adopted it for information only.  Keeping
+it structurally apart makes it hard to present as accountability by accident.
+
+**The other two did not need new tables.**  The alternative-school graduation
+rate is a graduation rate with a different cohort definition, so it is ``GRAD``
+under its own variant.  ELPAC participation has two years side by side in one
+row, which maps onto the existing current and prior columns exactly.  Its
+columns are named after the year, so they change annually and are resolved
+from the reporting year -- and the first file, for 2019, named them outright
+with no prior year at all.
+
+**Both are marked informational.**  ``dashboard_indicators`` gained an
+``is_informational`` flag, and the interface renders those measures in a
+separate, quieter section that says they carry no performance colour.  Without
+it, participation would have appeared in the same grid as the seven indicators
+and read as one of them.
+
+**Two refactors fell out of doing four datasets rather than one.**  The run
+bookkeeping shared by every importer -- skip detection, per-file records, run
+settlement -- moved to ``app/ingest/run_bookkeeping.py``, and the
+stage-then-replace-by-year load moved to ``app/ingest/staged_load.py``.  Adding
+the next family now means a parser and a loader rather than a fourth copy of
+the orchestration.
 
 Known gaps
 ----------------------------------------------------------------
@@ -333,6 +365,13 @@ Known gaps
   ranking the schools inside a district is an obvious next view.
 * ``source_extras`` is stored and queryable but nothing reads it.  The
   college/career pathway breakdown is the most useful thing in there.
+* The Sphinx build emits a handful of RST warnings because autodoc cannot
+  construct ``Settings`` -- ``DATABASE_URL`` and ``RESEARCH_FILE_SOURCE_URI``
+  are required and the docs build supplies neither, so the pydantic error text
+  is parsed as RST.  Pre-existing, and fixed by giving the build dummy values.
+* Growth has only one year of data (2025), so its trend cannot be drawn yet,
+  and the state has not published its five-by-five categories -- due December
+  2026 -- so it stays informational until it does.
 * Local indicator field names are shown as the state wrote them, typos and
   all -- ``CollaborationtInput`` renders as "Collaborationt Input".  Correcting
   the state's own column names would be inventing data; leaving them is ugly.
