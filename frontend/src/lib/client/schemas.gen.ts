@@ -1176,6 +1176,11 @@ export const IndicatorPublicSchema = {
 			type: 'integer',
 			title: 'Sortorder',
 		},
+		isInformational: {
+			type: 'boolean',
+			title: 'Isinformational',
+			default: false,
+		},
 	},
 	type: 'object',
 	required: ['code', 'name', 'shortName', 'lowerIsBetter', 'unit', 'sortOrder'],

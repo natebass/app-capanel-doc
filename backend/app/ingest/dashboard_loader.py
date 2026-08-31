@@ -34,6 +34,7 @@ from app.ingest.dashboard_parser import (
     DashboardRowParser,
     indicator_from_filename,
     iter_rows,
+    variant_from_filename,
 )
 from app.ingest.dashboard_reference import seed_dashboard_reference
 from app.ingest.loader import _ENTITY_COLUMNS, _entity_row, _merge_entity
@@ -361,9 +362,14 @@ class DashboardImportRunner:
                 header_line = next(lines, "").rstrip("\r\n")
                 if not header_line:
                     raise DashboardLayoutError(f"{obj.name} is empty")
+                indicator = indicator_from_filename(obj.name)
                 parser = DashboardRowParser(
                     header_line.split("\t"),
-                    default_indicator=indicator_from_filename(obj.name),
+                    default_indicator=indicator,
+                    default_variant=variant_from_filename(obj.name),
+                    # Participation files name their columns after the year.
+                    year_suffixed=indicator == "ELPACPART",
+                    reporting_year=file_year,
                 )
                 logger.info("loading %s", obj.name)
                 counts = self.loader.load(

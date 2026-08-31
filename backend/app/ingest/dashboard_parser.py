@@ -67,8 +67,12 @@ _COLUMNS: dict[str, tuple[str, ...]] = {
 # Both are supplied by the caller from the file name when absent.
 REQUIRED_COLUMNS = ("cds", "rtype", "reportingyear")
 
-# File name stem -> the indicator its rows belong to.
+# File name stem -> the indicator its rows belong to.  Order matters: the
+# longest distinctive prefixes are tried first so ``dass1year...`` is not
+# mistaken for something else.
 INDICATOR_BY_STEM = {
+    "dass1yeargraduationrate": "GRAD",
+    "elpacpart": "ELPACPART",
     "ela": "ELA",
     "math": "MATH",
     "chronic": "CHRO",
@@ -79,8 +83,36 @@ INDICATOR_BY_STEM = {
     "science": "SCIENCE",
 }
 
-# Indicators that report a single student group without naming it.
-IMPLIED_STUDENT_GROUP = {"ELPI": "EL"}
+# Indicators that report a single student group without naming it.  The
+# English learner files are only ever about English learners, and the 2023
+# participation file has no student group column at all.
+IMPLIED_STUDENT_GROUP = {"ELPI": "EL", "ELPACPART": "EL"}
+
+# Files whose rows describe a narrower population than the indicator's usual
+# one, and so are stored under their own variant.
+VARIANT_BY_STEM = {"dass1yeargraduationrate": "DASS1YR"}
+
+# Participation files name their columns after the year: ``enrolled25`` and
+# ``prate25`` for the current year, ``enrolled24`` for the prior one.  The
+# names therefore change annually, so they are resolved from the reporting
+# year rather than listed.
+_YEAR_SUFFIXED = {
+    "curr_denominator": "enrolled",
+    "curr_numerator": "tested",
+    "curr_status": "prate",
+    "prior_denominator": "enrolled",
+    "prior_numerator": "tested",
+    "prior_status": "prate",
+}
+
+
+def variant_from_filename(name: str) -> str | None:
+    """The variant a file's rows belong to, if it is a narrower population."""
+    stem = name.rsplit("/", 1)[-1].lower()
+    for prefix, variant in VARIANT_BY_STEM.items():
+        if stem.startswith(prefix):
+            return variant
+    return None
 
 
 def indicator_from_filename(name: str) -> str | None:
@@ -191,12 +223,18 @@ class DashboardRowParser:
         *,
         default_indicator: str | None = None,
         default_student_group: str | None = None,
+        default_variant: str | None = None,
+        year_suffixed: bool = False,
+        reporting_year: int | None = None,
     ) -> None:
         self.default_indicator = default_indicator
+        self.default_variant = default_variant
         self.default_student_group = default_student_group or IMPLIED_STUDENT_GROUP.get(
             default_indicator or ""
         )
-        self.header = [column.strip() for column in header]
+        # The DASS graduation file is published with a byte order mark, which
+        # would otherwise make its first column unmatchable.
+        self.header = [column.strip().lstrip("\ufeff") for column in header]
         lowered = [column.lower() for column in self.header]
         missing = [name for name in REQUIRED_COLUMNS if name not in lowered]
         if missing:
@@ -220,7 +258,36 @@ class DashboardRowParser:
             for index in range(len(self.header))
             if index not in claimed
         ]
+        if year_suffixed and reporting_year is not None:
+            self._claim_year_suffixed(lowered, reporting_year, claimed)
+
+        # Recompute the extras once the year-suffixed columns have been taken.
+        self._extras = [
+            (index, self.header[index])
+            for index in range(len(self.header))
+            if index not in claimed
+        ]
         self._seen_entities: set[str] = set()
+
+    def _claim_year_suffixed(
+        self, lowered: list[str], reporting_year: int, claimed: set[int]
+    ) -> None:
+        """Map ``enrolled25`` / ``enrolled24`` onto current and prior."""
+        current = f"{reporting_year % 100:02d}"
+        prior = f"{(reporting_year - 1) % 100:02d}"
+        for canonical, stem in _YEAR_SUFFIXED.items():
+            is_prior = canonical.startswith("prior")
+            candidates = [f"{stem}{prior if is_prior else current}"]
+            # The first participation file, for 2019, named its columns
+            # ``enrolled`` and ``prate`` outright and carried no prior year.
+            if not is_prior:
+                candidates.append(stem)
+            for column in candidates:
+                if column in lowered:
+                    index = lowered.index(column)
+                    self._position[canonical] = index
+                    claimed.add(index)
+                    break
 
     def _cell(self, row: Sequence[str], canonical: str) -> str | None:
         index = self._position.get(canonical)
@@ -260,7 +327,7 @@ class DashboardRowParser:
         elif indicator in {"ELA", "MATH"} and _flag(self._cell(row, "hs_cutpoints")):
             variant = "HS"
         else:
-            variant = DEFAULT_VARIANT
+            variant = self.default_variant or DEFAULT_VARIANT
 
         extras = {}
         for index, name in self._extras:

@@ -30,6 +30,7 @@ class IndicatorPublic(ApiModel):
     lower_is_better: bool
     unit: str
     sort_order: int
+    is_informational: bool = False
 
 
 class StudentGroupCodePublic(ApiModel):

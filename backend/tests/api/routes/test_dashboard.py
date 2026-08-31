@@ -228,3 +228,41 @@ def test_responses_are_cacheable(client: TestClient, year: int) -> None:
         f"{PREFIX}/indicators", params={"cds": STATE_CDS, "year": year}
     )
     assert response.headers["Cache-Control"] == "public, max-age=300"
+
+
+def test_the_catalog_separates_informational_indicators(client: TestClient) -> None:
+    """Participation is published alongside the seven but is not one of them."""
+    body = client.get(f"{PREFIX}/catalog").json()
+    informational = {i["code"] for i in body["indicators"] if i["isInformational"]}
+    accountability = {i["code"] for i in body["indicators"] if not i["isInformational"]}
+    assert "ELPACPART" in informational
+    assert {"ELA", "MATH", "CHRO", "SUSP", "GRAD", "CCI", "ELPI"} <= accountability
+    assert not informational & accountability
+
+
+def test_the_alternative_school_graduation_rate_is_a_separate_variant(
+    db: Session,
+) -> None:
+    """A one-year rate is not the four-year rate and must not overwrite it."""
+    from sqlmodel import col, select
+
+    from app.model.dashboard import DashboardIndicatorResult
+
+    variants = set(
+        db.exec(
+            select(DashboardIndicatorResult.variant)
+            .where(DashboardIndicatorResult.indicator_code == "GRAD")
+            .distinct()
+        ).all()
+    )
+    if "DASS1YR" not in variants:
+        pytest.skip("no DASS graduation data imported")
+    assert "ALL" in variants, "the four-year rate must still be there"
+    # The one-year rate is not coloured.
+    coloured = db.exec(
+        select(DashboardIndicatorResult)
+        .where(DashboardIndicatorResult.variant == "DASS1YR")
+        .where(col(DashboardIndicatorResult.color).is_not(None))
+        .limit(1)
+    ).first()
+    assert coloured is None

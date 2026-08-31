@@ -48,8 +48,8 @@ from app.model.dashboard import (
     DashboardStudentGroup,
 )
 
-# (code, name, short name, lower_is_better, unit, sort order)
-type _Indicator = tuple[str, str, str, bool, str, int]
+# (code, name, short name, lower_is_better, unit, sort order, informational)
+type _Indicator = tuple[str, str, str, bool, str, int, bool]
 # (indicator, variant, kind, level, lower bound, upper bound, label)
 type _Cutpoint = tuple[str, str, str, int, Decimal | None, Decimal | None, str]
 # (indicator, variant, small denominator, status level, change level, color)
@@ -84,14 +84,24 @@ _STUDENT_GROUPS: tuple[_StudentGroup, ...] = (
 )
 
 _INDICATORS: tuple[_Indicator, ...] = (
-    ("ELA", "English Language Arts/Literacy", "ELA", False, "dfs", 1),
-    ("MATH", "Mathematics", "Math", False, "dfs", 2),
-    ("CHRO", "Chronic Absenteeism", "Chronic Absenteeism", True, "percent", 3),
-    ("SUSP", "Suspension Rate", "Suspension", True, "percent", 4),
-    ("GRAD", "Graduation Rate", "Graduation", False, "percent", 5),
-    ("CCI", "College/Career", "College/Career", False, "percent", 6),
-    ("ELPI", "English Learner Progress", "EL Progress", False, "percent", 7),
-    ("SCIENCE", "Science", "Science", False, "points", 8),
+    ("ELA", "English Language Arts/Literacy", "ELA", False, "dfs", 1, False),
+    ("MATH", "Mathematics", "Math", False, "dfs", 2, False),
+    ("CHRO", "Chronic Absenteeism", "Chronic Absenteeism", True, "percent", 3, False),
+    ("SUSP", "Suspension Rate", "Suspension", True, "percent", 4, False),
+    ("GRAD", "Graduation Rate", "Graduation", False, "percent", 5, False),
+    ("CCI", "College/Career", "College/Career", False, "percent", 6, False),
+    ("ELPI", "English Learner Progress", "EL Progress", False, "percent", 7, False),
+    ("SCIENCE", "Science", "Science", False, "points", 8, False),
+    # Published in the same file family but outside the accountability system.
+    (
+        "ELPACPART",
+        "ELPAC Participation Rate",
+        "ELPAC Participation",
+        False,
+        "percent",
+        9,
+        True,
+    ),
 )
 
 _CUTPOINTS: tuple[_Cutpoint, ...] = (
@@ -1381,8 +1391,17 @@ def seed_dashboard_reference(session: Session) -> None:
                 "lower_is_better": lower_is_better,
                 "unit": unit,
                 "sort_order": sort_order,
+                "is_informational": informational,
             }
-            for code, name, short_name, lower_is_better, unit, sort_order in _INDICATORS
+            for (
+                code,
+                name,
+                short_name,
+                lower_is_better,
+                unit,
+                sort_order,
+                informational,
+            ) in _INDICATORS
         ],
     )
     _upsert(

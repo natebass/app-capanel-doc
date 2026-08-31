@@ -772,6 +772,10 @@ export type IndicatorPublic = {
 	 * Sortorder
 	 */
 	sortOrder: number
+	/**
+	 * Isinformational
+	 */
+	isInformational?: boolean
 }
 
 /**

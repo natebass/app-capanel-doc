@@ -64,13 +64,18 @@ class DashboardIndicator(ApiModel, table=True):
 
     __tablename__ = "dashboard_indicators"
 
-    code: str = Field(primary_key=True, max_length=8)
+    # Wide enough for the longest published code; 8 was too tight for
+    # ELPACPART.
+    code: str = Field(primary_key=True, max_length=16)
     name: str = Field(max_length=120)
     short_name: str = Field(max_length=40)
     #: Chronic absenteeism and suspension are judged in reverse: a *low* rate
     #: is the good outcome, so the status scale runs the other way.
     lower_is_better: bool = Field(default=False)
     unit: str = Field(max_length=40, description="percent, dfs or points.")
+    #: Published alongside the accountability indicators but not part of the
+    #: accountability system: it carries no colour and cannot trigger support.
+    is_informational: bool = Field(default=False)
     description: str | None = Field(default=None)
     sort_order: int = Field(default=0)
 
@@ -87,7 +92,9 @@ class DashboardStudentGroup(ApiModel, table=True):
 
     __tablename__ = "dashboard_student_groups"
 
-    code: str = Field(primary_key=True, max_length=8)
+    # Wide enough for the longest published code; 8 was too tight for
+    # ELPACPART.
+    code: str = Field(primary_key=True, max_length=16)
     name: str = Field(max_length=120)
     category: str = Field(max_length=40)
     sort_order: int = Field(default=0)
@@ -103,7 +110,7 @@ class DashboardCutpoint(ApiModel, table=True):
     __tablename__ = "dashboard_cutpoints"
 
     indicator_code: str = Field(
-        primary_key=True, max_length=8, foreign_key="dashboard_indicators.code"
+        primary_key=True, max_length=16, foreign_key="dashboard_indicators.code"
     )
     variant: str = Field(primary_key=True, max_length=16)
     kind: str = Field(primary_key=True, max_length=8, description="status or change.")
@@ -132,7 +139,7 @@ class DashboardColorCell(ApiModel, table=True):
     __tablename__ = "dashboard_color_cells"
 
     indicator_code: str = Field(
-        primary_key=True, max_length=8, foreign_key="dashboard_indicators.code"
+        primary_key=True, max_length=16, foreign_key="dashboard_indicators.code"
     )
     variant: str = Field(primary_key=True, max_length=16)
     small_denominator: bool = Field(primary_key=True)
@@ -175,7 +182,7 @@ class DashboardIndicatorResult(ApiModel, table=True):
     )
     reporting_year: int = Field(primary_key=True)
     indicator_code: str = Field(
-        primary_key=True, max_length=8, foreign_key="dashboard_indicators.code"
+        primary_key=True, max_length=16, foreign_key="dashboard_indicators.code"
     )
     student_group_code: str = Field(primary_key=True, max_length=8)
     variant: str = Field(primary_key=True, max_length=16, default=DEFAULT_VARIANT)

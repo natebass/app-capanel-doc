@@ -125,6 +125,17 @@ function AccountabilityPage() {
 		[catalog.data],
 	)
 
+	const metaFor = (code: string) => catalog.data?.indicators.find((item) => item.code === code)
+
+	/** The state publishes some measures alongside the seven without counting
+	 *  them; they must not sit in the same grid. */
+	const accountabilityResults = (indicators.data?.results ?? []).filter(
+		(result) => !metaFor(result.indicatorCode)?.isInformational,
+	)
+	const informationalResults = (indicators.data?.results ?? []).filter(
+		(result) => metaFor(result.indicatorCode)?.isInformational,
+	)
+
 	function update(next: Partial<z.infer<typeof searchSchema>>) {
 		void navigate({ search: (previous) => ({ ...previous, ...next }) })
 	}
@@ -250,23 +261,44 @@ function AccountabilityPage() {
 						<AlertDescription>{indicators.error.message}</AlertDescription>
 					</Alert>
 				) : indicators.data && indicators.data.results.length > 0 ? (
-					<section className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-						{indicators.data.results.map((result) => {
-							const meta = catalog.data?.indicators.find(
-								(item) => item.code === result.indicatorCode,
-							)
-							return (
+					<>
+						<section className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+							{accountabilityResults.map((result) => (
 								<IndicatorCard
 									key={`${result.indicatorCode}-${result.studentGroupCode}`}
 									result={result}
-									unit={meta?.unit ?? 'percent'}
-									lowerIsBetter={meta?.lowerIsBetter ?? false}
+									unit={metaFor(result.indicatorCode)?.unit ?? 'percent'}
+									lowerIsBetter={metaFor(result.indicatorCode)?.lowerIsBetter ?? false}
 									selected={result.indicatorCode === selectedIndicator}
 									onSelect={(code) => update({ indicator: code })}
 								/>
-							)
-						})}
-					</section>
+							))}
+						</section>
+
+						{informationalResults.length > 0 ? (
+							<section className='space-y-3'>
+								<h2 className='text-sm font-medium text-muted-foreground'>
+									Also published, for information
+								</h2>
+								<p className='text-sm text-muted-foreground'>
+									Reported alongside the indicators above but not part of the accountability system,
+									so these carry no performance colour.
+								</p>
+								<div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+									{informationalResults.map((result) => (
+										<IndicatorCard
+											key={`${result.indicatorCode}-${result.studentGroupCode}`}
+											result={result}
+											unit={metaFor(result.indicatorCode)?.unit ?? 'percent'}
+											lowerIsBetter={metaFor(result.indicatorCode)?.lowerIsBetter ?? false}
+											selected={result.indicatorCode === selectedIndicator}
+											onSelect={(code) => update({ indicator: code })}
+										/>
+									))}
+								</div>
+							</section>
+						) : null}
+					</>
 				) : (
 					<Alert>
 						<AlertTitle>Nothing reported</AlertTitle>

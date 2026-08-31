@@ -272,6 +272,10 @@ DASHBOARD_FILE_STEMS = (
     "science",
 )
 
+# Files in the same family that do not follow the ``{stem}download{year}``
+# naming: the alternative-school graduation rate and ELPAC participation.
+DASHBOARD_EXTRA_STEMS = ("dass1yeargraduationrate", "elpacpart")
+
 
 class HttpSource:
     """Reads Dashboard indicator files straight from the state's web server.
@@ -289,6 +293,7 @@ class HttpSource:
         *,
         years: Sequence[int] | None = None,
         stems: Sequence[str] = DASHBOARD_FILE_STEMS,
+        extra_stems: Sequence[str] = DASHBOARD_EXTRA_STEMS,
         encoding: str = DASHBOARD_ENCODING,
         names: Sequence[str] | None = None,
         opener: Any | None = None,
@@ -301,6 +306,7 @@ class HttpSource:
         # ``{stem}download{year}`` convention -- the Local Indicators are
         # published as ``Pr32025``.
         self.names = tuple(names) if names is not None else None
+        self.extra_stems = tuple(extra_stems)
         self.encoding = encoding
         self._opener = opener or urlopen
 
@@ -312,6 +318,8 @@ class HttpSource:
         for year in years:
             for stem in self.stems:
                 yield f"{stem}download{year}.txt"
+            for stem in self.extra_stems:
+                yield f"{stem}{year}.txt"
 
     def list_objects(self) -> Iterator[SourceObject]:
         # The state's server answers HEAD with a 303 redirect loop, so

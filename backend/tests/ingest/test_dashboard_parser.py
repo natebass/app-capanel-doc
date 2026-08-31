@@ -125,3 +125,73 @@ def test_figures_are_read_as_decimals() -> None:
     state = next(row for row in parsed if row.result.cds_code == "00000000000000")
     assert isinstance(state.result.curr_status, Decimal)
     assert state.result.curr_denominator is not None
+
+
+def test_the_dass_graduation_file_is_stored_under_its_own_variant() -> None:
+    """A one-year rate for alternative schools is not the four-year rate."""
+    from app.ingest.dashboard_parser import variant_from_filename
+
+    assert variant_from_filename("dass1yeargraduationrate2025.txt") == "DASS1YR"
+    assert variant_from_filename("graddownload2025.txt") is None
+
+
+def test_the_dass_file_name_maps_to_the_graduation_indicator() -> None:
+    from app.ingest.dashboard_parser import indicator_from_filename
+
+    assert indicator_from_filename("dass1yeargraduationrate2025.txt") == "GRAD"
+    assert indicator_from_filename("elpacpart2025.txt") == "ELPACPART"
+
+
+def test_a_byte_order_mark_does_not_hide_the_first_column() -> None:
+    """The DASS graduation file is published with one."""
+    parser = DashboardRowParser(
+        ["﻿cds", "rtype", "studentgroup", "indicator", "reportingyear"],
+        default_indicator="GRAD",
+    )
+    parsed = parser.parse(["01100170000000", "X", "ALL", "GRAD", "2025"])
+    assert parsed.result.cds_code == "01100170000000"
+
+
+def test_participation_columns_are_resolved_from_the_reporting_year() -> None:
+    """They are named after the year: enrolled25 now, enrolled24 before."""
+    parser = DashboardRowParser(
+        [
+            "cds",
+            "rtype",
+            "studentgroup",
+            "reportingyear",
+            "enrolled25",
+            "tested25",
+            "prate25",
+            "enrolled24",
+            "tested24",
+            "prate24",
+        ],
+        default_indicator="ELPACPART",
+        year_suffixed=True,
+        reporting_year=2025,
+    )
+    result = parser.parse(
+        ["01100170000000", "X", "EL", "2025", "100", "98", "98.0", "90", "88", "97.8"]
+    ).result
+    assert result.curr_denominator == 100
+    assert result.curr_numerator == 98
+    assert str(result.curr_status) == "98.0"
+    assert result.prior_denominator == 90
+    assert str(result.prior_status) == "97.8"
+
+
+def test_the_first_participation_file_used_unsuffixed_names() -> None:
+    """2019 wrote ``enrolled`` outright and carried no prior year."""
+    parser = DashboardRowParser(
+        ["cds", "rtype", "reportingyear", "enrolled", "tested", "prate"],
+        default_indicator="ELPACPART",
+        year_suffixed=True,
+        reporting_year=2019,
+    )
+    result = parser.parse(["01100170000000", "X", "2019", "100", "98", "98.0"]).result
+    assert result.curr_denominator == 100
+    assert str(result.curr_status) == "98.0"
+    assert result.prior_status is None
+    # No student group column either; every row is English learners.
+    assert result.student_group_code == "EL"
