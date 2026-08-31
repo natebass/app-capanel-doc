@@ -46,7 +46,7 @@ logger = logging.getLogger(__name__)
 FILE_ENCODING = "cp1252"
 
 # Extensions that can contain a research file.
-_DATA_SUFFIXES = frozenset({".txt", ".csv", ".dat"})
+_DATA_SUFFIXES = frozenset({".txt", ".csv", ".dat", ".xlsx"})
 _ARCHIVE_SUFFIXES = frozenset({".zip", ".gz"})
 
 
@@ -78,6 +78,13 @@ class ResearchFileSource(Protocol):
 
     def open_text(self, obj: SourceObject) -> AbstractContextManager[Iterator[str]]:
         """Open an object as decoded text lines."""
+
+    def open_file(self, obj: SourceObject) -> AbstractContextManager[Path]:
+        """Make an object available as a real file on disk.
+
+        Needed by readers that seek -- a spreadsheet, for instance -- which a
+        streamed HTTP or S3 response body cannot support.
+        """
 
 
 def _is_candidate(name: str) -> bool:
@@ -124,6 +131,15 @@ def _open_archive_member(
             yield lines
 
 
+@contextmanager
+def _staged(body: IO[bytes], suffix: str) -> Iterator[Path]:
+    """Copy a non-seekable stream to a temporary file and yield its path."""
+    with tempfile.NamedTemporaryFile(suffix=suffix) as staged:
+        shutil.copyfileobj(body, staged)
+        staged.flush()
+        yield Path(staged.name)
+
+
 class LocalSource:
     """Reads research files from a directory tree."""
 
@@ -166,6 +182,10 @@ class LocalSource:
             with path.open("rb") as binary, _decode(binary, self.encoding) as lines:
                 yield lines
 
+    @contextmanager
+    def open_file(self, obj: SourceObject) -> Iterator[Path]:
+        yield Path(obj.key)
+
 
 class S3Source:
     """Reads research files from an S3 bucket prefix."""
@@ -207,6 +227,12 @@ class S3Source:
                     etag=(item.get("ETag") or "").strip('"') or None,
                     last_modified=item.get("LastModified"),
                 )
+
+    @contextmanager
+    def open_file(self, obj: SourceObject) -> Iterator[Path]:
+        response = self.client.get_object(Bucket=self.bucket, Key=obj.key)
+        with _staged(response["Body"], Path(obj.name).suffix) as path:
+            yield path
 
     @contextmanager
     def open_text(self, obj: SourceObject) -> Iterator[Iterator[str]]:
@@ -264,16 +290,24 @@ class HttpSource:
         years: Sequence[int] | None = None,
         stems: Sequence[str] = DASHBOARD_FILE_STEMS,
         encoding: str = DASHBOARD_ENCODING,
+        names: Sequence[str] | None = None,
         opener: Any | None = None,
     ) -> None:
         self.base_url = base_url if base_url.endswith("/") else f"{base_url}/"
         self.uri = self.base_url
         self.years = tuple(years) if years else ()
         self.stems = tuple(stems)
+        # An explicit file list, for families that do not follow the
+        # ``{stem}download{year}`` convention -- the Local Indicators are
+        # published as ``Pr32025``.
+        self.names = tuple(names) if names is not None else None
         self.encoding = encoding
         self._opener = opener or urlopen
 
     def _candidates(self) -> Iterator[str]:
+        if self.names is not None:
+            yield from self.names
+            return
         years = self.years or range(_FIRST_DASHBOARD_YEAR, _latest_dashboard_year() + 1)
         for year in years:
             for stem in self.stems:
@@ -302,6 +336,13 @@ class HttpSource:
                 etag=(headers.get("ETag") or "").strip('"') or None,
                 last_modified=_parse_http_date(headers.get("Last-Modified")),
             )
+
+    @contextmanager
+    def open_file(self, obj: SourceObject) -> Iterator[Path]:
+        request = Request(obj.key, headers=_HTTP_HEADERS)
+        with self._opener(request, timeout=_HTTP_TIMEOUT) as response:
+            with _staged(cast(IO[bytes], response), Path(obj.name).suffix) as path:
+                yield path
 
     @contextmanager
     def open_text(self, obj: SourceObject) -> Iterator[Iterator[str]]:

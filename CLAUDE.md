@@ -1,6 +1,7 @@
-Run Python commands inside the backend folder with uv run.
+Run Python commands inside the backend folder with uv run with python 3.14. Verify changes with
+`uv run ruff format; uv run ruff check --fix; uv run ty check`
 
-Use pnpm inside the frontend folder.
+Use pnpm inside the frontend folder. Verify changes with `vp check --fix`
 
 Always write type safe Python and strictly 3.14 syntax.
 

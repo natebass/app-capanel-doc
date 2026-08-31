@@ -6,6 +6,7 @@ from app.api.routes import (
     entities,
     ingest,
     items,
+    local_indicators,
     login,
     private,
     reference,
@@ -27,6 +28,7 @@ api_router.include_router(reference.router)
 api_router.include_router(entities.router)
 api_router.include_router(reports.router)
 api_router.include_router(dashboard.router)
+api_router.include_router(local_indicators.router)
 api_router.include_router(ingest.router)
 
 

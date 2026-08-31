@@ -1,0 +1,5 @@
+cdsCode|lea|priorityNumber|requiredData|eduAlternate|altPlacement|devPlan|policyDev|partialCredit|countyPerformance|additionalInfo|meetingDate|year
+01100170000000|Alameda County Office of Education|9|3|4|4|4|4|1|Met||2025-06-10|2099
+02100250000000|Alpine County Office of Education|9|4|5|2|5|4|2|Met||2025-06-26|2099
+03100330000000|Amador County Office of Education|9|2|3|3|3|2|3|Met||2025-06-18|2099
+04100410000000|Butte County Office of Education|9|4|4|4|5|5|3|Met||2025-06-16|2099

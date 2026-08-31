@@ -20,6 +20,7 @@ import { IndicatorCard } from '@/components/accountability/IndicatorCard'
 import { IndicatorTrend } from '@/components/accountability/IndicatorTrend'
 import { StudentGroupBreakdown } from '@/components/accountability/StudentGroupBreakdown'
 import NavbarD52 from '@/components/common/navbar/navbar-D52'
+import { LocalMeasures } from '@/components/local-indicators/LocalMeasures'
 import { EntityPicker } from '@/components/results/EntityPicker'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
@@ -311,6 +312,8 @@ function AccountabilityPage() {
 						</CardContent>
 					</Card>
 				) : null}
+
+				{selection ? <LocalMeasures cds={selection.cds} year={selection.year} /> : null}
 
 				<footer className='border-t pt-6 text-xs text-muted-foreground'>
 					<p>

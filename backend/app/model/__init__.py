@@ -23,6 +23,10 @@ from app.model.dashboard import (
 )
 from app.model.ingest import IngestFile, IngestRun, IngestStatus
 from app.model.item import Item, ItemCreate, ItemPublic, ItemsPublic, ItemUpdate
+from app.model.local_indicators import (
+    LocalIndicatorPriority,
+    LocalIndicatorResult,
+)
 from app.model.other import Message, Token, TokenPayload
 from app.model.reference import (
     ApiModel,
@@ -77,6 +81,8 @@ __all__ = [
     "IngestRun",
     "IngestStatus",
     "Item",
+    "LocalIndicatorPriority",
+    "LocalIndicatorResult",
     "ItemCreate",
     "ItemPublic",
     "ItemUpdate",

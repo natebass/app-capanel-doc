@@ -18,7 +18,9 @@ by students whose primary language is other than English.
 A third publication, the **California School Dashboard**, sits on top of both.
 It is what ``caschooldashboard.org`` shows: not what students scored, but how
 the state judged a school, across seven indicators — five of which have no
-assessment source at all.  See :doc:`dashboard`.
+assessment source at all.  See :doc:`dashboard`.  It has a second half,
+:doc:`local-indicators`, where local educational agencies assess *themselves*
+against the state's funding priorities and report to their own boards.
 
 Both assessment programs are reported publicly at `caaspp-elpac.ets.org
 <https://caaspp-elpac.ets.org/caaspp/Default>`_, with the ELPAC on its own
@@ -38,6 +40,7 @@ database.
    grades
    achievement-levels
    dashboard
+   local-indicators
 
 .. toctree::
    :caption: Using the data

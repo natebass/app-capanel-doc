@@ -1,0 +1,7 @@
+CDSCode|LEA|PriorityNumber|NumMisassignments|NumMaterials|NumFacilities|Performance|AdditionalInfo|Year
+01100170000000|Alameda County Office of Education|1|0%|0%|0|Met||2099
+05615800000000|Vallecito Union|1|0|0|1|Not Met|While many capital improvements have been completed in 2017-18, a classroom, facilities and infrastructure general obligation bond measure is on the ballot November 6, 2018.  Voters may vote to approve a tax rate extension to fund the projects.|2099
+21654740000000|Sausalito Marin City|1|0|0|0|Not Met For Two or More Years|Where we have adopted curricula in math and science only; in these subject areas we have sufficient instructional materials for students use at school and/or at home.|2099
+01100170112607|Envision Academy for Arts & Technology|1|0|0|0|Met||2099
+01100170123968|Community School for Creative Education|1|0|0|0|Met||2099
+01100170124172|Yu Ming Charter|1|0|0|0|Met||2099

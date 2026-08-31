@@ -73,6 +73,18 @@ import type {
 	ItemsUpdateItemData,
 	ItemsUpdateItemErrors,
 	ItemsUpdateItemResponses,
+	LocalIndicatorsReadCatalogData,
+	LocalIndicatorsReadCatalogErrors,
+	LocalIndicatorsReadCatalogResponses,
+	LocalIndicatorsReadLocalIndicatorsData,
+	LocalIndicatorsReadLocalIndicatorsErrors,
+	LocalIndicatorsReadLocalIndicatorsResponses,
+	LocalIndicatorsReadPriorityData,
+	LocalIndicatorsReadPriorityErrors,
+	LocalIndicatorsReadPriorityResponses,
+	LocalIndicatorsReadTrendData,
+	LocalIndicatorsReadTrendErrors,
+	LocalIndicatorsReadTrendResponses,
 	LoginForcePasswordResetForUsersData,
 	LoginForcePasswordResetForUsersErrors,
 	LoginForcePasswordResetForUsersResponses,
@@ -1103,6 +1115,84 @@ export class DashboardService {
 			DashboardReadChildrenErrors,
 			ThrowOnError
 		>({ url: '/api/v1/dashboard/children', ...options })
+	}
+}
+
+export class LocalIndicatorsService {
+	/**
+	 * Read Catalog
+	 *
+	 * Everything needed to populate the local indicator filters.
+	 */
+	public static localIndicatorsReadCatalog<ThrowOnError extends boolean = false>(
+		options?: Options<LocalIndicatorsReadCatalogData, ThrowOnError>,
+	): RequestResult<
+		LocalIndicatorsReadCatalogResponses,
+		LocalIndicatorsReadCatalogErrors,
+		ThrowOnError
+	> {
+		return (options?.client ?? client).get<
+			LocalIndicatorsReadCatalogResponses,
+			LocalIndicatorsReadCatalogErrors,
+			ThrowOnError
+		>({ url: '/api/v1/local-indicators/catalog', ...options })
+	}
+
+	/**
+	 * Read Local Indicators
+	 *
+	 * Every priority one LEA reported, for one year.
+	 */
+	public static localIndicatorsReadLocalIndicators<ThrowOnError extends boolean = false>(
+		options?: Options<LocalIndicatorsReadLocalIndicatorsData, ThrowOnError>,
+	): RequestResult<
+		LocalIndicatorsReadLocalIndicatorsResponses,
+		LocalIndicatorsReadLocalIndicatorsErrors,
+		ThrowOnError
+	> {
+		return (options?.client ?? client).get<
+			LocalIndicatorsReadLocalIndicatorsResponses,
+			LocalIndicatorsReadLocalIndicatorsErrors,
+			ThrowOnError
+		>({ url: '/api/v1/local-indicators/', ...options })
+	}
+
+	/**
+	 * Read Priority
+	 *
+	 * One priority in full, including everything the LEA wrote.
+	 */
+	public static localIndicatorsReadPriority<ThrowOnError extends boolean = false>(
+		options: Options<LocalIndicatorsReadPriorityData, ThrowOnError>,
+	): RequestResult<
+		LocalIndicatorsReadPriorityResponses,
+		LocalIndicatorsReadPriorityErrors,
+		ThrowOnError
+	> {
+		return (options.client ?? client).get<
+			LocalIndicatorsReadPriorityResponses,
+			LocalIndicatorsReadPriorityErrors,
+			ThrowOnError
+		>({ url: '/api/v1/local-indicators/priority', ...options })
+	}
+
+	/**
+	 * Read Trend
+	 *
+	 * One priority across every year the LEA has reported.
+	 */
+	public static localIndicatorsReadTrend<ThrowOnError extends boolean = false>(
+		options: Options<LocalIndicatorsReadTrendData, ThrowOnError>,
+	): RequestResult<
+		LocalIndicatorsReadTrendResponses,
+		LocalIndicatorsReadTrendErrors,
+		ThrowOnError
+	> {
+		return (options.client ?? client).get<
+			LocalIndicatorsReadTrendResponses,
+			LocalIndicatorsReadTrendErrors,
+			ThrowOnError
+		>({ url: '/api/v1/local-indicators/trend', ...options })
 	}
 }
 

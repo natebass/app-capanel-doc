@@ -165,12 +165,17 @@ later district-contributed layer: the same row shape, marked provisional, with
 Corrections to earlier work
 ----------------------------------------------------------------
 
-**A committed syntax error was stopping the application booting.**
-``app/api/deps.py`` had ``except InvalidTokenError, ValidationError:``, which is
-not valid Python 3.  Because ``deps.py`` is imported by every router, the app
-could not start and the test suite could not collect.  This appears to be
-collateral from the "Fix IntelliJ lint warnings" commit.  Fixing it took the
-suite from *uncollectable* to green.
+**A retracted claim: there was no syntax error.**  An earlier draft of this
+page reported ``except InvalidTokenError, ValidationError:`` in
+``app/api/deps.py`` as a committed syntax error stopping the application from
+booting.  That was wrong.  :pep:`758` made unparenthesised exception tuples
+valid in **Python 3.14**, which is the version this project targets and runs.
+The mistake was verifying with the system interpreter -- 3.12, where it really
+is a syntax error -- instead of the project's own.  The "Fix IntelliJ lint
+warnings" commit was modernising to 3.14 syntax and was correct to do so.
+Nothing was ever broken, and the form is now used deliberately.  When checking
+syntax in this project, use ``uv run python``; ``python3`` is a different
+interpreter with different rules.
 
 **``color_calculator.py`` was less wrong than it looked, and more wrong than it
 mattered.**  Checked against the CDE tables, its academic, chronic, graduation,
@@ -234,6 +239,93 @@ behind a feature flag without a migration rewrite -- that is what ``is_projected
 and ``projection_basis`` are for -- but nothing should be built there until an
 agreement exists.  Until then, everything the site shows is public data.
 
+Second phase: the local half of the Dashboard
+----------------------------------------------------------------
+
+A local archive of files downloaded by hand from the CDE accountability site
+turned out to contain four datasets the importer did not know about.  The
+important one was seven ``Pr*.xlsx`` files: the **LCFF Local Indicators**,
+which are the entire Local Measures half of the Dashboard.  Having built the
+state half, the application had been showing one side of a two-sided document.
+
+That half is now ingested and on the page.  See :doc:`../data/local-indicators`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 55 45
+
+   * - Thing
+     - Result
+   * - Local indicator rows loaded
+     - 75,533, across 49 files
+   * - Years covered
+     - 2018, 2019 and 2021 through 2025
+   * - LEAs reporting
+     - ~2,295, of which 2,293 already existed as entities
+   * - Backend tests
+     - 193 passing
+
+**What the archive was actually worth.**  Not access -- discovery.  Every file
+in it is downloadable from the same ``www3.cde.ca.gov`` URL pattern the
+importer already used; all were probed and all returned 200.  What the archive
+supplied was the *names*.  The local copies had also already drifted: the local
+``eladownload2025.xlsx`` carried 176,042 rows against 176,088 live, though
+every statewide value still matched, so the drift was added rows rather than
+corrections.  HTTP stays the source of truth; the archive is now useful for
+offline runs, a pinned corpus, and fixtures.
+
+**The real decision was format, not location.**  Both ``.txt`` and ``.xlsx``
+are downloadable, and the choice is settled by one measurement: a Priority 3
+narrative is 2,035 characters in both, with ten paragraph breaks in the
+spreadsheet and none in the text export.  Numeric files are equivalent in
+either format; narrative files are not.  So the state indicators keep reading
+``.txt`` and the local indicators read ``.xlsx``.  ``openpyxl`` was already a
+declared and unused dependency, so this cost nothing.
+
+**Why the local indicators get their own table.**  They have no colour, no cut
+points and no five-by-five grid -- only ``Met``, ``Not Met`` or ``Not Met For
+Two or More Years`` -- and the grain is the LEA rather than the school.
+Folding them into ``dashboard_indicator_results`` would have implied an
+equivalence the state does not make.  The API and the interface both refuse the
+Dashboard palette here for the same reason.
+
+**Why almost everything lives in JSON.**  These files have no stable schema.
+The delimiter changes (2022 and 2023 are tab-delimited, every other year is
+pipe-delimited), the columns are renamed across years (``CDSCode`` /
+``cdsCode`` / ``cdscode``; ``PriorityNumber`` / ``priorityId``; ``Performance``
+/ ``countyPerformance``), and the column sets are restructured -- Priority 3
+has been published with 8, 21, 27 and 28 columns.  Only a small envelope gets
+columns; everything else is kept verbatim under the name the state used that
+year.  All 49 files load through one parser.
+
+**A school is not an LEA.**  Local indicators are reported by the agency, so a
+school inherits its district's answers and every response carries
+``reportedBy`` naming the entity that actually answered.  A charter school is
+its own LEA and reports directly -- a case a test caught by picking one and
+finding it reported for itself.
+
+Still to do from that archive
+----------------------------------------------------------------
+
+Three numeric datasets were found alongside the local indicators and are not
+yet ingested.  All three extend the existing pipeline rather than needing a new
+one:
+
+**Growth Model** (``growthmodeldownload``, 249,095 rows a year) is the
+valuable one.  Its grain is entity x subject x student group, with a
+performance category of 1--5, and it answers a question status cannot: a
+high-poverty school can sit Red on status and high on growth.  It has no
+statewide row, and the state has not published its five-by-five categories yet
+(due December 2026), so it must stay visibly informational until it does.
+
+**Census enrolment rates** (``censusenrollratesdownload``, 119,961 rows) gives
+total enrolment, subgroup size and rate.  It is the context the accountability
+pages lack: it turns "Not rated" into "Not rated -- 18 students".
+
+**Participation and DASS** (``elpacpart``, ``dass1yeargraduationrate``) are
+small and explanatory -- the 95% testing rule behind participation penalties,
+and the one-year graduation rate used for alternative schools.
+
 Known gaps
 ----------------------------------------------------------------
 
@@ -241,6 +333,10 @@ Known gaps
   ranking the schools inside a district is an obvious next view.
 * ``source_extras`` is stored and queryable but nothing reads it.  The
   college/career pathway breakdown is the most useful thing in there.
+* Local indicator field names are shown as the state wrote them, typos and
+  all -- ``CollaborationtInput`` renders as "Collaborationt Input".  Correcting
+  the state's own column names would be inventing data; leaving them is ugly.
+  Worth a display-name lookup eventually.
 * The ``feature/`` documentation tree still describes seven components that do
   not exist and a stack (React 18, Chakra, Pandas, D3) that is not in use.  It
   needs rewriting against reality.

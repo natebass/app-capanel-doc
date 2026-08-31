@@ -1138,6 +1138,184 @@ export type LevelSchemePublic = {
 }
 
 /**
+ * LocalIndicatorCatalog
+ *
+ * Everything needed to populate the local indicator filters.
+ */
+export type LocalIndicatorCatalog = {
+	/**
+	 * Reportingyear
+	 */
+	reportingYear: number
+	/**
+	 * Years
+	 */
+	years: Array<number>
+	/**
+	 * Priorities
+	 */
+	priorities: Array<PriorityPublic>
+	/**
+	 * Performancevalues
+	 */
+	performanceValues: Array<string>
+}
+
+/**
+ * LocalIndicatorDetail
+ *
+ * One priority in full, including everything the LEA wrote.
+ */
+export type LocalIndicatorDetail = {
+	/**
+	 * Prioritynumber
+	 */
+	priorityNumber: number
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Shortname
+	 */
+	shortName: string
+	/**
+	 * Description
+	 */
+	description?: string | null
+	/**
+	 * Countyofficeonly
+	 */
+	countyOfficeOnly?: boolean
+	/**
+	 * Performance
+	 */
+	performance?: string | null
+	/**
+	 * Meetingdate
+	 */
+	meetingDate?: string | null
+	/**
+	 * Additionalinfo
+	 */
+	additionalInfo?: string | null
+	/**
+	 * Ratings
+	 */
+	ratings?: {
+		[key: string]: number
+	}
+	/**
+	 * Narratives
+	 */
+	narratives?: Array<{
+		[key: string]: string
+	}>
+}
+
+/**
+ * LocalIndicatorReport
+ *
+ * Every priority for one LEA and year.
+ */
+export type LocalIndicatorReport = {
+	entity: EntityPublic
+	reportedBy: EntityPublic
+	/**
+	 * Reportingyear
+	 */
+	reportingYear: number
+	/**
+	 * Priorities
+	 */
+	priorities: Array<LocalIndicatorSummary>
+	/**
+	 * Availableyears
+	 */
+	availableYears: Array<number>
+}
+
+/**
+ * LocalIndicatorSummary
+ *
+ * One priority's headline result for one LEA.
+ */
+export type LocalIndicatorSummary = {
+	/**
+	 * Prioritynumber
+	 */
+	priorityNumber: number
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Shortname
+	 */
+	shortName: string
+	/**
+	 * Countyofficeonly
+	 */
+	countyOfficeOnly?: boolean
+	/**
+	 * Performance
+	 */
+	performance?: string | null
+	/**
+	 * Meetingdate
+	 */
+	meetingDate?: string | null
+	/**
+	 * Responsecount
+	 */
+	responseCount?: number
+	/**
+	 * Hasnarrative
+	 */
+	hasNarrative?: boolean
+}
+
+/**
+ * LocalIndicatorTrendPoint
+ */
+export type LocalIndicatorTrendPoint = {
+	/**
+	 * Reportingyear
+	 */
+	reportingYear: number
+	/**
+	 * Performance
+	 */
+	performance?: string | null
+	/**
+	 * Meetingdate
+	 */
+	meetingDate?: string | null
+}
+
+/**
+ * LocalIndicatorTrendReport
+ *
+ * One priority across every year the LEA has reported.
+ */
+export type LocalIndicatorTrendReport = {
+	entity: EntityPublic
+	reportedBy: EntityPublic
+	/**
+	 * Prioritynumber
+	 */
+	priorityNumber: number
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Points
+	 */
+	points: Array<LocalIndicatorTrendPoint>
+}
+
+/**
  * Message
  *
  * A message for an API response.
@@ -1213,6 +1391,38 @@ export type OverviewReport = {
 	 * Comparisons
 	 */
 	comparisons: Array<EntityResults>
+}
+
+/**
+ * PriorityPublic
+ *
+ * One of the seven LCFF priorities reported as a local indicator.
+ */
+export type PriorityPublic = {
+	/**
+	 * Prioritynumber
+	 */
+	priorityNumber: number
+	/**
+	 * Name
+	 */
+	name: string
+	/**
+	 * Shortname
+	 */
+	shortName: string
+	/**
+	 * Description
+	 */
+	description?: string | null
+	/**
+	 * Countyofficeonly
+	 */
+	countyOfficeOnly?: boolean
+	/**
+	 * Sortorder
+	 */
+	sortOrder?: number
 }
 
 /**
@@ -3737,6 +3947,156 @@ export type DashboardReadChildrenResponses = {
 
 export type DashboardReadChildrenResponse =
 	DashboardReadChildrenResponses[keyof DashboardReadChildrenResponses]
+
+export type LocalIndicatorsReadCatalogData = {
+	body?: never
+	path?: never
+	query?: {
+		/**
+		 * Year
+		 */
+		year?: number | null
+	}
+	url: '/api/v1/local-indicators/catalog'
+}
+
+export type LocalIndicatorsReadCatalogErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type LocalIndicatorsReadCatalogError =
+	LocalIndicatorsReadCatalogErrors[keyof LocalIndicatorsReadCatalogErrors]
+
+export type LocalIndicatorsReadCatalogResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: LocalIndicatorCatalog
+}
+
+export type LocalIndicatorsReadCatalogResponse =
+	LocalIndicatorsReadCatalogResponses[keyof LocalIndicatorsReadCatalogResponses]
+
+export type LocalIndicatorsReadLocalIndicatorsData = {
+	body?: never
+	path?: never
+	query?: {
+		/**
+		 * Cds
+		 *
+		 * 14-character CDS code.
+		 */
+		cds?: string
+		/**
+		 * Year
+		 */
+		year?: number | null
+	}
+	url: '/api/v1/local-indicators/'
+}
+
+export type LocalIndicatorsReadLocalIndicatorsErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type LocalIndicatorsReadLocalIndicatorsError =
+	LocalIndicatorsReadLocalIndicatorsErrors[keyof LocalIndicatorsReadLocalIndicatorsErrors]
+
+export type LocalIndicatorsReadLocalIndicatorsResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: LocalIndicatorReport
+}
+
+export type LocalIndicatorsReadLocalIndicatorsResponse =
+	LocalIndicatorsReadLocalIndicatorsResponses[keyof LocalIndicatorsReadLocalIndicatorsResponses]
+
+export type LocalIndicatorsReadPriorityData = {
+	body?: never
+	path?: never
+	query: {
+		/**
+		 * Priority
+		 *
+		 * LCFF priority number, e.g. 3.
+		 */
+		priority: number
+		/**
+		 * Cds
+		 */
+		cds?: string
+		/**
+		 * Year
+		 */
+		year?: number | null
+	}
+	url: '/api/v1/local-indicators/priority'
+}
+
+export type LocalIndicatorsReadPriorityErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type LocalIndicatorsReadPriorityError =
+	LocalIndicatorsReadPriorityErrors[keyof LocalIndicatorsReadPriorityErrors]
+
+export type LocalIndicatorsReadPriorityResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: LocalIndicatorDetail
+}
+
+export type LocalIndicatorsReadPriorityResponse =
+	LocalIndicatorsReadPriorityResponses[keyof LocalIndicatorsReadPriorityResponses]
+
+export type LocalIndicatorsReadTrendData = {
+	body?: never
+	path?: never
+	query: {
+		/**
+		 * Priority
+		 *
+		 * LCFF priority number, e.g. 3.
+		 */
+		priority: number
+		/**
+		 * Cds
+		 */
+		cds?: string
+	}
+	url: '/api/v1/local-indicators/trend'
+}
+
+export type LocalIndicatorsReadTrendErrors = {
+	/**
+	 * Validation Error
+	 */
+	422: HttpValidationError
+}
+
+export type LocalIndicatorsReadTrendError =
+	LocalIndicatorsReadTrendErrors[keyof LocalIndicatorsReadTrendErrors]
+
+export type LocalIndicatorsReadTrendResponses = {
+	/**
+	 * Successful Response
+	 */
+	200: LocalIndicatorTrendReport
+}
+
+export type LocalIndicatorsReadTrendResponse =
+	LocalIndicatorsReadTrendResponses[keyof LocalIndicatorsReadTrendResponses]
 
 export type IngestListRunsData = {
 	body?: never

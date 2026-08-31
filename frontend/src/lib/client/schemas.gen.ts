@@ -1837,6 +1837,287 @@ export const LevelSchemePublicSchema = {
 	title: 'LevelSchemePublic',
 } as const
 
+export const LocalIndicatorCatalogSchema = {
+	properties: {
+		reportingYear: {
+			type: 'integer',
+			title: 'Reportingyear',
+		},
+		years: {
+			items: {
+				type: 'integer',
+			},
+			type: 'array',
+			title: 'Years',
+		},
+		priorities: {
+			items: {
+				$ref: '#/components/schemas/PriorityPublic',
+			},
+			type: 'array',
+			title: 'Priorities',
+		},
+		performanceValues: {
+			items: {
+				type: 'string',
+			},
+			type: 'array',
+			title: 'Performancevalues',
+		},
+	},
+	type: 'object',
+	required: ['reportingYear', 'years', 'priorities', 'performanceValues'],
+	title: 'LocalIndicatorCatalog',
+	description: 'Everything needed to populate the local indicator filters.',
+} as const
+
+export const LocalIndicatorDetailSchema = {
+	properties: {
+		priorityNumber: {
+			type: 'integer',
+			title: 'Prioritynumber',
+		},
+		name: {
+			type: 'string',
+			title: 'Name',
+		},
+		shortName: {
+			type: 'string',
+			title: 'Shortname',
+		},
+		description: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Description',
+		},
+		countyOfficeOnly: {
+			type: 'boolean',
+			title: 'Countyofficeonly',
+			default: false,
+		},
+		performance: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Performance',
+		},
+		meetingDate: {
+			anyOf: [
+				{
+					type: 'string',
+					format: 'date',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Meetingdate',
+		},
+		additionalInfo: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Additionalinfo',
+		},
+		ratings: {
+			additionalProperties: {
+				type: 'integer',
+			},
+			type: 'object',
+			title: 'Ratings',
+			default: {},
+		},
+		narratives: {
+			items: {
+				additionalProperties: {
+					type: 'string',
+				},
+				type: 'object',
+			},
+			type: 'array',
+			title: 'Narratives',
+			default: [],
+		},
+	},
+	type: 'object',
+	required: ['priorityNumber', 'name', 'shortName'],
+	title: 'LocalIndicatorDetail',
+	description: 'One priority in full, including everything the LEA wrote.',
+} as const
+
+export const LocalIndicatorReportSchema = {
+	properties: {
+		entity: {
+			$ref: '#/components/schemas/EntityPublic',
+		},
+		reportedBy: {
+			$ref: '#/components/schemas/EntityPublic',
+		},
+		reportingYear: {
+			type: 'integer',
+			title: 'Reportingyear',
+		},
+		priorities: {
+			items: {
+				$ref: '#/components/schemas/LocalIndicatorSummary',
+			},
+			type: 'array',
+			title: 'Priorities',
+		},
+		availableYears: {
+			items: {
+				type: 'integer',
+			},
+			type: 'array',
+			title: 'Availableyears',
+		},
+	},
+	type: 'object',
+	required: ['entity', 'reportedBy', 'reportingYear', 'priorities', 'availableYears'],
+	title: 'LocalIndicatorReport',
+	description: 'Every priority for one LEA and year.',
+} as const
+
+export const LocalIndicatorSummarySchema = {
+	properties: {
+		priorityNumber: {
+			type: 'integer',
+			title: 'Prioritynumber',
+		},
+		name: {
+			type: 'string',
+			title: 'Name',
+		},
+		shortName: {
+			type: 'string',
+			title: 'Shortname',
+		},
+		countyOfficeOnly: {
+			type: 'boolean',
+			title: 'Countyofficeonly',
+			default: false,
+		},
+		performance: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Performance',
+		},
+		meetingDate: {
+			anyOf: [
+				{
+					type: 'string',
+					format: 'date',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Meetingdate',
+		},
+		responseCount: {
+			type: 'integer',
+			title: 'Responsecount',
+			default: 0,
+		},
+		hasNarrative: {
+			type: 'boolean',
+			title: 'Hasnarrative',
+			default: false,
+		},
+	},
+	type: 'object',
+	required: ['priorityNumber', 'name', 'shortName'],
+	title: 'LocalIndicatorSummary',
+	description: "One priority's headline result for one LEA.",
+} as const
+
+export const LocalIndicatorTrendPointSchema = {
+	properties: {
+		reportingYear: {
+			type: 'integer',
+			title: 'Reportingyear',
+		},
+		performance: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Performance',
+		},
+		meetingDate: {
+			anyOf: [
+				{
+					type: 'string',
+					format: 'date',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Meetingdate',
+		},
+	},
+	type: 'object',
+	required: ['reportingYear'],
+	title: 'LocalIndicatorTrendPoint',
+} as const
+
+export const LocalIndicatorTrendReportSchema = {
+	properties: {
+		entity: {
+			$ref: '#/components/schemas/EntityPublic',
+		},
+		reportedBy: {
+			$ref: '#/components/schemas/EntityPublic',
+		},
+		priorityNumber: {
+			type: 'integer',
+			title: 'Prioritynumber',
+		},
+		name: {
+			type: 'string',
+			title: 'Name',
+		},
+		points: {
+			items: {
+				$ref: '#/components/schemas/LocalIndicatorTrendPoint',
+			},
+			type: 'array',
+			title: 'Points',
+		},
+	},
+	type: 'object',
+	required: ['entity', 'reportedBy', 'priorityNumber', 'name', 'points'],
+	title: 'LocalIndicatorTrendReport',
+	description: 'One priority across every year the LEA has reported.',
+} as const
+
 export const MessageSchema = {
 	properties: {
 		message: {
@@ -1953,6 +2234,48 @@ export const OverviewReportSchema = {
 	],
 	title: 'OverviewReport',
 	description: 'The equivalent of the state\'s "Test Results" landing report.',
+} as const
+
+export const PriorityPublicSchema = {
+	properties: {
+		priorityNumber: {
+			type: 'integer',
+			title: 'Prioritynumber',
+		},
+		name: {
+			type: 'string',
+			title: 'Name',
+		},
+		shortName: {
+			type: 'string',
+			title: 'Shortname',
+		},
+		description: {
+			anyOf: [
+				{
+					type: 'string',
+				},
+				{
+					type: 'null',
+				},
+			],
+			title: 'Description',
+		},
+		countyOfficeOnly: {
+			type: 'boolean',
+			title: 'Countyofficeonly',
+			default: false,
+		},
+		sortOrder: {
+			type: 'integer',
+			title: 'Sortorder',
+			default: 0,
+		},
+	},
+	type: 'object',
+	required: ['priorityNumber', 'name', 'shortName'],
+	title: 'PriorityPublic',
+	description: 'One of the seven LCFF priorities reported as a local indicator.',
 } as const
 
 export const PrivateUserCreateSchema = {
