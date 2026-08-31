@@ -31,14 +31,13 @@ dependencies = [
     "myst-parser==5.1.0",
     "sphinx-design==0.7.0",
     "sphinxcontrib-mermaid==2.1.0",
-    "fastapi[standard-no-fastapi-cloud-cli]==0.140.13",
+    "fastapi[standard-no-fastapi-cloud-cli]==0.141.1",
 ]
 
 [dependency-groups]
 dev = [
     "pytest==9.1.1",
     "ruff==0.16.0",
-    "prek==0.4.11",
     "coverage==7.15.2",
     "ty==0.0.64",
 ]
