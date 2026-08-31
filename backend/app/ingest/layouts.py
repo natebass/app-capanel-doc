@@ -518,7 +518,7 @@ def candidate_keys(name: str) -> tuple[str, ...]:
 
 
 def resolve_layout(
-        name: str, header: list[str], *, test_year: int | None = None
+    name: str, header: list[str], *, test_year: int | None = None
 ) -> ResearchFileLayout:
     """Choose the layout that matches a file's name, header and year.
 
@@ -533,9 +533,9 @@ def resolve_layout(
         if not columns.issuperset(layout.required_columns):
             return False
         if layout.levels and not all(
-                (band.pct is None or band.pct in columns)
-                and (band.count is None or band.count in columns)
-                for band in layout.levels
+            (band.pct is None or band.pct in columns)
+            and (band.count is None or band.count in columns)
+            for band in layout.levels
         ):
             return False
         return year is None or layout.covers_year(year)

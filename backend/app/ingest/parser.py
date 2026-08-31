@@ -217,7 +217,7 @@ class RowParser:
         return self.index.get(name) if name else None
 
     def _band_positions(
-            self, bands: Sequence[BandColumns]
+        self, bands: Sequence[BandColumns]
     ) -> list[tuple[int | None, int | None]]:
         return [
             (self._optional(band.pct), self._optional(band.count)) for band in bands
@@ -229,7 +229,7 @@ class RowParser:
         return row[position]
 
     def parse(
-            self, row: Sequence[str], *, default_year: int | None = None
+        self, row: Sequence[str], *, default_year: int | None = None
     ) -> ParsedRows:
         """Convert one row into its result, subscore and entity records."""
         layout = self.layout
@@ -313,10 +313,10 @@ class RowParser:
 
         subscores: list[SubscoreRecord] = []
         for (
-                code,
-                band_positions,
-                total_position,
-                mean_position,
+            code,
+            band_positions,
+            total_position,
+            mean_position,
         ) in self._subscore_positions:
             counts: list[int | None] = []
             pcts: list[Decimal | None] = []
@@ -354,25 +354,25 @@ class RowParser:
         return ParsedRows(result=result, subscores=subscores, entity=entity)
 
     def _entity(
-            self,
-            row: Sequence[str],
-            county: str,
-            district: str,
-            school: str,
-            cds_code: str,
-            type_id: int,
-            test_year: int,
+        self,
+        row: Sequence[str],
+        county: str,
+        district: str,
+        school: str,
+        cds_code: str,
+        type_id: int,
+        test_year: int,
     ) -> EntityRecord:
         layout = self.layout
         level = entity_level_for(county, district, school)
         district_name = (
-                _clean(self._value(row, self._optional(layout.district_name))) or None
+            _clean(self._value(row, self._optional(layout.district_name))) or None
         )
         school_name = (
-                _clean(self._value(row, self._optional(layout.school_name))) or None
+            _clean(self._value(row, self._optional(layout.school_name))) or None
         )
         county_name = (
-                _clean(self._value(row, self._optional(layout.county_name))) or None
+            _clean(self._value(row, self._optional(layout.county_name))) or None
         )
         county_name = county_name or COUNTY_NAMES.get(county)
         zip_code = _clean(self._value(row, self._optional(layout.zip_code))) or None
