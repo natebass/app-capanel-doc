@@ -16,8 +16,6 @@ Backend, JSON based web API based on OpenAPI: <http://localhost:8000>
 
 Automatic interactive documentation with Swagger UI (from the OpenAPI backend): <http://localhost:8000/docs>
 
-Adminer, database web administration: <http://localhost:8080>
-
 **Note**: The first time you start your stack, it might take a minute for it to be ready. While the backend waits for
 the database to be ready and configures everything. You can check the logs to monitor it.
 
@@ -33,19 +31,34 @@ To check the logs of a specific service, add the name of the service, e.g.:
 docker compose logs backend
 ```
 
-## Mailcatcher
+## Email in local development
 
-Mailcatcher is a simple SMTP server that catches all emails sent by the backend during local development. Instead of
-sending real emails, they are captured and displayed in a web interface.
+Email is **off** by default locally. `Settings.emails_enabled` is true only when both
+`SMTP_HOST` and `EMAILS_FROM_EMAIL` are set, and `send_email` refuses to run otherwise,
+so nothing tries to reach a mail server on a developer machine.
 
-This is useful for:
+To exercise the password-reset and new-account flows without sending real mail, run any
+local SMTP catcher on port 1025 and point the backend at it:
 
-- Testing email functionality during development
-- Verifying email content and formatting
-- Debugging email-related functionality without sending real emails
+```bash
+SMTP_HOST=localhost
+SMTP_PORT=1025
+SMTP_TLS=false
+EMAILS_FROM_EMAIL=noreply@example.org
+```
 
-The backend is automatically configured to use Mailcatcher when running with Docker Compose locally (SMTP on port 1025).
-All captured emails can be viewed at <http://localhost:1080>.
+`aiosmtpd` is enough and needs no install of its own:
+
+```bash
+uv run --with aiosmtpd python -m aiosmtpd -n -l localhost:1025
+```
+
+It prints each message to the terminal, which is all you need to check that a reset link
+is correct. (The old `smtpd` module was removed from the standard library in Python
+3.12, so there is no zero-dependency option any more.)
+
+For how mail is delivered in the deployed stack -- SES, sent from a FastAPI background
+task -- see {ref}`email-with-ses`.
 
 ## Local Development
 
@@ -184,6 +197,3 @@ Automatic Interactive Docs (Swagger UI): <http://localhost:8000/docs>
 
 Automatic Alternative Docs (ReDoc): <http://localhost:8000/redoc>
 
-Adminer: <http://localhost:8080>
-
-MailCatcher: <http://localhost:1080>

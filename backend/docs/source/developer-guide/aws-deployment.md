@@ -38,97 +38,114 @@ tier, so every service that bills by the hour has to earn its place:
 
 The shape to keep in mind is that this application is read-mostly and small in
 request terms, but its *import* is large: 2.6 GB of caret-delimited statewide
-files that expand into roughly 10 GB of database. Sizing is driven by the
-import, not by traffic.
+files that expand into roughly 10 GB of database. What the instance never does
+is **build** anything — the front end is compiled on your machine or in CI and
+only the compiled output is shipped.
 
 ```{mermaid}
 flowchart LR
+    DEV["your machine / CI<br/>pnpm build"] -->|rsync dist/| CADDY
     USER((Browser)) -->|443| CADDY
-    subgraph EC2["EC2 t4g.large — Docker Compose"]
-        CADDY["caddy<br/>TLS + static front end"] -->|/api| API["backend<br/>FastAPI"]
+    subgraph EC2["EC2 t4g.small — Docker Compose"]
+        CADDY["caddy<br/>TLS + static files"] -->|/api| API["backend<br/>FastAPI"]
         API --> DB[("postgres:18<br/>on EBS gp3")]
         IMPORT["one-off import<br/>docker compose run"] --> DB
     end
-    S3[("S3<br/>capanel-…-an/resources")] -->|gateway endpoint| IMPORT
+    S3[("S3<br/>capanel-…-an/resources")] -->|streamed COPY| IMPORT
     CDE["www3.cde.ca.gov<br/>dashboard files"] --> IMPORT
 ```
 
 ## The instance
 
-**Recommended: `t4g.large` — 2 vCPU Graviton, 8 GiB RAM, in `us-west-2`**, with
-a 100 GiB gp3 root volume.
+**Recommended: `t4g.small` — 2 vCPU Graviton, 2 GiB RAM, in `us-west-2`**, with a
+60 GiB gp3 root volume.
+
+Two gigabytes sounds thin for a stack that loads 2.6 GB of research files into a
+10 GB database. It works, because of one design decision in the importer and one
+in the deployment:
+
+- **The importer never holds a file in memory.** Rows stream from S3 through a
+  generator into PostgreSQL's `COPY`. Peak resident memory is bounded by a 64 MB
+  spool and a few thousand entity records, not by file size. This is measured
+  below, and it is the reason the instance size is not driven by the 2.6 GB.
+- **Nothing is built on the instance.** The front end is compiled elsewhere and
+  only its `dist/` directory is shipped. The `npm run build` step is what would
+  actually demand 2 GB, and it does not happen here.
 
 `us-west-2` because that is where the resources bucket already is. S3-to-EC2
-transfer within a region is free, so keeping the compute in the bucket's region
-turns a 2.6 GB pull into a no-cost operation; pulling it across regions would
-cost about $0.05 per import and be markedly slower.
+transfer within a region is free, so the import pulls 2.6 GB at no cost.
 
-### Why 8 GiB
+### Where the 2 GiB goes
 
-| Consumer | Working set |
-| --- | --- |
-| PostgreSQL | `shared_buffers` at 2 GB, plus `maintenance_work_mem` for the index builds an import triggers |
-| Research file import | Streams rows, but spools subscores to a temporary file only after 64 MB, and holds one entity record per school — a few thousand — in memory |
-| Dashboard and local-indicator imports | `pandas` + `openpyxl` read whole `.xlsx` workbooks into memory; the largest is a few hundred MB expanded |
-| Caddy and the backend | A few hundred MB between them |
+| Consumer | Steady | During an import |
+| --- | --- | --- |
+| PostgreSQL `shared_buffers` | 512 MB | 512 MB |
+| PostgreSQL `maintenance_work_mem` | — | up to 256 MB, for the index build after the swap |
+| Backend (FastAPI, idle) | ~120 MB | ~120 MB |
+| Importer process | — | ~150 MB: the 64 MB subscore spool before it spills to disk, the entity dictionary, psycopg buffers |
+| Caddy serving static files | ~15 MB | ~15 MB |
+| OS and Docker daemon | ~200 MB | ~200 MB |
 
-A 4 GiB `t4g.medium` does run this, and is the right choice if you want to
-halve the compute bill and are willing to import one file at a time and never
-build the front end on the box. Below 4 GiB the import gets killed by the OOM
-killer partway through and leaves a half-loaded year behind.
+That totals roughly 1.3 GB at the peak, leaving headroom for page cache. It is
+not generous, and the two rules that keep it working are: **do not run an import
+and a front-end build at the same time** (you will not, because there is no build
+here), and **do not raise `shared_buffers`** to the quarter-of-RAM figure that is
+conventional on larger machines — on 2 GiB that starves everything else.
 
-### Burst credits are the real constraint
+```{note}
+A 10 GB database on 2 GiB of RAM means most reads come from disk rather than
+page cache. For this application that is acceptable: the reporting queries are
+index lookups on a narrow key, and gp3 gives 3,000 IOPS. Expect a cold query to
+take tens of milliseconds rather than single digits. For a prototype shown to a
+handful of people, that is invisible.
+```
 
-`t4g` instances are burstable. A `t4g.large` earns 36 CPU credits per hour,
-which sustains about 30% of two vCPUs indefinitely. An import runs both cores
-flat out for tens of minutes and will drain the credit balance.
+### Burst credits
 
-Two ways to handle that, and the first is fine:
+`t4g` instances are burstable. A `t4g.small` earns 24 CPU credits per hour,
+sustaining about 20% of two vCPUs indefinitely. Serving a prototype uses
+essentially none of that; an import uses all of it.
 
-1. **Leave `unlimited` mode on** (it is the default). The instance keeps running
-   at full speed and bills a surcharge of about $0.04 per vCPU-hour beyond the
-   earned credits. A one-hour full import that exhausts its balance costs
-   perhaps $0.08 extra. This is the recommended option: it is simpler and the
-   surcharge is noise.
-2. **Resize for the import.** Stop the instance, change the type to `m7g.large`
-   (non-burstable, same 2 vCPU / 8 GiB, ~$0.082/hour), import, and change back.
-   Worth it only if you import daily.
-
-If imports become routine, skip the dance and run `m7g.large` permanently — it
-is about $11/month more than `t4g.large` and removes a whole category of
-"why is this suddenly slow".
+Leave **`unlimited` mode on** (the default). The import runs at full speed and
+bills roughly $0.05 per vCPU-hour beyond the earned credits — a full import
+might add ten cents. Do not switch to `standard` mode to avoid that: the import
+would be throttled to a fifth of the CPU and take five times as long.
 
 ### Architecture
 
-Graviton means **arm64**. Every image in the stack has an official arm64 build
-(`postgres`, `caddy`, `node`, and the `ghcr.io/astral-sh/uv` Python images), and
-the Python dependencies here are either pure Python or ship arm64 wheels
-(`psycopg[binary]`, `pandas`, `pwdlib`). Build the images **on the instance**,
-or with `docker buildx --platform linux/arm64` if you build elsewhere — an
-x86 image will not run.
+Graviton means **arm64**. `postgres`, `caddy` and the `ghcr.io/astral-sh/uv`
+Python images all publish arm64 builds, and the runtime Python dependencies are
+pure Python or ship arm64 wheels (`psycopg[binary]`, `pwdlib`, `openpyxl`).
 
-If any of that turns into a fight, `t3.large` (x86, ~$0.083/hour) is the
-equivalent and costs about $11/month more.
+Build the backend image **on the instance** — it is a small build and does not
+need much memory — or with `docker buildx --platform linux/arm64` if you build
+it on your machine and push it.
+
+If arm64 becomes a fight, `t3.small` (x86, ~$0.0208/hour) is the equivalent at
+about $2/month more.
 
 ### Storage
 
-100 GiB gp3, which includes 3,000 IOPS and 125 MB/s at no extra charge:
+60 GiB gp3, which includes 3,000 IOPS and 125 MB/s at no extra charge:
 
 | Item | Size |
 | --- | --- |
 | Database at rest | ~10 GiB |
-| Import churn — the staged copy plus WAL, before autovacuum reclaims | ~15 GiB |
-| Cached research files, if pulled to disk | ~3 GiB |
-| Docker images and build cache | ~8 GiB |
-| OS, logs, room to breathe | ~10 GiB |
+| Import churn — staging tables and WAL, before autovacuum reclaims | ~15 GiB |
+| Subscore spool in `/tmp` during the largest file | ~5 GiB |
+| Docker images and layers | ~2 GiB |
+| OS, logs, swap file, room to breathe | ~10 GiB |
 
-That leaves roughly half the volume free, which is deliberate: a Postgres volume
-that fills up stops accepting writes, and growing a volume mid-import is not a
-pleasant thing to do. gp3 volumes can be expanded online later, so starting at
-100 GiB is a floor, not a commitment.
+The **subscore spool** is the item people forget. A research file row produces
+one result and up to six subscores, and a connection can only run one `COPY` at
+a time, so the subscores are written to a `SpooledTemporaryFile` while the
+results stream. It holds 64 MB in memory and then spills to disk — which is
+exactly the trade that keeps RAM flat, and exactly why the volume needs the
+headroom. `/tmp` inside the container must have room, so do not mount it as a
+small `tmpfs`.
 
-Do not put the database on instance store. `t4g` and `m7g` do not have any, and
-where it exists it is lost on stop.
+gp3 volumes expand online, so 60 GiB is a floor. Do not put the database on
+instance store — `t4g` has none, and where it exists it is lost on stop.
 
 ## AWS configuration
 
@@ -304,78 +321,265 @@ having:
 - An `awslogs` driver on the `backend` service only, if you want request logs to
   outlive the instance. At this traffic level that is well under $1/month.
 
+(email-with-ses)=
+### Email with SES
+
+The application sends two transactional emails — a password reset and a new
+account welcome — plus a test email for checking the configuration. Both are
+triggered by a user action and neither should make that user wait.
+
+#### Two ways in, and they are not equivalent
+
+**SES has an SMTP interface.** `app/core/utils.py` already sends through the
+`emails` library over SMTP, so pointing it at SES is four environment variables
+and no code at all:
+
+```bash
+SMTP_HOST=email-smtp.us-west-2.amazonaws.com
+SMTP_PORT=587
+SMTP_TLS=true
+SMTP_USER=<SES SMTP username>
+SMTP_PASSWORD=<SES SMTP password>
+EMAILS_FROM_EMAIL=noreply@example.org
+```
+
+The SMTP credentials are **not** IAM access keys — they are derived from an IAM
+user in the SES console, and they are long-lived secrets that have to live in
+Parameter Store. That is the one real cost of this route: the instance profile
+stops being enough.
+
+**The `boto3` SES API** avoids that. `boto3` is already a dependency for the S3
+importer and picks up the instance role automatically, so there is nothing to
+store and nothing to rotate. It also returns a message ID you can correlate
+against SES's event notifications.
+
+The API route is the better fit here, for the credential reason more than
+anything else — the deployment otherwise has no long-lived secrets outside
+Parameter Store, and adding a pair for SMTP is a step backwards.
+
+#### Sending in the background
+
+Neither route should be called inline. SES takes tens to hundreds of
+milliseconds, and a password-reset endpoint that blocks on it is a
+password-reset endpoint that hangs when SES is slow. FastAPI's `BackgroundTasks`
+runs the send after the response has been returned:
+
+```python
+from fastapi import BackgroundTasks
+
+@router.post("/password-recovery/{email}")
+def recover_password(
+    email: str, session: SessionDep, background_tasks: BackgroundTasks
+) -> Message:
+    user = crud.get_user_by_email(session=session, email=email)
+    # ... token generation, unchanged ...
+    email_data = generate_reset_password_email(
+        email_to=user.email, email=email, token=password_reset_token
+    )
+    background_tasks.add_task(
+        send_email,
+        email_to=user.email,
+        subject=email_data.subject,
+        html_content=email_data.html_content,
+    )
+    return Message(message="Password recovery email sent")
+```
+
+`send_email` stays synchronous — `BackgroundTasks` runs a plain `def` in a thread
+pool, which is exactly right for a blocking `boto3` call. Making it `async def`
+would run it on the event loop and block every other request while SES answers.
+
+```{important}
+A background task that raises does so **after** the response has gone out. The
+client is told the email was sent; nothing tells the user it was not. Log the
+failure inside `send_email` and, for password resets, watch the SES bounce and
+complaint rate rather than relying on the endpoint's status code.
+```
+
+`BackgroundTasks` is the right amount of machinery for this deployment: the work
+is one API call, it is idempotent from the user's point of view (they can ask
+for another reset link), and losing it on an instance restart costs a retry
+rather than data. A queue — SQS with a worker — is what you would reach for if
+the email mattered enough that dropping it were unacceptable, and it is not
+worth its own moving parts here.
+
+#### SES configuration
+
+```bash
+# Verify the sending domain and get the DKIM records to publish.
+aws sesv2 create-email-identity --email-identity example.org --region us-west-2
+aws sesv2 get-email-identity --email-identity example.org --region us-west-2 \
+  --query 'DkimAttributes.Tokens'
+```
+
+Publish the three returned CNAME records, plus an SPF record
+(`v=spf1 include:amazonses.com ~all`) and a DMARC record
+(`v=DMARC1; p=none; rua=mailto:dmarc@example.org`) on `_dmarc`. Verifying the
+domain rather than a single address is what lets you send as any address on it,
+and DKIM is what keeps the mail out of spam folders.
+
+**Every new account starts in the SES sandbox**, which only delivers to
+addresses you have separately verified and caps you at 200 messages a day. For a
+test deployment with a few users that may genuinely be enough — verify the few
+recipients and skip the paperwork. To leave it, request production access in the
+SES console; approval takes a day or so and asks what you send and how you
+handle bounces.
+
+Add this statement to the `capanel-instance` role policy shown earlier:
+
+```json
+{
+  "Sid": "SendEmail",
+  "Effect": "Allow",
+  "Action": ["ses:SendEmail"],
+  "Resource": "*",
+  "Condition": {
+    "StringEquals": {"ses:FromAddress": "noreply@example.org"}
+  }
+}
+```
+
+The `ses:FromAddress` condition means a compromised instance cannot send as
+anyone else on the domain.
+
+Set the region and sender on the `backend` service in `compose.yaml`:
+
+```yaml
+      AWS_REGION: us-west-2
+      EMAILS_FROM_EMAIL: noreply@example.org
+      EMAILS_FROM_NAME: California Accountability Panel
+```
+
+Keep the SES region the same as the instance — a cross-region call adds latency
+to a background task for no benefit.
+
+#### Cost
+
+The first 62,000 messages a month are free when sent from an application hosted
+on EC2; beyond that it is $0.10 per thousand. At this deployment's volume — a
+handful of password resets — **email is free**, and it stays free by a wide
+margin. It does not appear in the cost table below for that reason.
+
 ## The container files
 
 To be created in `opensacorg/app-capanel-web`.
 
+### Keeping the images small
+
+Three changes account for almost all of it, and the first two are already made
+in `pyproject.toml`:
+
+| Change | Saved |
+| --- | --- |
+| Move the Sphinx toolchain to a `docs` dependency group | ~90 MB — `sphinx`, `pydata-sphinx-theme`, `babel`, `pygments`, `docutils` |
+| Drop `pandas` and `google-auth`, which nothing under `app/` imports | ~105 MB — `pandas` pulls `numpy` and `numpy.libs` |
+| Build the front end off the instance, so no Node in any image | the whole Node toolchain |
+
+Measured on this project: a full development environment is **416 MB** of
+site-packages; a runtime-only install
+(`uv sync --frozen --no-default-groups --no-install-project`) is **124 MB**. On
+top of a ~120 MB `python3.14-slim` base and the application source, the backend
+image lands around **300 MB**, and the `caddy:2-alpine` image serving the front
+end is about **50 MB**.
+
+```{note}
+`pandas`, `openpyxl` and spreadsheets: the importer reads `.xlsx` through
+`openpyxl` in `read_only=True` streaming mode, not through `pandas`. `pandas`
+was a leftover declaration. Keeping it out matters twice over — 105 MB of image,
+and it removes the temptation to write a `read_excel()` that would load a whole
+workbook into a 2 GiB instance.
+```
+
 ### `backend/Dockerfile`
 
 ```dockerfile
-FROM ghcr.io/astral-sh/uv:python3.14-trixie-slim
+# Build stage: uv resolves and installs into /app/.venv.
+FROM ghcr.io/astral-sh/uv:python3.14-trixie-slim AS build
 
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
-    UV_PYTHON_DOWNLOADS=never \
-    PYTHONUNBUFFERED=1 \
-    PATH="/app/.venv/bin:$PATH"
+    UV_PYTHON_DOWNLOADS=never
 
 WORKDIR /app
 
-# Dependencies first, so a code change does not re-resolve the lock file.
+# Dependencies first, so a code change does not reinstall the world.
 COPY pyproject.toml uv.lock ./
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev --no-install-project
+    uv sync --frozen --no-default-groups --no-install-project
 
+# Runtime stage: the virtualenv and the source, no uv, no caches.
+FROM python:3.14-slim-trixie
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PATH="/app/.venv/bin:$PATH"
+
+WORKDIR /app
+COPY --from=build /app/.venv /app/.venv
 COPY alembic.ini ./
+COPY alembic ./alembic
 COPY app ./app
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev
+
+RUN useradd --system --create-home app && chown -R app /app
+USER app
 
 EXPOSE 8000
 CMD ["fastapi", "run", "app/main.py", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
-Two notes. The image is deliberately **not** distroless or multi-stage: the
-importer is run as a one-off `docker compose run` in this same image, and having
-`uv`, a shell, and `alembic` present is what makes that possible. And `--no-dev`
-drops `pytest`, `ruff`, and `ty`, but keeps Sphinx, which is a runtime
-dependency in `pyproject.toml` — worth revisiting if image size matters.
+`--no-default-groups` is what excludes both `dev` and `docs`; plain `--no-dev`
+would still install Sphinx. The build stage carries `uv` and its cache and is
+thrown away; only the resolved virtualenv crosses into the runtime image.
 
-### `frontend/Dockerfile`
+The runtime stage is deliberately **not** distroless. `alembic` and the ingest
+scripts are run as one-off `docker compose run` commands against this same
+image, so a shell and the console scripts have to be present. That is worth
+perhaps 30 MB and it is the difference between running a migration and not.
 
-The front end is a static build. It is compiled in a Node stage and the output
-is copied into the Caddy image that also serves it, so there is no Node in the
-running container.
+### Building the front end off the instance
 
-```dockerfile
-FROM node:24-trixie-slim AS build
-ENV PNPM_HOME=/pnpm PATH="/pnpm:$PATH"
-RUN corepack enable
-WORKDIR /app
+The front end is static. Compiling it needs about 2 GB of RAM and a full Node
+toolchain; serving it needs neither. So it is built on your machine (or in
+GitHub Actions, which gives you a 16 GB runner for free) and only the compiled
+`dist/` is shipped.
 
-COPY package.json pnpm-lock.yaml ./
-RUN --mount=type=cache,target=/pnpm/store \
-    pnpm install --frozen-lockfile
+There is **no `frontend/Dockerfile`**. The `web` service runs stock
+`caddy:2-alpine` with `dist/` bind-mounted in.
 
-COPY . .
-# Same origin in this deployment: Caddy proxies /api to the backend, so the
-# generated client can use relative URLs and no CORS is involved.
-ARG VITE_API_URL=""
-ARG VITE_BASE_PATH="/"
-RUN pnpm build
+From your machine:
 
-FROM caddy:2-alpine
-COPY --from=build /app/dist /srv
-COPY Caddyfile /etc/caddy/Caddyfile
+```bash
+cd frontend
+pnpm install
+pnpm build
+rsync -az --delete dist/ ec2-user@capanel.example.org:/opt/capanel/dist/
+```
+
+`--delete` matters: without it, files removed from a build linger and an old
+hashed bundle can be served alongside a new `index.html`.
+
+If SSH is closed (the security group section recommends closing it), tunnel
+through SSM instead — no inbound rule, no key pair:
+
+```bash
+aws ssm start-session --target i-… \
+  --document-name AWS-StartPortForwardingSession \
+  --parameters '{"portNumber":["22"],"localPortNumber":["2222"]}'
+rsync -az --delete -e "ssh -p 2222" dist/ ec2-user@localhost:/opt/capanel/dist/
 ```
 
 ```{important}
-Building the front end needs about 2 GB of RAM. On a `t4g.medium` that is the
-step most likely to be killed. Either build on a `t4g.large` and keep the image,
-or build in CI and push to ECR.
+`VITE_API_URL` and `VITE_BASE_PATH` are baked in at build time. Build with
+`VITE_API_URL` empty — Caddy serves the front end and the API on one origin, so
+the client uses relative URLs and CORS never applies. A build made for a
+different origin will fail in the browser with no error on the server.
 ```
 
-### `frontend/Caddyfile`
+The same `dist/` can be produced by a GitHub Actions job and downloaded as an
+artifact, which is worth setting up once the novelty of running `pnpm build` by
+hand wears off. Either way the instance is uninvolved.
+
+### `Caddyfile`
 
 ```text
 {$SITE_ADDRESS} {
@@ -403,6 +607,10 @@ or build in CI and push to ECR.
 route work. `SITE_ADDRESS` is the public hostname; Caddy obtains and renews the
 certificate for it automatically, which is why port 80 has to stay open.
 
+`/srv` is the `dist/` directory rsynced up from your machine, bind-mounted read
+only. Caddy picks up new files immediately, so a front-end deploy is the `rsync`
+alone — no rebuild, no restart, no downtime.
+
 ### `compose.yaml`
 
 ```yaml
@@ -418,18 +626,23 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
+    # Tuned for 2 GiB total, not for a dedicated database host.
     command:
       - postgres
       - -c
-      - shared_buffers=2GB
+      - shared_buffers=512MB
       - -c
-      - work_mem=64MB
+      - effective_cache_size=1GB
       - -c
-      - maintenance_work_mem=1GB
+      - work_mem=16MB
+      - -c
+      - maintenance_work_mem=256MB
       - -c
       - max_wal_size=4GB
       - -c
       - checkpoint_timeout=15min
+      - -c
+      - max_connections=40
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-capanel}"]
       interval: 10s
@@ -456,12 +669,9 @@ services:
       retries: 5
       start_period: 30s
 
+  # Stock Caddy. The front end is built elsewhere and rsynced into ./dist.
   web:
-    build:
-      context: ./frontend
-      args:
-        VITE_API_URL: ""
-        VITE_BASE_PATH: "/"
+    image: caddy:2-alpine
     restart: unless-stopped
     environment:
       SITE_ADDRESS: ${SITE_ADDRESS:?set SITE_ADDRESS}
@@ -469,6 +679,8 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - ./dist:/srv:ro
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
@@ -480,33 +692,40 @@ volumes:
   caddy_config:
 ```
 
-The Postgres tuning is for 8 GiB: `shared_buffers` at a quarter of RAM,
-`maintenance_work_mem` at 1 GB so index builds after an import are not paged,
-and `max_wal_size` raised to 4 GB so a bulk load does not force a checkpoint
-every few seconds. On a 4 GiB instance halve `shared_buffers` and
-`maintenance_work_mem`.
+The PostgreSQL settings are the ones that matter on a small instance:
 
-`caddy_data` must be a named volume. It holds the issued certificates, and
+- **`shared_buffers=512MB`**, a quarter of RAM. The usual advice on a dedicated
+  database host is a quarter of RAM too, but here the same 2 GiB also holds the
+  backend, Caddy, the OS and an importer. 512 MB is the ceiling before the OOM
+  killer starts making decisions for you.
+- **`maintenance_work_mem=256MB`** is what the index build after an import's
+  atomic swap uses. Lower makes the swap slow; higher risks the import peak.
+- **`max_wal_size=4GB`** so a bulk `COPY` does not force a checkpoint every few
+  seconds. This costs disk, not memory, which is the right trade here.
+- **`max_connections=40`**, down from the default 100. Each backend connection
+  reserves memory; the application needs a handful.
+
+`caddy_data` must stay a named volume — it holds the issued certificates, and
 losing it on every deploy will get the domain rate-limited by Let's Encrypt.
 
-### `backend/.dockerignore` and `frontend/.dockerignore`
+### `backend/.dockerignore`
 
 ```text
 .venv/
-node_modules/
-dist/
 __pycache__/
 *.py[cod]
 .env
 .git/
-docs/build/
+docs/
+tests/
 .pytest_cache/
 htmlcov/
-playwright-report/
 ```
 
-Without these, the build context includes the local virtualenv and
-`node_modules` and the image build slows to a crawl.
+Without this the build context includes the local virtualenv, and `docs/` alone
+is tens of megabytes of built HTML that would be copied into the build context
+on every image build. `tests/` is excluded because the runtime image has no test
+dependencies to run them with.
 
 (capanel-deploy-script)=
 ### `deploy.sh`
@@ -560,12 +779,12 @@ crash-looping the service and makes the failure visible in the deploy output.
 aws ec2 run-instances \
   --region us-west-2 \
   --image-id resolve:ssm:/aws/service/canonical/ubuntu/server/24.04/stable/current/arm64/hvm/ebs-gp3/ami-id \
-  --instance-type t4g.large \
+  --instance-type t4g.small \
   --iam-instance-profile Name=capanel-instance \
   --security-group-ids sg-… \
   --subnet-id subnet-… \
   --associate-public-ip-address \
-  --block-device-mappings '[{"DeviceName":"/dev/sda1","Ebs":{"VolumeSize":100,"VolumeType":"gp3","Encrypted":true,"DeleteOnTermination":false}}]' \
+  --block-device-mappings '[{"DeviceName":"/dev/sda1","Ebs":{"VolumeSize":60,"VolumeType":"gp3","Encrypted":true,"DeleteOnTermination":false}}]' \
   --credit-specification CpuCredits=unlimited \
   --metadata-options "HttpTokens=required" \
   --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=capanel}]'
@@ -598,8 +817,10 @@ Log out and back in for the group to take effect.
 
 ### 3. Add swap
 
-2 GB of swap on a 100 GiB volume costs nothing and is the difference between a
-front-end build that finishes and one the OOM killer takes out.
+On a 2 GiB instance swap is not optional. Nothing here should page under normal
+operation, but a 2 GB swap file turns a momentary spike — an import overlapping
+an autovacuum, say — into a slow minute instead of an OOM kill that leaves a
+half-loaded year in the database.
 
 ```bash
 sudo fallocate -l 2G /swapfile
@@ -607,6 +828,10 @@ sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
 echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+
+# Prefer reclaiming page cache over swapping out live processes.
+echo 'vm.swappiness=10' | sudo tee /etc/sysctl.d/99-swappiness.conf
+sudo sysctl -p /etc/sysctl.d/99-swappiness.conf
 ```
 
 ### 4. Clone and deploy
@@ -618,7 +843,20 @@ cd /opt/capanel
 ./deploy.sh
 ```
 
-The first build takes 10–15 minutes on a `t4g.large`, most of it the front end.
+Only the backend image is built here, and it is mostly dependency installation —
+a few minutes on a `t4g.small`. Nothing compiles JavaScript.
+
+### 4b. Ship the front end
+
+From your machine, not the instance:
+
+```bash
+cd frontend && pnpm install && pnpm build
+rsync -az --delete dist/ ec2-user@capanel.example.org:/opt/capanel/dist/
+```
+
+Caddy serves the directory directly, so this is the whole front-end deploy. Do
+it before the first `docker compose up -d` or the site will 404 until it lands.
 
 ### 5. Load the data
 
@@ -650,11 +888,49 @@ uploaded workbooks instead — worth doing if the state's server is slow or if y
 want the import pinned to the files you have already checked.
 
 Expect the research file import to take on the order of an hour and to leave the
-database around 10 GB. Watch it with `docker stats` in another session; if
-Postgres is the bottleneck rather than the CPU, raise `maintenance_work_mem`.
+database around 10 GB. Watch it with `docker stats` in another session.
 
 See {doc}`importing-research-files` for the importer's options, and
 {doc}`../data/dashboard` for what the accountability layer contains.
+
+#### Why 2.6 GB of input fits in 2 GiB of RAM
+
+The usual failure mode for an import this size — read the file into a
+DataFrame, insert row by row through the ORM, watch the kernel kill it — is
+already designed out. `app/ingest/` does the three things that matter:
+
+**Nothing is materialised.** `S3Source.open_text` hands `boto3`'s streaming
+response body to a decoder that yields lines; `iter_rows` yields lists;
+`_parsed_rows` is a generator; the loader consumes it one row at a time. There
+is no point at which more than one row of the file exists as a Python object.
+The one exception is deliberate — a dictionary of entity records keyed by CDS
+code, a few thousand entries, so schools can be upserted once at the end.
+
+**Rows go in through `COPY`, not `INSERT`.** `psycopg`'s `cursor.copy()` streams
+into an unlogged staging table, which is then swapped into place in one
+transaction. Millions of individual `INSERT` statements would take hours and
+generate WAL to match; `COPY` into an unlogged table generates almost none.
+
+**The one thing that must be buffered is spooled to disk.** A research file row
+produces one result row and up to six subscore rows, and a connection can only
+run one `COPY` at a time. So subscores are written to a `SpooledTemporaryFile`
+while the results stream — 64 MB in RAM, then transparently to disk — and copied
+in afterwards. This is the trade that keeps memory flat regardless of file size,
+and it is why the volume needs the spool headroom noted under Storage.
+
+Spreadsheets take the same care: `openpyxl` is opened with `read_only=True` and
+read through `iter_rows`, which streams the sheet rather than building it.
+
+```{important}
+Run imports as `docker compose run --rm`, **not** through the API's
+`POST /api/v1/ingest/runs` endpoint. That endpoint exists and correctly returns
+`202 Accepted` with a FastAPI background task, but on this instance it is the
+wrong tool: the work would run inside the web container, competing with request
+handling for two burstable vCPUs, and a restart or deploy mid-import would kill
+it silently. A one-off container gets its own process, its own exit code, and
+its own logs. `BackgroundTasks` is right for sending an email; an hour-long
+ingest wants a job, not a request.
+```
 
 ### 6. Verify
 
@@ -693,30 +969,33 @@ A rebuild is: fresh instance, `alembic upgrade head`, run the importers.
 
 | Item | Monthly |
 | --- | --- |
-| `t4g.large`, 730 hours | $49.06 |
-| 100 GiB gp3 root volume | $8.00 |
+| `t4g.small`, 730 hours | $12.26 |
+| 60 GiB gp3 root volume | $4.80 |
 | Public IPv4 address | $3.65 |
-| EBS snapshots, ~20 GiB after compression | $1.00 |
+| EBS snapshots, ~15 GiB after compression | $0.75 |
 | S3 storage, 3 GB | $0.07 |
+| SES, a few messages | $0.00 |
 | Data transfer out (first 100 GB/month free) | $0.00 |
-| **Total** | **~$62** |
+| **Total** | **~$22** |
 
 Adjustments worth knowing:
 
-- **`t4g.medium` instead**: −$24.50/month, at the cost of 4 GiB of headroom.
-- **Stop the instance when not testing**: the compute charge stops, EBS and the
-  Elastic IP do not. A stopped deployment costs about **$13/month**, and starts
-  back up in under a minute with the database intact. For a test deployment used
-  a few days a month this is the single biggest saving available.
-- **One-year no-upfront Reserved Instance or Savings Plan**: roughly −35% on the
-  compute line, if the instance is genuinely staying up.
+- **Stop the instance between demos.** Compute stops billing; the volume and the
+  Elastic IP do not. A stopped deployment is about **$9/month** and starts back
+  up in under a minute with the database intact. For something you show people
+  occasionally, this is the largest saving available and it costs nothing in
+  convenience.
+- **`t4g.micro`** (1 GiB) is another $6/month cheaper and is where this stops
+  working. PostgreSQL with a 512 MB `shared_buffers` plus the backend does not
+  fit, and the import will be killed. Do not.
+- **One-year no-upfront Savings Plan**: roughly −35% on the compute line, worth
+  it only if the instance genuinely stays up.
 - **Route 53 hosted zone**: +$0.50/month, avoidable by using an existing
   registrar's DNS.
 
 For comparison, the same application on ECS Fargate behind an ALB with RDS is
-$140–160/month — more than twice the price for a deployment serving a handful of
-users, and most of that difference is fixed cost that does not shrink with
-traffic.
+$140–160/month. Almost all of that difference is fixed cost that does not shrink
+with traffic, which is the wrong shape for a prototype.
 
 ## Operational notes
 
@@ -732,10 +1011,17 @@ shortly after an import without a restart.
 released; a deployment that disagrees with caschooldashboard.org is a bug. See
 {doc}`../data/dashboard`.
 
-**Updating the application** is `./deploy.sh`. There is a few seconds of
-downtime while the containers restart, which is acceptable here; a zero-downtime
-rollout needs a second instance and a load balancer, and that is exactly the
-cost this deployment is avoiding.
+**Two deploys, and they are independent.** A front-end change is `pnpm build`
+plus `rsync` and takes effect immediately, with no restart and no downtime. A
+backend change is `./deploy.sh` on the instance, which rebuilds the image and
+recreates the containers — a few seconds of downtime, acceptable here. A
+zero-downtime rollout needs a second instance and a load balancer, which is
+exactly the cost this deployment exists to avoid.
+
+**Keep an eye on memory** after any dependency change: `docker stats` and
+`free -m`. On 2 GiB there is roughly 700 MB of headroom, which is comfortable
+until something starts holding a file in memory. If `free -m` shows swap in
+steady use rather than only during an import, something regressed.
 
 **When it outgrows one instance**, the order to change things is: move Postgres
 to RDS first — it is the piece where a single instance failure actually loses
