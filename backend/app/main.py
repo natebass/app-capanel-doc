@@ -102,19 +102,8 @@ async def root() -> dict[str, str | dict[str, str]]:
         from :func:`api_links`.
     """
     return {
-        "message": f"Welcome to the {settings.PROJECT_NAME} API!",
-        "description": (
-            "The California Accountability Panel brings California public "
-            "school data together in one place: CAASPP and ELPAC assessment "
-            "results showing what students scored, alongside California "
-            "School Dashboard accountability measures showing how the state "
-            "judged each school. Results are available by school, district, "
-            "year, and student group."
-        ),
-        "gettingStarted": (
-            f"The endpoints live under {settings.API_V1_STR}. Browse them "
-            "interactively at /docs, or read the reference at /redoc."
-        ),
+        "message": f"You have successfully connected to the {settings.PROJECT_NAME} API! The endpoints live under {settings.API_V1_STR}. Browse them "
+        "interactively at /docs, or read the reference at /redoc.",
         "links": api_links(),
     }
 
@@ -147,13 +136,8 @@ async def not_found_handler(request: Request, exc: Exception) -> JSONResponse:
         status_code=404,
         content={
             "message": (
-                f"Sorry, there is nothing at {request.url.path} — but welcome "
+                f"Sorry, there is nothing at {request.url.path} — but you have successfully connected "
                 f"to the {settings.PROJECT_NAME} API!"
             ),
-            "gettingStarted": (
-                f"The endpoints live under {settings.API_V1_STR}. Browse them "
-                "interactively at /docs, or read the reference at /redoc."
-            ),
-            "links": api_links(),
         },
     )
