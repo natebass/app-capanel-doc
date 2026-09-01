@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { UsersService, type UserUpdateMe } from '@/lib/client'
+import { usersReadUserMeQueryKey, usersUpdateUserMeMutation, type UserUpdateMe } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
 import { cn } from '@/lib/utils.ts'
 import useAuth from '@/routes/-hooks/hooks/useAuth.ts'
@@ -44,7 +44,7 @@ const UserInformation = () => {
 				updateData.email = value.email
 			}
 
-			mutation.mutate(updateData)
+			mutation.mutate({ body: updateData })
 		},
 	})
 
@@ -53,14 +53,14 @@ const UserInformation = () => {
 	}
 
 	const mutation = useMutation({
-		mutationFn: (data: UserUpdateMe) => UsersService.usersUpdateUserMe({ body: data }),
+		...usersUpdateUserMeMutation(),
 		onSuccess: () => {
 			showSuccessToast('User updated successfully')
 			toggleEditMode()
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			void queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+			void queryClient.invalidateQueries({ queryKey: usersReadUserMeQueryKey() })
 		},
 	})
 

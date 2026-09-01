@@ -19,7 +19,7 @@ import {
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { type ItemCreate, ItemsService } from '@/lib/client'
+import { type ItemCreate, itemsCreateItemMutation, itemsReadItemsQueryKey } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
@@ -44,12 +44,12 @@ const AddItem = () => {
 			onChange: formSchema,
 		},
 		onSubmit: async ({ value }) => {
-			mutation.mutate(value as ItemCreate)
+			mutation.mutate({ body: value as ItemCreate })
 		},
 	})
 
 	const mutation = useMutation({
-		mutationFn: (data: ItemCreate) => ItemsService.itemsCreateItem({ body: data }),
+		...itemsCreateItemMutation(),
 		onSuccess: () => {
 			showSuccessToast('Item created successfully')
 			form.reset()
@@ -57,7 +57,7 @@ const AddItem = () => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			void queryClient.invalidateQueries({ queryKey: ['items'] })
+			void queryClient.invalidateQueries({ queryKey: itemsReadItemsQueryKey() })
 		},
 	})
 

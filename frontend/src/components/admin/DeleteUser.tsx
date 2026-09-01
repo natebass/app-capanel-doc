@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dialog'
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Spinner } from '@/components/ui/spinner'
-import { UsersService } from '@/lib/client'
+import { usersDeleteUserMutation, usersReadUsersQueryKey } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
@@ -30,7 +30,7 @@ const DeleteUser = ({ id, onSuccess }: DeleteUserProps) => {
 	const { showSuccessToast, showErrorToast } = useCustomToast()
 
 	const mutation = useMutation({
-		mutationFn: () => UsersService.usersDeleteUser({ path: { user_id: id } }),
+		...usersDeleteUserMutation(),
 		onSuccess: () => {
 			showSuccessToast('The user was deleted successfully')
 			setIsOpen(false)
@@ -38,13 +38,13 @@ const DeleteUser = ({ id, onSuccess }: DeleteUserProps) => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			void queryClient.invalidateQueries({ queryKey: ['users'] })
+			void queryClient.invalidateQueries({ queryKey: usersReadUsersQueryKey() })
 		},
 	})
 
 	const handleDelete = (e: React.FormEvent) => {
 		e.preventDefault()
-		mutation.mutate()
+		mutation.mutate({ path: { user_id: id } })
 	}
 
 	return (

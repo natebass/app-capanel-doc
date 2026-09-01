@@ -6,21 +6,8 @@ import { columns, type UserTableData } from '@/components/admin/columns'
 import { DataTable } from '@/components/common/DataTable'
 import PendingUsers from '@/components/common/pending/PendingUsers'
 import AddUser from '@/components/form/AddUser'
-import { type UserPublic, UsersService } from '@/lib/client'
+import { type UserPublic, UsersService, usersReadUsersOptions } from '@/lib/client'
 import useAuth from '@/routes/-hooks/hooks/useAuth'
-
-function getUsersQueryOptions() {
-	return {
-		queryFn: async () => {
-			const response = await UsersService.usersReadUsers({ query: { skip: 0, limit: 100 } })
-			if (response.error || !response.data) {
-				throw response.error ?? new Error('Failed to fetch users')
-			}
-			return response.data
-		},
-		queryKey: ['users'],
-	}
-}
 
 export const Route = createFileRoute('/user/admin')({
 	component: Admin,
@@ -43,7 +30,9 @@ export const Route = createFileRoute('/user/admin')({
 
 function UsersTableContent() {
 	const { user: currentUser } = useAuth()
-	const { data: users } = useSuspenseQuery(getUsersQueryOptions())
+	const { data: users } = useSuspenseQuery(
+		usersReadUsersOptions({ query: { skip: 0, limit: 100 } }),
+	)
 
 	const tableData: UserTableData[] = users.data.map((user: UserPublic) => ({
 		...user,

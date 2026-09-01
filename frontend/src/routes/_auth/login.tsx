@@ -46,7 +46,7 @@ function Login() {
 		},
 		onSubmit: async ({ value }) => {
 			if (loginMutation.isPending) return
-			loginMutation.mutate(value)
+			loginMutation.mutate({ body: value })
 		},
 	})
 

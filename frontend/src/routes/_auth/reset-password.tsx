@@ -8,7 +8,7 @@ import { PasswordInput } from '@/components/password-input'
 import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
-import { LoginService } from '@/lib/client'
+import { loginResetPasswordMutation } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
 import { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
@@ -62,13 +62,12 @@ function ResetPassword() {
 			onChange: resetSchema,
 		},
 		onSubmit: async ({ value }) => {
-			mutation.mutate({ newPassword: value.new_password, token })
+			mutation.mutate({ body: { newPassword: value.new_password, token } })
 		},
 	})
 
 	const mutation = useMutation({
-		mutationFn: (data: { newPassword: string; token: string }) =>
-			LoginService.loginResetPassword({ body: data }),
+		...loginResetPasswordMutation(),
 		onSuccess: () => {
 			showSuccessToast('Password updated successfully')
 			form.reset()

@@ -12,7 +12,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog'
 import { Spinner } from '@/components/ui/spinner'
-import { UsersService } from '@/lib/client'
+import { usersDeleteUserMeMutation, usersReadUserMeQueryKey } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
 import useAuth from '@/routes/-hooks/hooks/useAuth.ts'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
@@ -23,20 +23,20 @@ const DeleteConfirmation = () => {
 	const { logout } = useAuth()
 
 	const mutation = useMutation({
-		mutationFn: () => UsersService.usersDeleteUserMe(),
+		...usersDeleteUserMeMutation(),
 		onSuccess: () => {
 			showSuccessToast('Your account has been successfully deleted')
 			logout()
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			void queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+			void queryClient.invalidateQueries({ queryKey: usersReadUserMeQueryKey() })
 		},
 	})
 
 	const handleDelete = (e: React.FormEvent) => {
 		e.preventDefault()
-		mutation.mutate()
+		mutation.mutate({})
 	}
 
 	return (

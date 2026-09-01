@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-router'
 
 import NavbarD52 from '../components/common/navbar/navbar-D52'
+import { usersReadUserMeQueryKey } from '../lib/client'
 
 // Create a mock QueryClient
 const queryClient = new QueryClient({
@@ -64,7 +65,7 @@ export const LoggedIn: Story = {
 	},
 	decorators: [
 		(Story) => {
-			queryClient.setQueryData(['currentUser'], {
+			queryClient.setQueryData(usersReadUserMeQueryKey(), {
 				id: '1',
 				email: 'jane.doe@example.com',
 				fullName: 'Jane Doe',

@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dialog'
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Spinner } from '@/components/ui/spinner'
-import { ItemsService } from '@/lib/client'
+import { itemsDeleteItemMutation, itemsReadItemsQueryKey } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
@@ -30,7 +30,7 @@ const DeleteItem = ({ id, onSuccess }: DeleteItemProps) => {
 	const { showSuccessToast, showErrorToast } = useCustomToast()
 
 	const mutation = useMutation({
-		mutationFn: () => ItemsService.itemsDeleteItem({ path: { id } }),
+		...itemsDeleteItemMutation(),
 		onSuccess: () => {
 			showSuccessToast('The item was deleted successfully')
 			setIsOpen(false)
@@ -38,13 +38,13 @@ const DeleteItem = ({ id, onSuccess }: DeleteItemProps) => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			void queryClient.invalidateQueries({ queryKey: ['items'] })
+			void queryClient.invalidateQueries({ queryKey: itemsReadItemsQueryKey() })
 		},
 	})
 
 	const handleDelete = (e: React.FormEvent) => {
 		e.preventDefault()
-		mutation.mutate()
+		mutation.mutate({ path: { id } })
 	}
 
 	return (

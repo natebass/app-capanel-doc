@@ -18,5 +18,12 @@ export default defineConfig({
 			},
 			validator: true,
 		},
+		{
+			name: '@tanstack/react-query',
+			queryOptions: true,
+			mutationOptions: true,
+			infiniteQueryOptions: true,
+			exportFromIndex: true,
+		},
 	],
 })

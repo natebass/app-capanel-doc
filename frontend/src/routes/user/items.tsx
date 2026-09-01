@@ -8,21 +8,8 @@ import { DataTable } from '@/components/common/DataTable'
 import PendingItems from '@/components/common/pending/PendingItems'
 import AddItem from '@/components/items/AddItem'
 import { createItemColumns } from '@/components/items/columns'
-import { ItemsService } from '@/lib/client'
+import { itemsReadItemsOptions } from '@/lib/client'
 import useAuth from '@/routes/-hooks/hooks/useAuth'
-
-function getItemsQueryOptions() {
-	return {
-		queryFn: async () => {
-			const response = await ItemsService.itemsReadItems({ query: { skip: 0, limit: 100 } })
-			if (response.error || !response.data) {
-				throw response.error ?? new Error('Failed to fetch items')
-			}
-			return response.data
-		},
-		queryKey: ['items'],
-	}
-}
 
 export const Route = createFileRoute('/user/items')({
 	component: Items,
@@ -37,7 +24,9 @@ export const Route = createFileRoute('/user/items')({
 
 function ItemsTableContent() {
 	const { user: currentUser } = useAuth()
-	const { data: items } = useSuspenseQuery(getItemsQueryOptions())
+	const { data: items } = useSuspenseQuery(
+		itemsReadItemsOptions({ query: { skip: 0, limit: 100 } }),
+	)
 	const columns = useMemo(
 		() =>
 			createItemColumns({

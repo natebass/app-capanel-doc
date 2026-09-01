@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { LoginService } from '@/lib/client'
+import { loginRecoverPasswordMutation } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
 import { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
@@ -43,14 +43,12 @@ function RecoverPassword() {
 		},
 		onSubmit: async ({ value }) => {
 			if (mutation.isPending) return
-			mutation.mutate(value)
+			mutation.mutate({ path: { email: value.email } })
 		},
 	})
 
 	const mutation = useMutation({
-		mutationFn: async (data: RecoverFormValues) => {
-			await LoginService.loginRecoverPassword({ path: { email: data.email } })
-		},
+		...loginRecoverPasswordMutation(),
 		onSuccess: () => {
 			showSuccessToast('Password recovery email sent successfully')
 			form.reset()

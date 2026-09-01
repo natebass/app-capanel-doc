@@ -19,7 +19,7 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { type ItemPublic, ItemsService } from '@/lib/client'
+import { type ItemPublic, itemsReadItemsQueryKey, itemsUpdateItemMutation } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
@@ -49,13 +49,12 @@ const EditItem = ({ item, onSuccess }: EditItemProps) => {
 			onChange: formSchema,
 		},
 		onSubmit: async ({ value }) => {
-			mutation.mutate(value)
+			mutation.mutate({ body: value, path: { id: item.id } })
 		},
 	})
 
 	const mutation = useMutation({
-		mutationFn: (data: FormData) =>
-			ItemsService.itemsUpdateItem({ path: { id: item.id }, body: data }),
+		...itemsUpdateItemMutation(),
 		onSuccess: () => {
 			showSuccessToast('Item updated successfully')
 			setIsOpen(false)
@@ -63,7 +62,7 @@ const EditItem = ({ item, onSuccess }: EditItemProps) => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			void queryClient.invalidateQueries({ queryKey: ['items'] })
+			void queryClient.invalidateQueries({ queryKey: itemsReadItemsQueryKey() })
 		},
 	})
 

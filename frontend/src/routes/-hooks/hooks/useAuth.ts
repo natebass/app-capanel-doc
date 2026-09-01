@@ -2,11 +2,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 
 import {
-	type BodyLoginLoginAccessToken as AccessToken,
-	LoginService,
-	type UserPublic,
-	type UserRegister,
-	UsersService,
+	loginLoginAccessTokenMutation,
+	usersReadUserMeOptions,
+	usersReadUserMeQueryKey,
+	usersReadUsersQueryKey,
+	usersRegisterUserMutation,
 } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
 
@@ -23,40 +23,27 @@ const useAuth = () => {
 	const queryClient = useQueryClient()
 	const { showErrorToast } = useCustomToast()
 
-	const { data: user } = useQuery<UserPublic | null, Error>({
-		queryKey: ['currentUser'],
-		queryFn: async () => {
-			const response = await UsersService.usersReadUserMe({})
-			return response.data ?? null
-		},
+	const { data: user } = useQuery({
+		...usersReadUserMeOptions(),
 		enabled: isLoggedIn(),
 	})
 
 	const signUpMutation = useMutation({
-		mutationFn: (data: UserRegister) => UsersService.usersRegisterUser({ body: data }),
+		...usersRegisterUserMutation(),
 		onSuccess: () => {
 			void navigate({ to: '/login' })
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			void queryClient.invalidateQueries({ queryKey: ['users'] })
+			void queryClient.invalidateQueries({ queryKey: usersReadUsersQueryKey() })
 		},
 	})
 
-	const login = async (data: AccessToken) => {
-		const response = await LoginService.loginLoginAccessToken({
-			body: data,
-		})
-		if (response.error || !response.data) {
-			throw response.error ?? new Error('Login failed')
-		}
-		localStorage.setItem('access_token', response.data.access_token)
-	}
-
 	const loginMutation = useMutation({
-		mutationFn: login,
-		onSuccess: async () => {
-			void queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+		...loginLoginAccessTokenMutation(),
+		onSuccess: (token) => {
+			localStorage.setItem('access_token', token.access_token)
+			void queryClient.invalidateQueries({ queryKey: usersReadUserMeQueryKey() })
 			void navigate({ to: '/' })
 		},
 		onError: handleError.bind(showErrorToast),

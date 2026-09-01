@@ -21,7 +21,7 @@ import {
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { type UserCreate, UsersService } from '@/lib/client'
+import { type UserCreate, usersCreateUserMutation, usersReadUsersQueryKey } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
@@ -63,12 +63,12 @@ const AddUser = () => {
 		},
 		onSubmit: async ({ value }) => {
 			const { confirm_password: _, ...submitData } = value
-			mutation.mutate(submitData as UserCreate)
+			mutation.mutate({ body: submitData as UserCreate })
 		},
 	})
 
 	const mutation = useMutation({
-		mutationFn: (data: UserCreate) => UsersService.usersCreateUser({ body: data }),
+		...usersCreateUserMutation(),
 		onSuccess: () => {
 			showSuccessToast('User created successfully')
 			form.reset()
@@ -76,7 +76,7 @@ const AddUser = () => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			void queryClient.invalidateQueries({ queryKey: ['users'] })
+			void queryClient.invalidateQueries({ queryKey: usersReadUsersQueryKey() })
 		},
 	})
 

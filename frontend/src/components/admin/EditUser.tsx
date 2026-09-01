@@ -21,7 +21,7 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { type UserPublic, UsersService } from '@/lib/client'
+import { type UserPublic, usersReadUsersQueryKey, usersUpdateUserMutation } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
@@ -72,13 +72,12 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 		onSubmit: async ({ value }) => {
 			const { confirm_password: _, password, ...rest } = value
 			const submitData = password ? { ...rest, password } : rest
-			mutation.mutate(submitData)
+			mutation.mutate({ body: submitData, path: { user_id: user.id } })
 		},
 	})
 
 	const mutation = useMutation({
-		mutationFn: (data: Partial<FormData>) =>
-			UsersService.usersUpdateUser({ path: { user_id: user.id }, body: data }),
+		...usersUpdateUserMutation(),
 		onSuccess: () => {
 			showSuccessToast('User updated successfully')
 			setIsOpen(false)
@@ -86,7 +85,7 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 		},
 		onError: handleError.bind(showErrorToast),
 		onSettled: () => {
-			void queryClient.invalidateQueries({ queryKey: ['users'] })
+			void queryClient.invalidateQueries({ queryKey: usersReadUsersQueryKey() })
 		},
 	})
 

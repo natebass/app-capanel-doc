@@ -6,7 +6,11 @@ import { PasswordInput } from '@/components/password-input'
 import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
-import { type UpdatePassword, UsersService } from '@/lib/client'
+import {
+	type UpdatePassword,
+	usersReadUserMeQueryKey,
+	usersUpdatePasswordMeMutation,
+} from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
@@ -44,16 +48,16 @@ const ChangePassword = () => {
 		},
 		onSubmit: async ({ value }) => {
 			const { confirm_password: _, ...submitData } = value
-			mutation.mutate(submitData as UpdatePassword)
+			mutation.mutate({ body: submitData as UpdatePassword })
 		},
 	})
 
 	const mutation = useMutation({
-		mutationFn: (data: UpdatePassword) => UsersService.usersUpdatePasswordMe({ body: data }),
+		...usersUpdatePasswordMeMutation(),
 		onSuccess: () => {
 			showSuccessToast('Password updated successfully')
 			form.reset()
-			void queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+			void queryClient.invalidateQueries({ queryKey: usersReadUserMeQueryKey() })
 		},
 		onError: handleError.bind(showErrorToast),
 	})

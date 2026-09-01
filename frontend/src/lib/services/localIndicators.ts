@@ -7,85 +7,42 @@
  * on this side is measured by the state. Each local educational agency rates
  * itself and reports the result to its own governing board.
  */
-import { queryOptions } from '@tanstack/react-query'
-
 import {
-	type LocalIndicatorCatalog,
-	type LocalIndicatorDetail,
-	type LocalIndicatorReport,
-	type LocalIndicatorTrendReport,
-	LocalIndicatorsService,
+	localIndicatorsReadCatalogOptions,
+	localIndicatorsReadLocalIndicatorsOptions,
+	localIndicatorsReadPriorityOptions,
+	localIndicatorsReadTrendOptions,
 } from '@/lib/client'
+import { reference, report } from '@/lib/services/query'
 
 export const STATEWIDE_CDS = '00000000000000'
 
-/** Reference data changes only when new files are imported. */
-const REFERENCE_STALE_TIME = 30 * 60 * 1000
-const REPORT_STALE_TIME = 5 * 60 * 1000
-
-function unwrap<T>(response: { data?: T; error?: unknown }, fallback: string): T {
-	if (response.error) {
-		const detail = (response.error as { detail?: unknown }).detail
-		if (typeof detail === 'string' && detail.trim()) throw new Error(detail)
-		throw new Error(fallback)
-	}
-	return response.data as T
-}
-
 export function localIndicatorCatalogQuery(year?: number) {
-	return queryOptions({
-		queryKey: ['local-indicators', 'catalog', year ?? 'latest'] as const,
-		queryFn: async (): Promise<LocalIndicatorCatalog> =>
-			unwrap(
-				await LocalIndicatorsService.localIndicatorsReadCatalog({
-					query: year ? { year } : {},
-				}),
-				'Could not load the local indicator catalogue.',
-			),
-		staleTime: REFERENCE_STALE_TIME,
-	})
+	return reference(
+		localIndicatorsReadCatalogOptions({ query: year ? { year } : {} }),
+		'Could not load the local indicator catalogue.',
+	)
 }
 
 export function localIndicatorsQuery(cds: string, year: number) {
-	return queryOptions({
-		queryKey: ['local-indicators', 'report', cds, year] as const,
-		queryFn: async (): Promise<LocalIndicatorReport> =>
-			unwrap(
-				await LocalIndicatorsService.localIndicatorsReadLocalIndicators({
-					query: { cds, year },
-				}),
-				'Could not load the local indicators.',
-			),
-		staleTime: REPORT_STALE_TIME,
-	})
+	return report(
+		localIndicatorsReadLocalIndicatorsOptions({ query: { cds, year } }),
+		'Could not load the local indicators.',
+	)
 }
 
 export function localIndicatorDetailQuery(cds: string, year: number, priority: number) {
-	return queryOptions({
-		queryKey: ['local-indicators', 'priority', cds, year, priority] as const,
-		queryFn: async (): Promise<LocalIndicatorDetail> =>
-			unwrap(
-				await LocalIndicatorsService.localIndicatorsReadPriority({
-					query: { cds, year, priority },
-				}),
-				'Could not load that priority.',
-			),
-		staleTime: REPORT_STALE_TIME,
-	})
+	return report(
+		localIndicatorsReadPriorityOptions({ query: { cds, year, priority } }),
+		'Could not load that priority.',
+	)
 }
 
 export function localIndicatorTrendQuery(cds: string, priority: number) {
-	return queryOptions({
-		queryKey: ['local-indicators', 'trend', cds, priority] as const,
-		queryFn: async (): Promise<LocalIndicatorTrendReport> =>
-			unwrap(
-				await LocalIndicatorsService.localIndicatorsReadTrend({
-					query: { cds, priority },
-				}),
-				'Could not load the history for that priority.',
-			),
-		staleTime: REPORT_STALE_TIME,
-	})
+	return report(
+		localIndicatorsReadTrendOptions({ query: { cds, priority } }),
+		'Could not load the history for that priority.',
+	)
 }
 
 /**

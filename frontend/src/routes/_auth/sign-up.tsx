@@ -55,7 +55,7 @@ function SignUp() {
 		onSubmit: async ({ value }) => {
 			if (signUpMutation.isPending) return
 			const { confirm_password: _, ...submitData } = value
-			signUpMutation.mutate(submitData)
+			signUpMutation.mutate({ body: submitData })
 		},
 	})
 
