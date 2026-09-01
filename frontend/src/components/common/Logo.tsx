@@ -1,11 +1,12 @@
-import iconLight from '/assets/images/fastapi-icon-light.svg'
-import icon from '/assets/images/fastapi-icon.svg'
-import logoLight from '/assets/images/fastapi-logo-light.svg'
-import logo from '/assets/images/fastapi-logo.svg'
 import { Link } from '@tanstack/react-router'
 
 import { useTheme } from '@/components/theme-provider'
-import { cn } from '@/lib/utils'
+import { assetUrl, cn } from '@/lib/utils'
+
+const icon = assetUrl('/assets/images/fastapi-icon.svg')
+const iconLight = assetUrl('/assets/images/fastapi-icon-light.svg')
+const logo = assetUrl('/assets/images/fastapi-logo.svg')
+const logoLight = assetUrl('/assets/images/fastapi-logo-light.svg')
 
 interface LogoProps {
 	variant?: 'full' | 'icon' | 'responsive'

@@ -25,6 +25,15 @@ const apiBaseUrl = normalizeApiBaseUrl(
 	import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL,
 )
 
+/**
+ * Path the site is served from, so routing works under a GitHub Pages project
+ * path as well as at the root of a custom domain. A relative build (`base:
+ * './'`) carries no usable path, so the router falls back to the root.
+ */
+const routerBasepath = import.meta.env.BASE_URL.startsWith('/')
+	? trimTrailingSlash(import.meta.env.BASE_URL) || '/'
+	: '/'
+
 client.setConfig({
 	baseUrl: apiBaseUrl,
 	auth: async () => localStorage.getItem('access_token') || '',
@@ -46,6 +55,7 @@ const queryClient = new QueryClient()
  */
 const router = createRouter({
 	routeTree,
+	basepath: routerBasepath,
 	scrollRestoration: true,
 	context: {
 		queryClient,

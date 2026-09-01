@@ -1,9 +1,12 @@
+import { copyFileSync, existsSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 
 import tailwindcss from '@tailwindcss/vite'
 import { devtools } from '@tanstack/devtools-vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
+import type { Plugin } from 'vite-plus'
 import { defineConfig, lazyPlugins, loadEnv } from 'vite-plus'
 
 const trimTrailingSlash = (value: string): string => value.replace(/\/+$/, '')
@@ -18,14 +21,65 @@ const normalizeApiBase = (value: string | undefined): string | undefined => {
 }
 
 /**
- * base: './' is required for relative paths in single-container deployment
- * Add a delay to allow the Nitro server to boot in the container. This prevents the "fetch failed" immediately upon starting.
- * Keep relative assets for production container builds, but use root base in dev so Vite's React refresh runtime is loaded correctly on routed URLs.
+ * Resolve the public base path the built site is served from.
+ *
+ * Unset (or `/`) builds for a naked custom domain such as `https://example.org/`.
+ * A path such as `app-capanel-web` builds for a GitHub Pages project site at
+ * `https://opensacorg.github.io/app-capanel-web/`; leading and trailing slashes
+ * are added when missing. A value beginning with `.` (such as `./`) is passed
+ * through unchanged to produce fully relative asset URLs, which suits a site
+ * whose final path is unknown at build time but breaks a hard reload of any
+ * nested route, so prefer the explicit path whenever it is known.
+ */
+const normalizeBasePath = (value: string | undefined): string => {
+	const trimmed = value?.trim()
+	if (!trimmed || trimmed === '/') return '/'
+	if (trimmed.startsWith('.')) return trimmed
+	const withLeadingSlash = trimmed.startsWith('/') ? trimmed : `/${trimmed}`
+	return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`
+}
+
+/**
+ * Emit the extra files a static host needs to serve a single-page app.
+ *
+ * `404.html` is a copy of `index.html`: GitHub Pages serves it for any path it
+ * has no file for, which hands deep links back to the client-side router
+ * instead of showing the default GitHub 404 page. `.nojekyll` stops Pages from
+ * running the output through Jekyll, which would drop files whose names begin
+ * with an underscore. Both are inert on any other host.
+ */
+const staticHostFallback = (): Plugin => {
+	let outDir = 'dist'
+	return {
+		name: 'static-host-spa-fallback',
+		apply: 'build',
+		configResolved(config) {
+			outDir = resolve(config.root, config.build.outDir)
+		},
+		closeBundle() {
+			const indexHtml = resolve(outDir, 'index.html')
+			if (!existsSync(indexHtml)) return
+			copyFileSync(indexHtml, resolve(outDir, '404.html'))
+			writeFileSync(resolve(outDir, '.nojekyll'), '')
+		},
+	}
+}
+
+/**
+ * The front end is deployed on its own, separately from the API: a static host
+ * such as GitHub Pages or a CDN serves the build, and requests to `/api` reach
+ * the FastAPI backend on another origin.
+ *
+ * Set `VITE_BASE_PATH` to the path the site is served from (see
+ * `normalizeBasePath`), and `VITE_API_URL` to the public backend origin. The
+ * dev server always uses a root base so Vite's React refresh runtime loads on
+ * routed URLs, and proxies API traffic to the local backend instead.
  */
 const config = defineConfig(({ command, mode }) => {
 	const env = loadEnv(mode, process.cwd(), '')
 	const apiTarget =
 		env.VITE_DEV_PROXY_TARGET || normalizeApiBase(env.VITE_API_URL) || 'http://localhost:8000'
+	const basePath = normalizeBasePath(env.VITE_BASE_PATH)
 
 	return {
 		fmt: {
@@ -96,7 +150,7 @@ const config = defineConfig(({ command, mode }) => {
 				},
 			],
 		},
-		base: command === 'serve' ? '/' : './',
+		base: command === 'serve' ? '/' : basePath,
 		build: {
 			outDir: 'dist',
 		},
@@ -123,6 +177,7 @@ const config = defineConfig(({ command, mode }) => {
 			},
 		},
 		plugins: lazyPlugins(() => [
+			staticHostFallback(),
 			devtools(),
 			tailwindcss(),
 			tanstackRouter({ target: 'react', autoCodeSplitting: true }),

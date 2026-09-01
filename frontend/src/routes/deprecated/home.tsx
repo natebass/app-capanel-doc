@@ -3,6 +3,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import CardGrid from '@/components/CardGrid'
 import NavbarD52 from '@/components/common/navbar/navbar-D52'
 import { Button } from '@/components/ui/button'
+import { assetUrl } from '@/lib/utils'
 
 export const Route = createFileRoute('/deprecated/home')({
 	component: HomePage,
@@ -30,7 +31,7 @@ function HomePage() {
 					</div>
 					<div className='flex-1 xl:flex-7/12 ps-8'>
 						<img
-							src='/pic/d.png'
+							src={assetUrl('/pic/d.png')}
 							alt='Collage of three dashboard features.'
 							height={440}
 							width={440}

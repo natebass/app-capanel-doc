@@ -53,6 +53,75 @@ Configure environment variables as needed (see ``app/core/config.py`` for availa
     IMPORT_RESOURCES_HOST_PATH=<Your resource folder, like ~/Downloads/resources.>
     IMPORT_GCS_URI="gs://capanel-resources"
 
+Front-end build variables
+================================================================
+
+The front end is a static build deployed on its own, separately from the API. Two
+variables tell it where it will live and where the API is. Both are read at build
+time and baked into the bundle, so a change to either needs a rebuild.
+
+.. code-block:: bash
+   :caption: frontend/.env
+
+    # Path the built site is served from. Leave unset (or "/") for a naked
+    # custom domain; set the repository path for a GitHub Pages project site.
+    VITE_BASE_PATH=/
+    # Public origin of the API. Leave unset during local development: the Vite
+    # dev server proxies /api, /docs, and /redoc to http://localhost:8000.
+    VITE_API_URL=https://api.example.org
+
+``VITE_BASE_PATH``
+    ``/`` (or unset) builds for the root of a domain, such as
+    ``https://example.org/``. A repository path such as ``app-capanel-web``
+    builds for ``https://opensacorg.github.io/app-capanel-web/``; leading and
+    trailing slashes are added when missing. The value also becomes the router's
+    base path, so links and deep links stay correct under a sub-path.
+
+    A value starting with ``.`` (such as ``./``) produces fully relative asset
+    URLs. That suits a site whose final path is unknown at build time, but a hard
+    reload of a nested route then resolves its assets against the wrong
+    directory, so prefer the explicit path whenever it is known.
+
+``VITE_API_URL``
+    The origin the generated client calls, for example
+    ``https://api.example.org``. A trailing ``/api`` or ``/api/v1`` is trimmed,
+    so either form works. Because the front end and the API are on different
+    origins in production, the front end's own origin has to be allowed by the
+    backend, as described next.
+
+Cross-origin requests
+================================================================
+
+The front end and the API are served from different origins, so the browser
+applies CORS to every API call and the backend has to name each origin it will
+accept. ``app/main.py`` passes :attr:`Settings.all_cors_origins` to FastAPI's
+``CORSMiddleware``, which combines:
+
+``FRONTEND_HOST``
+    The public base URL of the front end. It is also used to build links in
+    emails, so it keeps any sub-path: a GitHub Pages project site is
+    ``https://opensacorg.github.io/app-capanel-web``.
+
+``BACKEND_CORS_ORIGINS``
+    A comma-separated list of any further origins, for when the same deployment
+    is reachable under more than one name, such as a Pages sub-domain and a
+    custom domain.
+
+Each entry is reduced to the ``scheme://host:port`` origin a browser actually
+sends in the ``Origin`` header, so a path or a trailing slash on either variable
+is harmless.
+
+.. warning::
+
+   A request that is blocked by CORS still succeeds under ``curl``, because only
+   browsers enforce it. A deployed site whose API calls fail while the same URL
+   works from a terminal almost always means the site's origin is missing here.
+
+Every build writes two extra files next to ``index.html`` for static hosts:
+``404.html`` (a copy of ``index.html``, which GitHub Pages serves for unknown
+paths so deep links reach the client-side router) and ``.nojekyll`` (which stops
+Pages from running the output through Jekyll). Both are ignored by other hosts.
+
 Google Secret Manager
 ================================================================
 

@@ -2,6 +2,8 @@ import { Search01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@tanstack/react-router'
 
+import { assetUrl } from '@/lib/utils'
+
 import MobileButton from '../../button/MobileButton'
 import SettingsButton from '../../button/SettingsButton'
 import SearchBar from './SearchBar'
@@ -19,7 +21,7 @@ export default function NavbarD52({ shadow = false }: { shadow?: boolean }) {
 			<nav className={styles.nav}>
 				<div className={styles.logoWrapper}>
 					<Link className={styles.logoLink} to='/'>
-						<img src='/assets/logo/logo.svg' alt='Logo' className='h-10' />
+						<img src={assetUrl('/assets/logo/logo.svg')} alt='Logo' className='h-10' />
 						<span className='hidden md:block'>
 							<span className='font-bold'>California Accountability</span> Panel
 						</span>

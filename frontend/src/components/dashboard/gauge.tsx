@@ -1,5 +1,7 @@
 'use memo'
 
+import { assetUrl } from '@/lib/utils'
+
 const COLOR_LEVEL_LABELS = {
 	0: 'No Data',
 	1: 'Red',
@@ -26,7 +28,7 @@ interface GaugeProps {
  * Map value to SVG file path
  */
 export function Gauge({ value, label, size = 200, className = '' }: GaugeProps) {
-	const svgPath = `/gauge-${value}.svg`
+	const svgPath = assetUrl(`/gauge-${value}.svg`)
 	const svgHeight = size * 0.55
 
 	return (

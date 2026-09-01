@@ -1,5 +1,6 @@
 import warnings
 from typing import Literal, Self
+from urllib.parse import urlsplit
 
 from pydantic import (
     EmailStr,
@@ -12,6 +13,44 @@ from pydantic import (
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+def _split_origins(value: str) -> list[str]:
+    """Split a comma-separated list of URLs into its entries.
+
+    The value is kept as a plain string rather than a list field because
+    ``pydantic-settings`` JSON-decodes a list-typed setting before any
+    validator runs, which rejects the comma-separated form a deployment
+    actually sets.
+
+    Args:
+        value: A comma-separated string, possibly empty.
+
+    Returns:
+        The individual entries, stripped of surrounding whitespace.
+    """
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+def _to_origin(url: str) -> str | None:
+    """Reduce a URL to the browser origin the ``Origin`` header will carry.
+
+    A browser sends only the scheme, host, and port, so any path has to be
+    dropped: ``https://opensacorg.github.io/app-capanel-web`` is a valid
+    :data:`Settings.FRONTEND_HOST` for building links into a GitHub Pages
+    project site, but the matching origin is ``https://opensacorg.github.io``.
+
+    Args:
+        url: A full URL, or a bare origin.
+
+    Returns:
+        The ``scheme://host[:port]`` origin, or ``None`` when *url* has no
+        scheme and host to take one from.
+    """
+    parts = urlsplit(url.strip())
+    if not parts.scheme or not parts.netloc:
+        return None
+    return f"{parts.scheme}://{parts.netloc}"
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -22,8 +61,35 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
+    # Public base URL of the front end, used to build links in emails.  It may
+    # include a path when the site is served from a sub-path, such as a GitHub
+    # Pages project site.
     FRONTEND_HOST: str = "http://localhost:5173"
+    # Extra browser origins allowed to call the API, beyond FRONTEND_HOST.  Set
+    # this when the same deployment is reachable under more than one origin,
+    # for example a Pages sub-domain and a custom domain.
+    BACKEND_CORS_ORIGINS: str = ""
     FASTAPI_ENV: Literal["development"] | None = None
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def all_cors_origins(self) -> list[str]:
+        """List every browser origin permitted to call the API.
+
+        The front end and the API are deployed separately, so calls from the
+        browser are cross-origin and each allowed origin has to be named.
+        :data:`FRONTEND_HOST` is always included, reduced to its origin, and
+        :data:`BACKEND_CORS_ORIGINS` adds any others.
+
+        Returns:
+            The distinct origins, in the order they were configured.
+        """
+        origins: list[str] = []
+        for url in (self.FRONTEND_HOST, *_split_origins(self.BACKEND_CORS_ORIGINS)):
+            origin = _to_origin(url)
+            if origin is not None and origin not in origins:
+                origins.append(origin)
+        return origins
 
     PROJECT_NAME: str
     SENTRY_DSN: HttpUrl | None = None

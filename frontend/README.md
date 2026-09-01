@@ -34,6 +34,26 @@ on [http://localhost:3000](http://localhost:3000).
 vp dev
 ```
 
+## Build for deployment
+
+The front end is a static build deployed on its own, separately from the API.
+`VITE_BASE_PATH` sets the path it is served from, and `VITE_API_URL` the public
+origin of the API. Both are read at build time.
+
+```sh
+# Custom domain at the root, e.g. https://example.org/
+VITE_API_URL=https://api.example.org vp build
+
+# GitHub Pages project site, e.g. https://opensacorg.github.io/app-capanel-web/
+VITE_BASE_PATH=app-capanel-web VITE_API_URL=https://api.example.org vp build
+```
+
+Each build also writes `404.html` and `.nojekyll` into `dist/`, so GitHub Pages
+serves deep links through the client-side router. Neither file affects any other
+host. See
+the [environment variable documentation](https://opensacorg.github.io/app-capanel-doc/developer-guide/environment-variables)
+for the full description of both variables.
+
 ## Test
 
 This website primarily uses Storybook. It is also a home for a bigger test suite using Vitest and Playwright.
