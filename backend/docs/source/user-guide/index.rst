@@ -4,7 +4,7 @@
 Get Started
 ================================================================
 
-A dashboard that displays key school performance metrics. View our `website <https://capanel-full-5418848943.us-west1.run.app>`_.
+A dashboard that displays key school performance metrics. View our `website <https://capanel.example.org>`_.
 
 For people who want real‑time, personalized performance data
   -  Guardians

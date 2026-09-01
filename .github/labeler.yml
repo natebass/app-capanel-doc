@@ -10,7 +10,7 @@ backend:
           - any-glob-to-any-file:
               - "backend/**"
           - all-globs-to-all-files:
-              - "!backend/app/scripts/gcp/**"
+              - "!backend/app/scripts/gcloud/**"
 
 assets:
   - all:
@@ -23,8 +23,11 @@ deployment:
   - all:
       - changed-files:
           - any-glob-to-any-file:
-              - "backend/app/scripts/gcp/**"
-              - ".gcloudignore"
+              - "backend/app/scripts/gcloud/**"
+              - "compose*.yml"
+              - "compose*.yaml"
+              - "**/deploy.sh"
+              - "**/Caddyfile"
               - "Dockerfile"
               - "**/Dockerfile"
               - "*.dockerfile"

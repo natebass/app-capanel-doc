@@ -13,11 +13,11 @@ Configure environment variables as needed (see ``app/core/config.py`` for availa
 
     # Frontend
     FRONTEND_HOST=http://localhost:5173
-    FRONTEND_HOST_PRODUCTION=https://capanel-full-5418848943.us-west1.run.app
+    FRONTEND_HOST_PRODUCTION=https://capanel.example.org
 
     # Backend
-    BACKEND_CORS_ORIGINS="http://localhost,http://localhost:5173,https://localhost,https://localhost:5173,https://capanel-full-5418848943.us-west1.run.app"
-    SECRET_KEY=<Set by Google Secret Manager as `capanel-secret-key`>
+    BACKEND_CORS_ORIGINS="http://localhost,http://localhost:5173,https://localhost,https://localhost:5173,https://capanel.example.org"
+    SECRET_KEY=<Set from SSM Parameter Store as `/capanel/secret-key` when deployed>
     FIRST_SUPERUSER=<Set an initial superuser>
     FIRST_SUPERUSER_PASSWORD=<Set an initial superuser password>
 
@@ -29,29 +29,15 @@ Configure environment variables as needed (see ``app/core/config.py`` for availa
     POSTGRES_USER=<Your local Postgres username>
     POSTGRES_PASSWORD=<Your local Postgres password>
 
-    # Google Cloud Platform (GCP)
-    GCP_PROJECT_ID="ca-panel-001"
-    GCP_REGION="us-west1"
-    GCP_AR_REPOSITORY="capanel-repo"
-    FULL_SERVICE="capanel-full"
-    BACKEND_SERVICE="capanel-backend"
-    FRONTEND_SERVICE="capanel-frontend"
-    RUN_SERVICE_ACCOUNT="capanel-runner"
-    VPC_NETWORK="default"
-    VPC_SUBNET="default"
-
-    # Cloud SQL
-    CLOUD_SQL_INSTANCE="capanel-pg"
-    CLOUD_SQL_DB="capanel"
-    CLOUD_SQL_USER="capanel_app"
-    CLOUD_SQL_PASSWORD=<Set by Google Secret Manager as `capanel-postgres-password`>
-    CLOUD_SQL_VERSION="POSTGRES_18"
-    CLOUD_SQL_EDITION="enterprise"
-    CLOUD_SQL_INSTANCE_CONNECTION_NAME="ca-panel-001:us-west1:capanel-pg"
+    # Deployment (Docker on EC2, see the AWS deployment guide)
+    AWS_REGION="us-west-2"
+    SITE_ADDRESS="capanel.example.org"
 
     # Data Import
-    IMPORT_RESOURCES_HOST_PATH=<Your resource folder, like ~/Downloads/resources.>
-    IMPORT_GCS_URI="gs://capanel-resources"
+    RESEARCH_FILE_SOURCE_URI="s3://capanel-007361225089-us-west-2-an/resources/california-state"
+    # Dashboard files default to the state's own web server; point this at the
+    # uploaded copies to pin the import to files you have already checked.
+    # DASHBOARD_FILE_SOURCE_URI="s3://capanel-007361225089-us-west-2-an/resources/cde-2025"
 
 Front-end build variables
 ================================================================
@@ -92,7 +78,14 @@ time and baked into the bundle, so a change to either needs a rebuild.
 Cross-origin requests
 ================================================================
 
-The front end and the API are served from different origins, so the browser
+.. note::
+
+   This applies when the front end is hosted separately, such as on GitHub
+   Pages. In the Docker deployment described in :doc:`aws-deployment`, Caddy
+   serves the built front end and proxies ``/api`` to the backend on the same
+   origin, so ``VITE_API_URL`` is left empty and CORS never comes into it.
+
+When the two are hosted separately they are on different origins, so the browser
 applies CORS to every API call and the backend has to name each origin it will
 accept. ``app/main.py`` passes :attr:`Settings.all_cors_origins` to FastAPI's
 ``CORSMiddleware``, which combines:
@@ -122,31 +115,29 @@ Every build writes two extra files next to ``index.html`` for static hosts:
 paths so deep links reach the client-side router) and ``.nojekyll`` (which stops
 Pages from running the output through Jekyll). Both are ignored by other hosts.
 
-Google Secret Manager
+Secrets
 ================================================================
 
-In production environments, sensitive information such as ``SECRET_KEY`` and ``CLOUD_SQL_PASSWORD`` should not be stored in plain text environment variables. Instead, the project uses **Google Secret Manager** to securely store and manage these secrets.
+In deployed environments ``SECRET_KEY``, ``POSTGRES_PASSWORD`` and
+``FIRST_SUPERUSER_PASSWORD`` are not kept in a checked-in file. They live in
+**AWS Systems Manager Parameter Store** as ``SecureString`` parameters under
+``/capanel/``, and the deploy script on the instance materialises them into the
+``.env`` that Docker Compose reads.
 
-How it works
-------------
-
-1.  **Storage**: Secrets are stored in GCP Secret Manager under specific names:
-    *   ``capanel-secret-key``: Maps to the ``SECRET_KEY`` environment variable.
-    *   ``capanel-postgres-password``: Maps to the ``POSTGRES_PASSWORD`` environment variable for database authentication.
-2.  **Access Control**: The Cloud Run service account (defined by ``RUN_SERVICE_ACCOUNT``) is granted the ``roles/secretmanager.secretAccessor`` role for these specific secrets.
-3.  **Deployment**: During deployment, the Cloud Run service is configured to map these secrets to environment variables.
-
-Managing Secrets
-----------------
-
-The project includes a utility script to create and update secrets in Secret Manager:
+Parameter Store rather than Secrets Manager: standard parameters, including
+encrypted ones, are free, while Secrets Manager bills $0.40 per secret per
+month for the same thing at this scale.
 
 .. code-block:: bash
 
-    python app/scripts/gcp/create_secrets.py
+    aws ssm put-parameter --name /capanel/secret-key \
+      --type SecureString --value "$(openssl rand -hex 32)"
 
-This script:
-*   Enables the Secret Manager API.
-*   Creates the secrets if they don't exist.
-*   Adds a new version with the value from your local ``.env`` file.
-*   Grants access to the Cloud Run service account.
+    aws ssm put-parameter --name /capanel/postgres-password \
+      --type SecureString --value "$(openssl rand -hex 24)"
+
+The instance reads them through its instance profile, so no access keys exist on
+disk. Rotating a value is ``put-parameter --overwrite`` followed by re-running
+``deploy.sh``, which rewrites ``.env`` and restarts the containers. See
+:doc:`aws-deployment` for the IAM policy and :doc:`security` for the rotation
+procedure.

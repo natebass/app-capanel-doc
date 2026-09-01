@@ -89,11 +89,9 @@ fastapi dev app/main.py
 When you start the Docker Compose stack, it uses `localhost` by default, with different ports for each service (backend,
 frontend, adminer, etc).
 
-When you deploy it to production (or staging), it will deploy each service in a different subdomain, like
-`api.example.com` for the backend and `dashboard.example.com` for the frontend.
-
-In the guide about [deployment](deployment.md) you can read about Traefik, the configured proxy. That's the component in
-charge of transmitting traffic to each service based on the subdomain.
+The deployed stack is arranged differently: one hostname, with Caddy serving the built front end and proxying `/api`
+to the backend. See [Deploying on AWS](aws-deployment.md) for how that fits together. The rest of this section is about
+the local Docker Compose setup only.
 
 If you want to test that it's all working locally, you can edit the local `.env` file, and change:
 

@@ -3,72 +3,71 @@ Setup the Database
 
 This section explains how to initialize the database and run the data import pipeline.
 
-Cloud Run Database Initialization
----------------------------------
+The schema comes from Alembic; the data comes from the importers. Both layers —
+assessment and accountability — are loaded separately, and the importers are safe to
+re-run: a file whose size and entity tag are unchanged since the last successful load
+is skipped.
 
-Once the schema exists, load the assessment data by running the research file importer. See :doc:`importing-research-files`.
+Deployed initialization
+-----------------------
 
-### Using Fish Shell
-
-To retrieve the Function URL and trigger the initialization:
-
-.. code-block:: bash
-
-    # 1. Get the Function URL
-    set -lx FUNCTION_URL (gcloud functions describe capanel-full-init-trigger \
-        --project ca-panel-001 \
-        --region us-west1 \
-        --gen2 \
-        --format='value(serviceConfig.uri)')
-
-    # 2. Get your identity token
-    set -lx ID_TOKEN (gcloud auth print-identity-token)
-
-    # 3. Trigger the full initialization
-    curl -X POST "$FUNCTION_URL" \
-            -H "Authorization: Bearer $ID_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{"mode":"full","years":["2024","2025"],"wait_for_completion":true}'
-
-### Triggering Both Imports
-
-If you only need to trigger imports without a full rebuild:
+On the EC2 instance described in :doc:`aws-deployment`, everything runs as a one-off
+container against the running stack. ``deploy.sh`` already applies migrations and
+seeds the first superuser; the data import is a separate, deliberate step because it
+takes about an hour.
 
 .. code-block:: bash
 
-    curl -X POST "$FUNCTION_URL" \
-      -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
-      -H "Content-Type: application/json" \
-      -d '{"mode": "both_imports", "years": ["2024","2025"]}'
+    cd /opt/capanel
 
-### Destructive Re-initialization
+    # Schema and the initial superuser (also done by deploy.sh).
+    docker compose run --rm backend alembic upgrade head
+    docker compose run --rm backend python app/scripts/initial_data.py
 
-A full re-initialization that clears existing data requires explicit confirmation:
+    # Assessment layer: CAASPP and ELPAC statewide research files, from S3.
+    docker compose run --rm backend python app/scripts/ingest_research_files.py \
+      --source s3://capanel-007361225089-us-west-2-an/resources/california-state
 
-.. code-block:: bash
+    # Accountability layer: California School Dashboard indicators.
+    docker compose run --rm backend python app/scripts/ingest_dashboard_files.py --year 2024
+    docker compose run --rm backend python app/scripts/ingest_dashboard_files.py --year 2025
 
-    curl -X POST "$FUNCTION_URL" \
-      -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
-      -H "Content-Type: application/json" \
-      -d '{"mode": "full", "confirm_destructive": true}'
+    # LCFF local indicators, growth model, census-day enrollment.
+    docker compose run --rm backend python app/scripts/ingest_local_indicators.py --year 2025
+    docker compose run --rm backend python app/scripts/ingest_growth.py
+    docker compose run --rm backend python app/scripts/ingest_enrollment.py
 
-### Overwriting Data
+The dashboard, growth and enrollment importers read from ``www3.cde.ca.gov`` by
+default, so no local copy is needed. Pass ``--source`` with an ``s3://`` prefix to use
+the uploaded workbooks instead.
 
-To overwrite existing data for specific imports:
+Reloading a year
+~~~~~~~~~~~~~~~~
 
-.. code-block:: bash
-
-    curl -X POST "$FUNCTION_URL" \
-      -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
-      -H "Content-Type: application/json" \
-      -d '{"mode": "both_imports", "overwrite": true, "confirm_overwrite": true}'
-
-Local Database Initialization
------------------------------
-
-If you're running the import pipeline locally:
+To force a reload of files whose fingerprint has not changed, add ``--force``:
 
 .. code-block:: bash
 
-    python app/scripts/cde/run_import_pipeline.py --mode both_imports --resources-path <local_resources_path>
+    docker compose run --rm backend python app/scripts/ingest_research_files.py \
+      --year 2025 --only sb_ --force
 
+Local initialization
+--------------------
+
+The same scripts, without the container wrapper, from the ``backend`` directory:
+
+.. code-block:: bash
+
+    uv run alembic upgrade head
+    uv run app/scripts/initial_data.py
+    uv run app/scripts/ingest_research_files.py --source ~/Downloads/resources/california-state
+    uv run app/scripts/ingest_dashboard_files.py --year 2025
+
+``RESEARCH_FILE_SOURCE_URI`` in ``.env`` sets the default source, so ``--source`` is
+only needed to override it. A local directory is searched recursively, so one folder
+holding several years of downloads loads in a single pass.
+
+Expect the full assessment import to leave the database around 10 GB.
+
+See :doc:`importing-research-files` for the importer's full option list, and
+:doc:`database-troubleshooting` when a load does not go as planned.

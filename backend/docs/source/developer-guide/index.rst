@@ -30,7 +30,7 @@ Learn how to build and run the application locally.
    :maxdepth: 2
 
    aws-deployment
-   deployment
+   google-cloud
 
 .. toctree::
    :caption: Security and Maintenance

@@ -19,44 +19,60 @@ users or all active users.
 
 ## Security Emergency Actions
 
-If specific credentials are known to be exposed, follow these steps immediately.
+If specific credentials are known to be exposed, follow these steps immediately. The
+deployment stores its secrets in AWS Systems Manager Parameter Store — see
+[Environment Variables](environment-variables.rst) and [Deploying on AWS](aws-deployment.md).
 
 ### 1. Rotate exposed credentials immediately
 
-* **Generate fresh values first**: Use `rotate_exposed_secrets.py` to generate the exposed values in one pass (for
-  example `--target gcloud --target local-db --target secret-key`, or `--target all`).
-* **Update local env values**: Put generated values into `.env` (`CLOUD_SQL_PASSWORD`, `POSTGRES_PASSWORD`,
-  `FIRST_SUPERUSER_PASSWORD`, `SECRET_KEY`) and rotate `VITE_STRAPI_API_KEY` as needed.
-* **Apply Cloud SQL password rotation in GCP**: Run `rotate_gcp_credentials.py --rotate-cloud-sql-password` (or `--all`)
-  after `.env` has the new `CLOUD_SQL_PASSWORD`.
+* **Generate fresh values first**: Use `rotate_exposed_secrets.py` to generate replacements in one pass (for example
+  `--target local-db --target secret-key`, or `--target all`).
+* **Update local env values**: Put generated values into `.env` (`POSTGRES_PASSWORD`, `FIRST_SUPERUSER_PASSWORD`,
+  `SECRET_KEY`) and rotate `VITE_STRAPI_API_KEY` as needed. Local `.env` files are for local development only.
+* **Update Parameter Store**: Overwrite the deployed values so the instance picks them up on the next deploy.
 
-### 2. Update secret distribution
+  ```bash
+  aws ssm put-parameter --name /capanel/secret-key --type SecureString \
+    --overwrite --value "$(openssl rand -hex 32)"
+  aws ssm put-parameter --name /capanel/postgres-password --type SecureString \
+    --overwrite --value "$(openssl rand -hex 24)"
+  ```
 
-* **Push rotated DB password**: Update Secret Manager with `rotate_gcp_credentials.py --update-secret-manager` (or
-  `--all`) so `capanel-postgres-password` matches the newly generated value.
-* **Update app secrets**: Run `create_secrets.py` after rotating values so `capanel-secret-key` (and related app
-  secrets) are synchronized in Secret Manager for Cloud Run.
+### 2. Apply the rotation to the running deployment
 
-### 3. Recycle runtime and access paths
+* **Re-run the deploy script**: `./deploy.sh` on the instance rewrites `.env` from Parameter Store and recreates the
+  containers, so both the backend and PostgreSQL come up on the new values.
+* **Change the database password itself**: rotating the parameter changes what the backend *sends*. The PostgreSQL role
+  has to be changed to match, or the two drift apart:
 
-* **Restart Cloud Run services**: Restart services after secret updates (`--restart-service ...` or `--all`) so new
-  values are picked up.
-* **Service Account Keys**: List service-account keys and remove old ones after cutover (`--list-sa-keys`,
-  `--delete-sa-key ...`).
-* **New Keys**: Create a new SA key only if absolutely required (`--create-sa-key`); otherwise, prefer keyless
-  authentication.
+  ```bash
+  docker compose exec db psql -U capanel -c "ALTER ROLE capanel WITH PASSWORD 'new-value';"
+  ```
+
+  Do this before recreating the backend, then run `./deploy.sh`.
+
+### 3. Recycle access paths
+
+* **Revoke IAM credentials**: The instance authenticates with its instance profile, so there should be no long-lived
+  access keys to rotate. If any exist, deactivate them with `aws iam update-access-key --status Inactive` and delete
+  them after cutover rather than leaving them in place.
+* **Re-key SSH**: There is no SSH access to revoke — the instance is reached through SSM Session Manager and port 22 is
+  closed. If a key pair was added at some point, remove it from `~/.ssh/authorized_keys` and close the rule.
+* **Force user password resets**: Use the procedure at the top of this page if application accounts are implicated.
 
 ### 4. Verify compromise closure
 
 * **Confirm access denial**: Verify that the old database password no longer works.
 * **Confirm functionality**: Confirm that app/admin login and database connectivity work correctly with the new
   credentials.
-* **Audit logs**: Review Cloud Audit Logs for any suspicious key or secret access during the exposure window.
+* **Audit logs**: Review CloudTrail for `ssm:GetParameter`, `s3:GetObject` and IAM activity during the exposure window,
+  and `docker compose logs backend` for unexpected authenticated requests.
 
 ### 5. Prevent repeat incidents
 
 * **Secret hygiene**: Never commit real secrets to the repository or include them in examples.
-* **Environment separation**: Continue using `.env` files only for local development; production configuration must be
-  sourced from Secret Manager.
+* **Environment separation**: Continue using `.env` files only for local development; deployed configuration must be
+  sourced from Parameter Store. The `.env` that `deploy.sh` writes on the instance is generated, mode `600`, and never
+  committed.
 * **Automated scanning**: Add secret scanning to pre-commit hooks and CI pipelines (e.g., `gitleaks` or `trufflehog`)
   and block pushes if secrets are found.

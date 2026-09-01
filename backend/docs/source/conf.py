@@ -46,7 +46,7 @@ html_theme_options = {
     "icon_links": [
         {
             "name": "Website",
-            "url": "https://capanel-full-5418848943.us-west1.run.app",
+            "url": "https://capanel.example.org",
             "icon": "fas fa-globe",
             "type": "fontawesome",
         },

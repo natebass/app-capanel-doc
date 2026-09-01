@@ -43,7 +43,7 @@ prefix:
 
 .. code-block:: bash
 
-   RESEARCH_FILE_SOURCE_URI=s3://ca-panel-resources/research-files
+   RESEARCH_FILE_SOURCE_URI=s3://capanel-007361225089-us-west-2-an/resources/california-state
 
 The directory is searched recursively, so a folder holding several years of
 downloads loads in one pass.

@@ -5,7 +5,7 @@ import shlex
 import shutil
 import subprocess
 import sys
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -21,21 +21,6 @@ class ScriptPaths:
     script_dir: Path
     backend_dir: Path
     repo_dir: Path
-
-
-@dataclass(frozen=True)
-class GcpDefaults:
-    full_service: str = "capanel-full"
-    run_service_account: str = "capanel-runner"
-    cloud_sql_instance: str = "capanel-pg"
-    cloud_sql_db: str = "capanel"
-    cloud_sql_user: str = "capanel_app"
-    project_name: str = "California Accountability Panel"
-    import_gcs_uri: str = "gs://ca-panel-001-resources/resources"
-    import_resources_local_path: str = "$HOME/Downloads/resources"
-    vpc_network: str = "default"
-    vpc_subnet: str = "default"
-    frontend_host_production: str = "https://localhost"
 
 
 def compute_paths(current_file: str) -> ScriptPaths:
@@ -76,12 +61,16 @@ def run_command(
     check: bool = True,
     capture_output: bool = False,
     input_text: str | None = None,
+    extra_candidates: Sequence[Path] = (),
 ) -> subprocess.CompletedProcess[str]:
     if not cmd:
         msg = "run_command received an empty command list"
         raise ScriptError(msg)
 
-    resolved_cmd = [resolve_executable(cmd[0]), *cmd[1:]]
+    resolved_cmd = [
+        resolve_executable(cmd[0], extra_candidates=extra_candidates),
+        *cmd[1:],
+    ]
     print(f"+ {shlex.join(cmd)}", file=sys.stderr, flush=True)
     return subprocess.run(
         resolved_cmd,
@@ -94,7 +83,9 @@ def run_command(
     )
 
 
-def resolve_executable(executable: str) -> str:
+def resolve_executable(
+    executable: str, *, extra_candidates: Sequence[Path] = ()
+) -> str:
     resolved = shutil.which(executable)
     if resolved:
         return resolved
@@ -106,29 +97,9 @@ def resolve_executable(executable: str) -> str:
             if resolved:
                 return resolved
 
-        if executable == "gcloud":
-            local_app_data = os.environ.get("LOCALAPPDATA")
-            candidates = [
-                Path(
-                    r"C:\Program Files\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
-                ),
-                Path(
-                    r"C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
-                ),
-            ]
-            if local_app_data:
-                candidates.insert(
-                    0,
-                    Path(local_app_data)
-                    / "Google"
-                    / "Cloud SDK"
-                    / "google-cloud-sdk"
-                    / "bin"
-                    / "gcloud.cmd",
-                )
-            for candidate in candidates:
-                if candidate.is_file():
-                    return str(candidate)
+    for candidate in extra_candidates:
+        if candidate.is_file():
+            return str(candidate)
 
     msg = (
         f"Executable not found: {executable}. Current PATH={os.environ.get('PATH', '')}"
@@ -220,42 +191,3 @@ def env_bool(name: str, default: bool = False) -> bool:
     if raw is None:
         return default
     return raw.strip().lower() in {"1", "true", "yes", "y", "on"}
-
-
-def yaml_escape(value: str) -> str:
-    return value.replace("'", "''")
-
-
-def load_gcp_defaults(current_file: str) -> GcpDefaults:
-    defaults_file = Path(current_file).resolve().parent / "gcp.defaults.env"
-    if defaults_file.is_file():
-        defaults = parse_env_lines(defaults_file.read_text())
-    else:
-        defaults = {}
-
-    return GcpDefaults(
-        full_service=defaults.get("DEFAULT_FULL_SERVICE", GcpDefaults.full_service),
-        run_service_account=defaults.get(
-            "DEFAULT_RUN_SERVICE_ACCOUNT", GcpDefaults.run_service_account
-        ),
-        cloud_sql_instance=defaults.get(
-            "DEFAULT_CLOUD_SQL_INSTANCE", GcpDefaults.cloud_sql_instance
-        ),
-        cloud_sql_db=defaults.get("DEFAULT_CLOUD_SQL_DB", GcpDefaults.cloud_sql_db),
-        cloud_sql_user=defaults.get(
-            "DEFAULT_CLOUD_SQL_USER", GcpDefaults.cloud_sql_user
-        ),
-        project_name=defaults.get("DEFAULT_PROJECT_NAME", GcpDefaults.project_name),
-        import_gcs_uri=defaults.get(
-            "DEFAULT_IMPORT_GCS_URI", GcpDefaults.import_gcs_uri
-        ),
-        import_resources_local_path=defaults.get(
-            "DEFAULT_IMPORT_RESOURCES_LOCAL_PATH",
-            GcpDefaults.import_resources_local_path,
-        ),
-        vpc_network=defaults.get("DEFAULT_VPC_NETWORK", GcpDefaults.vpc_network),
-        vpc_subnet=defaults.get("DEFAULT_VPC_SUBNET", GcpDefaults.vpc_subnet),
-        frontend_host_production=defaults.get(
-            "DEFAULT_FRONTEND_HOST_PRODUCTION", GcpDefaults.frontend_host_production
-        ),
-    )
