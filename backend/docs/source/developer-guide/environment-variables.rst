@@ -6,7 +6,6 @@ Configure environment variables as needed (see ``app/core/config.py`` for availa
    :caption: .env
 
     # General
-    DOMAIN=localhost
     PROJECT_NAME="California Accountability Panel"
     # Environment: local, staging, production
     ENVIRONMENT=local

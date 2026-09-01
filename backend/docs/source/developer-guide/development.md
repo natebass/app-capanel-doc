@@ -18,8 +18,6 @@ Automatic interactive documentation with Swagger UI (from the OpenAPI backend): 
 
 Adminer, database web administration: <http://localhost:8080>
 
-Traefik UI, to see how the routes are being handled by the proxy: <http://localhost:8090>
-
 **Note**: The first time you start your stack, it might take a minute for it to be ready. While the backend waits for
 the database to be ready and configures everything. You can check the logs to monitor it.
 
@@ -83,39 +81,6 @@ And then you can run the local development server for the backend:
 cd backend
 fastapi dev app/main.py
 ```
-
-## Docker Compose in `localhost.tiangolo.com`
-
-When you start the Docker Compose stack, it uses `localhost` by default, with different ports for each service (backend,
-frontend, adminer, etc).
-
-The deployed stack is arranged differently: one hostname, with Caddy serving the built front end and proxying `/api`
-to the backend. See [Deploying on AWS](aws-deployment.md) for how that fits together. The rest of this section is about
-the local Docker Compose setup only.
-
-If you want to test that it's all working locally, you can edit the local `.env` file, and change:
-
-```text
-DOMAIN=localhost.tiangolo.com
-```
-
-That will be used by the Docker Compose files to configure the base domain for the services.
-
-Traefik will use this to transmit traffic at `api.localhost.tiangolo.com` to the backend, and traffic at
-`dashboard.localhost.tiangolo.com` to the frontend.
-
-The domain `localhost.tiangolo.com` is a special domain that is configured (with all its subdomains) to point to
-`127.0.0.1`. This way you can use that for your local development.
-
-After you update it, run again:
-
-```bash
-docker compose watch
-```
-
-When deploying, for example in production, the main Traefik is configured outside of the Docker Compose files. For local
-development, there's an included Traefik in `compose.override.yml`, just to let you test that the domains work as
-expected, for example with `api.localhost.tiangolo.com` and `dashboard.localhost.tiangolo.com`.
 
 ## Docker Compose files and env vars
 
@@ -202,7 +167,10 @@ biome check..............................................................Passed
 
 ## URLs
 
-The production or staging URLs would use these same paths, but with your own domain.
+Locally each service is on its own port. The deployed stack puts everything on one
+hostname instead, with Caddy serving the built front end and proxying `/api`, `/docs`
+and `/redoc` to the backend -- so the paths below are the paths in production too, just
+under your own domain. See [Deploying on AWS](aws-deployment.md).
 
 ### Development URLs
 
@@ -218,24 +186,4 @@ Automatic Alternative Docs (ReDoc): <http://localhost:8000/redoc>
 
 Adminer: <http://localhost:8080>
 
-Traefik UI: <http://localhost:8090>
-
 MailCatcher: <http://localhost:1080>
-
-### Development URLs with `localhost.tiangolo.com` Configured
-
-Development URLs, for local development.
-
-Frontend: <http://dashboard.localhost.tiangolo.com>
-
-Backend: <http://api.localhost.tiangolo.com>
-
-Automatic Interactive Docs (Swagger UI): <http://api.localhost.tiangolo.com/docs>
-
-Automatic Alternative Docs (ReDoc): <http://api.localhost.tiangolo.com/redoc>
-
-Adminer: <http://localhost.tiangolo.com:8080>
-
-Traefik UI: <http://localhost.tiangolo.com:8090>
-
-MailCatcher: <http://localhost.tiangolo.com:1080>
