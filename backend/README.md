@@ -1,52 +1,60 @@
 # California Accountability Panel back-end documentation
 
-This project is a copy of the main application back-end, but there are slight differences. The goals are:
-
 - Use Sphinx to generate documentation with autodoc.
 - Test the project extensively, in more ways than with the main application.
 - A simpler development environment without Docker.
 
-> **Note:** This project must be manually kept in sync by copy-pasting files to and from the main application. See the [sync documentation](https://opensacorg.github.io/app-capanel-doc/developer-guide/documentation-repository-sync).
-
-## Prerequisites
+## Prerequisite
 
 - [uv](https://docs.astral.sh/uv/)
+- [PostgreSQL]([https://docs.astral.sh/uv/](https://www.postgresql.org/))
 
-## Quick start
+## Development
 
-First, install the back-end dependencies.
+For development, it is recommended to open the backend folder directly in VSCode and run Python commands as normal.
+
+First, install the backend dependencies.
 - `cd backend`
 - `uv sync`
 
-> [!Warning]
-> Before running anything, first create the required `.env` files. See [environment variable documentation](https://opensacorg.github.io/app-capanel-doc/developer-guide/environment-variables).
+### Documentation
 
-> [!Note]
-> Python commands must be run from the backend folder. It is recommended to open the backend folders separately in VS Code. To run from the root of the project, it is recommended to use Make.  
+If you are only concerned with documentation, you do not need to run the application.
 
-### Run the sphinx autoload
-
-```
+```shell
 sphinx-autobuild docs/source docs/build/html
 ```
 
-You can also run with Make. Be aware that this will create a .venv folder inside of backend/docs. This might be confusing.
+Equivalent to `make reload`.
 
-## Run the application
+### FastAPI
 
-### Initialize the database
+> [!Warning]
+> Before running the application, first create an `.env` file in the root of the repository
+> _and/or_ in the current (backend) directory.
+> See
+the [environment variable guide](https://opensacorg.github.io/app-capanel-doc/developer-guide/environment-variables).
 
-Initialize the database. This will run the migrations and create a default superuser.
+#### 1. Initialize the database
 
-```
+Run the migrations and create a default superuser.
+
+> [!Note]
+> This does not populate the database with any dashboard data.
+> See the [data guide](https://opensacorg.github.io/app-capanel-doc/developer-guide/run-application).
+
+```shell
 uv run app/scripts/initial_data.py
 ```
 
-### Start the local development server
+#### 2. Start the API
 
-- From the backend folder: `uv run --env-file ../.env fastapi dev`
-- From the root of the project: `uv run fastapi dev backend/app/main.py`.
+- `uv run fastapi dev` if the `.env` file is in the current (backend) directory.
+- `uv run --env-file ../.env fastapi dev` if the `.env` file is in the root of the repository.
 
+> If you see an error like `FIRST_SUPERUSER_PASSWORD Field required [type=missing, input_value={'FASTAPI_ENV': 'development'}, input_type=dict]
+> For further information visit https://errors.pydantic.dev/2.13/v/missing`
+> then you are likely missing an `.env` file.
 
 ## Resources
 

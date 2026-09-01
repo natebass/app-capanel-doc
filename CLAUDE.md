@@ -18,7 +18,7 @@ Read `backend/docs/source/data/dashboard.rst` before touching the accountability
 
 ## Rules that are easy to get wrong
 
-- Store published figures exactly as the state printed them. `app/service/dashboard_projection.py` exists to project years CDE has not released yet — never to recompute ones it has.
+- Store published figures exactly as the state printed them. `app/service/dashboard_projection.py` exists to project years CDE has not released yet — never to recompute ones it has. Disagreeing with caschooldashboard.org reads as a bug regardless of who is right.
 - The status/change/colour rules include things CDE does not document: a reduced grid under 150 students, six suspension variants keyed by school type, and hand-assigned overrides. `tests/service/test_dashboard_projection.py` holds them to 100% against real published rows. If it fails, the projection does not ship.
 - Dashboard student-group codes (`ALL`, `SED`, `EL`) and the numeric CAASPP/ELPAC group ids are separate vocabularies that only partly overlap. Do not unify them.
 
