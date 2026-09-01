@@ -10,26 +10,19 @@ import {
 	type UpdatePassword,
 	usersReadUserMeQueryKey,
 	usersUpdatePasswordMeMutation,
+	zUpdatePassword,
 } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
+import { password, passwordConfirmation, passwordsMatch } from '@/lib/forms'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
-const formSchema = z
-	.object({
-		currentPassword: z
-			.string()
-			.min(1, { error: 'Password is required' })
-			.min(8, { error: 'Password must be at least 8 characters' }),
-		newPassword: z
-			.string()
-			.min(1, { error: 'Password is required' })
-			.min(8, { error: 'Password must be at least 8 characters' }),
-		confirm_password: z.string().min(1, { error: 'Password confirmation is required' }),
+const formSchema = zUpdatePassword
+	.extend({
+		currentPassword: password,
+		newPassword: password,
+		confirm_password: passwordConfirmation,
 	})
-	.refine((data) => data.newPassword === data.confirm_password, {
-		error: "The passwords don't match",
-		path: ['confirm_password'],
-	})
+	.refine((data) => data.newPassword === data.confirm_password, passwordsMatch)
 
 type FormData = z.infer<typeof formSchema>
 

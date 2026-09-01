@@ -21,26 +21,26 @@ import {
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { type UserCreate, usersCreateUserMutation, usersReadUsersQueryKey } from '@/lib/client'
+import {
+	type UserCreate,
+	usersCreateUserMutation,
+	usersReadUsersQueryKey,
+	zUserCreate,
+} from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
+import { email, password, passwordConfirmation, passwordsMatch } from '@/lib/forms'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
-const formSchema = z
-	.object({
-		email: z.string().email({ error: 'Invalid email address' }),
-		fullName: z.string().optional(),
-		password: z
-			.string()
-			.min(1, { error: 'Password is required' })
-			.min(8, { error: 'Password must be at least 8 characters' }),
-		confirm_password: z.string().min(1, { error: 'Please confirm your password' }),
-		isSuperuser: z.boolean(),
+const formSchema = zUserCreate
+	.extend({
+		email,
+		password,
+		confirm_password: passwordConfirmation,
+		// The checkboxes always send a value, so drop the spec's defaults.
 		isActive: z.boolean(),
+		isSuperuser: z.boolean(),
 	})
-	.refine((data) => data.password === data.confirm_password, {
-		error: "The passwords don't match",
-		path: ['confirm_password'],
-	})
+	.refine((data) => data.password === data.confirm_password, passwordsMatch)
 
 type FormData = z.infer<typeof formSchema>
 

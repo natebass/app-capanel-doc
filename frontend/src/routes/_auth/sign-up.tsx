@@ -8,22 +8,18 @@ import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
+import { zUserRegister } from '@/lib/client'
+import { email, password, passwordConfirmation, passwordsMatch } from '@/lib/forms'
 import useAuth, { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
 
-const signupSchema = z
-	.object({
-		email: z.string().email({ error: 'Please enter a valid email address' }),
-		fullName: z.string().min(1, { error: 'Full Name is required' }),
-		password: z
-			.string()
-			.min(1, { error: 'Password is required' })
-			.min(8, { error: 'Password must be at least 8 characters' }),
-		confirm_password: z.string().min(1, { error: 'Password confirmation is required' }),
+const signupSchema = zUserRegister
+	.extend({
+		email,
+		fullName: z.string().min(1, { error: 'Full Name is required' }).max(255),
+		password,
+		confirm_password: passwordConfirmation,
 	})
-	.refine((data) => data.password === data.confirm_password, {
-		error: "The passwords don't match",
-		path: ['confirm_password'],
-	})
+	.refine((data) => data.password === data.confirm_password, passwordsMatch)
 
 type SignupFormValues = z.infer<typeof signupSchema>
 

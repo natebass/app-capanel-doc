@@ -19,13 +19,17 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { type ItemPublic, itemsReadItemsQueryKey, itemsUpdateItemMutation } from '@/lib/client'
+import {
+	type ItemPublic,
+	itemsReadItemsQueryKey,
+	itemsUpdateItemMutation,
+	zItemUpdate,
+} from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
-const formSchema = z.object({
-	title: z.string().min(1, { error: 'Title is required' }),
-	description: z.string().optional(),
+const formSchema = zItemUpdate.extend({
+	title: z.string().min(1, { error: 'Title is required' }).max(255),
 })
 
 type FormData = z.infer<typeof formSchema>

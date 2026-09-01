@@ -7,15 +7,22 @@ import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { usersReadUserMeQueryKey, usersUpdateUserMeMutation, type UserUpdateMe } from '@/lib/client'
+import {
+	usersReadUserMeQueryKey,
+	usersUpdateUserMeMutation,
+	type UserUpdateMe,
+	zUserUpdateMe,
+} from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
+import { email } from '@/lib/forms'
 import { cn } from '@/lib/utils.ts'
 import useAuth from '@/routes/-hooks/hooks/useAuth.ts'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
-const formSchema = z.object({
+const formSchema = zUserUpdateMe.extend({
+	// Deliberately tighter than the API's 255: this name has to fit the navbar.
 	fullName: z.string().max(30).optional(),
-	email: z.string().email({ error: 'Invalid email address' }),
+	email,
 })
 
 type FormData = z.infer<typeof formSchema>

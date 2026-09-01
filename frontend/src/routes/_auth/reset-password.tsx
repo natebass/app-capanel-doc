@@ -10,6 +10,7 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import { loginResetPasswordMutation } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
+import { password, passwordConfirmation, passwordsMatch } from '@/lib/forms'
 import { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
@@ -19,16 +20,10 @@ const searchSchema = z.object({
 
 const resetSchema = z
 	.object({
-		new_password: z
-			.string()
-			.min(1, { message: 'Password is required' })
-			.min(8, { message: 'Password must be at least 8 characters' }),
-		confirm_password: z.string().min(1, { message: 'Password confirmation is required' }),
+		new_password: password,
+		confirm_password: passwordConfirmation,
 	})
-	.refine((data) => data.new_password === data.confirm_password, {
-		message: "The passwords don't match",
-		path: ['confirm_password'],
-	})
+	.refine((data) => data.new_password === data.confirm_password, passwordsMatch)
 
 type ResetFormValues = z.infer<typeof resetSchema>
 

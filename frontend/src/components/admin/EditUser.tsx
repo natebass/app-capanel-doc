@@ -21,28 +21,30 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { type UserPublic, usersReadUsersQueryKey, usersUpdateUserMutation } from '@/lib/client'
+import {
+	type UserPublic,
+	usersReadUsersQueryKey,
+	usersUpdateUserMutation,
+	zUserUpdate,
+} from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
+import { email, password, passwordsMatch } from '@/lib/forms'
 import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
-const formSchema = z
-	.object({
-		email: z.string().email({ error: 'Invalid email address' }),
-		fullName: z.string().optional(),
-		password: z
-			.string()
-			.min(8, { error: 'Password must be at least 8 characters' })
-			.optional()
-			.or(z.literal('')),
+const formSchema = zUserUpdate
+	.extend({
+		email,
+		// Blank means "leave the password alone", so the 8-character floor only
+		// applies once the field has something in it.
+		password: password.optional().or(z.literal('')),
 		confirm_password: z.string().optional(),
-		isSuperuser: z.boolean().optional(),
+		// The checkboxes always send a value, so drop the spec's defaults and its
+		// nullable `forcePasswordReset`.
 		isActive: z.boolean().optional(),
+		isSuperuser: z.boolean().optional(),
 		forcePasswordReset: z.boolean().optional(),
 	})
-	.refine((data) => !data.password || data.password === data.confirm_password, {
-		error: "The passwords don't match",
-		path: ['confirm_password'],
-	})
+	.refine((data) => !data.password || data.password === data.confirm_password, passwordsMatch)
 
 type FormData = z.infer<typeof formSchema>
 
@@ -64,7 +66,7 @@ const EditUser = ({ user, onSuccess }: EditUserProps) => {
 			confirm_password: '',
 			isSuperuser: user.isSuperuser,
 			isActive: user.isActive,
-			forcePasswordReset: user.forcePasswordReset,
+			forcePasswordReset: user.forcePasswordReset ?? false,
 		} as FormData,
 		validators: {
 			onChange: formSchema,
