@@ -1,7 +1,7 @@
 import {
 	Clock01Icon as Clock,
-	Home01Icon as Home,
 	CloudServerIcon as ServerOff,
+	Home01Icon as Home,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'

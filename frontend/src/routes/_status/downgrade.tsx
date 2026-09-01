@@ -1,9 +1,9 @@
 import {
 	Alert01Icon,
 	ArrowDown01Icon,
-	Tick02Icon,
-	Home01Icon,
 	Cancel01Icon,
+	Home01Icon,
+	Tick02Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'

@@ -1,8 +1,8 @@
 import {
-	Ticket02Icon as Check,
 	Database01Icon as Database,
 	Download01Icon as Download,
 	Home01Icon as Home,
+	Ticket02Icon as Check,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'

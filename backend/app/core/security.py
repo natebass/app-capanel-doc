@@ -15,7 +15,6 @@ password_hash = PasswordHash(
     )
 )
 
-
 ALGORITHM = "HS256"
 
 

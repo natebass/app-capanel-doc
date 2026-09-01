@@ -1,8 +1,8 @@
 import {
 	type CellData,
 	type ColumnDef,
-	type RowData,
 	createPaginatedRowModel,
+	type RowData,
 	rowPaginationFeature,
 	tableFeatures,
 } from '@tanstack/react-table'

@@ -9,7 +9,6 @@ from app.scripts.gcp_utils import load_repo_env_if_present
 
 load_repo_env_if_present(__file__, scope="backend_pre_start")
 
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 

@@ -31,6 +31,5 @@ api_router.include_router(dashboard.router)
 api_router.include_router(local_indicators.router)
 api_router.include_router(ingest.router)
 
-
 if settings.FASTAPI_ENV == "development":
     api_router.include_router(private.router)

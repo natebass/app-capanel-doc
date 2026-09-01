@@ -1,6 +1,6 @@
 import {
-	Notification01Icon,
 	Home01Icon,
+	Notification01Icon,
 	RocketIcon,
 	SparklesIcon,
 } from '@hugeicons/core-free-icons'

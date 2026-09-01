@@ -14,6 +14,7 @@
 For development, it is recommended to open the backend folder directly in VSCode and run Python commands as normal.
 
 First, install the backend dependencies.
+
 - `cd backend`
 - `uv sync`
 

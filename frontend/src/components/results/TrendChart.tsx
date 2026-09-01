@@ -10,10 +10,10 @@ import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
 
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import {
+	type ChartConfig,
 	ChartContainer,
 	ChartTooltip,
 	ChartTooltipContent,
-	type ChartConfig,
 } from '@/components/ui/chart'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toNumber } from '@/lib/results'

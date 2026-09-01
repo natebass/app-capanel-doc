@@ -1,9 +1,9 @@
 import {
+	Alert02Icon,
 	CheckmarkCircle02Icon,
 	InformationCircleIcon,
-	Alert02Icon,
-	MultiplicationSignCircleIcon,
 	Loading03Icon,
+	MultiplicationSignCircleIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { useTheme } from 'next-themes'

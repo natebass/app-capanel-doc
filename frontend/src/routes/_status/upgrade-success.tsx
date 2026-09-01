@@ -1,9 +1,9 @@
 import {
 	ArrowRight01Icon as ArrowRight,
-	Tick01Icon as Check,
 	CrownIcon as Crown,
 	SparklesIcon as PartyPopper,
 	SparklesIcon as Sparkles,
+	Tick01Icon as Check,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'

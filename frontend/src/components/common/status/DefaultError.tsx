@@ -1,6 +1,6 @@
 import { AlertCircleIcon, Bug01Icon, Home01Icon, RefreshIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { Link, type ErrorComponentProps } from '@tanstack/react-router'
+import { type ErrorComponentProps, Link } from '@tanstack/react-router'
 
 import {
 	Accordion,

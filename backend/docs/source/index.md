@@ -24,7 +24,9 @@ A dashboard that displays key school performance metrics.
 
 ## About the project
 
-This project's goal is to provide a user-friendly interface for exploring key school performance metrics in California. It leverages public data from the California Department of Education and aims to inspire transparency and understanding of the education system.
+This project's goal is to provide a user-friendly interface for exploring key school performance metrics in California.
+It leverages public data from the California Department of Education and aims to inspire transparency and understanding
+of the education system.
 
 ```{toctree}
 :maxdepth: 2

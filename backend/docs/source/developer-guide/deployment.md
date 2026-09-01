@@ -1,7 +1,6 @@
 # Google Cloud Run Deployment Guide
 
-This project is deployed to **Google Cloud Run** using scripts in `backend/app/scripts/gcp`.
-The key point is:
+This project is deployed to **Google Cloud Run** using scripts in `backend/app/scripts/gcp`. The key point is:
 
 - `deploy_cloud_run.py` is the main deployment entry point.
 - `render_cloud_run_service.py` is used automatically by the deploy script.
@@ -31,8 +30,8 @@ Use `backend/app/scripts/gcp/deploy_cloud_run.py` for normal deployments. It han
 
 ### `render_cloud_run_service.py` (helper used automatically)
 
-`render_cloud_run_service.py` renders the Cloud Run service YAML (frontend + backend containers) from environment variables.
-You do **not** need to run it manually during standard deployment; `deploy_cloud_run.py` calls it internally.
+`render_cloud_run_service.py` renders the Cloud Run service YAML (frontend + backend containers) from environment
+variables. You do **not** need to run it manually during standard deployment; `deploy_cloud_run.py` calls it internally.
 
 ### `provision_cloud_run.py` (infrastructure provisioning)
 
@@ -56,7 +55,8 @@ If your infrastructure already exists, you can usually skip provisioning and run
 ### Existing infrastructure
 
 1. Run `deploy_cloud_run.py` directly.
-2. If deployment reports missing core resources (for example Cloud SQL, service accounts, networking), run provisioning and retry.
+2. If deployment reports missing core resources (for example Cloud SQL, service accounts, networking), run provisioning
+   and retry.
 
 ## `deploy_cloud_run.py` Usage
 
@@ -75,7 +75,8 @@ uv run backend/app/scripts/gcp/deploy_cloud_run.py .env
 
 ### Full Service Only (`--full-only`)
 
-Builds backend/frontend images and deploys the combined Cloud Run service. Use when updating application or UI without changing init resources.
+Builds backend/frontend images and deploys the combined Cloud Run service. Use when updating application or UI without
+changing init resources.
 
 ### Init Trigger Only (`--init-trigger-only`)
 
@@ -104,7 +105,8 @@ curl -X POST -H "Authorization: Bearer $(gcloud auth print-identity-token)" "$FU
 
 ## Secrets Management
 
-Sensitive values are stored in **Google Secret Manager**. `deploy_cloud_run.py` expects specific secrets and maps them into Cloud Run environment variables.
+Sensitive values are stored in **Google Secret Manager**. `deploy_cloud_run.py` expects specific secrets and maps them
+into Cloud Run environment variables.
 
 Managed secrets:
 
@@ -117,7 +119,8 @@ Create or update secrets with:
 uv run backend/app/scripts/gcp/create_secrets.py .env
 ```
 
-This script reads `SECRET_KEY` and `CLOUD_SQL_PASSWORD` from `.env`, uploads values to Secret Manager, and grants access to the Cloud Run service account.
+This script reads `SECRET_KEY` and `CLOUD_SQL_PASSWORD` from `.env`, uploads values to Secret Manager, and grants access
+to the Cloud Run service account.
 
 ## URLs and Access
 
