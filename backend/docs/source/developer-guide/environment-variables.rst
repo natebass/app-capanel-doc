@@ -7,8 +7,10 @@ Configure environment variables as needed (see ``app/core/config.py`` for availa
 
     # General
     PROJECT_NAME="California Accountability Panel"
-    # Environment: local, staging, production
-    ENVIRONMENT=local
+    # Only "development" is accepted; leave it unset everywhere else.  Unset is
+    # the strict mode: a "changethis" secret raises instead of warning, and the
+    # development-only API routes are not registered.
+    FASTAPI_ENV=development
 
     # Frontend
     FRONTEND_HOST=http://localhost:5173

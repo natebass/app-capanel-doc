@@ -621,9 +621,8 @@ services:
     image: postgres:18-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-capanel}
-      POSTGRES_USER: ${POSTGRES_USER:-capanel}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Variable not set}
+      - POSTGRES_DB=app
     volumes:
       - pgdata:/var/lib/postgresql/data
     # Tuned for 2 GiB total, not for a dedicated database host.
@@ -655,8 +654,10 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      ENVIRONMENT: production
-      DATABASE_URL: postgresql://${POSTGRES_USER:-capanel}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-capanel}
+      # FASTAPI_ENV is deliberately unset. Its only accepted value is
+      # "development"; leaving it unset is what makes the application refuse to
+      # start on a "changethis" secret and keeps the dev-only routes off.
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       RESEARCH_FILE_SOURCE_URI: s3://capanel-007361225089-us-west-2-an/resources/california-state
       AWS_REGION: us-west-2
     depends_on:

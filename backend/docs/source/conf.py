@@ -5,7 +5,6 @@ from typing import Any
 from sphinx.application import Sphinx
 
 os.environ.setdefault("PROJECT_NAME", "California Accountability Panel")
-os.environ.setdefault("POSTGRES_SERVER", "localhost")
 os.environ.setdefault("POSTGRES_USER", "postgres")
 os.environ.setdefault("POSTGRES_PASSWORD", "postgres")
 os.environ.setdefault("POSTGRES_DB", "app")
