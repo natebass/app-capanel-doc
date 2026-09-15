@@ -2,8 +2,8 @@
 
 ## Getting started
 
-Check out the documentation website. https://github.com/opensacorg/app-capanel-doc
+Check out the documentation website. https://github.com/opensacorg/learning-blocks-doc
 
 Useful links:
 
-- California Accountability Panel discussion https://github.com/opensacorg/app-capanel-doc/discussions
+- California Accountability Panel discussion https://github.com/opensacorg/learning-blocks-doc/discussions

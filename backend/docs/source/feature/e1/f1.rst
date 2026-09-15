@@ -22,7 +22,7 @@ The Performance Cards feature is built using seven core UI components that work 
 
 .. image:: /_static/image/Dashboard.png
 
-.. image:: https://github.com/opensacorg/app-capanel-doc/blob/main/backend/docs/source/_static/image/Dashboard.png
+.. image:: https://github.com/opensacorg/learning-blocks-doc/blob/main/backend/docs/source/_static/image/Dashboard.png
    :alt: Dashboard displaying LEA performance metrics
    :width: 600
    :align: center

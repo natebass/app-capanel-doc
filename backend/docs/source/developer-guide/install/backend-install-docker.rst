@@ -17,4 +17,4 @@ Next step
 
    docker compose up -d
 
-See `Run the application <https://opensacorg.github.io/app-capanel-doc/developer-guide/run-application>`_.
+See `Run the application <https://opensacorg.github.io/learning-blocks-doc/developer-guide/run-application>`_.

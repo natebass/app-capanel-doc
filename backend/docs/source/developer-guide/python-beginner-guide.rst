@@ -76,8 +76,8 @@ Step 1: Clone the Repository
     cd "C:\Users\shwnd\Desktop\LB_LocalCopy\Coding"
 
     # Clone the project (if not already done)
-    git clone <your-repository-url> app-capanel-web
-    cd app-capanel-web
+    git clone <your-repository-url> learning-blocks
+    cd learning-blocks
 
 Step 2: Install uv (Python Package Manager)
 =========================================================

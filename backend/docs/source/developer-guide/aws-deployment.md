@@ -12,7 +12,7 @@ in S3 and are read from there by the importer.
 ```{warning}
 The Dockerfiles and the Compose file described here **do not live in this
 repository**. This repository is a documentation mirror; the container files
-belong in `opensacorg/app-capanel-web`. Everything below is the specification
+belong in `opensacorg/learning-blocks`. Everything below is the specification
 for what to create there, written out in full so it can be copied.
 ```
 
@@ -51,7 +51,7 @@ flowchart LR
         API --> DB[("postgres:18<br/>on EBS gp3")]
         IMPORT["one-off import<br/>docker compose run"] --> DB
     end
-    S3[("S3<br/>capanel-…-an/resources")] -->|streamed COPY| IMPORT
+    S3[("S3<br/>blocks-…-an/resources")] -->|streamed COPY| IMPORT
     CDE["www3.cde.ca.gov<br/>dashboard files"] --> IMPORT
 ```
 
@@ -154,7 +154,7 @@ instance store — `t4g` has none, and where it exists it is lost on stop.
 The bucket already exists:
 
 ```text
-s3://capanel-007361225089-us-west-2-an/
+s3://blocks-007361225089-us-west-2-an/
   resources/
     california-state/       # ~2.6 GB — CAASPP and ELPAC statewide research files
       sb_ca2024_all_csv_ela_v1.txt
@@ -179,12 +179,12 @@ Do confirm the basics, since the account is carrying real uploaded data:
 
 ```bash
 aws s3api put-public-access-block \
-  --bucket capanel-007361225089-us-west-2-an \
+  --bucket blocks-007361225089-us-west-2-an \
   --public-access-block-configuration \
   "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
 
 aws s3api put-bucket-versioning \
-  --bucket capanel-007361225089-us-west-2-an \
+  --bucket blocks-007361225089-us-west-2-an \
   --versioning-configuration Status=Enabled
 ```
 
@@ -197,7 +197,7 @@ action.
 Uploading a new administration year is one command:
 
 ```bash
-aws s3 sync "./resources/california-state" s3://capanel-007361225089-us-west-2-an/resources/california-state/
+aws s3 sync "./resources/california-state" s3://blocks-007361225089-us-west-2-an/resources/california-state/
 ```
 
 ### VPC and the S3 gateway endpoint
@@ -217,8 +217,8 @@ aws ec2 create-vpc-endpoint \
 
 ```bash
 aws ec2 create-security-group \
-  --group-name capanel-web \
-  --description "CA Panel single-instance deployment" \
+  --group-name learning-blocks\
+  --description "Learning Blocks single-instance deployment" \
   --vpc-id vpc-…
 
 # HTTP and HTTPS from anywhere: Caddy needs :80 reachable for the ACME challenge.
@@ -236,7 +236,7 @@ the database listens only on the Compose network.
 
 ### IAM — the instance role
 
-Create a role `capanel-instance` with `AmazonSSMManagedInstanceCore` attached,
+Create a role `blocks-instance` with `AmazonSSMManagedInstanceCore` attached,
 plus this inline policy, and give the instance its instance profile. `boto3`
 uses the default credential chain, so the role is picked up with no keys
 anywhere on disk.
@@ -249,26 +249,26 @@ anywhere on disk.
       "Sid": "ReadResources",
       "Effect": "Allow",
       "Action": ["s3:GetObject"],
-      "Resource": "arn:aws:s3:::capanel-007361225089-us-west-2-an/resources/*"
+      "Resource": "arn:aws:s3:::blocks-007361225089-us-west-2-an/resources/*"
     },
     {
       "Sid": "ListResources",
       "Effect": "Allow",
       "Action": ["s3:ListBucket"],
-      "Resource": "arn:aws:s3:::capanel-007361225089-us-west-2-an",
+      "Resource": "arn:aws:s3:::blocks-007361225089-us-west-2-an",
       "Condition": {"StringLike": {"s3:prefix": ["resources/*", "resources"]}}
     },
     {
       "Sid": "WriteBackups",
       "Effect": "Allow",
       "Action": ["s3:PutObject"],
-      "Resource": "arn:aws:s3:::capanel-007361225089-us-west-2-an/backups/*"
+      "Resource": "arn:aws:s3:::blocks-007361225089-us-west-2-an/backups/*"
     },
     {
       "Sid": "ReadParameters",
       "Effect": "Allow",
       "Action": ["ssm:GetParameter", "ssm:GetParametersByPath"],
-      "Resource": "arn:aws:ssm:us-west-2:007361225089:parameter/capanel/*"
+      "Resource": "arn:aws:ssm:us-west-2:007361225089:parameter/blocks/*"
     },
     {
       "Sid": "DecryptParameters",
@@ -290,16 +290,16 @@ parameters, including `SecureString`, are free. For four secrets that is $19/yea
 of difference for no benefit at this scale.
 
 ```bash
-aws ssm put-parameter --name /capanel/secret-key \
+aws ssm put-parameter --name /blocks/secret-key \
   --type SecureString --value "$(openssl rand -hex 32)"
-aws ssm put-parameter --name /capanel/postgres-password \
+aws ssm put-parameter --name /blocks/postgres-password \
   --type SecureString --value "$(openssl rand -hex 24)"
-aws ssm put-parameter --name /capanel/first-superuser-password \
+aws ssm put-parameter --name /blocks/first-superuser-password \
   --type SecureString --value "…"
 ```
 
 The instance materialises them into the `.env` that Compose reads — see
-{ref}`the deploy script <capanel-deploy-script>` below.
+{ref}`the deploy script <blocks-deploy-script>` below.
 
 ### Elastic IP and DNS
 
@@ -425,7 +425,7 @@ recipients and skip the paperwork. To leave it, request production access in the
 SES console; approval takes a day or so and asks what you send and how you
 handle bounces.
 
-Add this statement to the `capanel-instance` role policy shown earlier:
+Add this statement to the `blocks-instance` role policy shown earlier:
 
 ```json
 {
@@ -462,7 +462,7 @@ margin. It does not appear in the cost table below for that reason.
 
 ## The container files
 
-To be created in `opensacorg/app-capanel-web`.
+To be created in `opensacorg/learning-blocks`.
 
 ### Keeping the images small
 
@@ -552,7 +552,7 @@ From your machine:
 cd frontend
 pnpm install
 pnpm build
-rsync -az --delete dist/ ec2-user@capanel.example.org:/opt/capanel/dist/
+rsync -az --delete dist/ ec2-user@dashboard.example.org:/opt/blocks/dist/
 ```
 
 `--delete` matters: without it, files removed from a build linger and an old
@@ -565,7 +565,7 @@ through SSM instead — no inbound rule, no key pair:
 aws ssm start-session --target i-… \
   --document-name AWS-StartPortForwardingSession \
   --parameters '{"portNumber":["22"],"localPortNumber":["2222"]}'
-rsync -az --delete -e "ssh -p 2222" dist/ ec2-user@localhost:/opt/capanel/dist/
+rsync -az --delete -e "ssh -p 2222" dist/ ec2-user@localhost:/opt/blocks/dist/
 ```
 
 ```{important}
@@ -614,7 +614,7 @@ alone — no rebuild, no restart, no downtime.
 ### `compose.yaml`
 
 ```yaml
-name: capanel
+name: blocks
 
 services:
   db:
@@ -643,7 +643,7 @@ services:
       - -c
       - max_connections=40
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-capanel}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-blocks}"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -658,7 +658,7 @@ services:
       # "development"; leaving it unset is what makes the application refuse to
       # start on a "changethis" secret and keeps the dev-only routes off.
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-      RESEARCH_FILE_SOURCE_URI: s3://capanel-007361225089-us-west-2-an/resources/california-state
+      RESEARCH_FILE_SOURCE_URI: s3://blocks-007361225089-us-west-2-an/resources/california-state
       AWS_REGION: us-west-2
     depends_on:
       db:
@@ -728,7 +728,7 @@ is tens of megabytes of built HTML that would be copied into the build context
 on every image build. `tests/` is excluded because the runtime image has no test
 dependencies to run them with.
 
-(capanel-deploy-script)=
+(blocks-deploy-script)=
 ### `deploy.sh`
 
 The one script that runs on the instance. It pulls secrets from Parameter Store
@@ -739,7 +739,7 @@ into `.env`, then rebuilds and restarts.
 set -euo pipefail
 
 REGION=us-west-2
-cd /opt/capanel
+cd /opt/blocks
 
 param() {
 	aws ssm get-parameter --region "$REGION" --name "$1" --with-decryption \
@@ -747,16 +747,16 @@ param() {
 }
 
 cat > .env <<ENV
-SITE_ADDRESS=capanel.example.org
-POSTGRES_DB=capanel
-POSTGRES_USER=capanel
-POSTGRES_PASSWORD=$(param /capanel/postgres-password)
-SECRET_KEY=$(param /capanel/secret-key)
+SITE_ADDRESS=dashboard.example.org
+POSTGRES_DB=blocks
+POSTGRES_USER=blocks
+POSTGRES_PASSWORD=$(param /blocks/postgres-password)
+SECRET_KEY=$(param /blocks/secret-key)
 FIRST_SUPERUSER=admin@example.org
-FIRST_SUPERUSER_PASSWORD=$(param /capanel/first-superuser-password)
+FIRST_SUPERUSER_PASSWORD=$(param /blocks/first-superuser-password)
 PROJECT_NAME=California Accountability Panel
-FRONTEND_HOST=https://capanel.example.org
-BACKEND_CORS_ORIGINS=https://capanel.example.org
+FRONTEND_HOST=https://dashboard.example.org
+BACKEND_CORS_ORIGINS=https://dashboard.example.org
 ENV
 chmod 600 .env
 
@@ -781,14 +781,14 @@ aws ec2 run-instances \
   --region us-west-2 \
   --image-id resolve:ssm:/aws/service/canonical/ubuntu/server/24.04/stable/current/arm64/hvm/ebs-gp3/ami-id \
   --instance-type t4g.small \
-  --iam-instance-profile Name=capanel-instance \
+  --iam-instance-profile Name=blocks-instance \
   --security-group-ids sg-… \
   --subnet-id subnet-… \
   --associate-public-ip-address \
   --block-device-mappings '[{"DeviceName":"/dev/sda1","Ebs":{"VolumeSize":60,"VolumeType":"gp3","Encrypted":true,"DeleteOnTermination":false}}]' \
   --credit-specification CpuCredits=unlimited \
   --metadata-options "HttpTokens=required" \
-  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=capanel}]'
+  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=blocks}]'
 ```
 
 `DeleteOnTermination=false` means an accidental terminate leaves the database
@@ -838,9 +838,9 @@ sudo sysctl -p /etc/sysctl.d/99-swappiness.conf
 ### 4. Clone and deploy
 
 ```bash
-sudo mkdir -p /opt/capanel && sudo chown "$USER" /opt/capanel
-git clone https://github.com/opensacorg/app-capanel-web.git /opt/capanel
-cd /opt/capanel
+sudo mkdir -p /opt/blocks && sudo chown "$USER" /opt/blocks
+git clone https://github.com/opensacorg/learning-blocks.git /opt/blocks
+cd /opt/blocks
 ./deploy.sh
 ```
 
@@ -853,7 +853,7 @@ From your machine, not the instance:
 
 ```bash
 cd frontend && pnpm install && pnpm build
-rsync -az --delete dist/ ec2-user@capanel.example.org:/opt/capanel/dist/
+rsync -az --delete dist/ ec2-user@dashboard.example.org:/opt/blocks/dist/
 ```
 
 Caddy serves the directory directly, so this is the whole front-end deploy. Do
@@ -866,11 +866,11 @@ assessment first, then accountability. The importers are safe to re-run: a file
 whose size and entity tag are unchanged is skipped.
 
 ```bash
-cd /opt/capanel
+cd /opt/blocks
 
 # Assessment: CAASPP and ELPAC statewide research files, from S3.
 docker compose run --rm backend python app/scripts/ingest_research_files.py \
-  --source s3://capanel-007361225089-us-west-2-an/resources/california-state
+  --source s3://blocks-007361225089-us-west-2-an/resources/california-state
 
 # Accountability: California School Dashboard indicators.
 docker compose run --rm backend python app/scripts/ingest_dashboard_files.py --year 2024
@@ -884,7 +884,7 @@ docker compose run --rm backend python app/scripts/ingest_enrollment.py
 
 The dashboard, growth, and enrollment importers default to reading from
 `www3.cde.ca.gov` directly, so no local copy is needed. Pass
-`--source s3://capanel-007361225089-us-west-2-an/resources/cde-2025` to use the
+`--source s3://blocks-007361225089-us-west-2-an/resources/cde-2025` to use the
 uploaded workbooks instead — worth doing if the state's server is slow or if you
 want the import pinned to the files you have already checked.
 
@@ -936,7 +936,7 @@ ingest wants a job, not a request.
 ### 6. Verify
 
 ```bash
-curl -fsS https://capanel.example.org/api/v1/utils/health-check/
+curl -fsS https://dashboard.example.org/api/v1/utils/health-check/
 docker compose ps
 docker compose logs -n 50 backend
 ```
@@ -953,8 +953,8 @@ incremental and compressed; expect $1–2/month.
 another EBS volume, and a `pg_dump` can:
 
 ```bash
-docker compose exec -T db pg_dump -U capanel -Fc capanel \
-  | aws s3 cp - "s3://capanel-007361225089-us-west-2-an/backups/capanel-$(date -u +%Y%m%dT%H%M%SZ).dump"
+docker compose exec -T db pg_dump -U blocks -Fc blocks \
+  | aws s3 cp - "s3://blocks-007361225089-us-west-2-an/backups/blocks-$(date -u +%Y%m%dT%H%M%SZ).dump"
 ```
 
 Compressed, that is around 2 GB. A weekly cron job with a 30-day lifecycle

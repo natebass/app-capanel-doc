@@ -384,7 +384,7 @@ class HttpSource:
 
 
 _HTTP_TIMEOUT = 120
-_HTTP_HEADERS = {"User-Agent": "app-capanel/1.0 (+https://github.com/opensacorg)"}
+_HTTP_HEADERS = {"User-Agent": "learning-blocks/1.0 (+https://github.com/opensacorg)"}
 # The first Dashboard with downloadable indicator files.
 _FIRST_DASHBOARD_YEAR = 2017
 

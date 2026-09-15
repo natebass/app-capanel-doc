@@ -24,8 +24,8 @@ const normalizeApiBase = (value: string | undefined): string | undefined => {
  * Resolve the public base path the built site is served from.
  *
  * Unset (or `/`) builds for a naked custom domain such as `https://example.org/`.
- * A path such as `app-capanel-web` builds for a GitHub Pages project site at
- * `https://opensacorg.github.io/app-capanel-web/`; leading and trailing slashes
+ * A path such as `learning-blocks` builds for a GitHub Pages project site at
+ * `https://opensacorg.github.io/learning-blocks/`; leading and trailing slashes
  * are added when missing. A value beginning with `.` (such as `./`) is passed
  * through unchanged to produce fully relative asset URLs, which suits a site
  * whose final path is unknown at build time but breaks a hard reload of any

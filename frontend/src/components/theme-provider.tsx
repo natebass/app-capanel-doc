@@ -25,7 +25,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 export function ThemeProvider({
 	children,
 	defaultTheme = 'system',
-	storageKey = 'capanel-ui-theme-44d8',
+	storageKey = 'blocks-ui-theme-44d8',
 	...props
 }: ThemeProviderProps) {
 	const [theme, setTheme] = useState<Theme>(

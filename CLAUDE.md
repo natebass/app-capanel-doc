@@ -22,4 +22,4 @@ Read `backend/docs/source/data/dashboard.rst` before touching the accountability
 - The status/change/colour rules include things CDE does not document: a reduced grid under 150 students, six suspension variants keyed by school type, and hand-assigned overrides. `tests/service/test_dashboard_projection.py` holds them to 100% against real published rows. If it fails, the projection does not ship.
 - Dashboard student-group codes (`ALL`, `SED`, `EL`) and the numeric CAASPP/ELPAC group ids are separate vocabularies that only partly overlap. Do not unify them.
 
-This repo is a documentation mirror of `opensacorg/app-capanel-web` and is synced by hand.
+This repo is a documentation mirror of `opensacorg/learning-blocks` and is synced by hand.

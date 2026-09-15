@@ -7,7 +7,7 @@
 		"education",
 		"storybook"
 	],
-	"homepage": "https://opensacorg.github.io/app-capanel-doc",
+	"homepage": "https://opensacorg.github.io/learning-blocks-doc",
 	"license": "MIT",
 	"author": {
 		"name": "Open Sacramento",
@@ -16,7 +16,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/opensacorg/app-capanel-doc.org.git"
+		"url": "git+https://github.com/opensacorg/learning-blocks-doc.org.git"
 	},
 	"type": "module",
 	"imports": {

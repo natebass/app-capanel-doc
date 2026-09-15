@@ -13,5 +13,5 @@ makers who want real-time, personalized performance data.
 Source code
 -----------
 
-* `Web application <https://github.com/opensacorg/app-capanel-web>`_
-* `Documentation <https://github.com/opensacorg/app-capanel-doc>`_
+* `Web application <https://github.com/opensacorg/learning-blocks>`_
+* `Documentation <https://github.com/opensacorg/learning-blocks-doc>`_

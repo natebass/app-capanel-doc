@@ -34,7 +34,7 @@ def _to_origin(url: str) -> str | None:
     """Reduce a URL to the browser origin the ``Origin`` header will carry.
 
     A browser sends only the scheme, host, and port, so any path has to be
-    dropped: ``https://opensacorg.github.io/app-capanel-web`` is a valid
+    dropped: ``https://opensacorg.github.io/learning-blocks`` is a valid
     :data:`Settings.FRONTEND_HOST` for building links into a GitHub Pages
     project site, but the matching origin is ``https://opensacorg.github.io``.
 

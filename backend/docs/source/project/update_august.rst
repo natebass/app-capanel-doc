@@ -380,5 +380,5 @@ Known gaps
   not exist and a stack (React 18, Chakra, Pandas, D3) that is not in use.  It
   needs rewriting against reality.
 * This is the documentation repository.  Everything here has to be mirrored into
-  ``opensacorg/app-capanel-web`` by hand; see
+  ``opensacorg/learning-blocks`` by hand; see
   :doc:`../developer-guide/documentation-repository-sync`.

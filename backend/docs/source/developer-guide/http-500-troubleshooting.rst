@@ -64,7 +64,7 @@ Diagnostic Steps
 
     .. code-block:: bash
 
-        docker compose exec db psql -U capanel -c "\dt"
+        docker compose exec db psql -U blocks -c "\dt"
 
 4.  **Re-run the deploy**, which rewrites ``.env`` from Parameter Store, applies migrations and restarts:
 

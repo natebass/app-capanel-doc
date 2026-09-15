@@ -4,7 +4,7 @@
 Get Started
 ================================================================
 
-A dashboard that displays key school performance metrics. View our `website <https://capanel.example.org>`_.
+A dashboard that displays key school performance metrics. View our `website <https://dashboard.example.org>`_.
 
 For people who want real‑time, personalized performance data
   -  Guardians
@@ -12,8 +12,8 @@ For people who want real‑time, personalized performance data
   -  Educational Policy Makers
 
 Open source
-    - Source code: `github.com/opensacorg/app-capanel-web <https://github.com/opensacorg/app-capanel-web>`_
-    - Source code (docs): `github.com/opensacorg/app-capanel-doc <https://github.com/opensacorg/app-capanel-doc>`_
+    - Source code: `github.com/opensacorg/learning-blocks <https://github.com/opensacorg/learning-blocks>`_
+    - Source code (docs): `github.com/opensacorg/learning-blocks-doc <https://github.com/opensacorg/learning-blocks-doc>`_
 
 .. toctree::
    :caption: Get started

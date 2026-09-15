@@ -1,4 +1,4 @@
-# California Accountability Panel front-end documentation
+# Frontend documentation
 
 The test suite for React components using Storybook, Vitest, and Playwright.
 
@@ -10,7 +10,7 @@ The test suite for React components using Storybook, Vitest, and Playwright.
 ### Prerequisites
 
 Before running anything, first create the required `.env` files.
-See [environment variable documentation](https://opensacorg.github.io/app-capanel-doc/developer-guide/environment-variables).
+See [environment variable documentation](https://opensacorg.github.io/learning-blocks-doc/developer-guide/environment-variables).
 
 - Node.js (v24 or later)
 - Vite+
@@ -44,14 +44,14 @@ origin of the API. Both are read at build time.
 # Custom domain at the root, e.g. https://example.org/
 VITE_API_URL=https://api.example.org vp build
 
-# GitHub Pages project site, e.g. https://opensacorg.github.io/app-capanel-web/
-VITE_BASE_PATH=app-capanel-web VITE_API_URL=https://api.example.org vp build
+# GitHub Pages project site, e.g. https://opensacorg.github.io/learning-blocks/
+VITE_BASE_PATH=learning-blocks VITE_API_URL=https://api.example.org vp build
 ```
 
 Each build also writes `404.html` and `.nojekyll` into `dist/`, so GitHub Pages
 serves deep links through the client-side router. Neither file affects any other
 host. See
-the [environment variable documentation](https://opensacorg.github.io/app-capanel-doc/developer-guide/environment-variables)
+the [environment variable documentation](https://opensacorg.github.io/learning-blocks-doc/developer-guide/environment-variables)
 for the full description of both variables.
 
 ## Test
@@ -81,7 +81,7 @@ Please report and security issues or bugs to product@opensac.org.
 ## Resources
 
 - [Contributing guide](.github/CONTRIBUTING.md)
-- [Developer Guide index](https://opensacorg.github.io/app-capanel-doc/developer-guide/)
-- [Components guide](https://opensacorg.github.io/app-capanel-doc/developer-guide/components)
-- [Storybook guide](https://opensacorg.github.io/app-capanel-doc/developer-guide/storybook)
-- [Extended backend/frontend README reference](https://opensacorg.github.io/app-capanel-doc/developer-guide/readme-reference)
+- [Developer Guide index](https://opensacorg.github.io/learning-blocks-doc/developer-guide/)
+- [Components guide](https://opensacorg.github.io/learning-blocks-doc/developer-guide/components)
+- [Storybook guide](https://opensacorg.github.io/learning-blocks-doc/developer-guide/storybook)
+- [Extended backend/frontend README reference](https://opensacorg.github.io/learning-blocks-doc/developer-guide/readme-reference)

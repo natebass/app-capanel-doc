@@ -14,11 +14,11 @@ Configure environment variables as needed (see ``app/core/config.py`` for availa
 
     # Frontend
     FRONTEND_HOST=http://localhost:5173
-    FRONTEND_HOST_PRODUCTION=https://capanel.example.org
+    FRONTEND_HOST_PRODUCTION=https://dashboard.example.org
 
     # Backend
-    BACKEND_CORS_ORIGINS="http://localhost,http://localhost:5173,https://localhost,https://localhost:5173,https://capanel.example.org"
-    SECRET_KEY=<Set from SSM Parameter Store as `/capanel/secret-key` when deployed>
+    BACKEND_CORS_ORIGINS="http://localhost,http://localhost:5173,https://localhost,https://localhost:5173,https://dashboard.example.org"
+    SECRET_KEY=<Set from SSM Parameter Store as `/blocks/secret-key` when deployed>
     FIRST_SUPERUSER=<Set an initial superuser>
     FIRST_SUPERUSER_PASSWORD=<Set an initial superuser password>
 
@@ -32,13 +32,13 @@ Configure environment variables as needed (see ``app/core/config.py`` for availa
 
     # Deployment (Docker on EC2, see the AWS deployment guide)
     AWS_REGION="us-west-2"
-    SITE_ADDRESS="capanel.example.org"
+    SITE_ADDRESS="dashboard.example.org"
 
     # Data Import
-    RESEARCH_FILE_SOURCE_URI="s3://capanel-007361225089-us-west-2-an/resources/california-state"
+    RESEARCH_FILE_SOURCE_URI="s3://blocks-007361225089-us-west-2-an/resources/california-state"
     # Dashboard files default to the state's own web server; point this at the
     # uploaded copies to pin the import to files you have already checked.
-    # DASHBOARD_FILE_SOURCE_URI="s3://capanel-007361225089-us-west-2-an/resources/cde-2025"
+    # DASHBOARD_FILE_SOURCE_URI="s3://blocks-007361225089-us-west-2-an/resources/cde-2025"
 
 Front-end build variables
 ================================================================
@@ -59,8 +59,8 @@ time and baked into the bundle, so a change to either needs a rebuild.
 
 ``VITE_BASE_PATH``
     ``/`` (or unset) builds for the root of a domain, such as
-    ``https://example.org/``. A repository path such as ``app-capanel-web``
-    builds for ``https://opensacorg.github.io/app-capanel-web/``; leading and
+    ``https://example.org/``. A repository path such as ``learning-blocks``
+    builds for ``https://opensacorg.github.io/learning-blocks/``; leading and
     trailing slashes are added when missing. The value also becomes the router's
     base path, so links and deep links stay correct under a sub-path.
 
@@ -94,7 +94,7 @@ accept. ``app/main.py`` passes :attr:`Settings.all_cors_origins` to FastAPI's
 ``FRONTEND_HOST``
     The public base URL of the front end. It is also used to build links in
     emails, so it keeps any sub-path: a GitHub Pages project site is
-    ``https://opensacorg.github.io/app-capanel-web``.
+    ``https://opensacorg.github.io/learning-blocks``.
 
 ``BACKEND_CORS_ORIGINS``
     A comma-separated list of any further origins, for when the same deployment
@@ -122,7 +122,7 @@ Secrets
 In deployed environments ``SECRET_KEY``, ``POSTGRES_PASSWORD`` and
 ``FIRST_SUPERUSER_PASSWORD`` are not kept in a checked-in file. They live in
 **AWS Systems Manager Parameter Store** as ``SecureString`` parameters under
-``/capanel/``, and the deploy script on the instance materialises them into the
+``/blocks/``, and the deploy script on the instance materialises them into the
 ``.env`` that Docker Compose reads.
 
 Parameter Store rather than Secrets Manager: standard parameters, including
@@ -131,10 +131,10 @@ month for the same thing at this scale.
 
 .. code-block:: bash
 
-    aws ssm put-parameter --name /capanel/secret-key \
+    aws ssm put-parameter --name /blocks/secret-key \
       --type SecureString --value "$(openssl rand -hex 32)"
 
-    aws ssm put-parameter --name /capanel/postgres-password \
+    aws ssm put-parameter --name /blocks/postgres-password \
       --type SecureString --value "$(openssl rand -hex 24)"
 
 The instance reads them through its instance profile, so no access keys exist on

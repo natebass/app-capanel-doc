@@ -34,7 +34,7 @@ Equivalent to `make reload`.
 > Before running the application, first create an `.env` file in the root of the repository
 > _and/or_ in the current (backend) directory.
 > See
-the [environment variable guide](https://opensacorg.github.io/app-capanel-doc/developer-guide/environment-variables).
+the [environment variable guide](https://opensacorg.github.io/learning-blocks-doc/developer-guide/environment-variables).
 
 #### 1. Initialize the database
 
@@ -42,7 +42,7 @@ Run the migrations and create a default superuser.
 
 > [!Note]
 > This does not populate the database with any dashboard data.
-> See the [data guide](https://opensacorg.github.io/app-capanel-doc/developer-guide/run-application).
+> See the [data guide](https://opensacorg.github.io/learning-blocks-doc/developer-guide/run-application).
 
 ```shell
 uv run app/scripts/initial_data.py
@@ -59,9 +59,9 @@ uv run app/scripts/initial_data.py
 
 ## Resources
 
-- [Developer Guide](https://opensacorg.github.io/app-capanel-doc/developer-guide/)
-- [Install](https://opensacorg.github.io/app-capanel-doc/developer-guide/install/)
-- [Development workflow](https://opensacorg.github.io/app-capanel-doc/developer-guide/development)
-- [Run application](https://opensacorg.github.io/app-capanel-doc/developer-guide/run-application)
-- [Testing](https://opensacorg.github.io/app-capanel-doc/developer-guide/testing)
-- [Extended backend/frontend README reference](https://opensacorg.github.io/app-capanel-doc/developer-guide/readme-reference)
+- [Developer Guide](https://opensacorg.github.io/learning-blocks-doc/developer-guide/)
+- [Install](https://opensacorg.github.io/learning-blocks-doc/developer-guide/install/)
+- [Development workflow](https://opensacorg.github.io/learning-blocks-doc/developer-guide/development)
+- [Run application](https://opensacorg.github.io/learning-blocks-doc/developer-guide/run-application)
+- [Testing](https://opensacorg.github.io/learning-blocks-doc/developer-guide/testing)
+- [Extended backend/frontend README reference](https://opensacorg.github.io/learning-blocks-doc/developer-guide/readme-reference)

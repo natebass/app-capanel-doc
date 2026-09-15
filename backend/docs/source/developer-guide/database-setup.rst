@@ -18,7 +18,7 @@ takes about an hour.
 
 .. code-block:: bash
 
-    cd /opt/capanel
+    cd /opt/blocks
 
     # Schema and the initial superuser (also done by deploy.sh).
     docker compose run --rm backend alembic upgrade head
@@ -26,7 +26,7 @@ takes about an hour.
 
     # Assessment layer: CAASPP and ELPAC statewide research files, from S3.
     docker compose run --rm backend python app/scripts/ingest_research_files.py \
-      --source s3://capanel-007361225089-us-west-2-an/resources/california-state
+      --source s3://blocks-007361225089-us-west-2-an/resources/california-state
 
     # Accountability layer: California School Dashboard indicators.
     docker compose run --rm backend python app/scripts/ingest_dashboard_files.py --year 2024

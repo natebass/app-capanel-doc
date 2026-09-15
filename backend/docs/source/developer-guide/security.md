@@ -32,9 +32,9 @@ deployment stores its secrets in AWS Systems Manager Parameter Store — see
 * **Update Parameter Store**: Overwrite the deployed values so the instance picks them up on the next deploy.
 
   ```bash
-  aws ssm put-parameter --name /capanel/secret-key --type SecureString \
+  aws ssm put-parameter --name /blocks/secret-key --type SecureString \
     --overwrite --value "$(openssl rand -hex 32)"
-  aws ssm put-parameter --name /capanel/postgres-password --type SecureString \
+  aws ssm put-parameter --name /blocks/postgres-password --type SecureString \
     --overwrite --value "$(openssl rand -hex 24)"
   ```
 
@@ -46,7 +46,7 @@ deployment stores its secrets in AWS Systems Manager Parameter Store — see
   has to be changed to match, or the two drift apart:
 
   ```bash
-  docker compose exec db psql -U capanel -c "ALTER ROLE capanel WITH PASSWORD 'new-value';"
+  docker compose exec db psql -U blocks -c "ALTER ROLE blocks WITH PASSWORD 'new-value';"
   ```
 
   Do this before recreating the backend, then run `./deploy.sh`.

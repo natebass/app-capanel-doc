@@ -45,13 +45,13 @@ html_theme_options = {
     "icon_links": [
         {
             "name": "Website",
-            "url": "https://capanel.example.org",
+            "url": "https://dashboard.example.org",
             "icon": "fas fa-globe",
             "type": "fontawesome",
         },
         {
             "name": "GitHub",
-            "url": "https://github.com/opensacorg/app-capanel-web",
+            "url": "https://github.com/opensacorg/learning-blocks",
             "icon": "fab fa-github",
             "type": "fontawesome",
         },
@@ -59,7 +59,7 @@ html_theme_options = {
 }
 html_context = {
     "github_user": "opensacorg",
-    "github_repo": "app-capanel-doc",
+    "github_repo": "learning-blocks-doc",
     "github_version": "main",
     "doc_path": "install/docs/source",
 }
