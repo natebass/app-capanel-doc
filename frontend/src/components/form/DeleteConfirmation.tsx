@@ -12,10 +12,10 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog'
 import { Spinner } from '@/components/ui/spinner'
+import useAuth from '@/hooks/useAuth.ts'
+import useCustomToast from '@/hooks/useCustomToast.ts'
 import { usersDeleteUserMeMutation, usersReadUserMeQueryKey } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
-import useAuth from '@/routes/-hooks/hooks/useAuth.ts'
-import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
 const DeleteConfirmation = () => {
 	const queryClient = useQueryClient()

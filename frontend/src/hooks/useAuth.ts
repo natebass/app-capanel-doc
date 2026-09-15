@@ -10,7 +10,7 @@ import {
 } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
 
-import useCustomToast from './useCustomToast'
+import useCustomToast from './useCustomToast.ts'
 
 const isLoggedIn = () => {
 	// Check if we are in a browser environment. Can be removed if we enable server side rendering.

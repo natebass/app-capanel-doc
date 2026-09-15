@@ -8,6 +8,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
 
+import { TrendPlaceholder } from '@/components/accountability/Placeholders'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import {
 	type ChartConfig,
@@ -15,11 +16,11 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from '@/components/ui/chart'
-import { Skeleton } from '@/components/ui/skeleton'
 import { toNumber } from '@/lib/results'
 import {
 	type AccountabilitySelection,
 	DASHBOARD_COLORS,
+	formatSchoolYear,
 	indicatorTrendQuery,
 } from '@/lib/services/accountability'
 
@@ -38,7 +39,7 @@ export function IndicatorTrend({
 }) {
 	const { data, isPending, error } = useQuery(indicatorTrendQuery(selection, indicator))
 
-	if (isPending) return <Skeleton className='h-64 w-full' />
+	if (isPending) return <TrendPlaceholder />
 	if (error) return <p className='text-sm text-destructive'>{error.message}</p>
 	if (!data || data.points.length === 0) {
 		return <p className='text-sm text-muted-foreground'>No history has been reported.</p>
@@ -52,7 +53,7 @@ export function IndicatorTrend({
 	const rows = span.map((year) => {
 		const point = byYear.get(year)
 		return {
-			year: `${year - 1}–${String(year).slice(2)}`,
+			year: formatSchoolYear(year),
 			// A missing year is null, not zero, so recharts leaves a gap.
 			status: point ? toNumber(point.currStatus) : null,
 			color: point?.color ?? null,
@@ -68,8 +69,7 @@ export function IndicatorTrend({
 			{data.missingYears.length > 0 ? (
 				<Alert>
 					<AlertDescription>
-						No Dashboard was published for{' '}
-						{data.missingYears.map((year) => `${year - 1}–${String(year).slice(2)}`).join(' or ')},
+						No Dashboard was published for {data.missingYears.map(formatSchoolYear).join(' or ')},
 						so the line is broken rather than drawn through.
 					</AlertDescription>
 				</Alert>

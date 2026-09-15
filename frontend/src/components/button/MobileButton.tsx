@@ -9,8 +9,8 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import useAuth from '@/hooks/useAuth.ts'
 import { cn } from '@/lib/utils.ts'
-import useAuth from '@/routes/-hooks/hooks/useAuth.ts'
 
 export default function MobileButton() {
 	const { user: currentUser, logout } = useAuth()
@@ -23,11 +23,14 @@ export default function MobileButton() {
 				<HugeiconsIcon icon={Menu01Icon} />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
-				<DropdownMenuItem className='text-base p-3 tracking-wide' render={<Link to='/' />}>
-					Home
-				</DropdownMenuItem>
 				<DropdownMenuItem className='text-base p-3 tracking-wide' render={<Link to='/dashboard' />}>
-					Dashboard
+					Statewide
+				</DropdownMenuItem>
+				<DropdownMenuItem
+					className='text-base p-3 tracking-wide'
+					render={<Link to='/accountability' />}
+				>
+					Individual
 				</DropdownMenuItem>
 				{currentUser ? (
 					<>

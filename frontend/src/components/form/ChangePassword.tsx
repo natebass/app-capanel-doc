@@ -6,6 +6,7 @@ import { PasswordInput } from '@/components/password-input'
 import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
+import useCustomToast from '@/hooks/useCustomToast.ts'
 import {
 	type UpdatePassword,
 	usersReadUserMeQueryKey,
@@ -14,7 +15,6 @@ import {
 } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
 import { password, passwordConfirmation, passwordsMatch } from '@/lib/forms'
-import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
 const formSchema = zUpdatePassword
 	.extend({

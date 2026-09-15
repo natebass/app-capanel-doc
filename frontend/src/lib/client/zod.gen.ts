@@ -225,6 +225,33 @@ export const zGrowthReport = z.object({
 })
 
 /**
+ * IndicatorProjection
+ *
+ * A provisional figure for a year the state has not published.
+ *
+ * It travels attached to the last published result rather than standing on
+ * its own, because there is no Dashboard for the year it covers: the state
+ * has not released one.  ``basis`` says how it was worked out and belongs
+ * next to it wherever it is shown.
+ */
+export const zIndicatorProjection = z.object({
+	reportingYear: z.int(),
+	currStatus: z
+		.string()
+		.regex(/^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$/)
+		.nullish(),
+	change: z
+		.string()
+		.regex(/^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$/)
+		.nullish(),
+	statusLevel: z.int().nullish(),
+	changeLevel: z.int().nullish(),
+	color: z.int().nullish(),
+	colorName: z.string().nullish(),
+	basis: z.string().nullish(),
+})
+
+/**
  * IndicatorPublic
  *
  * One of the seven state indicators.
@@ -275,6 +302,7 @@ export const zIndicatorResult = z.object({
 	dassFlag: z.boolean().optional().default(false),
 	isProjected: z.boolean().optional().default(false),
 	projectionBasis: z.string().nullish(),
+	projection: zIndicatorProjection.nullish(),
 })
 
 /**
@@ -327,6 +355,7 @@ export const zIndicatorReport = z.object({
 	results: z.array(zIndicatorResult),
 	availableYears: z.array(z.int()),
 	includesProjections: z.boolean().optional().default(false),
+	projectionYear: z.int().nullish(),
 })
 
 /**

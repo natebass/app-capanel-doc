@@ -8,8 +8,8 @@ import { DataTable } from '@/components/common/DataTable'
 import PendingItems from '@/components/common/pending/PendingItems'
 import AddItem from '@/components/items/AddItem'
 import { createItemColumns } from '@/components/items/columns'
+import useAuth from '@/hooks/useAuth'
 import { itemsReadItemsOptions } from '@/lib/client'
-import useAuth from '@/routes/-hooks/hooks/useAuth'
 
 export const Route = createFileRoute('/user/items')({
 	component: Items,

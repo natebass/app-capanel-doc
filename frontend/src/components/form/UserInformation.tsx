@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
+import useAuth from '@/hooks/useAuth.ts'
+import useCustomToast from '@/hooks/useCustomToast.ts'
 import {
 	usersReadUserMeQueryKey,
 	usersUpdateUserMeMutation,
@@ -16,8 +18,6 @@ import {
 import { handleError } from '@/lib/client-utils.ts'
 import { email } from '@/lib/forms'
 import { cn } from '@/lib/utils.ts'
-import useAuth from '@/routes/-hooks/hooks/useAuth.ts'
-import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
 const formSchema = zUserUpdateMe.extend({
 	// Deliberately tighter than the API's 255: this name has to fit the navbar.

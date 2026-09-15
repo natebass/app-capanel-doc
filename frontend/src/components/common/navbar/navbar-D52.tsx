@@ -22,8 +22,8 @@ export default function NavbarD52({ shadow = false }: { shadow?: boolean }) {
 				<div className={styles.logoWrapper}>
 					<Link className={styles.logoLink} to='/'>
 						<img src={assetUrl('/assets/logo/logo.svg')} alt='Logo' className='h-10' />
-						<span className='hidden md:block'>
-							<span className='font-bold'>California Accountability</span> Panel
+						<span className='hidden md:block font-figtree font-semibold'>
+							California <span className='italic'>Dashboard</span>
 						</span>
 					</Link>
 				</div>
@@ -32,22 +32,13 @@ export default function NavbarD52({ shadow = false }: { shadow?: boolean }) {
 					<HugeiconsIcon icon={Search01Icon} className={styles.searchIcon} />
 					<div className={styles.linksContainer}>
 						<Link
-							to='/'
-							className={styles.link}
-							activeProps={{
-								className: styles.linkSelected,
-							}}
-						>
-							Home
-						</Link>
-						<Link
 							to='/dashboard'
 							className={styles.link}
 							activeProps={{
 								className: styles.linkSelected,
 							}}
 						>
-							Dashboard
+							Statewide
 						</Link>
 						<Link
 							to='/accountability'
@@ -56,16 +47,7 @@ export default function NavbarD52({ shadow = false }: { shadow?: boolean }) {
 								className: styles.linkSelected,
 							}}
 						>
-							Accountability
-						</Link>
-						<Link
-							to='/report'
-							className={styles.link}
-							activeProps={{
-								className: styles.linkSelected,
-							}}
-						>
-							Report
+							Individual
 						</Link>
 						<SettingsButton />
 					</div>

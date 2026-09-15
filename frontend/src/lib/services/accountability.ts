@@ -9,6 +9,7 @@
  * operation by its own name and parameters, which keeps that separation.
  */
 import {
+	type DashboardCatalog,
 	dashboardReadCatalogOptions,
 	dashboardReadChildrenOptions,
 	dashboardReadEnrollmentOptions,
@@ -18,6 +19,7 @@ import {
 	dashboardReadTrendOptions,
 } from '@/lib/client'
 import { toNumber } from '@/lib/results'
+import { assumedCatalog, rememberCatalog } from '@/lib/services/accountabilityShape'
 import { reference, report } from '@/lib/services/query'
 
 export const STATEWIDE_CDS = '00000000000000'
@@ -29,11 +31,56 @@ export type AccountabilitySelection = {
 	studentGroup: string
 }
 
+/**
+ * The catalogue, with a guess standing in until it answers.
+ *
+ * This endpoint is the slowest on the page and every other query on the page
+ * waits behind it, because the year they are all keyed by comes out of it.
+ * That is a waterfall built on reference data that changes a few times a year.
+ *
+ * The placeholder breaks it. `placeholderData` gives the page a catalogue on
+ * its first render, so the report's real structure draws immediately and the
+ * indicator, enrolment and growth requests all leave at once rather than in
+ * series. When the real catalogue lands it replaces the guess; where the guess
+ * named a different year, the queries keyed by it simply refetch.
+ *
+ * `isPlaceholderData` is how a component tells the two apart, and it must:
+ * the guess is good enough to lay out a page and never good enough to present
+ * as a state figure.
+ */
 export function dashboardCatalogQuery(year?: number) {
-	return reference(
+	const options = reference(
 		dashboardReadCatalogOptions({ query: year ? { year } : {} }),
 		'Could not load the accountability catalogue.',
 	)
+	const load = options.queryFn as (context: never) => Promise<DashboardCatalog>
+	/**
+	 * Only the unparameterised catalogue is worth keeping.
+	 *
+	 * Asked for a year, this endpoint answers about that year: `/catalog?year=
+	 * 2021` reports a `reportingYear` of 2021. Remembering that would make a
+	 * year somebody once linked to into the year every later visit opens on —
+	 * and since every other query is keyed by it, the page would spend a six
+	 * second request on the wrong year before the real catalogue corrected it.
+	 * The indicator and student group lists are identical either way, so
+	 * nothing is lost by keeping only the canonical answer.
+	 */
+	const canonical = year === undefined
+
+	// Cast on the way out for the same reason `described` casts: the generated
+	// context type belongs to this one operation and cannot be named here
+	// without repeating the whole of it.
+	return {
+		...options,
+		placeholderData: assumedCatalog,
+		// Remembered here rather than in an effect so a catalogue is kept once
+		// per fetch, not once per render of everything that reads it.
+		queryFn: async (context: never) => {
+			const catalog = await load(context)
+			if (canonical) rememberCatalog(catalog)
+			return catalog
+		},
+	} as typeof options & { placeholderData: typeof assumedCatalog }
 }
 
 export function indicatorsQuery(selection: AccountabilitySelection) {
@@ -168,6 +215,27 @@ export function describeChange(value: string | number | null | undefined, lowerI
 		label: `${rose ? 'Up' : 'Down'} ${Math.abs(change).toFixed(1)}`,
 		direction: good ? ('good' as const) : ('bad' as const),
 	}
+}
+
+/**
+ * The background a change reads against.
+ *
+ * "Up" is the good outcome for five indicators and the bad one for the other
+ * two, so direction cannot be left to the word alone — the same label means
+ * opposite things on the suspension card and the graduation card. These are
+ * this application's own tones rather than the five Dashboard hues, so a
+ * rising figure is never mistaken for a performance colour.
+ */
+export const CHANGE_TONES = {
+	good: 'bg-[var(--color-ca-dashboard-green)] text-white',
+	bad: 'bg-[var(--color-ca-dashboard-red)] text-white',
+	flat: 'bg-muted text-muted-foreground',
+	none: 'bg-muted text-muted-foreground',
+} as const
+
+/** A school year the way the state writes it: 2025 is 2024–25. */
+export function formatSchoolYear(year: number) {
+	return `${year - 1}\u2013${String(year).slice(2)}`
 }
 
 /** Render a status figure in the unit its indicator is measured in. */

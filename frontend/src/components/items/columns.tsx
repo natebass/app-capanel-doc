@@ -3,9 +3,9 @@ import { HugeiconsIcon } from '@hugeicons/react'
 
 import type { DataTableColumnDef } from '@/components/common/table-features'
 import { Button } from '@/components/ui/button'
+import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
 import type { ItemPublic } from '@/lib/client'
 import { cn } from '@/lib/utils'
-import { useCopyToClipboard } from '@/routes/-hooks/hooks/useCopyToClipboard'
 
 import { ItemActionsMenu } from './ItemActionsMenu'
 

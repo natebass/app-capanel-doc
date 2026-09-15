@@ -28,10 +28,29 @@ def seeded(db: Session) -> None:
 
 @pytest.fixture(scope="module")
 def year(db: Session) -> int:
-    years = available_years(db, include_projected=True)
+    """The latest year the state actually published.
+
+    A projected year is not selectable, so it is not a year a request can be
+    about; asking for one lands on this.
+    """
+    years = available_years(db)
     if not years:
         pytest.skip("no Dashboard data imported")
     return years[0]
+
+
+@pytest.fixture(scope="module")
+def projected(db: Session, year: int) -> str:
+    """An entity with a projection for the year after the published one."""
+    cds = db.exec(
+        select(DashboardIndicatorResult.cds_code)
+        .where(DashboardIndicatorResult.reporting_year == year + 1)
+        .where(col(DashboardIndicatorResult.is_projected).is_(True))
+        .limit(1)
+    ).first()
+    if cds is None:
+        pytest.skip("no projections imported")
+    return cds
 
 
 def test_the_catalog_lists_the_seven_indicators(client: TestClient) -> None:
@@ -103,7 +122,68 @@ def test_published_results_are_not_labelled_projections(
         f"{PREFIX}/indicators", params={"cds": STATE_CDS, "year": year}
     ).json()
     assert all(result["isProjected"] is False for result in body["results"])
+
+
+def test_a_projected_year_is_not_offered_as_a_year(
+    client: TestClient, db: Session, year: int
+) -> None:
+    """The state published no Dashboard for it, so it cannot be selected."""
+    projected_years = set(available_years(db, include_projected=True)) - set(
+        available_years(db)
+    )
+    if not projected_years:
+        pytest.skip("no projections imported")
+    body = client.get(f"{PREFIX}/catalog").json()
+    assert not projected_years & set(body["years"])
+    assert body["reportingYear"] == year
+
+
+def test_asking_for_a_projected_year_lands_on_the_published_one(
+    client: TestClient, year: int
+) -> None:
+    body = client.get(
+        f"{PREFIX}/indicators", params={"cds": STATE_CDS, "year": year + 1}
+    ).json()
+    assert body["reportingYear"] == year
+
+
+def test_a_projection_rides_along_with_the_result_it_follows(
+    client: TestClient, projected: str, year: int
+) -> None:
+    """It is attached to the last published year, not shown as its own."""
+    body = client.get(
+        f"{PREFIX}/indicators", params={"cds": projected, "year": year}
+    ).json()
+    assert body["reportingYear"] == year
+    assert body["projectionYear"] == year + 1
+    assert body["includesProjections"] is True
+
+    attached = [r for r in body["results"] if r["projection"] is not None]
+    assert attached, "the entity has projections but none came through"
+    for result in attached:
+        assert result["isProjected"] is False, "the published row is not a projection"
+        assert result["projection"]["reportingYear"] == year + 1
+
+
+def test_a_projection_can_be_turned_off(
+    client: TestClient, projected: str, year: int
+) -> None:
+    body = client.get(
+        f"{PREFIX}/indicators",
+        params={"cds": projected, "year": year, "includeProjected": False},
+    ).json()
+    assert all(result["projection"] is None for result in body["results"])
     assert body["includesProjections"] is False
+    assert body["projectionYear"] is None
+
+
+def test_an_entity_offers_no_projected_year(
+    client: TestClient, projected: str, year: int
+) -> None:
+    body = client.get(
+        f"{PREFIX}/indicators", params={"cds": projected, "year": year}
+    ).json()
+    assert year + 1 not in body["availableYears"]
 
 
 def test_one_indicator_breaks_out_by_student_group(

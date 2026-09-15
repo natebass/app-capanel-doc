@@ -6,8 +6,8 @@ import { columns, type UserTableData } from '@/components/admin/columns'
 import { DataTable } from '@/components/common/DataTable'
 import PendingUsers from '@/components/common/pending/PendingUsers'
 import AddUser from '@/components/form/AddUser'
+import useAuth from '@/hooks/useAuth'
 import { type UserPublic, usersReadUsersOptions, UsersService } from '@/lib/client'
-import useAuth from '@/routes/-hooks/hooks/useAuth'
 
 export const Route = createFileRoute('/user/admin')({
 	component: Admin,

@@ -743,6 +743,51 @@ export type IndicatorGroupReport = {
 }
 
 /**
+ * IndicatorProjection
+ *
+ * A provisional figure for a year the state has not published.
+ *
+ * It travels attached to the last published result rather than standing on
+ * its own, because there is no Dashboard for the year it covers: the state
+ * has not released one.  ``basis`` says how it was worked out and belongs
+ * next to it wherever it is shown.
+ */
+export type IndicatorProjection = {
+	/**
+	 * Reportingyear
+	 */
+	reportingYear: number
+	/**
+	 * Currstatus
+	 */
+	currStatus?: string | null
+	/**
+	 * Change
+	 */
+	change?: string | null
+	/**
+	 * Statuslevel
+	 */
+	statusLevel?: number | null
+	/**
+	 * Changelevel
+	 */
+	changeLevel?: number | null
+	/**
+	 * Color
+	 */
+	color?: number | null
+	/**
+	 * Colorname
+	 */
+	colorName?: string | null
+	/**
+	 * Basis
+	 */
+	basis?: string | null
+}
+
+/**
  * IndicatorPublic
  *
  * One of the seven state indicators.
@@ -805,6 +850,10 @@ export type IndicatorReport = {
 	 * Includesprojections
 	 */
 	includesProjections?: boolean
+	/**
+	 * Projectionyear
+	 */
+	projectionYear?: number | null
 }
 
 /**
@@ -897,6 +946,7 @@ export type IndicatorResult = {
 	 * Projectionbasis
 	 */
 	projectionBasis?: string | null
+	projection?: IndicatorProjection | null
 }
 
 /**

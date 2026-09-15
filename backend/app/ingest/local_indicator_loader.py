@@ -41,6 +41,7 @@ from app.ingest.local_indicator_reference import (
 from app.ingest.parser import ParseError
 from app.ingest.sources import (
     DASHBOARD_BASE_URL,
+    DASHBOARD_ENCODING,
     HttpSource,
     ResearchFileSource,
     SourceObject,
@@ -231,7 +232,7 @@ class LocalIndicatorImportRunner:
         priorities: Sequence[int] | None = None,
     ) -> RunOutcome:
         """Import every changed Local Indicator file under ``source_uri``."""
-        source = source_from_uri(source_uri)
+        source = source_from_uri(source_uri, encoding=DASHBOARD_ENCODING)
         if isinstance(source, HttpSource):
             source.names = tuple(
                 local_indicator_names(years, priorities, suffix=self.suffix)

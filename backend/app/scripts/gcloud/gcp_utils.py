@@ -62,7 +62,7 @@ class GcpDefaults:
     cloud_sql_instance: str = "capanel-pg"
     cloud_sql_db: str = "capanel"
     cloud_sql_user: str = "capanel_app"
-    project_name: str = "California Accountability Panel"
+    project_name: str = "California Dashboard"
     import_gcs_uri: str = "gs://ca-panel-001-resources/resources"
     import_resources_local_path: str = "$HOME/Downloads/resources"
     vpc_network: str = "default"

@@ -8,11 +8,11 @@ import { PasswordInput } from '@/components/password-input'
 import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
+import { isLoggedIn } from '@/hooks/useAuth'
+import useCustomToast from '@/hooks/useCustomToast'
 import { loginResetPasswordMutation } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
 import { password, passwordConfirmation, passwordsMatch } from '@/lib/forms'
-import { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
-import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
 const searchSchema = z.object({
 	token: z.coerce.string().catch(''),

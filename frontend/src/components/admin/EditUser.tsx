@@ -21,6 +21,7 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
+import useCustomToast from '@/hooks/useCustomToast'
 import {
 	type UserPublic,
 	usersReadUsersQueryKey,
@@ -29,7 +30,6 @@ import {
 } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
 import { email, password, passwordsMatch } from '@/lib/forms'
-import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
 const formSchema = zUserUpdate
 	.extend({

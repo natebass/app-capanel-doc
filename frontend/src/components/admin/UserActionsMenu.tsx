@@ -8,8 +8,8 @@ import {
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import useAuth from '@/hooks/useAuth'
 import type { UserPublic } from '@/lib/client'
-import useAuth from '@/routes/-hooks/hooks/useAuth'
 
 import DeleteUser from './DeleteUser'
 import EditUser from './EditUser'

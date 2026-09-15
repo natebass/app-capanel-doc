@@ -19,9 +19,9 @@ import {
 	CommandList,
 } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useDebounce } from '@/hooks/useDebounce'
 import type { EntityPublic } from '@/lib/client'
 import { entitySearchQuery } from '@/lib/services/assessments'
-import { useDebounce } from '@/routes/-hooks/hooks/useDebounce'
 
 const LEVEL_LABEL: Record<string, string> = {
 	state: 'State',

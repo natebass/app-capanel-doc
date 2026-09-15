@@ -44,6 +44,25 @@ class StudentGroupCodePublic(ApiModel):
     name: str
 
 
+class IndicatorProjection(ApiModel):
+    """A provisional figure for a year the state has not published.
+
+    It travels attached to the last published result rather than standing on
+    its own, because there is no Dashboard for the year it covers: the state
+    has not released one.  ``basis`` says how it was worked out and belongs
+    next to it wherever it is shown.
+    """
+
+    reporting_year: int
+    curr_status: Decimal | None = None
+    change: Decimal | None = None
+    status_level: int | None = None
+    change_level: int | None = None
+    color: int | None = None
+    color_name: str | None = None
+    basis: str | None = None
+
+
 class IndicatorResult(ApiModel):
     """One indicator's result for one entity."""
 
@@ -74,6 +93,10 @@ class IndicatorResult(ApiModel):
     is_projected: bool = False
     projection_basis: str | None = None
 
+    #: This application's estimate for the year after this one, where the
+    #: state has not published it yet.  Never a published figure.
+    projection: IndicatorProjection | None = None
+
 
 class IndicatorReport(ApiModel):
     """Every indicator for one entity and year."""
@@ -84,8 +107,11 @@ class IndicatorReport(ApiModel):
     results: list[IndicatorResult]
     #: Years the entity has any indicator data for, newest first.
     available_years: list[int]
-    #: True when any result in this report is a projection.
+    #: True when this report carries any provisional figure -- either a
+    #: projected result or a projection attached to a published one.
     includes_projections: bool = False
+    #: The year the attached projections cover, when there are any.
+    projection_year: int | None = None
 
 
 class IndicatorGroupReport(ApiModel):

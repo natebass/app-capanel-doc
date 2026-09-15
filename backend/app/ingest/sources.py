@@ -47,6 +47,9 @@ FILE_ENCODING = "cp1252"
 
 # Extensions that can contain a research file.
 _DATA_SUFFIXES = frozenset({".txt", ".csv", ".dat", ".xlsx"})
+# The subset of those a delimited text reader can handle; a spreadsheet has to
+# go through a reader that understands the format.
+_TEXT_SUFFIXES = frozenset({".txt", ".csv", ".dat"})
 _ARCHIVE_SUFFIXES = frozenset({".zip", ".gz"})
 
 
@@ -85,6 +88,26 @@ class ResearchFileSource(Protocol):
         Needed by readers that seek -- a spreadsheet, for instance -- which a
         streamed HTTP or S3 response body cannot support.
         """
+
+
+def is_delimited_text(name: str) -> bool:
+    """Whether a file is one the delimited text readers can parse.
+
+    The Dashboard families are published as tab separated text, but the state
+    also publishes spreadsheets -- the Local Indicators are only available
+    that way -- and a bucket mirroring both has them side by side.  Handing a
+    spreadsheet to a text reader decodes the ZIP container as text, so the
+    importers use this to leave files that are not theirs alone.
+
+    An archive counts, since it unwraps to a single data member.
+    """
+    suffixes = [suffix.lower() for suffix in Path(name).suffixes]
+    if not suffixes:
+        return False
+    if suffixes[-1] in _ARCHIVE_SUFFIXES:
+        # ``eladownload2024.txt.gz`` -- the archive wraps a text file.
+        return len(suffixes) < 2 or suffixes[-2] in _TEXT_SUFFIXES
+    return suffixes[-1] in _TEXT_SUFFIXES
 
 
 def _is_candidate(name: str) -> bool:
@@ -385,13 +408,23 @@ def _parse_http_date(raw: str | None) -> datetime | None:
         return None
 
 
-def source_from_uri(uri: str) -> ResearchFileSource:
-    """Build a source from a path, an ``s3://`` prefix or an ``https://`` URL."""
+def source_from_uri(uri: str, *, encoding: str | None = None) -> ResearchFileSource:
+    """Build a source from a path, an ``s3://`` prefix or an ``https://`` URL.
+
+    ``encoding`` overrides each source's default.  It is what lets the
+    Dashboard families read a copy of their files out of a bucket or a
+    directory: those are published as UTF-8, while the research files the
+    other sources default to are code page 1252.
+    """
     parsed = urlparse(uri)
     if parsed.scheme == "s3":
-        return S3Source(parsed.netloc, parsed.path)
-    if parsed.scheme in {"http", "https"}:
-        return HttpSource(uri)
-    if parsed.scheme in {"", "file"}:
-        return LocalSource(parsed.path if parsed.scheme == "file" else uri)
-    raise ValueError(f"Unsupported research file source: {uri!r}")
+        source: ResearchFileSource = S3Source(parsed.netloc, parsed.path)
+    elif parsed.scheme in {"http", "https"}:
+        source = HttpSource(uri)
+    elif parsed.scheme in {"", "file"}:
+        source = LocalSource(parsed.path if parsed.scheme == "file" else uri)
+    else:
+        raise ValueError(f"Unsupported research file source: {uri!r}")
+    if encoding is not None:
+        source.encoding = encoding
+    return source

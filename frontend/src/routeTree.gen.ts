@@ -15,6 +15,7 @@ import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRecoverPasswordRouteImport } from './routes/_auth/recover-password'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as AuthSignUpRouteImport } from './routes/_auth/sign-up'
+import { Route as OtherAboutRouteImport } from './routes/_other/about'
 import { Route as Status2faEnabledRouteImport } from './routes/_status/2fa-enabled'
 import { Route as Status2faRequiredRouteImport } from './routes/_status/2fa-required'
 import { Route as Status401RouteImport } from './routes/_status/401'
@@ -69,7 +70,7 @@ import { Route as StatusWelcomeRouteImport } from './routes/_status/welcome'
 import { Route as AccountabilityIndexRouteImport } from './routes/accountability/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as Dashboard2IndexRouteImport } from './routes/dashboard2/index'
-import { Route as DeprecatedHomeRouteImport } from './routes/deprecated/home'
+import { Route as Dashboard3IndexRouteImport } from './routes/dashboard3/index'
 import { Route as PrivatePrivateRouteImport } from './routes/private/_private'
 import { Route as ReportIndexRouteImport } from './routes/report/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
@@ -105,6 +106,11 @@ const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
 const AuthSignUpRoute = AuthSignUpRouteImport.update({
   id: '/_auth/sign-up',
   path: '/sign-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OtherAboutRoute = OtherAboutRouteImport.update({
+  id: '/_other/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Status2faEnabledRoute = Status2faEnabledRouteImport.update({
@@ -378,9 +384,9 @@ const Dashboard2IndexRoute = Dashboard2IndexRouteImport.update({
   path: '/dashboard2/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DeprecatedHomeRoute = DeprecatedHomeRouteImport.update({
-  id: '/deprecated/home',
-  path: '/deprecated/home',
+const Dashboard3IndexRoute = Dashboard3IndexRouteImport.update({
+  id: '/dashboard3/',
+  path: '/dashboard3/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivatePrivateRoute = PrivatePrivateRouteImport.update({
@@ -425,6 +431,7 @@ export interface FileRoutesByFullPath {
   '/recover-password': typeof AuthRecoverPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/sign-up': typeof AuthSignUpRoute
+  '/about': typeof OtherAboutRoute
   '/2fa-enabled': typeof Status2faEnabledRoute
   '/2fa-required': typeof Status2faRequiredRoute
   '/401': typeof Status401Route
@@ -476,7 +483,6 @@ export interface FileRoutesByFullPath {
   '/verify-email': typeof StatusVerifyEmailRoute
   '/webhook-configured': typeof StatusWebhookConfiguredRoute
   '/welcome': typeof StatusWelcomeRoute
-  '/deprecated/home': typeof DeprecatedHomeRoute
   '/private': typeof PrivatePrivateRoute
   '/user': typeof UserLayoutRoute
   '/user/admin': typeof UserAdminRoute
@@ -485,6 +491,7 @@ export interface FileRoutesByFullPath {
   '/accountability/': typeof AccountabilityIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard2/': typeof Dashboard2IndexRoute
+  '/dashboard3/': typeof Dashboard3IndexRoute
   '/report/': typeof ReportIndexRoute
   '/user/': typeof UserIndexRoute
 }
@@ -494,6 +501,7 @@ export interface FileRoutesByTo {
   '/recover-password': typeof AuthRecoverPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/sign-up': typeof AuthSignUpRoute
+  '/about': typeof OtherAboutRoute
   '/2fa-enabled': typeof Status2faEnabledRoute
   '/2fa-required': typeof Status2faRequiredRoute
   '/401': typeof Status401Route
@@ -545,7 +553,6 @@ export interface FileRoutesByTo {
   '/verify-email': typeof StatusVerifyEmailRoute
   '/webhook-configured': typeof StatusWebhookConfiguredRoute
   '/welcome': typeof StatusWelcomeRoute
-  '/deprecated/home': typeof DeprecatedHomeRoute
   '/private': typeof PrivatePrivateRoute
   '/user': typeof UserIndexRoute
   '/user/admin': typeof UserAdminRoute
@@ -554,6 +561,7 @@ export interface FileRoutesByTo {
   '/accountability': typeof AccountabilityIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard2': typeof Dashboard2IndexRoute
+  '/dashboard3': typeof Dashboard3IndexRoute
   '/report': typeof ReportIndexRoute
 }
 export interface FileRoutesById {
@@ -564,6 +572,7 @@ export interface FileRoutesById {
   '/_auth/recover-password': typeof AuthRecoverPasswordRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
+  '/_other/about': typeof OtherAboutRoute
   '/_status/2fa-enabled': typeof Status2faEnabledRoute
   '/_status/2fa-required': typeof Status2faRequiredRoute
   '/_status/401': typeof Status401Route
@@ -615,7 +624,6 @@ export interface FileRoutesById {
   '/_status/verify-email': typeof StatusVerifyEmailRoute
   '/_status/webhook-configured': typeof StatusWebhookConfiguredRoute
   '/_status/welcome': typeof StatusWelcomeRoute
-  '/deprecated/home': typeof DeprecatedHomeRoute
   '/private/_private': typeof PrivatePrivateRoute
   '/user/_layout': typeof UserLayoutRoute
   '/user/admin': typeof UserAdminRoute
@@ -624,6 +632,7 @@ export interface FileRoutesById {
   '/accountability/': typeof AccountabilityIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard2/': typeof Dashboard2IndexRoute
+  '/dashboard3/': typeof Dashboard3IndexRoute
   '/report/': typeof ReportIndexRoute
   '/user/': typeof UserIndexRoute
 }
@@ -635,6 +644,7 @@ export interface FileRouteTypes {
     | '/recover-password'
     | '/reset-password'
     | '/sign-up'
+    | '/about'
     | '/2fa-enabled'
     | '/2fa-required'
     | '/401'
@@ -686,7 +696,6 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/webhook-configured'
     | '/welcome'
-    | '/deprecated/home'
     | '/private'
     | '/user'
     | '/user/admin'
@@ -695,6 +704,7 @@ export interface FileRouteTypes {
     | '/accountability/'
     | '/dashboard/'
     | '/dashboard2/'
+    | '/dashboard3/'
     | '/report/'
     | '/user/'
   fileRoutesByTo: FileRoutesByTo
@@ -704,6 +714,7 @@ export interface FileRouteTypes {
     | '/recover-password'
     | '/reset-password'
     | '/sign-up'
+    | '/about'
     | '/2fa-enabled'
     | '/2fa-required'
     | '/401'
@@ -755,7 +766,6 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/webhook-configured'
     | '/welcome'
-    | '/deprecated/home'
     | '/private'
     | '/user'
     | '/user/admin'
@@ -764,6 +774,7 @@ export interface FileRouteTypes {
     | '/accountability'
     | '/dashboard'
     | '/dashboard2'
+    | '/dashboard3'
     | '/report'
   id:
     | '__root__'
@@ -773,6 +784,7 @@ export interface FileRouteTypes {
     | '/_auth/recover-password'
     | '/_auth/reset-password'
     | '/_auth/sign-up'
+    | '/_other/about'
     | '/_status/2fa-enabled'
     | '/_status/2fa-required'
     | '/_status/401'
@@ -824,7 +836,6 @@ export interface FileRouteTypes {
     | '/_status/verify-email'
     | '/_status/webhook-configured'
     | '/_status/welcome'
-    | '/deprecated/home'
     | '/private/_private'
     | '/user/_layout'
     | '/user/admin'
@@ -833,6 +844,7 @@ export interface FileRouteTypes {
     | '/accountability/'
     | '/dashboard/'
     | '/dashboard2/'
+    | '/dashboard3/'
     | '/report/'
     | '/user/'
   fileRoutesById: FileRoutesById
@@ -844,7 +856,7 @@ export interface RootRouteChildren {
   AuthRecoverPasswordRoute: typeof AuthRecoverPasswordRoute
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
-  DeprecatedHomeRoute: typeof DeprecatedHomeRoute
+  OtherAboutRoute: typeof OtherAboutRoute
   PrivatePrivateRoute: typeof PrivatePrivateRoute
   UserLayoutRoute: typeof UserLayoutRoute
   UserAdminRoute: typeof UserAdminRoute
@@ -853,6 +865,7 @@ export interface RootRouteChildren {
   AccountabilityIndexRoute: typeof AccountabilityIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   Dashboard2IndexRoute: typeof Dashboard2IndexRoute
+  Dashboard3IndexRoute: typeof Dashboard3IndexRoute
   ReportIndexRoute: typeof ReportIndexRoute
   UserIndexRoute: typeof UserIndexRoute
 }
@@ -899,6 +912,13 @@ declare module '@tanstack/react-router' {
       path: '/sign-up'
       fullPath: '/sign-up'
       preLoaderRoute: typeof AuthSignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_other/about': {
+      id: '/_other/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof OtherAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_status/2fa-enabled': {
@@ -1279,11 +1299,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Dashboard2IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/deprecated/home': {
-      id: '/deprecated/home'
-      path: '/deprecated/home'
-      fullPath: '/deprecated/home'
-      preLoaderRoute: typeof DeprecatedHomeRouteImport
+    '/dashboard3/': {
+      id: '/dashboard3/'
+      path: '/dashboard3'
+      fullPath: '/dashboard3/'
+      preLoaderRoute: typeof Dashboard3IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/private/_private': {
@@ -1456,7 +1476,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRecoverPasswordRoute: AuthRecoverPasswordRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthSignUpRoute: AuthSignUpRoute,
-  DeprecatedHomeRoute: DeprecatedHomeRoute,
+  OtherAboutRoute: OtherAboutRoute,
   PrivatePrivateRoute: PrivatePrivateRoute,
   UserLayoutRoute: UserLayoutRoute,
   UserAdminRoute: UserAdminRoute,
@@ -1465,6 +1485,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccountabilityIndexRoute: AccountabilityIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   Dashboard2IndexRoute: Dashboard2IndexRoute,
+  Dashboard3IndexRoute: Dashboard3IndexRoute,
   ReportIndexRoute: ReportIndexRoute,
   UserIndexRoute: UserIndexRoute,
 }

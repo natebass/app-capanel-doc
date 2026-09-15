@@ -8,15 +8,17 @@
  */
 import { useQuery } from '@tanstack/react-query'
 
+import { CompositionPlaceholder } from '@/components/accountability/Placeholders'
 import { Card, CardContent } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
 import { toNumber } from '@/lib/results'
 import { enrollmentQuery } from '@/lib/services/accountability'
 
 export function CompositionPanel({ cds, year }: { cds: string; year: number }) {
 	const { data, isPending, error } = useQuery(enrollmentQuery(cds, year))
 
-	if (isPending) return <Skeleton className='h-40 w-full' />
+	// The heading and the Census Day note are true before the count is, so
+	// they are shown with the bars still empty rather than held back.
+	if (isPending) return <CompositionPlaceholder />
 	if (error) return null
 	if (!data || data.groups.length === 0) return null
 

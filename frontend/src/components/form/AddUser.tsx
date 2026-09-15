@@ -21,6 +21,7 @@ import {
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
+import useCustomToast from '@/hooks/useCustomToast.ts'
 import {
 	type UserCreate,
 	usersCreateUserMutation,
@@ -29,7 +30,6 @@ import {
 } from '@/lib/client'
 import { handleError } from '@/lib/client-utils.ts'
 import { email, password, passwordConfirmation, passwordsMatch } from '@/lib/forms'
-import useCustomToast from '@/routes/-hooks/hooks/useCustomToast.ts'
 
 const formSchema = zUserCreate
 	.extend({

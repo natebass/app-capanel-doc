@@ -13,18 +13,20 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
+import { LocalMeasuresPlaceholder } from '@/components/local-indicators/LocalMeasuresPlaceholder'
 import { PriorityCard } from '@/components/local-indicators/PriorityCard'
 import { PriorityDetail } from '@/components/local-indicators/PriorityDetail'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
 import { localIndicatorsQuery } from '@/lib/services/localIndicators'
 
 export function LocalMeasures({ cds, year }: { cds: string; year: number }) {
 	const { data, isPending, error } = useQuery(localIndicatorsQuery(cds, year))
 	const [selected, setSelected] = useState<number | null>(null)
 
-	if (isPending) return <Skeleton className='h-48 w-full' />
+	// Whose answers these are is not known yet, but that they are self-assessed
+	// and carry no colour is — and that is the part a reader misreads.
+	if (isPending) return <LocalMeasuresPlaceholder />
 	if (error) {
 		return (
 			<Alert variant='destructive'>

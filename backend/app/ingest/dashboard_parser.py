@@ -25,6 +25,7 @@ from decimal import Decimal, InvalidOperation
 from typing import Any
 
 from app.ingest.parser import EntityRecord, ParseError, entity_level_for, parent_cds_for
+from app.ingest.reference_data import COUNTY_NAMES
 from app.model.dashboard import DEFAULT_VARIANT
 from app.model.reference import EntityLevel
 
@@ -380,6 +381,8 @@ class DashboardRowParser:
             if level is EntityLevel.SCHOOL
             else district_name
             if level is EntityLevel.DISTRICT
+            else COUNTY_NAMES["00"]
+            if level is EntityLevel.STATE
             else county_name
         ) or cds_code
         return EntityRecord(

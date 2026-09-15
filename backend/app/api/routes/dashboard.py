@@ -9,6 +9,10 @@ projection -- this application working out a provisional colour in the months
 between the underlying data being certified and the Dashboard being released --
 the result says so in ``isProjected`` and explains itself in
 ``projectionBasis``.  Clients must present the two differently.
+
+A projection covers a year the state has not released, so it is never offered
+as a year of its own: ``/indicators`` hangs it off the last published result
+as ``projection``, and only published years appear in ``years``.
 """
 
 from fastapi import APIRouter, HTTPException, Query, Response
@@ -45,14 +49,30 @@ router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 CACHE_CONTROL = "public, max-age=300"
 
 
+def _pick_year(year: int | None, years: list[int]) -> int:
+    """The year asked for when there is data for it, otherwise the newest.
+
+    ``years`` is newest first.  A request that names no year, or names one
+    nothing was published for, gets the latest rather than an error.
+    """
+    return year if year is not None and year in years else years[0]
+
+
 def _resolve_year(session: Session, year: int | None) -> int:
-    years = service.available_years(session, include_projected=True)
+    """The year a request is really about.
+
+    Only published years are selectable.  A projection covers a year the state
+    has not released, so it has no Dashboard of its own to be shown on; it is
+    served attached to the last published year instead, and asking for its
+    year lands there.
+    """
+    years = service.available_years(session)
     if not years:
         raise HTTPException(
             status_code=404,
             detail="No Dashboard indicator data has been imported yet.",
         )
-    return year if year in years else years[0]
+    return _pick_year(year, years)
 
 
 @router.get("/catalog")
@@ -68,7 +88,7 @@ def read_catalog(
         )
     return DashboardCatalog(
         reporting_year=_resolve_year(session, year),
-        years=service.available_years(session, include_projected=True),
+        years=service.available_years(session),
         indicators=[
             IndicatorPublic.model_validate(indicator)
             for indicator in reference.indicators
@@ -103,7 +123,27 @@ def read_indicators(
         student_group_code=student_group.upper(),
         include_projected=include_projected,
     )
-    results = [service.to_public(row, reference) for row in rows]
+    # Where the state has not published the following year, this application's
+    # estimate of it rides along with the result it follows rather than
+    # standing as a year of its own.
+    projections = (
+        service.fetch_projections(
+            session,
+            cds_code=entity.cds_code,
+            reporting_year=reporting_year,
+            student_group_codes={row.student_group_code for row in rows},
+        )
+        if include_projected
+        else {}
+    )
+    results = [
+        service.to_public(
+            row,
+            reference,
+            projection=projections.get((row.indicator_code, row.student_group_code)),
+        )
+        for row in rows
+    ]
     results.sort(key=lambda result: service.sort_key(reference, result))
 
     return IndicatorReport(
@@ -112,7 +152,10 @@ def read_indicators(
         student_group_code=student_group.upper(),
         results=results,
         available_years=service.entity_years(session, entity.cds_code),
-        includes_projections=any(result.is_projected for result in results),
+        includes_projections=any(
+            result.is_projected or result.projection is not None for result in results
+        ),
+        projection_year=reporting_year + 1 if projections else None,
     )
 
 
@@ -285,7 +328,7 @@ def read_growth(
         raise HTTPException(
             status_code=404, detail="No growth data has been imported yet."
         )
-    reporting_year = year if year in years else years[0]
+    reporting_year = _pick_year(year, years)
 
     rows = service.fetch_growth(
         session,
@@ -332,7 +375,7 @@ def read_enrollment(
         raise HTTPException(
             status_code=404, detail="No enrolment data has been imported yet."
         )
-    reporting_year = year if year in years else years[0]
+    reporting_year = _pick_year(year, years)
 
     reference = service.dashboard_reference(session)
     names = {group.code: group.name for group in reference.student_groups}

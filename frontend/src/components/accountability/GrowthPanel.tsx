@@ -9,11 +9,12 @@
  */
 import { useQuery } from '@tanstack/react-query'
 
+import { GrowthPlaceholder } from '@/components/accountability/Placeholders'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Card, CardContent } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
 import { toNumber } from '@/lib/results'
 import { growthQuery } from '@/lib/services/accountability'
+import { entityQuery } from '@/lib/services/assessments'
 
 /** The five categories, worst to best, for positioning the marker. */
 const CATEGORY_COUNT = 5
@@ -46,11 +47,24 @@ export function GrowthPanel({
 	studentGroup: string
 }) {
 	const { data, isPending, error } = useQuery(growthQuery(cds, year, studentGroup))
+	// Already in the cache — the report fetched it for its own heading. Read
+	// here only to know whether this panel has anything to promise.
+	const entity = useQuery(entityQuery(cds))
 
-	if (isPending) return <Skeleton className='h-32 w-full' />
+	/**
+	 * The state publishes growth for districts and schools only, so on a state
+	 * or county page there is nothing coming. Drawing a placeholder there would
+	 * put a heading and two cards on the page and then take them away again,
+	 * which is worse than never having shown them: the assumption is only worth
+	 * making where it can turn out to be right.
+	 */
+	const growthIsPublished =
+		entity.data && ['district', 'school'].includes(entity.data.entity.entityLevel)
+
+	// Always the same two subjects, so both cards can be titled before either
+	// figure is known.
+	if (isPending) return growthIsPublished ? <GrowthPlaceholder /> : null
 	if (error) return null
-	// The state publishes growth for districts and schools only, so there is
-	// nothing to show statewide.
 	if (!data || data.results.length === 0) return null
 
 	return (

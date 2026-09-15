@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
+import useAuth, { isLoggedIn } from '@/hooks/useAuth'
 import type { BodyLoginLoginAccessToken as AccessToken } from '@/lib/client'
-import useAuth, { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
 
 const loginSchema = z.object({
 	username: z.string().email({ error: 'Please enter a valid email' }),

@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui/button'
-import useAuth from '@/routes/-hooks/hooks/useAuth.ts'
+import useAuth from '@/hooks/useAuth.ts'
 
 export const Route = createFileRoute('/private/_private')({
 	beforeLoad: ({ context, location }) => {

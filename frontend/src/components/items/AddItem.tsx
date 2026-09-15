@@ -19,6 +19,7 @@ import {
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
+import useCustomToast from '@/hooks/useCustomToast'
 import {
 	type ItemCreate,
 	itemsCreateItemMutation,
@@ -26,7 +27,6 @@ import {
 	zItemCreate,
 } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
-import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
 const formSchema = zItemCreate.extend({
 	title: z.string().min(1, { error: 'Title is required' }).max(255),

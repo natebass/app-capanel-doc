@@ -8,11 +8,11 @@ import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
+import { isLoggedIn } from '@/hooks/useAuth'
+import useCustomToast from '@/hooks/useCustomToast'
 import { loginRecoverPasswordMutation } from '@/lib/client'
 import { handleError } from '@/lib/client-utils'
 import { email } from '@/lib/forms'
-import { isLoggedIn } from '@/routes/-hooks/hooks/useAuth'
-import useCustomToast from '@/routes/-hooks/hooks/useCustomToast'
 
 const recoverSchema = z.object({ email })
 

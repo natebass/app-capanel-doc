@@ -17,7 +17,11 @@ from app.model.dashboard import (
     DashboardIndicatorResult,
     DashboardStudentGroup,
 )
-from app.model.dashboard_reports import COLOR_NAMES, IndicatorResult
+from app.model.dashboard_reports import (
+    COLOR_NAMES,
+    IndicatorProjection,
+    IndicatorResult,
+)
 from app.model.enrollment import EnrollmentRate
 from app.model.growth import GrowthResult
 from app.model.reference import Entity, EntityLevel
@@ -78,13 +82,25 @@ def available_years(session: Session, *, include_projected: bool = False) -> lis
     return sorted(years, reverse=True)
 
 
-def entity_years(session: Session, cds_code: str) -> list[int]:
-    """The years one entity has any indicator data for, newest first."""
-    years = session.exec(
+def entity_years(
+    session: Session, cds_code: str, *, include_projected: bool = False
+) -> list[int]:
+    """The years one entity has any indicator data for, newest first.
+
+    Projected years are left out by default.  A projection is shown beside the
+    last published year rather than on a page of its own, so offering its year
+    for selection would promise a Dashboard the state has not released.
+    """
+    statement = (
         select(DashboardIndicatorResult.reporting_year)
         .where(DashboardIndicatorResult.cds_code == cds_code)
         .distinct()
-    ).all()
+    )
+    if not include_projected:
+        statement = statement.where(
+            col(DashboardIndicatorResult.is_projected).is_(False)
+        )
+    years = session.exec(statement).all()
     return sorted(years, reverse=True)
 
 
@@ -146,6 +162,36 @@ def fetch_groups(
             .where(DashboardIndicatorResult.indicator_code == indicator_code)
         ).all()
     )
+
+
+def fetch_projections(
+    session: Session,
+    *,
+    cds_code: str,
+    reporting_year: int,
+    student_group_codes: set[str] | None = None,
+) -> dict[tuple[str, str], DashboardIndicatorResult]:
+    """The provisional figures for the year after ``reporting_year``.
+
+    Keyed by indicator and student group, so a published result can pick up
+    the projection that follows it.  Only rows this application worked out are
+    returned: once the state publishes the year, its own figures take over and
+    there is nothing left to project.
+    """
+    statement = (
+        select(DashboardIndicatorResult)
+        .where(DashboardIndicatorResult.cds_code == cds_code)
+        .where(DashboardIndicatorResult.reporting_year == reporting_year + 1)
+        .where(col(DashboardIndicatorResult.is_projected).is_(True))
+    )
+    if student_group_codes is not None:
+        statement = statement.where(
+            col(DashboardIndicatorResult.student_group_code).in_(student_group_codes)
+        )
+    return {
+        (row.indicator_code, row.student_group_code): row
+        for row in session.exec(statement).all()
+    }
 
 
 def fetch_trend(
@@ -212,12 +258,27 @@ def fetch_children(
     return [(entity, result) for entity, result in rows], total
 
 
+def to_projection(row: DashboardIndicatorResult) -> IndicatorProjection:
+    """Present one projected row as the estimate that follows a result."""
+    return IndicatorProjection(
+        reporting_year=row.reporting_year,
+        curr_status=row.curr_status,
+        change=row.change,
+        status_level=row.status_level,
+        change_level=row.change_level,
+        color=row.color,
+        color_name=COLOR_NAMES.get(row.color) if row.color else None,
+        basis=row.projection_basis,
+    )
+
+
 def to_public(
     result: DashboardIndicatorResult,
     reference: DashboardReference,
     *,
     status_label: str | None = None,
     change_label: str | None = None,
+    projection: DashboardIndicatorResult | None = None,
 ) -> IndicatorResult:
     """Present one stored row, with the published names attached."""
     return IndicatorResult(
@@ -242,6 +303,7 @@ def to_public(
         dass_flag=result.dass_flag,
         is_projected=result.is_projected,
         projection_basis=result.projection_basis,
+        projection=to_projection(projection) if projection else None,
     )
 
 
